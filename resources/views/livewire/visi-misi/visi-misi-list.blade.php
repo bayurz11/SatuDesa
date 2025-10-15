@@ -1,312 +1,272 @@
 <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-    {{-- HEADER --}}
-    <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+    <!-- HEADER -->
+    <div class="bg-gradient-to-r from-blue-50 via-emerald-50 to-lime-50 px-6 py-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <div
                     class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
                     </svg>
                 </div>
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">Visi & Misi Management</h2>
-                    <p class="text-sm text-gray-600 mt-1">Kelola konten visi, misi, nilai-nilai, dan kontak</p>
+                    <h2 class="text-2xl font-bold text-gray-900">Visi &amp; Misi Management</h2>
+                    <p class="text-sm text-gray-600 mt-1">Kelola data visi dan misi desa</p>
                 </div>
             </div>
 
-            @permission('profil.edit')
-                <div class="flex gap-3">
-                    <button wire:click="resetToDb"
-                        class="group bg-gray-100 hover:bg-gray-200 text-gray-700 px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-sm transition-all duration-300">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9M9 4h5" />
-                        </svg>
-                        Reset Perubahan
-                    </button>
-
-                    <button wire:click="save"
-                        class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                        <svg class="w-5 h-5 mr-2 group-hover:rotate-6 transition-transform duration-300" fill="none"
-                            stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                        Simpan
-                    </button>
-                </div>
+            @permission('profil.create')
+                <button wire:click="$dispatch('openVisiMisiForm')"
+                    class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
+                        stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    </svg>
+                    Tambah Visi / Misi
+                </button>
             @endpermission
         </div>
-    </div>
 
-    {{-- BODY: FORM + PREVIEW --}}
-    <div class="p-6">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {{-- FORM --}}
-            <div class="rounded-2xl border border-gray-200 bg-white p-6">
-                {{-- Publish Toggle + Info --}}
-                <div class="flex items-center justify-between mb-6">
-                    <div class="text-sm text-gray-600">
-                        <div class="font-semibold">Status</div>
-                        <div class="text-xs">
-                            Terakhir diperbarui:
-                            <span class="font-medium">{{ $updatedAt?->format('d M Y H:i') ?? '-' }}</span>
-                        </div>
+        <div
+            class="mt-6 flex flex-col lg:flex-row lg:items-center lg:justify-between space-y-4 lg:space-y-0 lg:space-x-6">
+            <div class="flex-1">
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
                     </div>
-                    <label class="inline-flex items-center cursor-pointer">
-                        <input type="checkbox" wire:model.live="form.is_published" class="sr-only peer">
-                        <div
-                            class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer
-                                    peer-checked:bg-green-500 relative transition">
-                            <div
-                                class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition
-                                        peer-checked:translate-x-6">
-                            </div>
-                        </div>
-                        <span class="ml-3 text-sm font-medium text-gray-700">
-                            {{ $form['is_published'] ? 'Published' : 'Draft' }}
-                        </span>
-                    </label>
-                </div>
-
-                {{-- VISI --}}
-                <div class="mb-5">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Visi Desa</label>
-                    <textarea wire:model.defer="form.visi" rows="4"
-                        class="block w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
-                    @error('form.visi')
-                        <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                {{-- MISI (Repeatable) --}}
-                <div class="mb-5">
-                    <div class="flex items-center justify-between">
-                        <label class="block text-sm font-medium text-gray-700">Misi</label>
-                        <button type="button" wire:click="addMisi"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">+ Tambah Misi</button>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        @foreach ($form['misi_items'] as $i => $m)
-                            <div class="flex gap-2">
-                                <input type="text" wire:model.defer="form.misi_items.{{ $i }}"
-                                    class="flex-1 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Tuliskan misi...">
-                                <button type="button" wire:click="removeMisi({{ $i }})"
-                                    class="px-3 py-2 text-xs rounded-lg bg-red-50 text-red-600 hover:bg-red-100">Hapus</button>
-                            </div>
-                            @error("form.misi_items.$i")
-                                <p class="text-xs text-red-600">{{ $message }}</p>
-                            @enderror
-                        @endforeach
-                        @if (empty($form['misi_items']))
-                            <p class="text-xs text-gray-500">Belum ada misi. Tambahkan minimal satu.</p>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- NILAI-NILAI (Repeatable objek) --}}
-                <div class="mb-5">
-                    <div class="flex items-center justify-between">
-                        <label class="block text-sm font-medium text-gray-700">Nilai-nilai</label>
-                        <button type="button" wire:click="addNilai"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">+ Tambah Nilai</button>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        @foreach ($form['nilai_items'] as $i => $n)
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                <input type="text" wire:model.defer="form.nilai_items.{{ $i }}.judul"
-                                    class="rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Judul (Gotong Royong)">
-                                <input type="text" wire:model.defer="form.nilai_items.{{ $i }}.deskripsi"
-                                    class="rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Deskripsi singkat">
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" wire:click="removeNilai({{ $i }})"
-                                    class="px-3 py-2 text-xs rounded-lg bg-red-50 text-red-600 hover:bg-red-100">Hapus</button>
-                            </div>
-                            @error("form.nilai_items.$i.judul")
-                                <p class="text-xs text-red-600">{{ $message }}</p>
-                            @enderror
-                            @error("form.nilai_items.$i.deskripsi")
-                                <p class="text-xs text-red-600">{{ $message }}</p>
-                            @enderror
-                        @endforeach
-                        @if (empty($form['nilai_items']))
-                            <p class="text-xs text-gray-500">Belum ada nilai. Tambahkan sesuai kebutuhan.</p>
-                        @endif
-                    </div>
-                </div>
-
-                {{-- KONTAK & TAUTAN --}}
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Alamat</label>
-                        <input type="text" wire:model.defer="form.alamat"
-                            class="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        @error('form.alamat')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                        <input type="email" wire:model.defer="form.email"
-                            class="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        @error('form.email')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                    <div class="md:col-span-2">
-                        <label class="block text-sm font-medium text-gray-700 mb-1">Telepon</label>
-                        <input type="text" wire:model.defer="form.telepon"
-                            class="w-full rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                        @error('form.telepon')
-                            <p class="text-xs text-red-600 mt-1">{{ $message }}</p>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="mt-5">
-                    <div class="flex items-center justify-between">
-                        <label class="block text-sm font-medium text-gray-700">Tautan Terkait</label>
-                        <button type="button" wire:click="addTautan"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">+ Tambah Tautan</button>
-                    </div>
-                    <div class="mt-2 space-y-2">
-                        @foreach ($form['tautan_terkait'] as $i => $t)
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-                                <input type="text"
-                                    wire:model.defer="form.tautan_terkait.{{ $i }}.judul"
-                                    class="rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="Judul tautan">
-                                <input type="text" wire:model.defer="form.tautan_terkait.{{ $i }}.url"
-                                    class="rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                    placeholder="URL, contoh: /profil/struktur">
-                            </div>
-                            <div class="flex justify-end">
-                                <button type="button" wire:click="removeTautan({{ $i }})"
-                                    class="px-3 py-2 text-xs rounded-lg bg-red-50 text-red-600 hover:bg-red-100">Hapus</button>
-                            </div>
-                        @endforeach
-                        @if (empty($form['tautan_terkait']))
-                            <p class="text-xs text-gray-500">Belum ada tautan.</p>
-                        @endif
-                    </div>
+                    <input wire:model.live="search" type="text" placeholder="Cari visi atau misi…"
+                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
                 </div>
             </div>
 
-            {{-- PREVIEW --}}
-            <div class="rounded-2xl border border-gray-200 bg-white p-0 overflow-hidden">
-                <div class="bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4 border-b border-gray-200">
-                    <div class="text-sm font-semibold text-gray-700">Live Preview (tampilan user)</div>
-                </div>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
+                <label
+                    class="flex items-center px-4 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors duration-200">
+                    <input wire:model.live="showInactive" type="checkbox"
+                        class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                    <span class="ml-3 text-sm font-medium text-gray-700">Tampilkan Nonaktif</span>
+                </label>
 
-                <div class="p-6">
-                    {{-- Heading --}}
-                    <div class="text-center mb-6">
-                        <h1 class="text-2xl font-extrabold text-green-700">Visi & Misi Desa Mentuda</h1>
-                        <p class="text-sm text-gray-600 mt-1">Pratinjau konten seperti di halaman publik</p>
-                    </div>
-
-                    {{-- Visi --}}
-                    <div class="rounded-xl border p-5 bg-white mb-5">
-                        <h2 class="text-lg font-semibold flex items-center gap-2">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            Visi
-                        </h2>
-                        <div class="mt-3 text-gray-800 leading-relaxed whitespace-pre-line">
-                            {{ $form['visi'] ?? '' }}
-                        </div>
-                    </div>
-
-                    {{-- Misi --}}
-                    <div class="rounded-xl border p-5 bg-white mb-5">
-                        <h2 class="text-lg font-semibold flex items-center gap-2">
-                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor"
-                                viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 13l4 4L19 7" />
-                            </svg>
-                            Misi
-                        </h2>
-                        <ul class="mt-3 space-y-1 text-gray-800">
-                            @forelse($form['misi_items'] as $m)
-                                <li class="flex items-start gap-2">
-                                    <svg class="w-4 h-4 text-green-600 mt-1" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M5 13l4 4L19 7" />
-                                    </svg>
-                                    <span>{{ $m }}</span>
-                                </li>
-                            @empty
-                                <li class="text-sm text-gray-500">Belum ada misi.</li>
-                            @endforelse
-                        </ul>
-                    </div>
-
-                    {{-- Nilai-nilai --}}
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        @forelse($form['nilai_items'] as $n)
-                            <div class="rounded-xl border p-4 bg-white">
-                                <h4 class="font-semibold">{{ $n['judul'] ?? '' }}</h4>
-                                <p class="text-sm text-gray-600 mt-1">{{ $n['deskripsi'] ?? '' }}</p>
-                            </div>
-                        @empty
-                            <div class="col-span-1 md:col-span-3 text-sm text-gray-500">Belum ada nilai-nilai.</div>
-                        @endforelse
-                    </div>
-
-                    {{-- Sidebar: Kontak + Tautan (ringkas) --}}
-                    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div class="md:col-span-2 rounded-xl border p-4 bg-white">
-                            <div class="text-sm text-gray-600">
-                                <div class="font-semibold text-gray-800">Kontak</div>
-                                <div>{{ $form['alamat'] }}</div>
-                                <div>Email: {{ $form['email'] }}</div>
-                                <div>Telp: {{ $form['telepon'] }}</div>
-                            </div>
-                        </div>
-                        <div class="rounded-xl border p-4 bg-white">
-                            <div class="font-semibold text-gray-800 text-sm mb-2">Tautan Terkait</div>
-                            <ul class="space-y-1 text-sm">
-                                @forelse($form['tautan_terkait'] as $t)
-                                    <li>
-                                        <span class="text-green-700">{{ $t['judul'] ?? '' }}</span>
-                                        <span class="text-gray-500">— {{ $t['url'] ?? '' }}</span>
-                                    </li>
-                                @empty
-                                    <li class="text-gray-500">Belum ada tautan.</li>
-                                @endforelse
-                            </ul>
-                        </div>
-                    </div>
-
-                    @if (!$form['is_published'])
-                        <div class="mt-6 p-4 rounded-xl bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm">
-                            Konten dalam status <strong>Draft</strong>. Publikasikan untuk menampilkan di halaman
-                            publik.
-                        </div>
-                    @endif
-                </div>
+                <select wire:model.live="perPage"
+                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium transition-all duration-200">
+                    <option value="10">10 per halaman</option>
+                    <option value="25">25 per halaman</option>
+                    <option value="50">50 per halaman</option>
+                </select>
             </div>
         </div>
     </div>
 
-    {{-- FOOTER --}}
+    <!-- TABEL -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full">
+            <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                <tr>
+                    <th wire:click="sortBy('kategori')"
+                        class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-200 transition-colors duration-200 rounded-tl-xl">
+                        <div class="flex items-center space-x-2">
+                            <span>Kategori</span>
+                        </div>
+                    </th>
+                    <th wire:click="sortBy('isi')"
+                        class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-200">
+                        Isi
+                    </th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status
+                    </th>
+                    <th wire:click="sortBy('created_at')"
+                        class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer">
+                        Dibuat
+                    </th>
+                    <th
+                        class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider rounded-tr-xl">
+                        Aksi
+                    </th>
+                </tr>
+            </thead>
+
+            <tbody class="bg-white divide-y divide-gray-100">
+                @forelse($data as $item)
+                    <tr
+                        class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-emerald-50 transition-all duration-300 group">
+                        <td class="px-6 py-5 whitespace-nowrap font-semibold text-gray-800 capitalize">
+                            {{ $item->kategori }}
+                        </td>
+
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <div class="flex items-center">
+                                <div
+                                    class="w-12 h-12 rounded-xl overflow-hidden mr-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                                    @if ($item->gambar)
+                                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="Foto"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-blue-400 to-emerald-600 flex items-center justify-center">
+                                            <span class="text-sm font-bold text-white">
+                                                {{ Str::substr($item->isi, 0, 2) }}
+                                            </span>
+                                        </div>
+                                    @endif
+                                </div>
+
+                                <div>
+                                    <div class="text-sm font-semibold text-gray-900">
+                                        {{ Str::words(html_entity_decode(strip_tags($item->isi)), 6, '...') }}
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+
+                        <td class="px-6 py-5 whitespace-nowrap">
+                            <span
+                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm
+                                {{ $item->is_active ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800' : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800' }}">
+                                <div
+                                    class="w-2 h-2 rounded-full mr-2 {{ $item->is_active ? 'bg-green-500 animate-pulse' : 'bg-red-500' }}">
+                                </div>
+                                {{ $item->is_active ? 'Active' : 'Inactive' }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-5 whitespace-nowrap text-sm text-gray-600">
+                            <div class="font-medium">{{ $item->created_at->format('d M Y') }}</div>
+                            <div class="text-xs">{{ $item->created_at->diffForHumans() }}</div>
+                        </td>
+
+                        <td class="px-6 py-5 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                {{-- VIEW --}}
+                                <a href=""
+                                    class="inline-flex items-center px-3 py-2 text-xs font-semibold text-green-600 bg-green-50 rounded-lg hover:bg-green-100 hover:text-green-700 transition-all duration-200">
+                                    <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    View
+                                </a>
+
+                                {{-- EDIT --}}
+                                @permission('profil.edit')
+                                    <button wire:click="$dispatch('openVisiMisiForm', { id: @js($item->id) })"
+                                        class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 transform hover:scale-105">
+                                        <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-12 transition-transform duration-200"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                            </path>
+                                        </svg>
+                                        Edit
+                                    </button>
+                                @endpermission
+
+                                {{-- TOGGLE STATUS --}}
+                                @permission('profil.edit')
+                                    <button type="button" x-on:click="$wire.call('toggleStatus', {{ $item->id }})"
+                                        class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-yellow-600 bg-yellow-50 rounded-lg hover:bg-yellow-100 hover:text-yellow-700 transition-all duration-200 transform hover:scale-105">
+                                        <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-180 transition-transform duration-300"
+                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            @if ($item->is_active)
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728">
+                                                </path>
+                                            @else
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                            @endif
+                                        </svg>
+                                        {{ $item->is_active ? 'Deactivate' : 'Activate' }}
+                                    </button>
+                                @endpermission
+
+                                {{-- DELETE --}}
+                                @permission('profil.delete')
+                                    <button wire:click="delete({{ $item->id }})" wire:loading.attr="disabled"
+                                        class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200 transform hover:scale-105">
+                                        <svg class="w-4 h-4 mr-1.5 group-hover/btn:animate-bounce" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16">
+                                            </path>
+                                        </svg>
+                                        Delete
+                                    </button>
+                                @endpermission
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" class="px-6 py-16 text-center">
+                            <div class="flex flex-col items-center justify-center">
+                                <div
+                                    class="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                            d="M3 7l8.485-5.657a1 1 0 011.03 0L21 7v10a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />
+                                    </svg>
+                                </div>
+                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada data</h3>
+                                <p class="text-gray-500 mb-6 max-w-sm text-center">
+                                    @if ($search || !$showInactive)
+                                        Coba ubah kata kunci atau filter pencarian.
+                                    @else
+                                        Tambahkan data visi atau misi pertama desa.
+                                    @endif
+                                </p>
+
+                                @if (!$search)
+                                    @permission('profil.create')
+                                        <button wire:click="$dispatch('openVisiMisiForm')"
+                                            class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                            <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                            Tambah Data
+                                        </button>
+                                    @endpermission
+                                @else
+                                    <button wire:click="$set('search', ''); $set('showInactive', false)"
+                                        class="inline-flex items-center px-6 py-3 bg-gray-100 text-gray-700 font-semibold rounded-xl hover:bg-gray-200 transition-all duration-300">
+                                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0
+                                                004.582 9m0 0H9m11 11v-5h-.581m0
+                                                0a8.003 8.003 0 01-15.357-2m15.357
+                                                2H15" />
+                                        </svg>
+                                        Hapus Filter
+                                    </button>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+
+    <!-- FOOTER PAGINATION -->
     <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 rounded-b-2xl">
         <div class="flex items-center justify-between">
             <div class="text-sm text-gray-600">
-                <span class="font-medium">{{ count($form['misi_items'] ?? []) }}</span> misi •
-                <span class="font-medium">{{ count($form['nilai_items'] ?? []) }}</span> nilai-nilai
+                Menampilkan <span class="font-medium">{{ $data->firstItem() ?? 0 }}</span>
+                sampai <span class="font-medium">{{ $data->lastItem() ?? 0 }}</span>
+                dari <span class="font-medium">{{ $data->total() }}</span> data
             </div>
-            <div class="text-sm text-gray-600">
-                Status: <span class="font-medium">{{ $form['is_published'] ? 'Published' : 'Draft' }}</span>
+            <div class="flex-1 flex justify-center">
+                {{ $data->links() }}
             </div>
         </div>
     </div>
