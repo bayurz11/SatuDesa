@@ -1,240 +1,187 @@
-# Laravel Boilerplate Core - User Management & Role-Based Authorization
+# 🌾 SatuDesa Core – Portal Desa Digital Modern
 
-A comprehensive Laravel boilerplate built with Domain-Driven Design (DDD) architecture, featuring complete user management and dynamic role-based authorization system with Tailwind CSS and Livewire.
+**SatuDesa** adalah boilerplate Laravel modern berbasis **Domain-Driven Design (DDD)** yang dirancang khusus untuk pengembangan **portal desa digital**.  
+Menampilkan sistem **manajemen pengguna, role, dan permission dinamis**, dengan antarmuka elegan berbasis **Tailwind CSS**, **Livewire**, dan **Alpine.js**.
 
-## 🎯 Product Overview
+---
 
-This boilerplate provides a solid foundation for web applications that require sophisticated user management and permission systems. Built as a Minimal Viable Product (MVP), it allows developers to immediately start building their unique features on top of a robust authorization framework.
+## 🚀 Fitur Utama
 
-## 🚀 Key Features
+### 🏗️ Arsitektur Inti
 
-### Core Architecture
-- **Domain-Driven Design (DDD)** structure for User, Role, and Permission domains
-- **Actions** for business logic separation
-- **Models** for database interactions
-- **DataTransferObjects** for validation and data transfer
-- Clean, maintainable code following Laravel best practices
+-   Struktur **Domain-Driven Design (DDD)** modular (User, Role, Permission, Profil, Desa, UMKM, dll.)
+-   Pemisahan logika bisnis melalui **Actions** dan **DataTransferObjects**
+-   Kode bersih, mudah dipelihara, dan mengikuti standar Laravel modern
 
-### User Management System
-- Complete CRUD operations for users
-- User profile management (self-editing)
-- Secure authentication system (login, register, forgot password)
-- Email verification
-- User status management
+### 👥 Manajemen Pengguna
 
-### Dynamic Role & Permission System
-- **Roles Management**: Create, edit, delete roles (Admin, Manager, Editor, etc.)
-- **Permissions Management**: Define granular permissions (create-post, edit-user, etc.)
-- **Role Assignment**: Assign multiple roles to users
-- **Permission Assignment**: Assign permissions to roles
-- **Dynamic Authorization**: Real-time permission checking
+-   CRUD lengkap untuk pengguna (Tambah, Edit, Hapus, Aktif/Nonaktif)
+-   Profil pengguna & pengaturan akun pribadi
+-   Sistem autentikasi (Login, Register, Lupa Password)
+-   Verifikasi email
+-   Status pengguna (aktif/nonaktif)
 
-### Security & Authorization
-- **Middleware Protection**: Route-level permission checks
-- **Blade Directives**: `@can`, `@role` for UI element control
-- **Dynamic UI Controls**: Show/hide buttons based on user permissions
-- **Secure Password Management**: Hashing, reset functionality
+### 🔐 Role & Permission Dinamis
 
-### Modern Frontend Stack
-- **Tailwind CSS**: Clean, responsive, customizable design
-- **Livewire**: Dynamic user experience without page reloads
-- **Blade Components**: Reusable UI components (buttons, forms, tables)
-- **Alpine.js**: Lightweight JavaScript interactions
+-   **Role Management:** Admin Desa, Operator, Kontributor, dll.
+-   **Permission Management:** kontrol granular per modul (misal: `profil.view`, `umkm.edit`, `pengumuman.delete`)
+-   **Role Assignment:** satu user dapat memiliki banyak role
+-   **Permission Assignment:** atur izin langsung ke role
+-   **Middleware & Blade Directive:** `@permission`, `@role`, `@can` untuk kontrol tampilan & akses
 
-## 🏗️ Project Structure
+### 🏘️ Modul Desa Siap Pakai
 
-```
+| Modul                      | Deskripsi                           | Contoh Permission                    |
+| -------------------------- | ----------------------------------- | ------------------------------------ |
+| 🏡 **Profil Desa**         | Data umum & identitas desa          | `profil.view`, `profil.edit`         |
+| 📜 **Sejarah Desa**        | Asal-usul dan perkembangan desa     | `sejarah.view`, `sejarah.edit`       |
+| 🎯 **Visi & Misi**         | Tujuan & arah pembangunan desa      | `visi_misi.view`, `visi_misi.edit`   |
+| 🧩 **Struktur Organisasi** | Hierarki pemerintahan desa          | `struktur.view`, `struktur.edit`     |
+| 🌾 **Potensi Desa**        | Produk unggulan & sumber daya lokal | `potensi.view`, `potensi.edit`       |
+| 🛍️ **UMKM**                | Direktori usaha masyarakat          | `umkm.view`, `umkm.edit`             |
+| 📢 **Pengumuman**          | Informasi resmi desa                | `pengumuman.view`, `pengumuman.edit` |
+
+### 💻 Frontend Modern
+
+-   **Tailwind CSS 3+** untuk desain bersih dan responsif
+-   **Livewire 3+** untuk komponen interaktif tanpa reload
+-   **Alpine.js** untuk interaksi ringan
+-   **Blade Components** reusable (form, modal, tombol, tabel)
+
+---
+
+## 🏗️ Struktur Proyek
+
 app/
 ├── Domains/
-│   ├── User/
-│   │   ├── Actions/
-│   │   ├── Models/
-│   │   └── DataTransferObjects/
-│   ├── Role/
-│   │   ├── Actions/
-│   │   ├── Models/
-│   │   └── DataTransferObjects/
-│   └── Permission/
-│       ├── Actions/
-│       ├── Models/
-│       └── DataTransferObjects/
+│ ├── User/
+│ ├── Role/
+│ ├── Permission/
+│ ├── ProfilDesa/
+│ ├── SejarahDesa/
+│ ├── VisiMisi/
+│ ├── StrukturOrganisasi/
+│ ├── PotensiDesa/
+│ └── Umkm/
 ├── Http/
-│   ├── Controllers/
-│   ├── Middleware/
-│   └── Livewire/
+│ ├── Controllers/
+│ ├── Middleware/
+│ └── Livewire/
 └── View/
-    └── Components/
-```
+└── Components/
 
-## 🎯 Target Market
+---
 
-### Primary Users
-- **Individual Developers**: Looking for a solid foundation with user management
-- **Development Teams**: Need a proven authorization structure to build upon
-- **Startups**: Require rapid development with enterprise-grade security
-- **Agencies**: Building multiple client projects with similar auth requirements
+## ⚙️ Teknologi
 
-### Use Cases
-- **SaaS Applications**: Multi-tenant systems with role-based access
-- **Admin Panels**: Content management systems with different user levels
-- **E-commerce Platforms**: Customer and admin role separation
-- **Corporate Applications**: Department-based access control
+| Layer            | Teknologi                               |
+| ---------------- | --------------------------------------- |
+| **Backend**      | Laravel 11+                             |
+| **Frontend**     | Tailwind CSS 3+, Livewire 3+, Alpine.js |
+| **Database**     | MySQL / SQLite                          |
+| **Auth**         | Laravel Sanctum                         |
+| **Testing**      | PHPUnit, Laravel Dusk                   |
+| **Code Quality** | Laravel Pint, PHPStan                   |
 
-## 🛠️ Technology Stack
+---
 
-- **Backend**: Laravel 11+ (Latest)
-- **Frontend**: Tailwind CSS 3+, Livewire 3+, Alpine.js
-- **Database**: MySQL/SQLite (configurable)
-- **Authentication**: Laravel Sanctum
-- **Testing**: PHPUnit, Laravel Dusk
-- **Code Quality**: Laravel Pint, PHPStan
+## 🧩 Quick Start
 
-## 📦 What You Get
+# Clone repository
 
-### Immediate Value
-1. **Production-Ready Auth System**: Complete user management out of the box
-2. **Scalable Architecture**: DDD structure supports complex feature additions
-3. **Security Best Practices**: Properly implemented authorization patterns
-4. **Clean UI Components**: Professional-looking interface ready for customization
-5. **Documentation**: Comprehensive setup and usage guides
-
-### Long-term Benefits
-- **Time Savings**: Skip months of auth system development
-- **Security Confidence**: Battle-tested permission patterns
-- **Scalability**: Architecture supports enterprise-level applications
-- **Maintainability**: Clean code structure for easy team collaboration
-
-## 🚀 Quick Start
-
-```bash
-# Clone the project
-git clone [repository-url]
-cd laravel-boilerplate-core
+git clone https://github.com/username/satudesa-core.git
+cd satudesa-core
 
 # Install dependencies
+
 composer install
 npm install
 
-# Setup environment
+# Copy environment file
+
 cp .env.example .env
 php artisan key:generate
 
 # Setup database
+
 php artisan migrate --seed
 
-# Build assets
+# Build frontend assets
+
 npm run build
 
-# Start development server
+# Jalankan server
+
 php artisan serve
-```
+Buka di browser:
+👉 http://127.0.0.1:8000
 
-## 📋 Default Credentials
+🔑 Akun Default (Seeder)
+Role Email Password
+🧑‍💼 Admin Desa admin@satudesa.test
+password
+🧑‍💻 Operator operator@satudesa.test
+password
+👥 Viewer viewer@satudesa.test
+password
 
-After seeding, you can login with:
-- **Admin**: admin@example.com / password
-- **Manager**: manager@example.com / password
-- **User**: user@example.com / password
+## ⚙️ Konfigurasi .env
 
-## 🔧 Configuration
+# Database
 
-### Environment Variables
-```env
-# Database Configuration
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=laravel_boilerplate
+DB_DATABASE=satudesa
 DB_USERNAME=root
 DB_PASSWORD=
 
-# Mail Configuration (for password reset)
+# Mail (untuk reset password)
+
 MAIL_MAILER=smtp
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
 MAIL_USERNAME=null
 MAIL_PASSWORD=null
-```
 
-## 🎨 Customization
+## 🎨 Kustomisasi
 
-### Styling
-- Modify `tailwind.config.js` for brand colors
-- Update Blade components in `resources/views/components/`
-- Customize Livewire components in `app/Http/Livewire/`
+# 🖌️ Tampilan
 
-### Business Logic
-- Add new permissions in `database/seeders/PermissionSeeder.php`
-- Create new roles in `database/seeders/RoleSeeder.php`
-- Extend user actions in `app/Domains/User/Actions/`
+Edit tema di tailwind.config.js
 
-## 🧪 Testing
+Sesuaikan komponen di resources/views/components/
 
-```bash
-# Run PHP tests
-php artisan test
+Gunakan layout utama di resources/views/layouts/app2.blade.php
 
-# Run frontend tests
-npm run test
+# 🧠 Logika Bisnis
 
-# Code quality checks
-./vendor/bin/pint
-./vendor/bin/phpstan analyse
-```
+Tambah permission di database/seeders/PermissionSeeder.php
 
-## 📸 Screenshots
+Tambah role di database/seeders/RoleSeeder.php
 
-### Login Page
-<img src="public/img/login.png" alt="Modern Login Page" width="800">
+Tambah domain baru di app/Domains/
 
-### Dashboard
-<img src="public/img/dashboard.png" alt="Admin Dashboard" width="800">
+## s🏆 Checklist Fitur
 
-### User Management
-<img src="public/img/user list.png" alt="User Management Interface" width="800">
+✅ CRUD Pengguna
 
-### Role Management
-<img src="public/img/roles list.png" alt="Role Management System" width="800">
+✅ Role & Permission Dinamis
 
-### Profile Settings
-<img src="public/img/profile setting.png" alt="Profile Settings Page" width="800">
+✅ Middleware Otorisasi
 
-## 📖 Documentation
+✅ Blade Directive @permission
 
-- [Installation Guide](docs/installation.md)
-- [Architecture Overview](docs/architecture.md)
-- [User Management](docs/user-management.md)
-- [Roles & Permissions](docs/roles-permissions.md)
-- [Customization Guide](docs/customization.md)
-- [API Documentation](docs/api.md)
+✅ UI Responsif (Tailwind)
 
-## 🤝 Support
+✅ Livewire Interaktif
 
-- **Documentation**: Comprehensive guides and examples
-- **Code Comments**: Well-documented codebase
-- **Best Practices**: Following Laravel and PHP standards
-- **Community**: Active discussion and updates
+✅ Autentikasi & Verifikasi Email
 
-## 📄 License
+✅ Reset Password
 
-This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+✅ Seeder Default
 
-## 🏆 Features Checklist
+✅ Struktur DDD Bersih
 
-- ✅ User CRUD operations
-- ✅ Role & Permission management
-- ✅ Dynamic authorization middleware
-- ✅ Blade directives for UI control
-- ✅ Responsive Tailwind CSS design
-- ✅ Livewire dynamic components
-- ✅ Secure authentication system
-- ✅ Email verification
-- ✅ Password reset functionality
-- ✅ Database seeders with sample data
-- ✅ Comprehensive test coverage
-- ✅ Clean DDD architecture
-- ✅ Production-ready configuration
-
----
-
-**Ready to build your next application on a solid foundation? This boilerplate eliminates months of development time while providing enterprise-grade security and scalability.**
+✅ Siap Produksi
