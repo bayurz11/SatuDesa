@@ -5,6 +5,7 @@ export default {
         "./resources/**/*.js",
         "./resources/**/*.vue",
         "./app/**/*.php",
+        "./resources/views/livewire/**/*.blade.php",
     ],
     theme: {
         extend: {

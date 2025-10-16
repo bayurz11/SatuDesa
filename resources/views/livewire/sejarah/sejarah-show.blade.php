@@ -8,8 +8,7 @@
                         : 'https://linggakab.go.id/resources/config/icon_256.png';
                 @endphp
                 <img src="{{ $logo }}" alt="Logo Desa Mentuda"
-                    class="w-10 h-10 md:w-14 md:h-14 rounded-lg object-contain border border-gray-200 bg-white p-1 shadow-sm"
-                    loading="lazy" decoding="async">
+                    class="w-10 h-10 md:w-24 md:h-24 rounded-lg object-contain  shadow-sm" loading="lazy" decoding="async">
             </div>
 
             <div class="mx-auto mb-6 h-1 w-24 rounded-full bg-green-600"></div>

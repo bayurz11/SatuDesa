@@ -43,72 +43,70 @@
                         <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
 
                         <p class="text-gray-700 leading-relaxed md:text-lg">
-                            “Mewujudkan Desa Mentuda sebagai desa yang mandiri, berdaya saing, sejahtera, dan berbudaya
-                            dengan menjunjung tinggi nilai gotong royong dan kearifan lokal.”
+                            {{ $visimisi->visi ?? 'Belum ada data visi yang aktif.' }}
                         </p>
                     </div>
-                </div>
+                    {{-- Kartu Misi --}}
+                    <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+                        <div class="p-6 md:p-8">
+                            <div class="flex items-center gap-3 mb-4">
+                                <span
+                                    class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200">
+                                    <x-heroicon-o-flag class="size-6 text-green-700" />
+                                </span>
+                                <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Misi</h2>
+                            </div>
+                            <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
 
-                {{-- Kartu Misi --}}
-                <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
-                    <div class="p-6 md:p-8">
-                        <div class="flex items-center gap-3 mb-4">
-                            <span
-                                class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200">
-                                <x-heroicon-o-flag class="size-6 text-green-700" />
-                            </span>
-                            <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Misi</h2>
+                            <ul class="grid gap-3 md:gap-4">
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Meningkatkan kualitas pendidikan, kesehatan, dan
+                                        kesejahteraan
+                                        masyarakat.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Mengembangkan potensi pertanian, perikanan, dan pariwisata
+                                        berbasis lokal.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Membangun infrastruktur desa yang berkelanjutan dan ramah
+                                        lingkungan.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Menumbuhkan ekonomi kreatif dan UMKM masyarakat desa.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Melestarikan budaya dan tradisi Desa Mentuda.</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
+                                    <span class="text-gray-700">Meningkatkan tata kelola pemerintahan desa yang transparan,
+                                        akuntabel, dan partisipatif.</span>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
+                    </div>
 
-                        <ul class="grid gap-3 md:gap-4">
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Meningkatkan kualitas pendidikan, kesehatan, dan kesejahteraan
-                                    masyarakat.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Mengembangkan potensi pertanian, perikanan, dan pariwisata
-                                    berbasis lokal.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Membangun infrastruktur desa yang berkelanjutan dan ramah
-                                    lingkungan.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Menumbuhkan ekonomi kreatif dan UMKM masyarakat desa.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Melestarikan budaya dan tradisi Desa Mentuda.</span>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">Meningkatkan tata kelola pemerintahan desa yang transparan,
-                                    akuntabel, dan partisipatif.</span>
-                            </li>
-                        </ul>
+                    {{-- Nilai Inti / Prinsip (opsional, selaras sistem kartu) --}}
+                    <div class="grid gap-4 md:grid-cols-3">
+                        <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
+                            <h3 class="font-semibold text-gray-900">Gotong Royong</h3>
+                            <p class="mt-1 text-sm text-gray-700">Partisipasi aktif warga dalam pembangunan.</p>
+                        </div>
+                        <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
+                            <h3 class="font-semibold text-gray-900">Transparansi</h3>
+                            <p class="mt-1 text-sm text-gray-700">Pengelolaan dana & program terbuka untuk publik.</p>
+                        </div>
+                        <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
+                            <h3 class="font-semibold text-gray-900">Keberlanjutan</h3>
+                            <p class="mt-1 text-sm text-gray-700">Menjaga lingkungan untuk generasi mendatang.</p>
+                        </div>
                     </div>
-                </div>
-
-                {{-- Nilai Inti / Prinsip (opsional, selaras sistem kartu) --}}
-                <div class="grid gap-4 md:grid-cols-3">
-                    <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
-                        <h3 class="font-semibold text-gray-900">Gotong Royong</h3>
-                        <p class="mt-1 text-sm text-gray-700">Partisipasi aktif warga dalam pembangunan.</p>
-                    </div>
-                    <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
-                        <h3 class="font-semibold text-gray-900">Transparansi</h3>
-                        <p class="mt-1 text-sm text-gray-700">Pengelolaan dana & program terbuka untuk publik.</p>
-                    </div>
-                    <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
-                        <h3 class="font-semibold text-gray-900">Keberlanjutan</h3>
-                        <p class="mt-1 text-sm text-gray-700">Menjaga lingkungan untuk generasi mendatang.</p>
-                    </div>
-                </div>
 
             </article>
 

@@ -27,6 +27,7 @@
         </header>
 
         <div class="grid gap-8 lg:grid-cols-3 items-start">
+
             {{-- KONTEN UTAMA --}}
             <livewire:sejarah.sejarah-show />
 
