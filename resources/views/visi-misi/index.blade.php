@@ -5,5 +5,6 @@
         <livewire:visi-misi.visi-misi-list />
         <livewire:visi-misi.visi-misi-form />
         <livewire:visi-misi.visi-misi-modal />
+
     </div>
 @endsection

@@ -4,5 +4,6 @@
     <div class="space-y-6">
         <livewire:sejarah.sejarah-list />
         <livewire:sejarah.sejarah-form />
+        <livewire:sejarah.sejarah-modal />
     </div>
 @endsection
