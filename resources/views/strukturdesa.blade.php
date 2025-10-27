@@ -8,7 +8,7 @@
         {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="#" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">Profil Desa</li>
                 <li aria-hidden="true">/</li>
@@ -223,12 +223,15 @@
                 <div class="bg-white rounded-xl shadow p-4">
                     <h3 class="font-semibold text-gray-900 mb-3">Tautan Terkait</h3>
                     <ul class="space-y-2 text-sm">
-                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
-                                <x-heroicon-o-user-group class="size-4" /> Struktur Organisasi</a></li>
-                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                        <li><a href="{{ route('sejarah') }}"
+                                class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                                <x-heroicon-o-book-open class="size-4" /> Sejarah</a></li>
+                        <li><a href="{{ route('berita') }}"
+                                class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
                                 <x-heroicon-o-newspaper class="size-4" /> Berita Desa</a></li>
-                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
-                                <x-heroicon-o-map class="size-4" /> Profil Wilayah</a></li>
+                        <li><a href="{{ route('potensi-desa') }}"
+                                class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                                <x-heroicon-o-map class="size-4" /> Potensi Desa</a></li>
                     </ul>
                 </div>
             </aside>

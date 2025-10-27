@@ -46,31 +46,28 @@
 
                     <!-- Card -->
 
-                    <a href="#"
+                    <a href="{{ route('sejarah') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/law.png"
+                        <img src="https://img.icons8.com/color/96/000000/historical.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
-                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Produk
-                            Hukum</p>
+                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Sejarah</p>
                     </a>
 
                     <!-- Card -->
-                    <a href="#"
+                    <a href="{{ route('struktur-desa') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/document.png"
+                        <img src="https://img.icons8.com/color/96/000000/organization.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
                         <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">
-                            Informasi
-                            Publik</p>
+                            Struktur Organisasi</p>
                     </a>
 
                     <!-- Card -->
-                    <a href="#"
+                    <a href="{{ route('umkm') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/news.png"
+                        <img src="https://img.icons8.com/color/96/000000/shop.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
-                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Arsip
-                            Berita</p>
+                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">UMKM</p>
                     </a>
 
                     <!-- Card -->
@@ -83,12 +80,12 @@
                     </a>
 
                     <!-- Card -->
-                    <a href="#"
+                    <a href="{{ route('pengumuman') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
                         <img src="https://img.icons8.com/color/96/000000/megaphone.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
                         <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">
-                            Pengaduan
+                            Pengumuman
                         </p>
                     </a>
 
@@ -102,12 +99,11 @@
                     </a>
 
                     <!-- Card -->
-                    <a href="#"
+                    <a href="{{ route('potensi-desa') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/pie-chart.png"
+                        <img src="https://img.icons8.com/color/96/000000/village.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
-                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Status
-                            IDM
+                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Potensi Desa
                         </p>
                     </a>
 
@@ -226,160 +222,56 @@
         </div>
     </section>
 
-    <!-- Struktur Organisasi Section -->
-    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-        <!-- Content -->
-        <div class="text-center mb-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-green-700 mb-4">
-                Struktur Organisasi Desa Mentuda
-            </h2>
-            <p class="text-gray-600 mb-6 text-sm md:text-base leading-relaxed max-w-2xl mx-auto">
-                Untuk memastikan tata kelola pemerintahan desa yang efisien, transparan,
-                dan responsif terhadap kebutuhan masyarakat.
+
+
+    <!-- Potensi Desa Section (1 Card Only) -->
+    <section class="max-w-6xl mx-auto px-4 py-14" data-aos="fade-up">
+        <header class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-green-700">Potensi Desa</h2>
+            <p class="mt-3 text-gray-600 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                Potensi dan keunggulan Desa Mentuda dalam bidang pariwisata, ekonomi, dan pelestarian lingkungan.
             </p>
-            <button
-                class="px-5 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
-                Lihat Detail Organisasi
-            </button>
-        </div>
+        </header>
 
-        <!-- Swiper -->
-        <div class="swiper mySwiper" data-aos="fade-up" data-aos-delay="200">
-            <div class="swiper-wrapper">
-                <!-- Card 1 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white rounded-lg shadow p-4 transform transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-                        <img src="img/user/user1.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                        <div class="text-center mt-3">
-                            <p class="font-semibold text-base">Nur Azani Bayu Rezki</p>
-                            <p class="text-gray-500 text-sm">IT Specialist</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white rounded-lg shadow p-4 transform transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-                        <img src="img/user/user2.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                        <div class="text-center mt-3">
-                            <p class="font-semibold text-base">Ahmad Santoso</p>
-                            <p class="text-gray-500 text-sm">Sekretaris Desa</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 3 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white rounded-lg shadow p-4 transform transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-                        <img src="img/user/user3.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                        <div class="text-center mt-3">
-                            <p class="font-semibold text-base">Siti Aminah</p>
-                            <p class="text-gray-500 text-sm">Bendahara</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 4 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white rounded-lg shadow p-4 transform transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-                        <img src="img/user/user2.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                        <div class="text-center mt-3">
-                            <p class="font-semibold text-base">Budi Hartono</p>
-                            <p class="text-gray-500 text-sm">Kepala Desa</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Card 5 -->
-                <div class="swiper-slide">
-                    <div
-                        class="bg-white rounded-lg shadow p-4 transform transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer">
-                        <img src="img/user/user1.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                        <div class="text-center mt-3">
-                            <p class="font-semibold text-base">Ujang</p>
-                            <p class="text-gray-500 text-sm">Tukang Kebun</p>
+        <!-- Highlight Card -->
+        <article
+            class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 hover:shadow-lg transition">
+            <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+                <div class="grid md:grid-cols-12 gap-0">
+                    <figure class="md:col-span-7 h-56 md:h-72 overflow-hidden">
+                        <img src="img/potensi2.jpg" alt="Panorama Pariwisata" class="h-full w-full object-cover"
+                            loading="lazy" decoding="async">
+                    </figure>
+                    <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
+                        <span
+                            class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                            <x-heroicon-o-sparkles class="size-4" /> Sorotan
+                        </span>
+                        <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900">
+                            Wisata Alam & Bahari
+                        </h2>
+                        <p class="mt-2 text-gray-700">
+                            Garis pantai, pasir putih, dan perairan yang kaya biota laut menjadi peluang pariwisata
+                            edukasi dan konservasi.
+                        </p>
+                        <div class="mt-4">
+                            <a href="#"
+                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                <x-heroicon-o-eye class="size-4" /> Lihat Detail
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </article>
 
-    <!-- Potensi Desa Section -->
-    <section class="max-w-6xl mx-auto px-4 py-12">
-        <div class="grid lg:grid-cols-2 gap-8 items-center">
-            <!-- Right (Content) -->
-            <div class="order-1 lg:order-2 text-center lg:text-left" data-aos="fade-left" data-aos-delay="200">
-                <h2 class="text-2xl md:text-3xl font-bold text-green-700 mb-4">Potensi Desa</h2>
-                <p class="text-gray-700 mb-6 text-sm md:text-base leading-relaxed">
-                    Informasi tentang potensi dan kemajuan Desa di berbagai bidang seperti ekonomi,
-                    pariwisata, pertanian, industri kreatif, dan kelestarian lingkungan.
-                </p>
-                <button
-                    class="px-5 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
-                    Lihat Potensi Lainnya
-                </button>
-            </div>
-
-            <!-- Left (Cards) -->
-            <div class="order-2 lg:order-1 grid grid-cols-1 lg:grid-cols-2 gap-6" data-aos="fade-right"
-                data-aos-delay="200">
-
-                <!-- Card 1 -->
-                <div x-data="{ open: false }">
-                    <div @click="open = true"
-                        class="bg-white rounded-lg shadow p-4 transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer h-64 flex flex-col items-center justify-center">
-                        <img src="img/potensi1.jpg" alt="Foto" class="w-full h-40 object-cover rounded-lg">
-                        <p class="font-semibold text-base mt-3">Hasil Laut</p>
-                    </div>
-                    <!-- Modal -->
-                    <div x-show="open" x-transition x-cloak @click.self="open = false"
-                        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
-                            <button @click="open = false"
-                                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">✕</button>
-                            <img src="img/potensi1.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                            <h3 class="text-xl font-bold mt-4">Hasil Laut</h3>
-                            <p class="text-gray-600 mt-2 text-sm">
-                                Potensi pendapatan utama berasal dari hasil laut berupa
-                                <span class="font-semibold">ikan bilis kering</span>,
-                                yang menjadi komoditas unggulan desa. Produk ini banyak diminati pasar lokal maupun
-                                luar
-                                daerah.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Card 2 -->
-                <div x-data="{ open: false }">
-                    <div @click="open = true"
-                        class="bg-white rounded-lg shadow p-4 transition duration-300 hover:scale-105 hover:shadow-lg cursor-pointer h-64 flex flex-col items-center justify-center">
-                        <img src="img/potensi2.jpg" alt="Foto" class="w-full h-40 object-cover rounded-lg">
-                        <p class="font-semibold text-base mt-3">Bidang Pariwisata</p>
-                    </div>
-                    <!-- Modal -->
-                    <div x-show="open" x-transition x-cloak @click.self="open = false"
-                        class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 relative">
-                            <button @click="open = false"
-                                class="absolute top-2 right-2 text-gray-500 hover:text-gray-700">✕</button>
-                            <img src="img/potensi2.jpg" alt="Foto" class="w-full h-48 object-cover rounded-lg">
-                            <h3 class="text-xl font-bold mt-4">Bidang Pariwisata</h3>
-                            <p class="text-gray-600 mt-2 text-sm">
-                                Bidang <span class="font-semibold">pariwisata alam</span> menjadi daya tarik utama,
-                                dengan panorama indah dan potensi wisata edukasi yang menarik wisatawan untuk
-                                menikmati
-                                keasrian desa.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+        <!-- Tombol -->
+        <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
+            <a href="{{ route('potensi-desa') }}"
+                class="px-6 py-2 border border-green-700 text-green-700 rounded-full 
+              hover:bg-green-700 hover:text-white transition">
+                Lihat Potensi Lainnya
+            </a>
         </div>
     </section>
 

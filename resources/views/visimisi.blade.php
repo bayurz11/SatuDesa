@@ -8,7 +8,7 @@
         {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="#" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">Profil Desa</li>
                 <li aria-hidden="true">/</li>
@@ -93,7 +93,7 @@
                     </div>
 
                     {{-- Nilai Inti / Prinsip (opsional, selaras sistem kartu) --}}
-                    <div class="grid gap-4 md:grid-cols-3">
+                    {{-- <div class="grid gap-4 md:grid-cols-3 mt-2 mb-2">
                         <div class="rounded-xl border border-green-200 bg-green-50/60 p-4 shadow-sm">
                             <h3 class="font-semibold text-gray-900">Gotong Royong</h3>
                             <p class="mt-1 text-sm text-gray-700">Partisipasi aktif warga dalam pembangunan.</p>
@@ -106,7 +106,7 @@
                             <h3 class="font-semibold text-gray-900">Keberlanjutan</h3>
                             <p class="mt-1 text-sm text-gray-700">Menjaga lingkungan untuk generasi mendatang.</p>
                         </div>
-                    </div>
+                    </div> --}}
 
             </article>
 

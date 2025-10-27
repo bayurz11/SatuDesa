@@ -8,9 +8,9 @@
         {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="#" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
-                <li class="text-green-700 font-medium">Informasi Publik</li>
+                <li class="text-green-700 font-medium">Informasi</li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">Pengumuman</li>
             </ol>
