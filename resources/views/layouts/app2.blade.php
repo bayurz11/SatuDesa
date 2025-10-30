@@ -155,16 +155,118 @@
         }
 
         // Toggle Menu Mobile 
-        const menuBtn = document.getElementById("menu-btn");
-        const menu = document.getElementById("menu");
+        (() => {
+            const menuBtn = document.getElementById('menu-btn');
+            const menuClose = document.getElementById('menu-close');
+            const overlay = document.getElementById('overlay');
+            const panel = document.getElementById('mobile-menu');
+            const accBtns = document.querySelectorAll('[data-acc-btn]');
+            const accPanels = document.querySelectorAll('[data-acc-panel]');
+            const chevIcons = document.querySelectorAll('[data-chev]');
+            let lastFocused = null;
 
-        if (menuBtn) {
-            menuBtn.addEventListener("click", () => {
-                menu.classList.toggle("hidden");
-                menu.classList.toggle("flex");
+            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const openDuration = prefersReduced ? 0 : 200;
+
+            const setAria = (expanded) => {
+                menuBtn?.setAttribute('aria-expanded', String(expanded));
+                panel?.setAttribute('aria-hidden', String(!expanded));
+                overlay?.setAttribute('aria-hidden', String(!expanded));
+            };
+
+            const trapFocus = (e) => {
+                if (!panel || panel.classList.contains('pointer-events-none')) return;
+                const focusables = panel.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+                if (!focusables.length) return;
+                const first = focusables[0];
+                const last = focusables[focusables.length - 1];
+                if (e.key === 'Tab') {
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            };
+
+            const openMenu = () => {
+                lastFocused = document.activeElement;
+                document.body.classList.add('overflow-hidden');
+                panel.classList.remove('pointer-events-none', 'opacity-0');
+                overlay.classList.remove('pointer-events-none', 'opacity-0');
+                panel.style.transform = 'translateY(0)';
+                setAria(true);
+
+                // fokus ke tombol close atau link pertama
+                const focusTarget = panel.querySelector('#menu-close') || panel.querySelector('a,button');
+                setTimeout(() => focusTarget?.focus(), 10);
+                document.addEventListener('keydown', trapFocus);
+            };
+
+            const closeMenu = () => {
+                document.body.classList.remove('overflow-hidden');
+                panel.classList.add('opacity-0');
+                overlay.classList.add('opacity-0');
+                panel.style.transform = 'translateY(-12px)';
+                setTimeout(() => {
+                    panel.classList.add('pointer-events-none');
+                    overlay.classList.add('pointer-events-none');
+                }, openDuration);
+                setAria(false);
+
+                // tutup semua accordion + reset ikon
+                accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+                accPanels.forEach((p) => p.style.maxHeight = 0);
+                chevIcons.forEach((c) => c.dataset.open = 'false');
+
+                document.removeEventListener('keydown', trapFocus);
+                // kembalikan fokus ke pemicu
+                lastFocused?.focus();
+            };
+
+            // Toggle
+            menuBtn?.addEventListener('click', () => {
+                const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+                expanded ? closeMenu() : openMenu();
             });
-        }
+            menuClose?.addEventListener('click', closeMenu);
+            overlay?.addEventListener('click', closeMenu);
 
+            // ESC
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') closeMenu();
+            });
+
+            // Klik di luar panel (header kosong/area putih atas)
+            document.addEventListener('mousedown', (e) => {
+                if (!panel || panel.classList.contains('pointer-events-none')) return;
+                const within = panel.contains(e.target) || (menuBtn && menuBtn.contains(e.target));
+                if (!within) closeMenu();
+            });
+
+            // Accordion (single open)
+            accBtns.forEach((btn) => {
+                const pid = btn.getAttribute('aria-controls');
+                const pnl = document.getElementById(pid);
+                const chev = btn.querySelector('[data-chev]');
+                btn.addEventListener('click', () => {
+                    const isOpen = btn.getAttribute('aria-expanded') === 'true';
+                    // tutup semua
+                    accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+                    accPanels.forEach((p) => p.style.maxHeight = 0);
+                    chevIcons.forEach((c) => c.dataset.open = 'false');
+
+                    if (!isOpen) {
+                        btn.setAttribute('aria-expanded', 'true');
+                        pnl.style.maxHeight = pnl.scrollHeight + 'px';
+                        if (chev) chev.dataset.open = 'true';
+                    }
+                });
+            });
+
+        })();
         // Efek Count Up
         document.addEventListener("DOMContentLoaded", () => {
             const counters = document.querySelectorAll(".counter");

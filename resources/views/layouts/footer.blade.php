@@ -84,6 +84,13 @@
                 <div>
                     <h3 class="text-sm font-semibold uppercase tracking-wider text-white/90">Informasi</h3>
                     <ul class="mt-3 space-y-2 text-sm">
+                        <li><a href="{{ route('data-penduduk') }}"
+                                class="text-white/80 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded px-1">Data
+                                Penduduk</a>
+                        </li>
+                        <li><a href="{{ route('apbdesa') }}"
+                                class="text-white/80 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded px-1">APBDesa</a>
+                        </li>
                         <li><a href="{{ route('berita') }}"
                                 class="text-white/80 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded px-1">Berita</a>
                         </li>
