@@ -46,12 +46,13 @@
 
                     <!-- Card -->
 
-                    <a href="{{ route('sejarah') }}"
+                    <a href="{{ route('peta-desa') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/historical.png"
+                        <img src="https://img.icons8.com/color/96/000000/worldwide-location.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
-                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Sejarah</p>
+                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Peta Desa</p>
                     </a>
+
 
                     <!-- Card -->
                     <a href="{{ route('struktur-desa') }}"
@@ -71,13 +72,15 @@
                     </a>
 
                     <!-- Card -->
-                    <a href="{{ route('galeri') }}"
+                    <a href="{{ route('data-penduduk') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/image.png"
+                        <img src="https://img.icons8.com/color/96/000000/combo-chart.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
-                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">Album
-                            Galeri</p>
+                        <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">
+                            Statistik Penduduk
+                        </p>
                     </a>
+
 
                     <!-- Card -->
                     <a href="{{ route('pengumuman') }}"
@@ -90,13 +93,15 @@
                     </a>
 
                     <!-- Card -->
-                    <a href="#"
+                    <a href="{{ route('apbdesa') }}"
                         class="bg-white rounded-xl shadow w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 flex flex-col items-center justify-center hover:shadow-lg hover:scale-105 active:scale-95 transition-transform duration-200 cursor-pointer px-2">
-                        <img src="https://img.icons8.com/color/96/000000/city-buildings.png"
+                        <img src="https://img.icons8.com/color/96/000000/money-bag.png"
                             class="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 mb-1" />
                         <p class="text-[8px] sm:text-[10px] md:text-xs font-medium text-gray-800 text-center">
-                            Pembangunan</p>
+                            APBDesa
+                        </p>
                     </a>
+
 
                     <!-- Card -->
                     <a href="{{ route('potensi-desa') }}"
@@ -222,9 +227,7 @@
         </div>
     </section>
 
-
-
-    <!-- Potensi Desa Section (1 Card Only) -->
+    <!-- Potensi Desa Section -->
     <section class="max-w-6xl mx-auto px-4 py-14" data-aos="fade-up">
         <header class="text-center mb-10">
             <h2 class="text-3xl md:text-4xl font-bold text-green-700">Potensi Desa</h2>
@@ -232,44 +235,60 @@
                 Potensi dan keunggulan Desa Mentuda dalam bidang pariwisata, ekonomi, dan pelestarian lingkungan.
             </p>
         </header>
-
-        <!-- Highlight Card -->
         <article
-            class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 hover:shadow-lg transition">
-            <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
-                <div class="grid md:grid-cols-12 gap-0">
-                    <figure class="md:col-span-7 h-56 md:h-72 overflow-hidden">
-                        <img src="img/potensi2.jpg" alt="Panorama Pariwisata" class="h-full w-full object-cover"
-                            loading="lazy" decoding="async">
-                    </figure>
-                    <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
-                        <span
-                            class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
-                            <x-heroicon-o-sparkles class="size-4" /> Sorotan
-                        </span>
-                        <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900">
-                            Wisata Alam & Bahari
-                        </h2>
-                        <p class="mt-2 text-gray-700">
-                            Garis pantai, pasir putih, dan perairan yang kaya biota laut menjadi peluang pariwisata
-                            edukasi dan konservasi.
-                        </p>
-                        <div class="mt-4">
-                            <a href="#"
-                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                                <x-heroicon-o-eye class="size-4" /> Lihat Detail
-                            </a>
-                        </div>
+            class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition
+           hover:shadow-xl hover:-translate-y-0.5 duration-300">
+            <div class="grid md:grid-cols-12 gap-0">
+                <!-- Gambar -->
+                <figure class="relative md:col-span-7 h-56 md:h-72 overflow-hidden">
+                    <img src="img/potensi2.jpg" alt="Panorama Pariwisata"
+                        class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy" decoding="async">
+
+
+                    <div
+                        class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
+                    opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    </div>
+
+                </figure>
+
+                <!-- Konten -->
+                <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
+                    <span
+                        class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
+                 transition-colors duration-300 group-hover:bg-green-100">
+                        <x-heroicon-o-sparkles class="size-4" /> Sorotan
+                    </span>
+
+                    <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900">
+                        Wisata Alam &amp; Bahari
+                    </h2>
+
+                    <p class="mt-2 text-gray-700">
+                        Garis pantai, pasir putih, dan perairan yang kaya biota laut menjadi peluang pariwisata
+                        edukasi dan konservasi.
+                    </p>
+
+                    <div class="mt-4">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
+                    hover:bg-green-600 hover:text-white transition-colors">
+                            <x-heroicon-o-eye class="size-4" /> Lihat Detail
+                        </a>
                     </div>
                 </div>
+            </div>
+
+            <div
+                class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent group-hover:ring-green-200/70 transition duration-300">
             </div>
         </article>
 
         <!-- Tombol -->
         <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
             <a href="{{ route('potensi-desa') }}"
-                class="px-6 py-2 border border-green-700 text-green-700 rounded-full 
-              hover:bg-green-700 hover:text-white transition">
+                class="px-6 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
                 Lihat Potensi Lainnya
             </a>
         </div>

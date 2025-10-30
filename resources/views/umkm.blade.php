@@ -10,8 +10,6 @@
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
-                <li class="text-green-700 font-medium">Ekonomi</li>
-                <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">UMKM</li>
             </ol>
         </nav>

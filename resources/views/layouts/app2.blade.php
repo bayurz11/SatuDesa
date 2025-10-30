@@ -11,7 +11,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Swiper CSS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <!-- AOS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -99,6 +100,7 @@
             animation: fadeUp 0.8s ease-out forwards;
         }
     </style>
+    @stack('styles')
 </head>
 
 <body class="bg-gray-50 flex flex-col min-h-screen" id="top">
@@ -276,6 +278,8 @@
     <!-- Swiper.js CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    @stack('scripts')
 </body>
 
 </html>

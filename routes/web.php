@@ -28,6 +28,11 @@ Route::get('/potensi-desa', function () {
     return view('potensidesa');
 })->name('potensi-desa');
 
+// Data Penduduk Page Route
+Route::get('/data-penduduk', function () {
+    return view('data-penduduk');
+})->name('data-penduduk');
+
 // Berita Page Route
 Route::get('/berita', function () {
     return view('berita');
@@ -43,6 +48,11 @@ Route::get('/galeri', function () {
     return view('galeri');
 })->name('galeri');
 
+// Peta desa Page Route
+Route::get('/peta-desa', function () {
+    return view('peta-desa');
+})->name('peta-desa');
+
 //UMKM Page Route
 Route::get('/umkm', function () {
     return view('umkm');
@@ -52,6 +62,11 @@ Route::get('/umkm', function () {
 Route::get('/layanan', function () {
     return view('layanan');
 })->name('layanan');
+
+//APBdesa Page Route
+Route::get('/apbdesa', function () {
+    return view('apbdesa');
+})->name('apbdesa');
 
 
 
