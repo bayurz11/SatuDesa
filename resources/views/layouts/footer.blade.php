@@ -24,7 +24,7 @@
 
                 <!-- Sosial -->
                 <div class="mt-4 flex gap-4" aria-label="Sosial media">
-                    <a href="#" aria-label="Facebook"
+                    <a href="https://www.facebook.com/DesaMentuda/" target="_blank" aria-label="Facebook"
                         class="p-2 rounded-lg hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 transition">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
                             <path
