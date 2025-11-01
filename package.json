@@ -16,13 +16,32 @@
         "laravel-vite-plugin": "^2.0.0",
         "postcss": "^8.5.6",
         "sass": "^1.56.1",
-        "tailwindcss": "^4.1.11",
+        "tailwindcss": "^4.1.16",
         "vite": "^7.0.4"
     },
     "dependencies": {
         "@ckeditor/ckeditor5-build-classic": "^39.0.2",
+        "@tailwindcss/postcss": "^4.1.16",
         "@tiptap/core": "^3.6.6",
         "@tiptap/starter-kit": "^3.6.6",
         "tinymce": "^8.1.2"
-    }
+    },
+    "name": "satudesa",
+    "version": "1.0.0",
+    "description": "**SatuDesa** adalah boilerplate Laravel modern berbasis **Domain-Driven Design (DDD)** yang dirancang khusus untuk pengembangan **portal desa digital**.   Menampilkan sistem **manajemen pengguna, role, dan permission dinamis**, dengan antarmuka elegan berbasis **Tailwind CSS**, **Livewire**, dan **Alpine.js**.",
+    "main": "postcss.config.js",
+    "directories": {
+        "test": "tests"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/bayurz11/SatuDesa.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/bayurz11/SatuDesa/issues"
+    },
+    "homepage": "https://github.com/bayurz11/SatuDesa#readme"
 }

@@ -153,7 +153,7 @@ class SejarahForm extends Component
             }
         }
 
-        $this->validate(); // 'isi' => 'required|string'
+        $this->validate();
 
         $allowed  = '<b><strong><i><em><u><a><br><p><ul><ol><li>';
         $cleanIsi = strip_tags($this->isi, $allowed);
