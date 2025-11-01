@@ -27,12 +27,14 @@
             z-index: 60 !important;
         }
 
+        /* Sidebar: hijau alami segar */
         .sidebar-gradient {
-            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 50%, #2563eb 100%);
+            background: linear-gradient(180deg, #06684C 0%, #099C6D 50%, #2DCA92 100%);
         }
 
+        /* Navbar: putih bersih dengan sedikit hijau lembut */
         .navbar-gradient {
-            background: linear-gradient(90deg, #ffffff 0%, #f8fafc 100%);
+            background: linear-gradient(90deg, #ffffff 0%, #f0fdf4 100%);
         }
 
         .sidebar-toggle {
@@ -99,28 +101,30 @@
 
         /* Modern Shadow Effects */
         .shadow-modern {
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
         .shadow-modern-lg {
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
+                0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
 
-        /* Hover Glow Effects */
+        /* Hover Glow Effects (ubah ke hijau lembut) */
         .hover-glow {
             transition: all 0.3s ease;
         }
 
         .hover-glow:hover {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 0 20px rgba(22, 163, 74, 0.4);
         }
 
-        /* Modern Loading Spinner */
+        /* Modern Loading Spinner (ubah ke hijau) */
         .spinner {
             width: 20px;
             height: 20px;
             border: 2px solid #f3f3f3;
-            border-top: 2px solid #3498db;
+            border-top: 2px solid #16a34a;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
@@ -135,25 +139,26 @@
             }
         }
 
-        /* Custom Scrollbar */
+        /* Custom Scrollbar (ubah ke hijau alami) */
         ::-webkit-scrollbar {
             width: 6px;
         }
 
         ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+            background: #f1f5f9;
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #16a34a, #4ade80);
             border-radius: 10px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: linear-gradient(45deg, #5a6fd8, #6a4190);
+            background: linear-gradient(45deg, #15803d, #22c55e);
         }
     </style>
+
 </head>
 
 
@@ -167,10 +172,9 @@
                 <div class="flex items-center justify-center h-16 px-4 bg-black bg-opacity-20">
                     <div class="flex items-center">
                         <div class="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                                </path>
+                                    d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                             </svg>
                         </div>
                         <span class="ml-3 text-white font-bold text-lg">{{ config('app.name', 'SatuDesa') }}</span>
@@ -186,17 +190,17 @@
                         <div class="flex items-center">
                             <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center">
                                 <span
-                                    class="text-xs font-bold text-blue-600">{{ substr(auth()->user()->name, 0, 2) }}</span>
+                                    class="text-xs font-bold text-green-600">{{ substr(auth()->user()->name, 0, 2) }}</span>
                             </div>
                             <div class="ml-3 flex-1">
                                 <p class="text-sm font-medium text-white truncate">{{ auth()->user()->name }}</p>
-                                <p class="text-xs text-blue-200 truncate">{{ auth()->user()->email }}</p>
+                                <p class="text-xs text-green-200 truncate">{{ auth()->user()->email }}</p>
                             </div>
                         </div>
                         <form method="POST" action="{{ route('logout') }}" class="mt-3" id="logout-form">
                             @csrf
                             <button type="button" onclick="confirmLogout()"
-                                class="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-blue-100 bg-white bg-opacity-10 rounded-md hover:bg-opacity-20 transition-colors duration-200">
+                                class="w-full flex items-center justify-center px-3 py-2 text-sm font-medium text-green-100 bg-white bg-opacity-10 rounded-md hover:bg-opacity-20 transition-colors duration-200">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1">
@@ -218,7 +222,7 @@
                             <div class="flex items-center">
                                 <!-- Mobile menu button -->
                                 <button id="sidebar-toggle" type="button"
-                                    class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500">
+                                    class="md:hidden inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-green-500">
                                     <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                             d="M4 6h16M4 12h16M4 18h16"></path>
@@ -289,7 +293,7 @@
                             <div class="flex items-center gap-3">
                                 {{-- Notifications --}}
                                 <button type="button"
-                                    class="relative p-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md">
+                                    class="relative p-2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-green-500 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24"
                                         fill="none" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -308,7 +312,7 @@
                                         </svg>
                                     </div>
                                     <input type="text" placeholder="Quick search..."
-                                        class="w-64 pl-10 pr-3 py-2 border border-gray-200 rounded-lg bg-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500">
+                                        class="w-64 pl-10 pr-3 py-2 border border-gray-200 rounded-lg bg-white text-sm placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-green-500 focus:border-green-500">
                                 </div>
 
 
@@ -325,7 +329,7 @@
                                 <div x-data="{ open: false }" @keydown.escape.window="open=false" class="relative">
                                     <!-- Trigger: avatar + chevron badge -->
                                     <button @click="open=!open" @click.outside="open=false" type="button"
-                                        class="relative h-10 w-10 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center shadow hover:brightness-95 select-none outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none active:outline-none"
+                                        class="relative h-10 w-10 rounded-full bg-green-600 text-white font-bold flex items-center justify-center shadow hover:brightness-95 select-none outline-none ring-0 focus:outline-none focus:ring-0 focus-visible:outline-none active:outline-none"
                                         aria-haspopup="menu" :aria-expanded="open.toString()"
                                         style="-webkit-tap-highlight-color: transparent;">
                                         <span class="text-sm">{{ $initials }}</span>
@@ -397,7 +401,7 @@
                 </nav>
 
                 <!-- Page Content -->
-                <main class="p-6 min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
+                <main class="p-6 min-h-screen bg-gradient-to-br from-gray-50 via-green-50/30 to-purple-50/30">
                     <!-- Modern Flash Messages -->
                     @if (session('message'))
                         <div class="mb-6 bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 text-green-700 px-6 py-4 rounded-2xl shadow-lg backdrop-blur-sm"
@@ -440,13 +444,13 @@
                         <div class="flex items-center justify-between text-sm">
                             <div class="flex items-center space-x-3 text-gray-600">
                                 <div
-                                    class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                    class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-lg flex items-center justify-center">
                                     <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                                        </path>
+                                            d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0 0 12 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75Z" />
                                     </svg>
+
                                 </div>
                                 <div>
                                     <div class="font-semibold text-gray-900">{{ config('app.name', 'SatuDesa') }}</div>
@@ -460,7 +464,7 @@
                                 </div>
                                 <div class="hidden md:flex items-center space-x-4">
                                     <a href="#"
-                                        class="hover:text-blue-600 transition-colors duration-200 flex items-center space-x-1">
+                                        class="hover:text-green-600 transition-colors duration-200 flex items-center space-x-1">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
@@ -469,7 +473,7 @@
                                         <span>Documentation</span>
                                     </a>
                                     <a href="#"
-                                        class="hover:text-blue-600 transition-colors duration-200 flex items-center space-x-1">
+                                        class="hover:text-green-600 transition-colors duration-200 flex items-center space-x-1">
                                         <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z">
@@ -519,7 +523,7 @@
             <div class="text-center">
                 <p class="text-gray-500">Please log in to access the application.</p>
                 <a href="{{ route('login') }}"
-                    class="mt-4 inline-block bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Login</a>
+                    class="mt-4 inline-block bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700">Login</a>
             </div>
         </div>
     @endauth

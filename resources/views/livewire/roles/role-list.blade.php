@@ -1,9 +1,9 @@
 <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-    <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+    <div class="bg-gradient-to-r from-green-50 via-green-100 to-purple-50 px-6 py-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <div
-                    class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-lg">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
@@ -17,7 +17,7 @@
             </div>
             @permission('roles.create')
                 <button wire:click="$dispatch('openRoleCreateForm')"
-                    class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,12 +40,12 @@
                     </div>
                     <input wire:model.live="search" type="text"
                         placeholder="Search roles by name, display name, or description..."
-                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
                 </div>
             </div>
             <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4">
                 <select wire:model.live="filterByPermissions"
-                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium transition-all duration-200">
+                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white text-sm font-medium transition-all duration-200">
                     <option value="">All Permission Groups</option>
                     @foreach ($permissionGroups as $group)
                         <option value="{{ $group }}">{{ ucfirst($group) }} Permissions</option>
@@ -54,11 +54,11 @@
                 <label
                     class="flex items-center px-4 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors duration-200">
                     <input wire:model.live="showInactive" type="checkbox"
-                        class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                        class="rounded border-gray-300 text-green-600 focus:ring-green-500 focus:ring-offset-0">
                     <span class="ml-3 text-sm font-medium text-gray-700">Show Inactive</span>
                 </label>
                 <select wire:model.live="perPage"
-                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium transition-all duration-200">
+                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white text-sm font-medium transition-all duration-200">
                     <option value="10">10 per page</option>
                     <option value="25">25 per page</option>
                     <option value="50">50 per page</option>
@@ -76,8 +76,8 @@
                         <div class="flex items-center space-x-2">
                             <span>Role Name</span>
                             @if ($sortField === 'name')
-                                <div class="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
-                                    <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor"
+                                <div class="w-4 h-4 bg-green-100 rounded flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         @if ($sortDirection === 'asc')
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -96,8 +96,8 @@
                         <div class="flex items-center space-x-2">
                             <span>Display Name</span>
                             @if ($sortField === 'display_name')
-                                <div class="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
-                                    <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor"
+                                <div class="w-4 h-4 bg-green-100 rounded flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         @if ($sortDirection === 'asc')
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -127,11 +127,11 @@
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse($roles as $role)
                     <tr
-                        class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 group">
+                        class="hover:bg-gradient-to-r hover:from-green-50 hover:to-purple-50 transition-all duration-300 group">
                         <td class="px-6 py-5 whitespace-nowrap">
                             <div class="flex items-center">
                                 <div
-                                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mr-3 shadow-md group-hover:shadow-lg transition-shadow duration-300">
+                                    class="w-10 h-10 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center mr-3 shadow-md group-hover:shadow-lg transition-shadow duration-300">
                                     <span
                                         class="text-sm font-bold text-white">{{ substr($role->display_name, 0, 2) }}</span>
                                 </div>

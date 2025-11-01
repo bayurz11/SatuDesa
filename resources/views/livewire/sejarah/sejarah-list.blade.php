@@ -1,9 +1,9 @@
 <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-    <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+    <div class="bg-gradient-to-r from-green-50 via-green-100 to-purple-50 px-6 py-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <div
-                    class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-lg">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -17,7 +17,7 @@
 
             @permission('profil.create')
                 <button wire:click="$dispatch('openSejarahCreateForm')"
-                    class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -39,7 +39,7 @@
                         </svg>
                     </div>
                     <input wire:model.live="search" type="text" placeholder="Cari sejarah…"
-                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
                 </div>
             </div>
 
@@ -47,12 +47,12 @@
                 <label
                     class="flex items-center px-4 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors duration-200">
                     <input wire:model.live="showInactive" type="checkbox"
-                        class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
+                        class="rounded border-gray-300 text-green-600 focus:ring-green-500 focus:ring-offset-0">
                     <span class="ml-3 text-sm font-medium text-gray-700">Show Inactive</span>
                 </label>
 
                 <select wire:model.live="perPage"
-                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium transition-all duration-200">
+                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white text-sm font-medium transition-all duration-200">
                     <option value="10">10 per page</option>
                     <option value="25">25 per page</option>
                     <option value="50">50 per page</option>
@@ -70,8 +70,8 @@
                         <div class="flex items-center space-x-2">
                             <span>Isi</span>
                             @if ($sortField === 'isi')
-                                <div class="w-4 h-4 bg-blue-100 rounded flex items-center justify-center">
-                                    <svg class="w-3 h-3 text-blue-600" fill="none" stroke="currentColor"
+                                <div class="w-4 h-4 bg-green-100 rounded flex items-center justify-center">
+                                    <svg class="w-3 h-3 text-green-600" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         @if ($sortDirection === 'asc')
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -104,7 +104,7 @@
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse($sejarah as $sejarahItem)
                     <tr
-                        class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300 group">
+                        class="hover:bg-gradient-to-r hover:from-green-50 hover:to-purple-50 transition-all duration-300 group">
                         <td class="px-6 py-5 whitespace-nowrap">
                             <div class="flex items-center">
                                 <!-- Foto -->
@@ -115,7 +115,7 @@
                                             class="w-24 h-24 md:w-28 md:h-28 object-contain shadow-md">
                                     @else
                                         <div
-                                            class="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+                                            class="w-full h-full bg-gradient-to-br from-green-400 to-purple-500 flex items-center justify-center">
                                             <span class="text-sm font-bold text-white">
                                                 {{ Str::substr($sejarahItem->isi, 0, 2) }}
                                             </span>
@@ -249,7 +249,7 @@
                                 @if (!$search)
                                     @permission('sejarah.create')
                                         <button wire:click="$dispatch('openSejarahCreateForm')"
-                                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                                            class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-purple-600 text-white font-semibold rounded-xl hover:from-green-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor"
                                                 viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -278,7 +278,7 @@
         </table>
     </div>
 
-    <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 rounded-b-2xl">
+    <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-green-50 border-t border-gray-200 rounded-b-2xl">
         <div class="flex items-center justify-between">
             <div class="text-sm text-gray-600">
                 Showing <span class="font-medium">{{ $sejarah->firstItem() ?? 0 }}</span>

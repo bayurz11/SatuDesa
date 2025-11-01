@@ -1,10 +1,10 @@
 <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
     <!-- HEADER -->
-    <div class="bg-gradient-to-r from-blue-50 via-emerald-50 to-lime-50 px-6 py-6 border-b border-gray-200">
+    <div class="bg-gradient-to-r from-green-50 via-green-100 to-purple-50 px-6 py-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-4">
                 <div
-                    class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                    class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-400 rounded-xl flex items-center justify-center shadow-lg">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="m2.25 12 8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
@@ -18,7 +18,7 @@
 
             @permission('profil.create')
                 <button wire:click="$dispatch('openVisiMisiForm')"
-                    class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,7 +40,7 @@
                         </svg>
                     </div>
                     <input wire:model.live="search" type="text" placeholder="Cari visi atau misi…"
-                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
+                        class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
                 </div>
             </div>
 
@@ -48,12 +48,12 @@
                 <label
                     class="flex items-center px-4 py-3 bg-white border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors duration-200">
                     <input wire:model.live="showInactive" type="checkbox"
-                        class="rounded border-gray-300 text-blue-600 focus:ring-blue-500 focus:ring-offset-0">
-                    <span class="ml-3 text-sm font-medium text-gray-700">Tampilkan Nonaktif</span>
+                        class="rounded border-gray-300 text-green-600 focus:ring-green-500 focus:ring-offset-0">
+                    <span class="ml-3 text-sm font-medium text-gray-700">Show Inactive</span>
                 </label>
 
                 <select wire:model.live="perPage"
-                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-sm font-medium transition-all duration-200">
+                    class="px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 bg-white text-sm font-medium transition-all duration-200">
                     <option value="10">10 per halaman</option>
                     <option value="25">25 per halaman</option>
                     <option value="50">50 per halaman</option>
@@ -93,7 +93,7 @@
             <tbody class="bg-white divide-y divide-gray-100">
                 @forelse($data as $item)
                     <tr
-                        class="hover:bg-gradient-to-r hover:from-blue-50 hover:to-emerald-50 transition-all duration-300 group">
+                        class="hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 transition-all duration-300 group">
                         <td class="px-6 py-5 whitespace-nowrap font-semibold text-gray-800 capitalize">
                             {{ $item->kategori }}
                         </td>
@@ -107,7 +107,7 @@
                                             class="w-full h-full object-cover">
                                     @else
                                         <div
-                                            class="w-full h-full bg-gradient-to-br from-blue-400 to-emerald-600 flex items-center justify-center">
+                                            class="w-full h-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center">
                                             <span class="text-sm font-bold text-white">
                                                 {{ Str::substr($item->isi, 0, 2) }}
                                             </span>

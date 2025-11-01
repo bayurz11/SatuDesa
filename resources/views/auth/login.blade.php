@@ -11,7 +11,7 @@
     <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
     <style>
         .gradient-bg {
-            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #ffffff 100%);
+            background: linear-gradient(180deg, #06684C 0%, #099C6D 50%, #2DCA92 100%);
         }
 
         .glass-effect {
@@ -58,11 +58,12 @@
     <!-- Background geometric shapes -->
     <div class="absolute inset-0 overflow-hidden">
         <div class="absolute top-10 left-10 w-20 h-20 bg-white opacity-10 rounded-full floating-animation"></div>
-        <div class="absolute top-32 right-20 w-16 h-16 bg-blue-300 opacity-20 rounded-lg" style="animation-delay: -2s;">
+        <div class="absolute top-32 right-20 w-16 h-16 bg-green-300 opacity-20 rounded-lg"
+            style="animation-delay: -2s;">
         </div>
         <div class="absolute bottom-20 left-1/4 w-12 h-12 bg-white opacity-15 rounded-full floating-animation"
             style="animation-delay: -4s;"></div>
-        <div class="absolute bottom-32 right-1/3 w-24 h-24 bg-blue-200 opacity-10 rounded-lg floating-animation"
+        <div class="absolute bottom-32 right-1/3 w-24 h-24 bg-green-200 opacity-10 rounded-lg floating-animation"
             style="animation-delay: -1s;"></div>
     </div>
 
@@ -71,7 +72,7 @@
             <!-- Logo and Brand -->
             <div class="text-center">
                 {{-- <div class="mx-auto w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center mb-6">
-                    <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
                         </path>
@@ -80,7 +81,7 @@
                 <h2 class="text-3xl font-bold text-white mb-2">
                     Welcome Back
                 </h2>
-                <p class="text-blue-100">
+                <p class="text-green-100">
                     Sign in to {{ config('app.name', 'SatuDesa') }}
                 </p>
             </div>
@@ -122,7 +123,7 @@
                                 </svg>
                             </div>
                             <input id="email" name="email" type="email" autocomplete="email" required
-                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
+                                class="block w-full pl-10 pr-3 py-3 border border-gray-200 rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"
                                 placeholder="Enter your email" value="{{ old('email') }}">
                         </div>
                     </div>
@@ -147,7 +148,7 @@
                             <!-- Input password -->
                             <input id="password" name="password" type="password" autocomplete="current-password"
                                 required
-                                class="block w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-150 ease-in-out"
+                                class="block w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent transition duration-150 ease-in-out"
                                 placeholder="Enter your password">
 
                             <!-- Tombol toggle (kanan) -->
@@ -184,7 +185,7 @@
                     <div class="flex items-center justify-between">
                         <div class="flex items-center">
                             <input id="remember" name="remember" type="checkbox"
-                                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                class="h-4 w-4 text-green-600 focus:ring-green-500 border-gray-300 rounded"
                                 {{ old('remember') ? 'checked' : '' }}>
                             <label for="remember" class="ml-2 block text-sm text-gray-700">
                                 Remember me
@@ -193,7 +194,7 @@
 
                         {{-- @if (Route::has('password.request'))
                             <div class="text-sm">
-                                <a href="{{ route('password.request') }}" class="font-medium text-blue-600 hover:text-blue-500 transition duration-150 ease-in-out">
+                                <a href="{{ route('password.request') }}" class="font-medium text-green-600 hover:text-green-500 transition duration-150 ease-in-out">
                                     Forgot password?
                                 </a>
                             </div>
@@ -203,9 +204,9 @@
                     <!-- Sign In Button -->
                     <div>
                         <button type="submit"
-                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transform transition duration-150 ease-in-out hover:scale-105 shadow-lg">
+                            class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-semibold rounded-xl text-white bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transform transition duration-150 ease-in-out hover:scale-105 shadow-lg">
                             <span class="absolute left-0 inset-y-0 flex items-center pl-3">
-                                <svg class="h-5 w-5 text-blue-300 group-hover:text-blue-200" fill="none"
+                                <svg class="h-5 w-5 text-green-300 group-hover:text-green-200" fill="none"
                                     stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                         d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1">
@@ -222,10 +223,10 @@
                     <div class="text-center">
                         <p class="text-xs text-gray-500 mb-3">Demo Accounts</p>
                         <div class="grid grid-cols-2 gap-3">
-                            <div class="bg-blue-50 p-3 rounded-lg text-center">
-                                <p class="text-xs font-semibold text-blue-900">Super Admin</p>
-                                <p class="text-xs text-blue-700">admin@example.com</p>
-                                <p class="text-xs text-blue-600">password</p>
+                            <div class="bg-green-50 p-3 rounded-lg text-center">
+                                <p class="text-xs font-semibold text-green-900">Super Admin</p>
+                                <p class="text-xs text-green-700">admin@example.com</p>
+                                <p class="text-xs text-green-600">password</p>
                             </div>
                             <div class="bg-gray-50 p-3 rounded-lg text-center">
                                 <p class="text-xs font-semibold text-gray-900">Regular User</p>
@@ -239,7 +240,7 @@
 
             <!-- Footer -->
             <div class="text-center">
-                <p class="text-xs text-blue-100">
+                <p class="text-xs text-green-100">
                     © {{ date('Y') }} {{ config('app.name', 'SatuDesa') }}. All rights reserved.
                 </p>
             </div>

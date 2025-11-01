@@ -99,6 +99,18 @@
             opacity: 0;
             animation: fadeUp 0.8s ease-out forwards;
         }
+
+        /* Saat tombol expanded=true, putar chevron 180deg */
+        [data-acc-btn][aria-expanded="true"] [data-chev] {
+            transform: rotate(180deg);
+        }
+
+        /* (Opsional) kurangi animasi untuk pengguna reduce motion */
+        @media (prefers-reduced-motion: reduce) {
+            [data-chev] {
+                transition: none !important;
+            }
+        }
     </style>
     @stack('styles')
 </head>
@@ -267,6 +279,7 @@
             });
 
         })();
+
         // Efek Count Up
         document.addEventListener("DOMContentLoaded", () => {
             const counters = document.querySelectorAll(".counter");

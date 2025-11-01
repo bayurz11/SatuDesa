@@ -4,7 +4,7 @@
     <div class="space-y-8 animate-fadeInUp">
         <!-- Modern Welcome Section with Glassmorphism -->
         <div
-            class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 rounded-2xl shadow-2xl overflow-hidden">
+            class="relative bg-gradient-to-br from-green-400 via-green-600 to-green-800 rounded-2xl shadow-2xl overflow-hidden">
             <!-- Background Pattern -->
             <div class="absolute inset-0 bg-white/10 backdrop-blur-sm">
                 <div class="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent"></div>
@@ -18,11 +18,11 @@
                 <div class="flex items-center justify-between">
                     <div>
                         <h1
-                            class="text-4xl font-bold mb-3 bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
+                            class="text-4xl font-bold mb-3 bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent">
                             Welcome back, {{ auth()->user()->name }}!
                         </h1>
-                        <p class="text-xl text-blue-100 mb-4">Here's what's happening with your system today.</p>
-                        <div class="flex items-center space-x-4 text-sm text-blue-200">
+                        <p class="text-xl text-green-100 mb-4">Here's what's happening with your system today.</p>
+                        <div class="flex items-center space-x-4 text-sm text-green-200">
                             <div class="flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -268,8 +268,8 @@
                             </div>
                             <div class="mt-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
-                                    <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                    <span class="text-sm text-green-600 font-semibold">{{ $stats['active_users'] }}
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                    <span class="text-sm text-blue-600 font-semibold">{{ $stats['active_users'] }}
                                         active</span>
                                 </div>
                                 <div class="flex items-center text-xs text-gray-500">
@@ -430,7 +430,7 @@
                     <div class="bg-gradient-to-r from-gray-50 to-white px-6 py-5 border-b border-gray-200">
                         <div class="flex items-center">
                             <div
-                                class="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
+                                class="w-8 h-8 bg-gradient-to-br from-green-500 to-purple-600 rounded-lg flex items-center justify-center mr-3">
                                 <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor"
                                     viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -443,9 +443,9 @@
                     <div class="p-6 space-y-3">
                         @permission('users.create')
                             <a href="{{ route('users.index') }}"
-                                class="group w-full flex items-center px-4 py-4 text-sm font-medium text-gray-700 bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl hover:from-blue-100 hover:to-blue-200 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                class="group w-full flex items-center px-4 py-4 text-sm font-medium text-gray-700 bg-gradient-to-r from-green-50 to-green-100 rounded-xl hover:from-green-100 hover:to-green-200 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
                                 <div
-                                    class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center mr-4 group-hover:shadow-lg transition-shadow duration-300">
+                                    class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center mr-4 group-hover:shadow-lg transition-shadow duration-300">
                                     <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -453,10 +453,10 @@
                                     </svg>
                                 </div>
                                 <div class="flex-1">
-                                    <p class="font-semibold text-gray-900 group-hover:text-blue-800">Add New User</p>
-                                    <p class="text-xs text-gray-500 group-hover:text-blue-600">Create and manage users</p>
+                                    <p class="font-semibold text-gray-900 group-hover:text-green-800">Add New User</p>
+                                    <p class="text-xs text-gray-500 group-hover:text-green-600">Create and manage users</p>
                                 </div>
-                                <svg class="w-5 h-5 text-gray-400 group-hover:text-blue-600 transform group-hover:translate-x-1 transition-all duration-300"
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-green-600 transform group-hover:translate-x-1 transition-all duration-300"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
                                     </path>
@@ -530,7 +530,7 @@
                                 <h3 class="text-lg font-semibold text-gray-900">Recent Users</h3>
                             </div>
                             <div class="flex items-center space-x-2 text-sm text-gray-500">
-                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                                 <span>Live updates</span>
                             </div>
                         </div>
@@ -542,7 +542,7 @@
                                     <div class="flex items-center space-x-4">
                                         <div class="relative">
                                             <div
-                                                class="w-12 h-12 bg-gradient-to-br from-blue-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
+                                                class="w-12 h-12 bg-gradient-to-br from-green-400 to-purple-500 rounded-xl flex items-center justify-center shadow-lg">
                                                 <span
                                                     class="text-sm font-bold text-white">{{ substr($user->name, 0, 2) }}</span>
                                             </div>
@@ -558,7 +558,7 @@
                                             <div class="flex items-center space-x-2 mt-1">
                                                 @foreach ($user->roles->take(2) as $role)
                                                     <span
-                                                        class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-blue-100 text-blue-800">
+                                                        class="inline-flex items-center px-2 py-1 rounded-md text-xs font-medium bg-green-100 text-green-800">
                                                         {{ $role->display_name }}
                                                     </span>
                                                 @endforeach
@@ -590,9 +590,9 @@
                         @endforeach
                     </div>
                     @permission('users.view')
-                        <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-100">
+                        <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-green-50 border-t border-gray-100">
                             <a href="{{ route('users.index') }}"
-                                class="group flex items-center justify-center text-sm font-semibold text-blue-600 hover:text-blue-800 transition-colors duration-200">
+                                class="group flex items-center justify-center text-sm font-semibold text-green-600 hover:text-green-800 transition-colors duration-200">
                                 <span>View all users</span>
                                 <svg class="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-200"
                                     fill="none" stroke="currentColor" viewBox="0 0 24 24">

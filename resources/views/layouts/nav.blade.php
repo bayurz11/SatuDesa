@@ -122,26 +122,40 @@
         <!-- Isi menu -->
         <nav class="px-2 py-2 max-h-[80vh] overflow-y-auto" aria-label="Navigasi utama (mobile)">
             <ul class="divide-y divide-gray-100">
+
+                {{-- BERANDA --}}
                 <li>
                     <a href="{{ route('/') }}"
-                        class="block px-3 py-3 rounded-lg text-gray-900 hover:bg-gray-100 {{ Route::is('/') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">
+                        class="block px-3 py-3 rounded-lg hover:bg-gray-100
+               {{ Route::is('/') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}">
                         Beranda
                     </a>
                 </li>
 
-                <!-- ACCORDION: Profil Desa -->
+                {{-- PROFIL DESA --}}
+                @php
+                    $isProfilActive =
+                        Route::is('sejarah') ||
+                        Route::is('visi-misi') ||
+                        Route::is('struktur-desa') ||
+                        Route::is('potensi-desa') ||
+                        Route::is('peta-desa');
+                @endphp
                 <li class="pt-1">
                     <button
-                        class="w-full flex items-center justify-between px-3 py-3 rounded-lg hover:bg-gray-100 text-gray-900"
-                        aria-expanded="false" aria-controls="acc-profil" data-acc-btn>
+                        class="w-full flex items-center justify-between px-3 py-3 rounded-lg hover:bg-gray-100 transition {{ $isProfilActive ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}"
+                        aria-expanded="{{ $isProfilActive ? 'true' : 'false' }}" aria-controls="acc-profil"
+                        data-acc-btn>
                         <span class="font-medium">Profil Desa</span>
-                        <svg class="w-4 h-4 transition-transform duration-200 data-[open=true]:rotate-180" data-chev
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg class="w-4 h-4 transform transition-transform duration-200" data-chev viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="acc-profil" class="max-h-0 overflow-hidden transition-[max-height] duration-200"
+
+                    <div id="acc-profil"
+                        class="{{ $isProfilActive ? 'max-h-[300px]' : 'max-h-0' }} overflow-hidden transition-[max-height] duration-300"
                         data-acc-panel>
                         <div class="pl-6 py-2 space-y-1">
                             <a href="{{ route('sejarah') }}"
@@ -162,19 +176,30 @@
                     </div>
                 </li>
 
-                <!-- ACCORDION: Informasi -->
+                {{-- INFORMASI --}}
+                @php
+                    $isInfoActive =
+                        Route::is('data-penduduk') ||
+                        Route::is('apbdesa') ||
+                        Route::is('berita') ||
+                        Route::is('pengumuman') ||
+                        Route::is('galeri');
+                @endphp
                 <li class="pt-1">
                     <button
-                        class="w-full flex items-center justify-between px-3 py-3 rounded-lg hover:bg-gray-100 text-gray-900"
-                        aria-expanded="false" aria-controls="acc-info" data-acc-btn>
+                        class="w-full flex items-center justify-between px-3 py-3 rounded-lg hover:bg-gray-100 transition {{ $isInfoActive ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}"
+                        aria-expanded="{{ $isInfoActive ? 'true' : 'false' }}" aria-controls="acc-info" data-acc-btn>
                         <span class="font-medium">Informasi</span>
-                        <svg class="w-4 h-4 transition-transform duration-200 data-[open=true]:rotate-180" data-chev
-                            viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <svg class="w-4 h-4 transition-transform duration-200" data-chev viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    <div id="acc-info" class="max-h-0 overflow-hidden transition-[max-height] duration-200"
+
+
+                    <div id="acc-info"
+                        class="{{ $isInfoActive ? 'max-h-[300px]' : 'max-h-0' }} overflow-hidden transition-[max-height] duration-300"
                         data-acc-panel>
                         <div class="pl-6 py-2 space-y-1">
                             <a href="{{ route('data-penduduk') }}"
@@ -193,16 +218,25 @@
                     </div>
                 </li>
 
+                {{-- UMKM --}}
                 <li class="pt-1">
                     <a href="{{ route('umkm') }}"
-                        class="block px-3 py-3 rounded-lg text-gray-900 hover:bg-gray-100 {{ Route::is('umkm') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">UMKM</a>
+                        class="block px-3 py-3 rounded-lg hover:bg-gray-100 {{ Route::is('umkm') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}">
+                        UMKM
+                    </a>
                 </li>
+
+                {{-- LAYANAN --}}
                 <li>
                     <a href="{{ route('layanan') }}"
-                        class="block px-3 py-3 rounded-lg text-gray-900 hover:bg-gray-100 {{ Route::is('layanan') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Layanan</a>
+                        class="block px-3 py-3 rounded-lg hover:bg-gray-100 {{ Route::is('layanan') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}">
+                        Layanan
+                    </a>
                 </li>
+
             </ul>
         </nav>
+
 
         <!-- Safe-area bottom spacer -->
         <div class="h-[env(safe-area-inset-bottom,0px)]"></div>
