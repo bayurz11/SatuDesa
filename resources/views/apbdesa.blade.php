@@ -3,7 +3,7 @@
 @section('title', 'APBDes Desa ')
 
 @section('content')
-    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
+    <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
         <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
@@ -31,23 +31,25 @@
                 {{-- Kartu kontrol tahun + KPI --}}
                 <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
                     <div
-                        class="p-4 md:p-5 border-b border-gray-100 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        class="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                         <div class="flex items-start gap-3">
                             <span
                                 class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200 shrink-0">
                                 <x-heroicon-o-banknotes class="size-6 text-green-700" />
                             </span>
                             <div>
-                                <h2 class="text-lg md:text-xl font-semibold text-gray-900">Ringkasan APBDes</h2>
-                                <p class="mt-1 text-gray-700 text-sm">Data dummy (statis) untuk contoh tampilan.</p>
+                                <h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Ringkasan APBDes
+                                </h2>
+                                <p class="mt-1 text-gray-700 text-xs sm:text-sm">Data dummy (statis) untuk contoh tampilan.
+                                </p>
                             </div>
                         </div>
 
                         {{-- Pilihan Tahun --}}
-                        <div class="flex items-center gap-2">
-                            <label for="tahunSelect" class="text-sm text-gray-600">Tahun:</label>
+                        <div class="flex items-center gap-2 w-full md:w-auto">
+                            <label for="tahunSelect" class="text-sm text-gray-600 shrink-0">Tahun:</label>
                             <select id="tahunSelect"
-                                class="rounded-lg border-gray-300 text-sm focus:ring-green-600 focus:border-green-600">
+                                class="w-full md:w-auto rounded-lg border-gray-300 text-sm focus:ring-green-600 focus:border-green-600">
                                 <option value="2025" selected>2025</option>
                                 <option value="2024">2024</option>
                             </select>
@@ -56,7 +58,7 @@
 
                     <div class="p-4 md:p-6">
                         {{-- KPI --}}
-                        <div class="mb-4 grid gap-3 sm:grid-cols-4">
+                        <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
                                 <p class="text-xs text-gray-600">Total APBDes</p>
                                 <p id="kpiTotal" class="text-lg md:text-xl font-semibold text-gray-900">Rp -</p>
@@ -91,24 +93,30 @@
                         <div class="grid gap-6 lg:grid-cols-2">
                             <div class="rounded-2xl ring-1 ring-gray-100 p-4">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Pendapatan per Sumber</h3>
-                                <div class="h-[260px]"><canvas id="incomeChart"></canvas></div>
+                                <div class="h-56 sm:h-[260px]">
+                                    <canvas id="incomeChart"></canvas>
+                                </div>
                             </div>
                             <div class="rounded-2xl ring-1 ring-gray-100 p-4">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Belanja per Bidang</h3>
-                                <div class="h-[260px]"><canvas id="spendChart"></canvas></div>
+                                <div class="h-56 sm:h-[260px]">
+                                    <canvas id="spendChart"></canvas>
+                                </div>
                             </div>
                         </div>
 
                         {{-- Grafis: Realisasi per Bulan --}}
                         <div class="mt-6 rounded-2xl ring-1 ring-gray-100 p-4">
                             <h3 class="mb-3 text-sm font-semibold text-gray-900">Realisasi Bulanan (Belanja)</h3>
-                            <div class="h-[260px]"><canvas id="monthlyChart"></canvas></div>
+                            <div class="h-56 sm:h-[260px]">
+                                <canvas id="monthlyChart"></canvas>
+                            </div>
                             <p class="mt-2 text-xs text-gray-500">*Realisasi bulanan adalah dummy untuk contoh visualisasi.
                             </p>
                         </div>
 
                         {{-- Tabel Rincian Akun (ringkas) --}}
-                        <div class="mt-6 rounded-2xl ring-1 ring-gray-100 p-4">
+                        <div class="mt-6">
                             <div class="flex items-center justify-between mb-3">
                                 <h3 class="text-sm font-semibold text-gray-900">Rincian Anggaran (Top 8)</h3>
                                 <div class="flex items-center gap-2">
@@ -123,20 +131,22 @@
                             </div>
 
                             <div class="overflow-x-auto">
-                                <table class="min-w-full text-sm">
-                                    <thead>
-                                        <tr class="text-left text-gray-600 border-b">
-                                            <th class="py-2 pr-4">Kode</th>
-                                            <th class="py-2 pr-4">Uraian</th>
-                                            <th class="py-2 pr-4">Anggaran</th>
-                                            <th class="py-2 pr-4">Realisasi</th>
-                                            <th class="py-2 pr-4">% Serap</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="rincianBody" class="align-top">
-                                        {{-- diisi via JS --}}
-                                    </tbody>
-                                </table>
+                                <div class="max-h-96 overflow-y-auto rounded-lg ring-1 ring-gray-100 bg-white">
+                                    <table class="min-w-full text-xs sm:text-sm">
+                                        <thead class="bg-white">
+                                            <tr class="text-left text-gray-600 border-b sticky top-0 z-10">
+                                                <th class="py-2 pr-4">Kode</th>
+                                                <th class="py-2 pr-4">Uraian</th>
+                                                <th class="py-2 pr-4">Anggaran</th>
+                                                <th class="py-2 pr-4">Realisasi</th>
+                                                <th class="py-2 pr-4">% Serap</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="rincianBody" class="align-top">
+                                            {{-- diisi via JS --}}
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
@@ -146,7 +156,7 @@
             </article>
 
             {{-- SIDEBAR --}}
-            <aside class="space-y-6 lg:sticky lg:top-20">
+            <aside class="space-y-6 lg:sticky lg:top-20 mt-2 lg:mt-0">
                 <div class="bg-white rounded-xl shadow p-4">
                     <h3 class="font-semibold text-gray-900 mb-3">Informasi</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
@@ -181,10 +191,8 @@
 @push('scripts')
     {{-- Chart.js CDN --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-
             // ===== Dummy Data per Tahun =====
             const DATA = {
                 2025: {
@@ -194,16 +202,16 @@
                         AlokasiDanaDesa: 600_000_000,
                         BagiHasilPajakRetribusi: 120_000_000,
                         BantuanProvinsi: 200_000_000,
-                        BantuanKabupaten: 100_000_000,
+                        BantuanKabupaten: 100_000_000
                     },
                     belanja: {
                         PenyelenggaraanPemerintahan: 500_000_000,
                         PembangunanDesa: 900_000_000,
                         PembinaanKemasyarakatan: 120_000_000,
                         PemberdayaanMasyarakat: 180_000_000,
-                        PenanggulanganBencana: 70_000_000,
+                        PenanggulanganBencana: 70_000_000
                     },
-                    realisasiBelanjaBulanan: [60, 80, 95, 110, 130, 150, 170, 190, 205, 230, 255, 280], // jt
+                    realisasiBelanjaBulanan: [60, 80, 95, 110, 130, 150, 170, 190, 205, 230, 255, 280],
                     rincian: [{
                             kode: '1.1',
                             uraian: 'PAD - Hasil Usaha Desa',
@@ -261,14 +269,14 @@
                         AlokasiDanaDesa: 580_000_000,
                         BagiHasilPajakRetribusi: 100_000_000,
                         BantuanProvinsi: 150_000_000,
-                        BantuanKabupaten: 80_000_000,
+                        BantuanKabupaten: 80_000_000
                     },
                     belanja: {
                         PenyelenggaraanPemerintahan: 480_000_000,
                         PembangunanDesa: 820_000_000,
                         PembinaanKemasyarakatan: 110_000_000,
                         PemberdayaanMasyarakat: 160_000_000,
-                        PenanggulanganBencana: 60_000_000,
+                        PenanggulanganBencana: 60_000_000
                     },
                     realisasiBelanjaBulanan: [50, 70, 85, 95, 115, 130, 150, 165, 180, 195, 210, 225],
                     rincian: [{
@@ -342,9 +350,74 @@
             const rincianBody = document.getElementById('rincianBody');
 
             // ===== Charts =====
-            let incomeChart, spendChart, monthlyChart;
+            let incomeChart, spendChart, monthlyChart, currentYear = tahunSelect.value;
+            const mq = window.matchMedia('(max-width: 640px)');
+            mq.addEventListener?.('change', () => render(currentYear));
+
+            const doughnutOptions = (isMobile) => ({
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: isMobile ? '50%' : '55%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            boxWidth: isMobile ? 10 : 12,
+                            padding: isMobile ? 8 : 12,
+                            font: {
+                                size: isMobile ? 10 : 12
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ` ${ctx.label}: ${fmtIDR(ctx.parsed)} `
+                        }
+                    }
+                }
+            });
+
+            const barOptions = (isMobile) => ({
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                size: isMobile ? 10 : 12
+                            }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            font: {
+                                size: isMobile ? 10 : 12
+                            },
+                            callback: v => v.toLocaleString('id-ID')
+                        },
+                        grid: {
+                            drawBorder: false
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                datasets: {
+                    bar: {
+                        maxBarThickness: isMobile ? 18 : 28,
+                        categoryPercentage: 0.6,
+                        barPercentage: 0.9
+                    }
+                }
+            });
 
             function render(year) {
+                currentYear = year;
+                const isMobile = mq.matches;
                 const d = DATA[year];
 
                 const pendapatanTotal = sum(d.pendapatan);
@@ -355,14 +428,14 @@
                 kpiPendapatan.textContent = fmtIDR(pendapatanTotal);
                 kpiBelanja.textContent = fmtIDR(belanjaTotal);
 
-                // Serapan (pakai rata-rata 12 bulan / estimasi)
-                const realNow = d.realisasiBelanjaBulanan.at(-1) * 1_000_000; // jadi rupiah
+                // Serapan
+                const realNow = d.realisasiBelanjaBulanan.at(-1) * 1_000_000;
                 const serapPct = Math.min(100, Math.round((realNow / belanjaTotal) * 100));
                 kpiSerap.textContent = serapPct;
                 serapNow.textContent = serapPct;
                 serapBar.style.width = serapPct + '%';
 
-                // Charts data
+                // Data charts
                 const incomeData = {
                     labels: Object.keys(d.pendapatan),
                     datasets: [{
@@ -370,7 +443,6 @@
                         borderWidth: 1
                     }]
                 };
-
                 const spendData = {
                     labels: Object.keys(d.belanja),
                     datasets: [{
@@ -378,7 +450,6 @@
                         borderWidth: 1
                     }]
                 };
-
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
                 const monthlyData = {
                     labels: months,
@@ -390,72 +461,26 @@
                     }]
                 };
 
-                // Render/Update Doughnut Pendapatan
+                // Render/Update charts
                 if (incomeChart) incomeChart.destroy();
                 incomeChart = new Chart(document.getElementById('incomeChart'), {
                     type: 'doughnut',
                     data: incomeData,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '55%',
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: ctx => ` ${ctx.label}: ${fmtIDR(ctx.parsed)} `
-                                }
-                            }
-                        }
-                    }
+                    options: doughnutOptions(isMobile)
                 });
 
-                // Render/Update Doughnut Belanja
                 if (spendChart) spendChart.destroy();
                 spendChart = new Chart(document.getElementById('spendChart'), {
                     type: 'doughnut',
                     data: spendData,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        cutout: '55%',
-                        plugins: {
-                            legend: {
-                                position: 'bottom'
-                            },
-                            tooltip: {
-                                callbacks: {
-                                    label: ctx => ` ${ctx.label}: ${fmtIDR(ctx.parsed)} `
-                                }
-                            }
-                        }
-                    }
+                    options: doughnutOptions(isMobile)
                 });
 
-                // Render/Update Bar Bulanan
                 if (monthlyChart) monthlyChart.destroy();
                 monthlyChart = new Chart(document.getElementById('monthlyChart'), {
                     type: 'bar',
                     data: monthlyData,
-                    options: {
-                        responsive: true,
-                        maintainAspectRatio: false,
-                        scales: {
-                            y: {
-                                beginAtZero: true,
-                                ticks: {
-                                    callback: v => v.toLocaleString('id-ID')
-                                }
-                            }
-                        },
-                        plugins: {
-                            legend: {
-                                display: false
-                            }
-                        }
-                    }
+                    options: barOptions(isMobile)
                 });
 
                 // Tabel rincian
@@ -463,27 +488,34 @@
                 d.rincian.forEach(r => {
                     const pct = r.anggaran ? Math.round(r.real / r.anggaran * 100) : 0;
                     rincianBody.insertAdjacentHTML('beforeend', `
-        <tr class="border-b last:border-0">
-          <td class="py-2 pr-4 text-gray-700">${r.kode}</td>
-          <td class="py-2 pr-4 text-gray-900">${r.uraian}</td>
-          <td class="py-2 pr-4 text-gray-900 font-medium">${fmtIDR(r.anggaran)}</td>
-          <td class="py-2 pr-4 text-gray-900">${fmtIDR(r.real)}</td>
-          <td class="py-2 pr-4">
-            <div class="flex items-center gap-2">
-              <span class="text-gray-800 font-medium">${pct}%</span>
-              <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                <div class="h-full bg-green-600" style="width:${pct}%"></div>
-              </div>
-            </div>
-          </td>
-        </tr>
-      `);
+            <tr class="border-b last:border-0">
+              <td class="py-2 pr-4 text-gray-700">${r.kode}</td>
+              <td class="py-2 pr-4 text-gray-900">${r.uraian}</td>
+              <td class="py-2 pr-4 text-gray-900 font-medium">${fmtIDR(r.anggaran)}</td>
+              <td class="py-2 pr-4 text-gray-900">${fmtIDR(r.real)}</td>
+              <td class="py-2 pr-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-gray-800 font-medium">${pct}%</span>
+                  <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-green-600" style="width:${pct}%"></div>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          `);
                 });
             }
 
-            // Init
+            // Init + events
             render(tahunSelect.value);
             tahunSelect.addEventListener('change', e => render(e.target.value));
+
+            // Optional: rerender saat rotate/resize agar opsi mobile/desktop ikut berganti
+            let resizeTimer;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimer);
+                resizeTimer = setTimeout(() => render(currentYear), 150);
+            });
         });
     </script>
 @endpush

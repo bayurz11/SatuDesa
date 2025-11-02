@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+<html class="h-full overflow-x-hidden">
 
 <head>
     <meta charset="UTF-8">
@@ -116,7 +117,7 @@
     @stack('styles')
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen" id="top">
+<body class="bg-gray-50 flex flex-col min-h-screen antialiased overflow-x-hidden" id="top">
 
     @include('layouts.nav')
 
