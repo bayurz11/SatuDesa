@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 md:py-14" data-aos="fade-up">
-        {{-- Breadcrumb --}}
+        {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
@@ -12,7 +12,6 @@
                 <li class="text-green-700 font-medium">APBDes</li>
             </ol>
         </nav>
-
         {{-- Heading --}}
         <header class="text-center mb-10 md:mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-green-700">
@@ -56,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 md:p-6">
+                    <div class="p-6 md:p-8">
                         {{-- KPI --}}
                         <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
@@ -156,16 +155,16 @@
             </article>
 
             {{-- SIDEBAR --}}
-            <aside class="space-y-6 lg:sticky lg:top-20 mt-2 lg:mt-0">
+            <aside class="space-y-6 lg:sticky lg:top-20">
                 <div class="bg-white rounded-xl shadow p-4">
                     <h3 class="font-semibold text-gray-900 mb-3">Informasi</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
                         <li class="flex items-center gap-2"><x-heroicon-o-envelope class="size-4 text-green-700" />
-                            desa@desamentuda.id</li>
+                            umkm@desamentuda.id</li>
                         <li class="flex items-center gap-2"><x-heroicon-o-phone class="size-4 text-green-700" /> +62 812
                             3456 7890</li>
-                        <li class="flex items-center gap-2"><x-heroicon-o-document-text class="size-4 text-green-700" />
-                            Perdes APBDes 2025</li>
+                        <li class="flex items-center gap-2"><x-heroicon-o-map-pin class="size-4 text-green-700" /> Balai
+                            Desa Mentuda</li>
                     </ul>
                 </div>
 

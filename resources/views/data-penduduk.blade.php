@@ -44,7 +44,7 @@
                         </div>
                     </div>
 
-                    <div class="p-4 md:p-6">
+                    <div class="p-6 md:p-8">
                         {{-- KPI Ringkas --}}
                         <div class="mb-4 grid gap-3 sm:grid-cols-3">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">

@@ -35,7 +35,7 @@
                 <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
                     <div class="grid md:grid-cols-12 gap-0">
                         <figure class="md:col-span-7 h-56 md:h-72 overflow-hidden">
-                            <img src="img/potensi2.jpg" alt="Panorama Pariwisata" class="h-full w-full object-cover"
+                            <img src="public/img/potensi2.jpg" alt="Panorama Pariwisata" class="h-full w-full object-cover"
                                 loading="lazy" decoding="async">
                         </figure>
                         <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
@@ -76,37 +76,37 @@
                 @php
                     $potensi = [
                         [
-                            'img' => 'img/potensi1.jpg',
+                            'img' => 'public/img/potensi1.jpg',
                             'judul' => 'Perikanan: Ikan Bilis & Kerapu',
                             'desc' => 'Komoditas unggulan yang menopang pendapatan warga dan bahan baku olahan lokal.',
                             'tag' => 'Perikanan',
                         ],
                         [
-                            'img' => 'img/potensi2.jpg',
+                            'img' => 'public/img/potensi2.jpg',
                             'judul' => 'Pariwisata Alam',
                             'desc' => 'Pantai & teluk yang potensial untuk wisata bahari, edukasi, dan fotografi alam.',
                             'tag' => 'Pariwisata',
                         ],
                         [
-                            'img' => 'img/potensi1.jpg',
+                            'img' => 'public/img/potensi1.jpg',
                             'judul' => 'Pertanian Kelapa & Hortikultura',
                             'desc' => 'Kelapa, sayur, dan buah lokal sebagai penopang ketahanan pangan desa.',
                             'tag' => 'Pertanian',
                         ],
                         [
-                            'img' => 'img/potensi2.jpg',
+                            'img' => 'public/img/potensi2.jpg',
                             'judul' => 'Industri Kreatif',
                             'desc' => 'Kerajinan tangan, kuliner khas, dan produk kreatif yang bernilai jual.',
                             'tag' => 'Industri Kreatif',
                         ],
                         [
-                            'img' => 'img/potensi1.jpg',
+                            'img' => 'public/img/potensi1.jpg',
                             'judul' => 'Ekonomi UMKM',
                             'desc' => 'Unit usaha skala rumahan berkembang dengan dukungan pemasaran digital.',
                             'tag' => 'Ekonomi',
                         ],
                         [
-                            'img' => 'img/potensi2.jpg',
+                            'img' => 'public/img/potensi2.jpg',
                             'judul' => 'Konservasi & Lingkungan',
                             'desc' => 'Upaya menjaga ekosistem pesisir dan hutan mangrove untuk keberlanjutan.',
                             'tag' => 'Lingkungan',
