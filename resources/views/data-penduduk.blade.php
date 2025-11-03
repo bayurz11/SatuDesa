@@ -189,7 +189,6 @@
 @endsection
 
 @push('scripts')
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const total = 2485;

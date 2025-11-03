@@ -189,16 +189,148 @@
 @endsection
 
 @push('scripts')
-    {{-- Chart.js CDN --}}
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // ===== Dummy Data per Tahun =====
             const DATA = {
                 2025: {
-                    /* ... tetap sama seperti punyamu ... */ },
+                    pendapatan: {
+                        PAD: 150_000_000,
+                        DanaDesa: 1_000_000_000,
+                        AlokasiDanaDesa: 600_000_000,
+                        BagiHasilPajakRetribusi: 120_000_000,
+                        BantuanProvinsi: 200_000_000,
+                        BantuanKabupaten: 100_000_000
+                    },
+                    belanja: {
+                        PenyelenggaraanPemerintahan: 500_000_000,
+                        PembangunanDesa: 900_000_000,
+                        PembinaanKemasyarakatan: 120_000_000,
+                        PemberdayaanMasyarakat: 180_000_000,
+                        PenanggulanganBencana: 70_000_000
+                    },
+                    realisasiBelanjaBulanan: [60, 80, 95, 110, 130, 150, 170, 190, 205, 230, 255,
+                        280
+                    ], // dalam juta
+                    rincian: [{
+                            kode: '1.1',
+                            uraian: 'PAD - Hasil Usaha Desa',
+                            anggaran: 100_000_000,
+                            real: 65_000_000
+                        },
+                        {
+                            kode: '1.2',
+                            uraian: 'PAD - Lain-lain Pendapatan',
+                            anggaran: 50_000_000,
+                            real: 30_000_000
+                        },
+                        {
+                            kode: '2.1',
+                            uraian: 'Dana Desa - Reguler',
+                            anggaran: 900_000_000,
+                            real: 720_000_000
+                        },
+                        {
+                            kode: '2.2',
+                            uraian: 'Dana Desa - BLT',
+                            anggaran: 100_000_000,
+                            real: 95_000_000
+                        },
+                        {
+                            kode: '3.1',
+                            uraian: 'ADD - Operasional',
+                            anggaran: 400_000_000,
+                            real: 320_000_000
+                        },
+                        {
+                            kode: '3.2',
+                            uraian: 'ADD - Tunjangan',
+                            anggaran: 200_000_000,
+                            real: 150_000_000
+                        },
+                        {
+                            kode: '4.1',
+                            uraian: 'Belanja Pembangunan Jalan',
+                            anggaran: 450_000_000,
+                            real: 360_000_000
+                        },
+                        {
+                            kode: '4.2',
+                            uraian: 'Belanja Sarpras Pendidikan',
+                            anggaran: 200_000_000,
+                            real: 140_000_000
+                        },
+                    ]
+                },
                 2024: {
-                    /* ... tetap sama seperti punyamu ... */ }
+                    pendapatan: {
+                        PAD: 120_000_000,
+                        DanaDesa: 950_000_000,
+                        AlokasiDanaDesa: 580_000_000,
+                        BagiHasilPajakRetribusi: 100_000_000,
+                        BantuanProvinsi: 150_000_000,
+                        BantuanKabupaten: 80_000_000
+                    },
+                    belanja: {
+                        PenyelenggaraanPemerintahan: 480_000_000,
+                        PembangunanDesa: 820_000_000,
+                        PembinaanKemasyarakatan: 110_000_000,
+                        PemberdayaanMasyarakat: 160_000_000,
+                        PenanggulanganBencana: 60_000_000
+                    },
+                    realisasiBelanjaBulanan: [50, 70, 85, 95, 115, 130, 150, 165, 180, 195, 210,
+                        225
+                    ], // dalam juta
+                    rincian: [{
+                            kode: '1.1',
+                            uraian: 'PAD - Hasil Usaha Desa',
+                            anggaran: 90_000_000,
+                            real: 60_000_000
+                        },
+                        {
+                            kode: '1.2',
+                            uraian: 'PAD - Lain-lain Pendapatan',
+                            anggaran: 30_000_000,
+                            real: 20_000_000
+                        },
+                        {
+                            kode: '2.1',
+                            uraian: 'Dana Desa - Reguler',
+                            anggaran: 850_000_000,
+                            real: 700_000_000
+                        },
+                        {
+                            kode: '2.2',
+                            uraian: 'Dana Desa - BLT',
+                            anggaran: 100_000_000,
+                            real: 95_000_000
+                        },
+                        {
+                            kode: '3.1',
+                            uraian: 'ADD - Operasional',
+                            anggaran: 380_000_000,
+                            real: 300_000_000
+                        },
+                        {
+                            kode: '3.2',
+                            uraian: 'ADD - Tunjangan',
+                            anggaran: 200_000_000,
+                            real: 150_000_000
+                        },
+                        {
+                            kode: '4.1',
+                            uraian: 'Belanja Pembangunan Jalan',
+                            anggaran: 400_000_000,
+                            real: 320_000_000
+                        },
+                        {
+                            kode: '4.2',
+                            uraian: 'Belanja Sarpras Pendidikan',
+                            anggaran: 180_000_000,
+                            real: 120_000_000
+                        },
+                    ]
+                }
             };
 
             // ===== Helpers =====
@@ -299,7 +431,7 @@
                 kpiBelanja.textContent = fmtIDR(belanjaTotal);
 
                 // Serapan
-                const realNow = d.realisasiBelanjaBulanan.at(-1) * 1_000_000;
+                const realNow = d.realisasiBelanjaBulanan.at(-1) * 1_000_000; // konversi dari "juta"
                 const serapPct = Math.min(100, Math.round((realNow / belanjaTotal) * 100));
                 kpiSerap.textContent = serapPct;
                 serapNow.textContent = serapPct;

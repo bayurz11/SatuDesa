@@ -392,6 +392,9 @@
     <!-- Alpine.js (CDN) -->
     <script src="https://unpkg.com/alpinejs" defer></script>
 
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
     <!-- Swiper.js CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
