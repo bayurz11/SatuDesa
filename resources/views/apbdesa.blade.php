@@ -60,32 +60,44 @@
                     <div class="p-6 md:p-8">
                         {{-- KPI --}}
                         <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4 min-w-0">
-                            <div class="rounded-xl bg-green-50/60 p-3 sm:p-4 ring-1 ring-green-200 min-w-0">
-                                <p class="text-[11px] sm:text-xs text-gray-600">Total APBDes</p>
+                            <!-- Total APBDes -->
+                            <div
+                                class="rounded-xl bg-green-50/60 p-2.5 sm:p-4 ring-1 ring-green-200 min-w-0 text-center sm:text-left">
+                                <p class="text-[10px] sm:text-xs text-gray-600 leading-tight">Total APBDes</p>
                                 <p id="kpiTotal"
-                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(1rem,4.5vw,1.1rem)] sm:text-lg md:text-lg break-words">
+                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(0.9rem,3.5vw,1.1rem)] sm:text-lg md:text-lg break-words truncate">
                                 </p>
                             </div>
-                            <div class="rounded-xl bg-emerald-50/60 p-3 sm:p-4 ring-1 ring-emerald-200 min-w-0">
-                                <p class="text-[11px] sm:text-xs text-gray-600">Pendapatan</p>
+
+                            <!-- Pendapatan -->
+                            <div
+                                class="rounded-xl bg-emerald-50/60 p-2.5 sm:p-4 ring-1 ring-emerald-200 min-w-0 text-center sm:text-left">
+                                <p class="text-[10px] sm:text-xs text-gray-600 leading-tight">Pendapatan</p>
                                 <p id="kpiPendapatan"
-                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(1rem,4.5vw,1.1rem)] sm:text-lg md:text-lg break-words">
+                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(0.9rem,3.5vw,1.1rem)] sm:text-lg md:text-lg break-words truncate">
                                 </p>
                             </div>
-                            <div class="rounded-xl bg-amber-50/60 p-3 sm:p-4 ring-1 ring-amber-200 min-w-0">
-                                <p class="text-[11px] sm:text-xs text-gray-600">Belanja</p>
+
+                            <!-- Belanja -->
+                            <div
+                                class="rounded-xl bg-amber-50/60 p-2.5 sm:p-4 ring-1 ring-amber-200 min-w-0 text-center sm:text-left">
+                                <p class="text-[10px] sm:text-xs text-gray-600 leading-tight">Belanja</p>
                                 <p id="kpiBelanja"
-                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(0.9rem,4vw,1rem)] sm:text-base md:text-base break-words">
+                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(0.85rem,3.2vw,1rem)] sm:text-base md:text-base break-words truncate">
                                 </p>
                             </div>
-                            <div class="rounded-xl bg-blue-50/60 p-3 sm:p-4 ring-1 ring-blue-200 min-w-0">
-                                <p class="text-[11px] sm:text-xs text-gray-600">Serapan Belanja</p>
+
+                            <!-- Serapan Belanja -->
+                            <div
+                                class="rounded-xl bg-blue-50/60 p-2.5 sm:p-4 ring-1 ring-blue-200 min-w-0 text-center sm:text-left">
+                                <p class="text-[10px] sm:text-xs text-gray-600 leading-tight">Serapan Belanja</p>
                                 <p
-                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(1rem,4.5vw,1.1rem)] sm:text-lg md:text-lg">
+                                    class="mt-0.5 font-semibold text-gray-900 leading-none tabular-nums tracking-tight text-[clamp(0.9rem,3.5vw,1.1rem)] sm:text-lg md:text-lg">
                                     <span id="kpiSerap">-</span>%
                                 </p>
                             </div>
                         </div>
+
 
                         {{-- Progress Serapan --}}
                         <div class="mb-6">
