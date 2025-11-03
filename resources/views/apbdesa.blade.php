@@ -3,7 +3,7 @@
 @section('title', 'APBDes Desa ')
 
 @section('content')
-    <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 md:py-14" data-aos="fade-up">
+    <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 md:py-14 overflow-x-hidden" data-aos="fade-up">
         {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
@@ -12,6 +12,7 @@
                 <li class="text-green-700 font-medium">APBDes</li>
             </ol>
         </nav>
+
         {{-- Heading --}}
         <header class="text-center mb-10 md:mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-green-700">
@@ -25,18 +26,18 @@
 
         <div class="grid gap-8 lg:grid-cols-3 items-start">
             {{-- KONTEN UTAMA --}}
-            <article class="lg:col-span-2 space-y-8">
+            <article class="lg:col-span-2 space-y-8 min-w-0">
 
                 {{-- Kartu kontrol tahun + KPI --}}
-                <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+                <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 min-w-0">
                     <div
                         class="p-4 md:p-5 border-b border-gray-100 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                        <div class="flex items-start gap-3">
+                        <div class="flex items-start gap-3 min-w-0">
                             <span
                                 class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200 shrink-0">
                                 <x-heroicon-o-banknotes class="size-6 text-green-700" />
                             </span>
-                            <div>
+                            <div class="min-w-0">
                                 <h2 class="text-base sm:text-lg md:text-xl font-semibold text-gray-900">Ringkasan APBDes
                                 </h2>
                                 <p class="mt-1 text-gray-700 text-xs sm:text-sm">Data dummy (statis) untuk contoh tampilan.
@@ -57,7 +58,7 @@
 
                     <div class="p-6 md:p-8">
                         {{-- KPI --}}
-                        <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4">
+                        <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4 min-w-0">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
                                 <p class="text-xs text-gray-600">Total APBDes</p>
                                 <p id="kpiTotal" class="text-lg md:text-xl font-semibold text-gray-900">Rp -</p>
@@ -89,33 +90,33 @@
                         </div>
 
                         {{-- Grafis: Pendapatan vs Belanja --}}
-                        <div class="grid gap-6 lg:grid-cols-2">
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                        <div class="grid gap-6 lg:grid-cols-2 min-w-0">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Pendapatan per Sumber</h3>
-                                <div class="h-56 sm:h-[260px]">
-                                    <canvas id="incomeChart"></canvas>
+                                <div class="relative h-56 sm:h-[260px]">
+                                    <canvas id="incomeChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Belanja per Bidang</h3>
-                                <div class="h-56 sm:h-[260px]">
-                                    <canvas id="spendChart"></canvas>
+                                <div class="relative h-56 sm:h-[260px]">
+                                    <canvas id="spendChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
                         </div>
 
                         {{-- Grafis: Realisasi per Bulan --}}
-                        <div class="mt-6 rounded-2xl ring-1 ring-gray-100 p-4">
+                        <div class="mt-6 rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                             <h3 class="mb-3 text-sm font-semibold text-gray-900">Realisasi Bulanan (Belanja)</h3>
-                            <div class="h-56 sm:h-[260px]">
-                                <canvas id="monthlyChart"></canvas>
+                            <div class="relative h-56 sm:h-[260px]">
+                                <canvas id="monthlyChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                             </div>
                             <p class="mt-2 text-xs text-gray-500">*Realisasi bulanan adalah dummy untuk contoh visualisasi.
                             </p>
                         </div>
 
                         {{-- Tabel Rincian Akun (ringkas) --}}
-                        <div class="mt-6">
+                        <div class="mt-6 min-w-0">
                             <div class="flex items-center justify-between mb-3">
                                 <h3 class="text-sm font-semibold text-gray-900">Rincian Anggaran (Top 8)</h3>
                                 <div class="flex items-center gap-2">
@@ -136,9 +137,9 @@
                                             <tr class="text-left text-gray-600 border-b sticky top-0 z-10">
                                                 <th class="py-2 pr-4">Kode</th>
                                                 <th class="py-2 pr-4">Uraian</th>
-                                                <th class="py-2 pr-4">Anggaran</th>
-                                                <th class="py-2 pr-4">Realisasi</th>
-                                                <th class="py-2 pr-4">% Serap</th>
+                                                <th class="py-2 pr-4 whitespace-nowrap">Anggaran</th>
+                                                <th class="py-2 pr-4 whitespace-nowrap">Realisasi</th>
+                                                <th class="py-2 pr-4 whitespace-nowrap">% Serap</th>
                                             </tr>
                                         </thead>
                                         <tbody id="rincianBody" class="align-top">
@@ -155,7 +156,7 @@
             </article>
 
             {{-- SIDEBAR --}}
-            <aside class="space-y-6 lg:sticky lg:top-20">
+            <aside class="space-y-6 lg:sticky lg:top-20 min-w-0">
                 <div class="bg-white rounded-xl shadow p-4">
                     <h3 class="font-semibold text-gray-900 mb-3">Informasi</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
@@ -195,139 +196,9 @@
             // ===== Dummy Data per Tahun =====
             const DATA = {
                 2025: {
-                    pendapatan: {
-                        PAD: 150_000_000,
-                        DanaDesa: 1_000_000_000,
-                        AlokasiDanaDesa: 600_000_000,
-                        BagiHasilPajakRetribusi: 120_000_000,
-                        BantuanProvinsi: 200_000_000,
-                        BantuanKabupaten: 100_000_000
-                    },
-                    belanja: {
-                        PenyelenggaraanPemerintahan: 500_000_000,
-                        PembangunanDesa: 900_000_000,
-                        PembinaanKemasyarakatan: 120_000_000,
-                        PemberdayaanMasyarakat: 180_000_000,
-                        PenanggulanganBencana: 70_000_000
-                    },
-                    realisasiBelanjaBulanan: [60, 80, 95, 110, 130, 150, 170, 190, 205, 230, 255, 280],
-                    rincian: [{
-                            kode: '1.1',
-                            uraian: 'PAD - Hasil Usaha Desa',
-                            anggaran: 100_000_000,
-                            real: 65_000_000
-                        },
-                        {
-                            kode: '1.2',
-                            uraian: 'PAD - Lain-lain Pendapatan',
-                            anggaran: 50_000_000,
-                            real: 30_000_000
-                        },
-                        {
-                            kode: '2.1',
-                            uraian: 'Dana Desa - Reguler',
-                            anggaran: 900_000_000,
-                            real: 720_000_000
-                        },
-                        {
-                            kode: '2.2',
-                            uraian: 'Dana Desa - BLT',
-                            anggaran: 100_000_000,
-                            real: 95_000_000
-                        },
-                        {
-                            kode: '3.1',
-                            uraian: 'ADD - Operasional',
-                            anggaran: 400_000_000,
-                            real: 320_000_000
-                        },
-                        {
-                            kode: '3.2',
-                            uraian: 'ADD - Tunjangan',
-                            anggaran: 200_000_000,
-                            real: 150_000_000
-                        },
-                        {
-                            kode: '4.1',
-                            uraian: 'Belanja Pembangunan Jalan',
-                            anggaran: 450_000_000,
-                            real: 360_000_000
-                        },
-                        {
-                            kode: '4.2',
-                            uraian: 'Belanja Sarpras Pendidikan',
-                            anggaran: 200_000_000,
-                            real: 140_000_000
-                        },
-                    ]
-                },
+                    /* ... tetap sama seperti punyamu ... */ },
                 2024: {
-                    pendapatan: {
-                        PAD: 120_000_000,
-                        DanaDesa: 950_000_000,
-                        AlokasiDanaDesa: 580_000_000,
-                        BagiHasilPajakRetribusi: 100_000_000,
-                        BantuanProvinsi: 150_000_000,
-                        BantuanKabupaten: 80_000_000
-                    },
-                    belanja: {
-                        PenyelenggaraanPemerintahan: 480_000_000,
-                        PembangunanDesa: 820_000_000,
-                        PembinaanKemasyarakatan: 110_000_000,
-                        PemberdayaanMasyarakat: 160_000_000,
-                        PenanggulanganBencana: 60_000_000
-                    },
-                    realisasiBelanjaBulanan: [50, 70, 85, 95, 115, 130, 150, 165, 180, 195, 210, 225],
-                    rincian: [{
-                            kode: '1.1',
-                            uraian: 'PAD - Hasil Usaha Desa',
-                            anggaran: 90_000_000,
-                            real: 60_000_000
-                        },
-                        {
-                            kode: '1.2',
-                            uraian: 'PAD - Lain-lain Pendapatan',
-                            anggaran: 30_000_000,
-                            real: 20_000_000
-                        },
-                        {
-                            kode: '2.1',
-                            uraian: 'Dana Desa - Reguler',
-                            anggaran: 850_000_000,
-                            real: 700_000_000
-                        },
-                        {
-                            kode: '2.2',
-                            uraian: 'Dana Desa - BLT',
-                            anggaran: 100_000_000,
-                            real: 95_000_000
-                        },
-                        {
-                            kode: '3.1',
-                            uraian: 'ADD - Operasional',
-                            anggaran: 380_000_000,
-                            real: 300_000_000
-                        },
-                        {
-                            kode: '3.2',
-                            uraian: 'ADD - Tunjangan',
-                            anggaran: 200_000_000,
-                            real: 150_000_000
-                        },
-                        {
-                            kode: '4.1',
-                            uraian: 'Belanja Pembangunan Jalan',
-                            anggaran: 400_000_000,
-                            real: 320_000_000
-                        },
-                        {
-                            kode: '4.2',
-                            uraian: 'Belanja Sarpras Pendidikan',
-                            anggaran: 180_000_000,
-                            real: 120_000_000
-                        },
-                    ]
-                }
+                    /* ... tetap sama seperti punyamu ... */ }
             };
 
             // ===== Helpers =====
@@ -487,21 +358,21 @@
                 d.rincian.forEach(r => {
                     const pct = r.anggaran ? Math.round(r.real / r.anggaran * 100) : 0;
                     rincianBody.insertAdjacentHTML('beforeend', `
-            <tr class="border-b last:border-0">
-              <td class="py-2 pr-4 text-gray-700">${r.kode}</td>
-              <td class="py-2 pr-4 text-gray-900">${r.uraian}</td>
-              <td class="py-2 pr-4 text-gray-900 font-medium">${fmtIDR(r.anggaran)}</td>
-              <td class="py-2 pr-4 text-gray-900">${fmtIDR(r.real)}</td>
-              <td class="py-2 pr-4">
-                <div class="flex items-center gap-2">
-                  <span class="text-gray-800 font-medium">${pct}%</span>
-                  <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
-                    <div class="h-full bg-green-600" style="width:${pct}%"></div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          `);
+                        <tr class="border-b last:border-0">
+                          <td class="py-2 pr-4 text-gray-700">${r.kode}</td>
+                          <td class="py-2 pr-4 text-gray-900">${r.uraian}</td>
+                          <td class="py-2 pr-4 text-gray-900 font-medium whitespace-nowrap">${fmtIDR(r.anggaran)}</td>
+                          <td class="py-2 pr-4 text-gray-900 whitespace-nowrap">${fmtIDR(r.real)}</td>
+                          <td class="py-2 pr-4">
+                            <div class="flex items-center gap-2">
+                              <span class="text-gray-800 font-medium">${pct}%</span>
+                              <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-green-600" style="width:${pct}%"></div>
+                              </div>
+                            </div>
+                          </td>
+                        </tr>
+                    `);
                 });
             }
 
@@ -509,7 +380,7 @@
             render(tahunSelect.value);
             tahunSelect.addEventListener('change', e => render(e.target.value));
 
-            // Optional: rerender saat rotate/resize agar opsi mobile/desktop ikut berganti
+            // Rerender saat rotate/resize
             let resizeTimer;
             window.addEventListener('resize', () => {
                 clearTimeout(resizeTimer);
