@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login - {{ config('app.name', 'SatuDesa') }}</title>
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/css/app.css') }}" rel="stylesheet">
     <!-- Favicon -->
-    <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">
+    <link rel="icon" href="{{ asset('public/logo.png') }}" type="image/png">
     <style>
         .gradient-bg {
             background: linear-gradient(180deg, #06684C 0%, #099C6D 50%, #2DCA92 100%);
@@ -219,7 +219,7 @@
                 </form>
 
                 <!-- Demo Accounts -->
-                <div class="mt-6 pt-6 border-t border-gray-200">
+                {{-- <div class="mt-6 pt-6 border-t border-gray-200">
                     <div class="text-center">
                         <p class="text-xs text-gray-500 mb-3">Demo Accounts</p>
                         <div class="grid grid-cols-2 gap-3">
@@ -235,7 +235,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
 
             <!-- Footer -->
