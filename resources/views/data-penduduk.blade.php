@@ -3,8 +3,7 @@
 @section('title', 'Data Penduduk')
 
 @section('content')
-    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
-
+    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14 overflow-x-hidden" data-aos="fade-up">
         {{-- Breadcrumb --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
@@ -29,14 +28,14 @@
             <article class="lg:col-span-2 space-y-8">
 
                 {{-- Kartu Data Penduduk --}}
-                <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+                <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 min-w-0">
                     <div class="p-4 md:p-5 border-b border-gray-100">
                         <div class="flex items-start gap-3">
                             <span
                                 class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200 shrink-0">
                                 <x-heroicon-o-user-group class="size-6 text-green-700" />
                             </span>
-                            <div>
+                            <div class="min-w-0">
                                 <h2 class="text-lg md:text-xl font-semibold text-gray-900">Ringkasan Demografi</h2>
                                 <p class="mt-1 text-gray-700 text-sm">Data statis contoh penduduk Desa Mentuda (dummy data).
                                 </p>
@@ -46,7 +45,7 @@
 
                     <div class="p-6 md:p-8">
                         {{-- KPI Ringkas --}}
-                        <div class="mb-4 grid gap-3 sm:grid-cols-3">
+                        <div class="mb-4 grid gap-3 sm:grid-cols-3 min-w-0">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
                                 <p class="text-xs text-gray-600">Total Penduduk</p>
                                 <p id="kpiTotalPenduduk" class="text-xl font-semibold text-gray-900">2,485</p>
@@ -62,33 +61,33 @@
                         </div>
 
                         {{-- Chart: Umur & Jenis Kelamin --}}
-                        <div class="grid gap-6 lg:grid-cols-2">
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                        <div class="grid gap-6 lg:grid-cols-2 min-w-0">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Penduduk per Kelompok Umur</h3>
-                                <div class="h-[260px]">
-                                    <canvas id="ageChart"></canvas>
+                                <div class="relative h-[220px] sm:h-[260px]">
+                                    <canvas id="ageChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Distribusi Jenis Kelamin</h3>
-                                <div class="h-[260px]">
-                                    <canvas id="genderChart"></canvas>
+                                <div class="relative h-[220px] sm:h-[260px]">
+                                    <canvas id="genderChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
                         </div>
 
                         {{-- Chart: Agama & Pekerjaan --}}
-                        <div class="mt-6 grid gap-6 lg:grid-cols-2">
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                        <div class="mt-6 grid gap-6 lg:grid-cols-2 min-w-0">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Distribusi Agama</h3>
-                                <div class="h-[260px]">
-                                    <canvas id="religionChart"></canvas>
+                                <div class="relative h-[220px] sm:h-[260px]">
+                                    <canvas id="religionChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
-                            <div class="rounded-2xl ring-1 ring-gray-100 p-4">
+                            <div class="rounded-2xl ring-1 ring-gray-100 p-4 min-w-0">
                                 <h3 class="mb-3 text-sm font-semibold text-gray-900">Distribusi Pekerjaan</h3>
-                                <div class="h-[260px]">
-                                    <canvas id="jobChart"></canvas>
+                                <div class="relative h-[220px] sm:h-[260px]">
+                                    <canvas id="jobChart" class="absolute inset-0 !w-full !h-full block"></canvas>
                                 </div>
                             </div>
                         </div>
@@ -102,7 +101,7 @@
             </article>
 
             {{-- SIDEBAR --}}
-            <aside class="space-y-6 lg:sticky lg:top-20">
+            <aside class="space-y-6 lg:sticky lg:top-20 min-w-0">
                 <div class="bg-white rounded-xl shadow p-4">
                     <h3 class="font-semibold text-gray-900 mb-3">Informasi</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
@@ -130,42 +129,52 @@
                 </div>
                 <div class="bg-white rounded-xl shadow p-4">
                     <h4 class="font-semibold text-gray-900 mb-3">Berita Terbaru</h4>
-                    <div class="space-y-3"> {{-- Item 1 --}} <a href="#"
-                            class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
+                    <div class="space-y-3">
+                        {{-- Item 1 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
-                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700"> Pembangunan
-                                    Balai Desa Mentuda Resmi Dimulai </h5>
-                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500"> <span
-                                        class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
-                                        Berita</span> <time class="inline-flex items-center gap-1"><x-heroicon-o-clock
-                                            class="size-4" /> 12-12-2024</time> </div>
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Pembangunan Balai Desa Mentuda Resmi Dimulai
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                        Berita</span>
+                                    <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
+                                        12-12-2024</time>
+                                </div>
                             </div>
-                        </a> {{-- Item 2 --}} <a href="#"
-                            class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('public/img/potensi2.jpg') }}" alt="Thumb berita"
+                        </a>
+                        {{-- Item 2 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
-                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700"> Tradisi
-                                    Adat Tetap Dilestarikan di Era Modern </h5>
-                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500"> <span
-                                        class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
-                                        Budaya</span> <time class="inline-flex items-center gap-1"><x-heroicon-o-clock
-                                            class="size-4" /> 12-12-2024</time> </div>
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Tradisi Adat Tetap Dilestarikan di Era Modern
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                        Budaya</span>
+                                    <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
+                                        12-12-2024</time>
+                                </div>
                             </div>
-                        </a> {{-- Item 3 --}} <a href="#"
-                            class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
+                        </a>
+                        {{-- Item 3 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
-                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700"> Pelatihan
-                                    UMKM Dorong Perekonomian Lokal </h5>
-                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500"> <span
-                                        class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Pelatihan UMKM Dorong Perekonomian Lokal
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
                                         UMKM</span>
                                     <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
                                         12-12-2024</time>
@@ -181,7 +190,6 @@
 
 @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const total = 2485;
