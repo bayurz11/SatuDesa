@@ -128,26 +128,26 @@
                                         class="text-sm text-green-700 hover:text-green-800 underline underline-offset-2">Unduh
                                         PDF</a>
                                 </div>
-                            </div>
-
-                            <div class="overflow-x-auto">
-                                <div class="max-h-96 overflow-y-auto rounded-lg ring-1 ring-gray-100 bg-white">
-                                    <table class="min-w-full text-xs sm:text-sm">
-                                        <thead class="bg-white">
-                                            <tr class="text-left text-gray-600 border-b sticky top-0 z-10">
-                                                <th class="py-2 pr-4">Kode</th>
-                                                <th class="py-2 pr-4">Uraian</th>
-                                                <th class="py-2 pr-4 whitespace-nowrap">Anggaran</th>
-                                                <th class="py-2 pr-4 whitespace-nowrap">Realisasi</th>
-                                                <th class="py-2 pr-4 whitespace-nowrap">% Serap</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="rincianBody" class="align-top">
-                                            {{-- diisi via JS --}}
-                                        </tbody>
-                                    </table>
+                                <div class="overflow-x-auto">
+                                    <div class="max-h-96 overflow-y-auto rounded-lg ring-1 ring-gray-100 bg-white">
+                                        <table class="min-w-full text-xs sm:text-sm">
+                                            <thead class="bg-white">
+                                                <tr class="text-left text-gray-600 border-b sticky top-0 z-10">
+                                                    <th class="py-2 pr-4">Kode</th>
+                                                    <th class="py-2 pr-4">Uraian</th>
+                                                    <th class="py-2 pr-4 whitespace-nowrap">Anggaran</th>
+                                                    <th class="py-2 pr-4 whitespace-nowrap">Realisasi</th>
+                                                    <th class="py-2 pr-4 whitespace-nowrap">% Serap</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="rincianBody" class="align-top">
+                                                {{-- diisi via JS --}}
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
