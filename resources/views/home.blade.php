@@ -6,7 +6,7 @@
     <!-- Hero Section -->
     <section
         class="relative min-h-screen flex flex-col items-center justify-center text-center pt-24 bg-cover bg-center bg-no-repeat"
-        style="background-image: url('/img/bg.jpg');">
+        style="background-image: url('public/img/bg.jpg');">
 
         <!-- Overlay smoke effect lembut -->
         <div class="absolute inset-0 bg-gradient-to-b from-white/70 via-white/100 to-transparent"></div>
@@ -241,7 +241,7 @@
             <div class="grid md:grid-cols-12 gap-0">
                 <!-- Gambar -->
                 <figure class="relative md:col-span-7 h-56 md:h-72 overflow-hidden">
-                    <img src="img/potensi2.jpg" alt="Panorama Pariwisata"
+                    <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Panorama Pariwisata"
                         class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy" decoding="async">
 
@@ -311,7 +311,7 @@
             <div class="md:col-span-2 relative rounded-xl overflow-hidden shadow-lg group flex flex-col h-[390px]"
                 data-aos="fade-right" data-aos-delay="500">
                 <!-- Gambar -->
-                <img src="img/potensi1.jpg" alt="Berita Utama"
+                <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Berita Utama"
                     class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105">
 
                 <!-- Overlay Judul + Gradient -->
@@ -355,7 +355,7 @@
             <div class="space-y-5 flex flex-col" data-aos="fade-left" data-aos-delay="600">
                 <!-- Item -->
                 <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer">
-                    <img src="img/potensi1.jpg" alt="thumb"
+                    <img src="{{ asset('public/img/potensi1.jpg') }}" alt="thumb"
                         class="w-20 h-16 object-cover rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
                     <div class="flex-1">
                         <h4 class="text-sm font-semibold text-gray-800 group-hover:text-green-700 transition line-clamp-2">
@@ -388,7 +388,7 @@
 
                 <!-- Item -->
                 <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer">
-                    <img src="img/potensi2.jpg" alt="thumb"
+                    <img src="{{ asset('public/img/potensi2.jpg') }}" alt="thumb"
                         class="w-20 h-16 object-cover rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
                     <div class="flex-1">
                         <h4 class="text-sm font-semibold text-gray-800 group-hover:text-green-700 transition line-clamp-2">
@@ -421,7 +421,7 @@
 
                 <!-- Item -->
                 <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer">
-                    <img src="img/potensi1.jpg" alt="thumb"
+                    <img src="{{ asset('public/img/potensi1.jpg') }}" alt="thumb"
                         class="w-20 h-16 object-cover rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
                     <div class="flex-1">
                         <h4 class="text-sm font-semibold text-gray-800 group-hover:text-green-700 transition line-clamp-2">
@@ -454,7 +454,7 @@
 
                 <!-- Item -->
                 <div class="flex items-center space-x-4 p-2 rounded-lg hover:bg-gray-50 transition group cursor-pointer">
-                    <img src="img/potensi1.jpg" alt="thumb"
+                    <img src="{{ asset('public/img/potensi1.jpg') }}" alt="thumb"
                         class="w-20 h-16 object-cover rounded-lg shadow-sm transition-transform duration-300 group-hover:scale-105">
                     <div class="flex-1">
                         <h4 class="text-sm font-semibold text-gray-800 group-hover:text-green-700 transition line-clamp-2">
