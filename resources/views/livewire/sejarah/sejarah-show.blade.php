@@ -4,7 +4,7 @@
             <div class="flex items-center justify-center mb-6">
                 @php
                     $logo = $sejarah?->gambar
-                        ? asset('storage/' . $sejarah->gambar)
+                        ? asset('public/storage/' . $sejarah->gambar)
                         : 'https://linggakab.go.id/resources/config/icon_256.png';
                 @endphp
                 <img src="{{ $logo }}" alt="Logo Desa Mentuda"

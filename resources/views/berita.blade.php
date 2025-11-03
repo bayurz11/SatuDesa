@@ -6,7 +6,7 @@
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
 
         {{-- Breadcrumb --}}
-        <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
+        <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
@@ -35,7 +35,7 @@
                 <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group" data-aos="fade-right"
                     data-aos-delay="150">
                     <a href="#" class="block">
-                        <img src="{{ asset('img/potensi1.jpg') }}" alt="Hasil Panen Ikan Kerapu"
+                        <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Hasil Panen Ikan Kerapu"
                             class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                             loading="lazy" decoding="async">
                     </a>
@@ -76,7 +76,7 @@
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
                         <a href="#" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
-                                <img src="{{ asset('img/potensi2.jpg') }}" alt="Pembangunan Balai Desa"
+                                <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Pembangunan Balai Desa"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
                                     loading="lazy" decoding="async">
                             </div>
@@ -107,7 +107,7 @@
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
                         <a href="#" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
-                                <img src="{{ asset('img/potensi1.jpg') }}" alt="Tradisi Adat Desa Mentuda"
+                                <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Tradisi Adat Desa Mentuda"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
                                     loading="lazy" decoding="async">
                             </div>
@@ -138,7 +138,7 @@
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
                         <a href="#" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
-                                <img src="{{ asset('img/potensi2.jpg') }}" alt="Pelatihan UMKM"
+                                <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Pelatihan UMKM"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
                                     loading="lazy" decoding="async">
                             </div>
@@ -169,7 +169,7 @@
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
                         <a href="#" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
-                                <img src="{{ asset('img/potensi1.jpg') }}" alt="Agenda Desa"
+                                <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Agenda Desa"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
                                     loading="lazy" decoding="async">
                             </div>
@@ -261,7 +261,7 @@
                     <div class="space-y-3">
                         {{-- Item 1 --}}
                         <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
-                            <img src="{{ asset('img/potensi1.jpg') }}" alt="Thumb berita"
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
@@ -278,7 +278,7 @@
                         </a>
                         {{-- Item 2 --}}
                         <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
-                            <img src="{{ asset('img/potensi2.jpg') }}" alt="Thumb berita"
+                            <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
@@ -295,7 +295,7 @@
                         </a>
                         {{-- Item 3 --}}
                         <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
-                            <img src="{{ asset('img/potensi1.jpg') }}" alt="Thumb berita"
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">

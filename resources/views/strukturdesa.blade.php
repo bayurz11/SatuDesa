@@ -6,7 +6,7 @@
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
 
         {{-- Breadcrumb (selaras) --}}
-        <nav class="mb-6 mt-6 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
+        <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
@@ -50,7 +50,7 @@
                         <div class="flex justify-center">
                             <div class="text-center">
                                 <div class="mx-auto mb-4 h-28 w-28 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('img/user/user1.jpg') }}" alt="Kepala Desa"
+                                    <img src="{{ asset('public/img/user/user1.jpg') }}" alt="Kepala Desa"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-lg font-semibold text-green-700">Kepala Desa</h3>
@@ -79,7 +79,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/sekretaris.jpg') }}" alt="Sekretaris Desa"
+                                    <img src="{{ asset('public/img/user2.jpg') }}" alt="Sekretaris Desa"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-base font-semibold text-green-700">Sekretaris Desa</h3>
@@ -88,7 +88,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/bendahara.jpg') }}" alt="Bendahara Desa"
+                                    <img src="{{ asset('public/img/user3.jpg') }}" alt="Bendahara Desa"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-base font-semibold text-green-700">Bendahara Desa</h3>
@@ -117,7 +117,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/kaur-umum.jpg') }}" alt="Kaur Umum"
+                                    <img src="{{ asset('public/img/user1.jpg') }}" alt="Kaur Umum"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-base font-semibold text-green-700">Kaur Umum</h3>
@@ -126,7 +126,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/kaur-keuangan.jpg') }}" alt="Kaur Keuangan"
+                                    <img src="{{ asset('public/img/user2.jpg') }}" alt="Kaur Keuangan"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-base font-semibold text-green-700">Kaur Keuangan</h3>
@@ -135,7 +135,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-20 w-20 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/kaur-pembangunan.jpg') }}" alt="Kaur Pembangunan"
+                                    <img src="{{ asset('public/img/user3.jpg') }}" alt="Kaur Pembangunan"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-base font-semibold text-green-700">Kaur Pembangunan</h3>
@@ -164,7 +164,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-16 w-16 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/rw01.jpg') }}" alt="RW 01"
+                                    <img src="{{ asset('public/img/user2.jpg') }}" alt="RW 01"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm font-semibold text-green-700">Ketua RW 01</h3>
@@ -173,7 +173,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-16 w-16 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/rw02.jpg') }}" alt="RW 02"
+                                    <img src="{{ asset('public/img/user2.jpg') }}" alt="RW 02"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm font-semibold text-green-700">Ketua RW 02</h3>
@@ -182,7 +182,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-16 w-16 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/rt01.jpg') }}" alt="RT 01"
+                                    <img src="{{ asset('public/img/user4.jpg') }}" alt="RT 01"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm font-semibold text-green-700">Ketua RT 01</h3>
@@ -191,7 +191,7 @@
 
                             <div class="rounded-xl border border-gray-200 p-6 text-center hover:shadow-md transition">
                                 <div class="mx-auto mb-3 h-16 w-16 overflow-hidden rounded-full ring-1 ring-black/5">
-                                    <img src="{{ asset('images/rt02.jpg') }}" alt="RT 02"
+                                    <img src="{{ asset('public/img/user4.jpg') }}" alt="RT 02"
                                         class="h-full w-full object-cover" loading="lazy" decoding="async">
                                 </div>
                                 <h3 class="text-sm font-semibold text-green-700">Ketua RT 02</h3>
