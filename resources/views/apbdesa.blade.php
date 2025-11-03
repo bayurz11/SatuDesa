@@ -130,12 +130,12 @@
                                 </div>
                             </div>
 
-                            <div class="flex items-center gap-3">
-                                {{-- Tabel Rincian --}}
-                                <div class="max-h-96 overflow-y-auto rounded-lg ring-1 ring-gray-100 bg-white">
-                                    <table class="min-w-full text-xs sm:text-sm">
-                                        <thead class="bg-white">
-                                            <tr class="text-left text-gray-600 border-b sticky top-0 z-10">
+                            <div class="overflow-x-auto">
+                                <div class="relative max-h-96 overflow-y-auto rounded-lg ring-1 ring-gray-100 bg-white">
+                                    <table class="min-w-full text-xs sm:text-sm border-separate border-spacing-0">
+                                        <!-- Sticky header -->
+                                        <thead class="sticky top-0 z-[1] bg-white">
+                                            <tr class="text-left text-gray-600 border-b">
                                                 <th class="py-2 pr-4">Kode</th>
                                                 <th class="py-2 pr-4">Uraian</th>
                                                 <th class="py-2 pr-4 whitespace-nowrap">Anggaran</th>
@@ -143,12 +143,14 @@
                                                 <th class="py-2 pr-4 whitespace-nowrap">% Serap</th>
                                             </tr>
                                         </thead>
+
                                         <tbody id="rincianBody" class="align-top">
                                             {{-- diisi via JS --}}
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
