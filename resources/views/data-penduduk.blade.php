@@ -132,7 +132,7 @@
                     <h4 class="font-semibold text-gray-900 mb-3">Berita Terbaru</h4>
                     <div class="space-y-3"> {{-- Item 1 --}} <a href="#"
                             class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('img/potensi1.jpg') }}" alt="Thumb berita"
+                                src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
@@ -145,7 +145,7 @@
                             </div>
                         </a> {{-- Item 2 --}} <a href="#"
                             class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('img/potensi2.jpg') }}" alt="Thumb berita"
+                                src="{{ asset('public/img/potensi2.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
@@ -158,7 +158,7 @@
                             </div>
                         </a> {{-- Item 3 --}} <a href="#"
                             class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition"> <img
-                                src="{{ asset('img/potensi1.jpg') }}" alt="Thumb berita"
+                                src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
                                 class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                 decoding="async">
                             <div class="min-w-0">
