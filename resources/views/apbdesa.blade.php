@@ -3,9 +3,10 @@
 @section('title', 'APBDes Desa ')
 
 @section('content')
-    <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 md:py-14 overflow-x-hidden" data-aos="fade-up">
+
+    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14 overflow-x-hidden" data-aos="fade-up">
         {{-- Breadcrumb (selaras) --}}
-        <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
+        <nav class="mb-6 mt-9 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
