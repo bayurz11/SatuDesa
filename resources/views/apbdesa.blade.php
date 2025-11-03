@@ -59,7 +59,7 @@
 
                     <div class="p-6 md:p-8">
                         {{-- KPI --}}
-                        <div class="mb-4 grid gap-3 grid-cols-2 sm:grid-cols-4 min-w-0">
+                        <div class="mb-4 grid gap-2 grid-cols-2 sm:grid-cols-4 min-w-0">
                             <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
                                 <p class="text-xs text-gray-600">Total APBDes</p>
                                 <p id="kpiTotal" class="text-lg md:text-xl font-semibold text-gray-900">Rp -</p>
