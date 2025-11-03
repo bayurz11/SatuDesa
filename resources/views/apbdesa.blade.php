@@ -191,6 +191,63 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow p-4">
+                    <h4 class="font-semibold text-gray-900 mb-3">Berita Terbaru</h4>
+                    <div class="space-y-3">
+                        {{-- Item 1 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
+                                class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
+                                decoding="async">
+                            <div class="min-w-0">
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Pembangunan Balai Desa Mentuda Resmi Dimulai
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                        Berita</span>
+                                    <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
+                                        12-12-2024</time>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Item 2 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Thumb berita"
+                                class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
+                                decoding="async">
+                            <div class="min-w-0">
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Tradisi Adat Tetap Dilestarikan di Era Modern
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                        Budaya</span>
+                                    <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
+                                        12-12-2024</time>
+                                </div>
+                            </div>
+                        </a>
+                        {{-- Item 3 --}}
+                        <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                            <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Thumb berita"
+                                class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
+                                decoding="async">
+                            <div class="min-w-0">
+                                <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
+                                    Pelatihan UMKM Dorong Perekonomian Lokal
+                                </h5>
+                                <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
+                                    <span class="inline-flex items-center gap-1"><x-heroicon-o-tag class="size-4" />
+                                        UMKM</span>
+                                    <time class="inline-flex items-center gap-1"><x-heroicon-o-clock class="size-4" />
+                                        12-12-2024</time>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl shadow p-4">
                     <a href="{{ route('/') }}"
                         class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                         <x-heroicon-o-arrow-left class="size-4" /> Kembali ke Beranda

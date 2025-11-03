@@ -5,6 +5,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="@yield('og_title', 'SatuDesa — Portal Desa Mentuda')" />
+    <meta property="og:description" content="@yield('og_desc', 'Informasi APBDes, profil desa, dan layanan digital masyarakat.')" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ url()->current() }}" />
+    <meta property="og:image" content="{{ $ogImage }}" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('og_title', 'SatuDesa — Portal Desa Mentuda')">
+    <meta name="twitter:description" content="@yield('og_desc', 'Informasi APBDes, profil desa, dan layanan digital masyarakat.')">
+    <meta name="twitter:image" content="{{ $ogImage }}">
+
     <title>@yield('title', 'Desa Mentuda')</title>
     <!-- Favicon -->
     <link rel="icon" href="{{ asset('public/logo.png') }}" type="image/png">
