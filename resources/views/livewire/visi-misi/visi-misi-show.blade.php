@@ -43,8 +43,7 @@
                             <x-heroicon-o-check-circle
                                 class="not-prose shrink-0 mt-[2px] w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
                             <span
-                                class="flex-1 text-[15px] leading-6 sm:text-base sm:leading-7 text-gray-800
-                 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-gray-900">
+                                class="flex-1 text-[15px] leading-6 sm:text-base sm:leading-7 text-gray-800 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-gray-900">
                                 {!! $line !!}
                             </span>
                         </li>
