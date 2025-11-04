@@ -26,6 +26,9 @@ class SejarahList extends Component
     protected array $allowedSorts = ['isi', 'created_at', 'updated_at', 'is_active'];
     protected array $allowedPerPage = [10, 25, 50];
 
+    protected $listeners = [
+        'sejarah:saved' => 'refreshList',
+    ];
     /** Keep URL in sync */
     protected $queryString = [
         'search'        => ['except' => ''],
@@ -50,6 +53,15 @@ class SejarahList extends Component
     public function updatingShowInactive(): void
     {
         $this->resetPage();
+    }
+
+    public function refreshList(): void
+    {
+        // Supaya balik ke page 1 dan query ulang data
+        $this->resetPage();
+        // Jika Anda punya cache atau filter lain, panggil di sini bila perlu
+        // $this->someService->clearCache();
+        // $this->dispatch('$refresh'); // opsional, biasanya tidak perlu
     }
     public function updatingPerPage(): void
     {
