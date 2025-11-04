@@ -28,6 +28,6 @@ class VisiMisiShow extends Component
         return view('livewire.visi-misi.visi-misi-show', [
             'visi' => $this->visi,
             'misi' => $this->misi,
-        ])->layout('layouts.app2');
+        ]);
     }
 }

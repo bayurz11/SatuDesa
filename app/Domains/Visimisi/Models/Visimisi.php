@@ -13,6 +13,7 @@ class Visimisi extends Model
         'gambar',
         'is_active',
     ];
+    protected $casts = ['is_active' => 'boolean'];
 
     public function getIsiArrayAttribute()
     {
