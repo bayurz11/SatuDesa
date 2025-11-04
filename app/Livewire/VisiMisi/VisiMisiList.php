@@ -6,7 +6,7 @@ namespace App\Livewire\VisiMisi;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Shared\Traits\WithAlerts;
-use App\Domains\VisiMisi\Models\VisiMisi;
+use App\Domains\Visimisi\Models\Visimisi;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use App\Shared\Services\CacheService;
@@ -57,14 +57,14 @@ class VisiMisiList extends Component
 
     public function toggleStatus($id)
     {
-        $item = VisiMisi::findOrFail($id);
+        $item = Visimisi::findOrFail($id);
         $item->update(['is_active' => !$item->is_active]);
         $this->showSuccessToast("Status updated!");
     }
 
     public function delete($id)
     {
-        $item = VisiMisi::findOrFail($id);
+        $item = Visimisi::findOrFail($id);
         if ($item->gambar && Storage::disk('public')->exists($item->gambar))
             Storage::disk('public')->delete($item->gambar);
         $item->delete();
