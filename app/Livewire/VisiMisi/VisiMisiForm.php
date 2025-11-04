@@ -28,7 +28,7 @@ class VisiMisiForm extends Component
         'is_active' => 'boolean',
     ];
 
-    protected $listeners = ['openVisiMisiForm' => 'openForm'];
+    protected $listeners = ['openVisiMisiForm' => 'openForm',];
 
     public function openForm($id = null)
     {
@@ -79,7 +79,7 @@ class VisiMisiForm extends Component
             : Visimisi::create($data);
 
         $this->showSuccessToast("Data saved successfully!");
-        $this->dispatch('$refresh');
+        $this->dispatch('visiMisi:saved');
         $this->closeModal(); // panggil langsung agar modal tertutup otomatis
     }
 

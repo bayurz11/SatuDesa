@@ -32,7 +32,17 @@ class VisiMisiList extends Component
         'sortField' => ['except' => 'created_at'],
         'sortDirection' => ['except' => 'desc'],
     ];
-
+    protected $listeners = [
+        'visiMisi:saved' => 'refreshList',
+    ];
+    public function refreshList(): void
+    {
+        // Supaya balik ke page 1 dan query ulang data
+        $this->resetPage();
+        // Jika Anda punya cache atau filter lain, panggil di sini bila perlu
+        // $this->someService->clearCache();
+        // $this->dispatch('$refresh'); // opsional, biasanya tidak perlu
+    }
     public function updatingSearch()
     {
         $this->resetPage();
