@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Sejarah extends Model
 {
     use HasFactory;
-    protected $table = 'sejarah'; // sesuaikan dengan nama tabel di database
+    protected $table = 'sejarah';
+
+    protected $casts = [
+        'tanggal'   => 'date',
+        'is_active' => 'boolean',
+    ];
 
     protected $fillable = [
         'isi',
