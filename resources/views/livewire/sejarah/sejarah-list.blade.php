@@ -16,16 +16,17 @@
             </div>
 
             @permission('profil.create')
-                <button wire:click="$dispatch('openSejarahCreateForm')"
+                <button x-data @click="window.Livewire.dispatch('openSejarahForm')"
                     class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
                         stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                     Add Sejarah
                 </button>
             @endpermission
+
         </div>
 
         <div
@@ -173,18 +174,18 @@
 
                                 {{-- EDIT --}}
                                 @permission('profil.edit')
-                                    <button
-                                        wire:click="$dispatch('openSejarahEditForm', { id: @js($sejarahItem->id) })"
+                                    <button x-data
+                                        @click="window.Livewire.dispatch('openSejarahForm', {{ $sejarahItem->id }})"
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-12 transition-transform duration-200"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
-                                            </path>
+                                                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                                         </svg>
                                         Edit
                                     </button>
                                 @endpermission
+
 
                                 {{-- ACTIVATE / DEACTIVATE --}}
                                 @permission('profil.edit')
