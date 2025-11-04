@@ -17,16 +17,30 @@
             </div>
 
             @permission('profil.create')
-                <button wire:click="$dispatch('openVisiMisiForm')"
-                    class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
-                        stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" wire:click="$dispatch('openVisiMisiForm')"
+                    class="group inline-flex w-full sm:w-auto items-center justify-center gap-2 px-4 sm:px-5 lg:px-6 min-h-[44px] text-sm sm:text-[15px] font-semibold rounded-xl bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white shadow-lg hover:shadow-xl transition-all motion-safe:duration-300 motion-reduce:duration-0 disabled:opacity-60 disabled:cursor-not-allowed focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-green-600 focus-visible:ring-offset-white dark:focus-visible:ring-offset-gray-900 active:scale-[.98]select-none"
+                    aria-label="Tambah Visi atau Misi" title="Tambah Visi / Misi" wire:loading.attr="disabled">
+                    <svg class="w-5 h-5 lg:w-5.5 lg:h-5.5
+                    transition-transform motion-safe:duration-300
+                    group-hover:rotate-90"
+                        viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
-                    Tambah Visi / Misi
+
+                    <span class="whitespace-nowrap">Tambah Visi / Misi</span>
+
+                    {{-- Indicator saat proses --}}
+                    <span wire:loading class="ml-1 inline-flex">
+                        <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                stroke-width="3" />
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v3a5 5 0 00-5 5H4z" />
+                        </svg>
+                    </span>
                 </button>
             @endpermission
+
         </div>
 
         <div
@@ -156,7 +170,8 @@
 
                                 {{-- EDIT --}}
                                 @permission('profil.edit')
-                                    <button wire:click="$dispatch('openVisiMisiForm', { id: @js($item->id) })"
+                                    <button
+                                        wire:click="$dispatch('openVisiMisiForm', { id: @js($item->id) })"
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-12 transition-transform duration-200"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
