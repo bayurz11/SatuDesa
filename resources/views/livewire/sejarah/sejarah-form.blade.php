@@ -24,7 +24,7 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                                 <!-- LOGO -->
-                                <div class="col-span-2">
+                                {{-- <div class="col-span-2">
                                     <label class="block text-sm font-medium text-gray-700 mb-2">Logo</label>
                                     <label for="gambar"
                                         class="flex flex-col items-center justify-center w-full p-6 border-2 border-dashed rounded-lg bg-gray-50 hover:bg-gray-100 border-gray-300 cursor-pointer transition">
@@ -57,7 +57,7 @@
                                                 alt="Gambar lama">
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <!-- ISI (Trix) -->
                                 <div class="col-span-2">
