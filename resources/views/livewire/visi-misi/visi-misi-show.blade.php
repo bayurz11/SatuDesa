@@ -32,12 +32,12 @@
 
             @if ($misi)
                 {{-- Jika konten misi disimpan dalam HTML (ul/li atau <p>) --}}
-                <div class="prose max-w-none prose-green">
+                {{-- <div class="prose max-w-none prose-green">
                     {!! $misi->isi !!}
-                </div>
+                </div> --}}
 
                 {{-- Atau, jika kamu menyimpan misi sebagai teks baris-per-baris (tanpa <li>), pakai versi list berikut: --}}
-                {{--
+
                 @php
                     $items = preg_split("/\r\n|\n|\r/", trim(strip_tags($misi->isi)));
                 @endphp
@@ -51,7 +51,6 @@
                         @endif
                     @endforeach
                 </ul>
-                --}}
             @else
                 <p class="text-gray-700">Belum ada data misi yang aktif.</p>
             @endif
