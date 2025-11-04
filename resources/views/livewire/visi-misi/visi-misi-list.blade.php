@@ -100,7 +100,7 @@
 
                         <td class="px-6 py-5 whitespace-nowrap">
                             <div class="flex items-center">
-                                <div
+                                {{-- <div
                                     class="w-12 h-12 rounded-xl overflow-hidden mr-4 shadow-md group-hover:shadow-lg transition-shadow duration-300">
                                     @if ($item->gambar)
                                         <img src="{{ asset('storage/' . $item->gambar) }}" alt="Foto"
@@ -113,7 +113,7 @@
                                             </span>
                                         </div>
                                     @endif
-                                </div>
+                                </div> --}}
 
                                 <div>
                                     <div class="text-sm font-semibold text-gray-900">
