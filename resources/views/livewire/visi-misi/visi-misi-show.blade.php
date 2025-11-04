@@ -30,14 +30,26 @@
                 <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Misi</h2>
             </div>
             <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
-
             @if ($misi)
-                <div class="prose max-w-none prose-green">
-                    {!! $misi->isi !!}
-                </div>
+                @php
+                    preg_match_all('/<li[^>]*>(.*?)<\/li>/si', $misi->isi, $m);
+                    $items = array_map(fn($v) => trim($v), $m[1] ?? []);
+                @endphp
+
+                @if (count($items))
+                    <ol class="list-decimal pl-6 space-y-1">
+                        @foreach ($items as $line)
+                            <li class="text-gray-700">{!! $line !!}</li>
+                        @endforeach
+                    </ol>
+                @else
+                    {{-- fallback kalau ternyata bukan <ol><li> --}}
+                    <div class="prose max-w-none">{!! $misi->isi !!}</div>
+                @endif
             @else
                 <p class="text-gray-700">Belum ada data misi yang aktif.</p>
             @endif
+
 
         </div>
     </div>
