@@ -73,7 +73,7 @@ class VisiMisiList extends Component
 
     public function render()
     {
-        $data = VisiMisi::query()
+        $data = Visimisi::query()
             ->when($this->search, fn($q) => $q->where('isi', 'like', "%{$this->search}%"))
             ->when(!$this->showInactive, fn($q) => $q->where('is_active', true))
             ->orderBy($this->sortField, $this->sortDirection)

@@ -32,9 +32,7 @@
             activeMenu: @js($activeMenuInitial),
             ids: $id('accordion', 3) // x-id (butuh Alpine v3.10+)
         }" class="space-y-1">
-            {{-- =======================
-         PROFIL DESA
-    ======================== --}}
+            {{-- ======================= PROFIL DESA ======================== --}}
             @permission('profil.view')
                 <div class="relative">
                     <button @click="activeMenu = (activeMenu === 'profil' ? '' : 'profil')"
@@ -81,9 +79,7 @@
                 </div>
             @endpermission
 
-            {{-- =======================
-         INFORMASI
-    ======================== --}}
+            {{-- =======================INFORMASI ======================== --}}
             @permission('informasi.view')
                 <div class="relative">
                     <button @click="activeMenu = (activeMenu === 'informasi' ? '' : 'informasi')"
@@ -122,9 +118,7 @@
                 </div>
             @endpermission
 
-            {{-- =======================
-         KEPENDUDUKAN
-    ======================== --}}
+            {{-- ======================= KEPENDUDUKAN  ======================== --}}
             @permission('penduduk.view')
                 <div class="relative">
                     <button @click="activeMenu = (activeMenu === 'penduduk' ? '' : 'penduduk')"
