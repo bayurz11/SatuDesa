@@ -164,8 +164,9 @@
                                 <div class="col-span-2 flex items-center gap-3">
                                     <input id="is_active" type="checkbox" wire:model="is_active"
                                         class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500">
-                                    <label for="is_active" class="text-sm font-medium text-gray-700">Tampilkan
-                                        (Active)</label>
+                                    <label for="is_active" class="text-sm font-medium text-gray-700">
+                                        Tampilkan (Active)
+                                    </label>
                                 </div>
 
                                 <!-- ACTION BUTTONS -->
