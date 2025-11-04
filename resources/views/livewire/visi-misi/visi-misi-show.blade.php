@@ -36,18 +36,23 @@
             @endphp
 
             @if (count($items))
-                <ul class="grid gap-3 md:gap-4">
+                <ul role="list" class="not-prose space-y-3 md:space-y-4"> {{-- cegah efek prose --}}
                     @foreach ($items as $line)
-                        <li class="flex items-start gap-3">
-                            <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                            <span class="text-gray-700">{!! $line !!}</span>
+                        <li class="flex items-start gap-2.5 sm:gap-3">
+                            {{-- ikon tidak dipengaruhi prose, tidak menyusut --}}
+                            <x-heroicon-o-check-circle
+                                class="not-prose shrink-0 mt-[2px] w-4 h-4 sm:w-5 sm:h-5 text-emerald-600" />
+                            <span
+                                class="flex-1 text-[15px] leading-6 sm:text-base sm:leading-7 text-gray-800
+                 [&_p]:m-0 [&_strong]:font-semibold [&_strong]:text-gray-900">
+                                {!! $line !!}
+                            </span>
                         </li>
                     @endforeach
                 </ul>
             @else
                 <div class="prose max-w-none">{!! $misi->isi !!}</div>
             @endif
-
 
         </div>
     </div>
