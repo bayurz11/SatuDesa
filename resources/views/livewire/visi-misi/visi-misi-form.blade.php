@@ -112,7 +112,7 @@
 
 
                                     <!-- GAMBAR -->
-                                    <div class="flex flex-col">
+                                    {{-- <div class="flex flex-col">
                                         <label class="text-sm font-medium text-gray-700 mb-2">Gambar / Ikon
                                             (Opsional)</label>
                                         <label for="gambar"
@@ -142,7 +142,7 @@
                                                     alt="Preview">
                                             </div>
                                         @endif
-                                    </div>
+                                    </div> --}}
                                 </div>
 
 
