@@ -5,7 +5,7 @@ namespace App\Livewire\VisiMisi;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Shared\Traits\WithAlerts;
-use App\Domains\VisiMisi\Models\VisiMisi;
+use App\Domains\Visimisi\Models\Visimisi;
 use Illuminate\Support\Facades\Storage;
 
 class VisiMisiForm extends Component
@@ -37,7 +37,7 @@ class VisiMisiForm extends Component
         $this->editorId = 'editor-' . uniqid();
 
         if ($id) {
-            $item = VisiMisi::findOrFail($id);
+            $item = Visimisi::findOrFail($id);
             $this->visiMisiId = $item->id;
             $this->kategori = $item->kategori;
             $this->isi = $item->isi;
@@ -67,8 +67,8 @@ class VisiMisiForm extends Component
         }
 
         $this->isEditing
-            ? VisiMisi::findOrFail($this->visiMisiId)->update($data)
-            : VisiMisi::create($data);
+            ? Visimisi::findOrFail($this->visiMisiId)->update($data)
+            : Visimisi::create($data);
 
         $this->showSuccessToast("Data saved successfully!");
         $this->dispatch('$refresh');
