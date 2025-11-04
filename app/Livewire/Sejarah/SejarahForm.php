@@ -111,7 +111,7 @@ class SejarahForm extends Component
         }
 
         $this->showSuccessToast("Sejarah saved successfully!");
-        $this->dispatch('$refresh');
+        $this->dispatch('sejarah:saved');
 
         $this->closeModal();
     }
