@@ -12,7 +12,8 @@
             </div>
             <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
 
-            <div class="prose max-w-none prose-green">
+            {{-- Visi --}}
+            <div class="prose max-w-none trix-view">
                 {!! $visi?->isi ?? '<p class="text-gray-700">Belum ada data visi yang aktif.</p>' !!}
             </div>
         </div>
@@ -31,29 +32,13 @@
             <div class="mx-auto mb-6 h-1 w-20 rounded-full bg-green-600"></div>
 
             @if ($misi)
-                {{-- Jika konten misi disimpan dalam HTML (ul/li atau <p>) --}}
-                {{-- <div class="prose max-w-none prose-green">
+                <div class="prose max-w-none prose-green">
                     {!! $misi->isi !!}
-                </div> --}}
-
-                {{-- Atau, jika kamu menyimpan misi sebagai teks baris-per-baris (tanpa <li>), pakai versi list berikut: --}}
-
-                @php
-                    $items = preg_split("/\r\n|\n|\r/", trim(strip_tags($misi->isi)));
-                @endphp
-                <ul class="grid gap-3 md:gap-4">
-                    @foreach ($items as $line)
-                        @if (trim($line) !== '')
-                            <li class="flex items-start gap-3">
-                                <x-heroicon-o-check-circle class="mt-0.5 size-5 text-green-600" />
-                                <span class="text-gray-700">{{ $line }}</span>
-                            </li>
-                        @endif
-                    @endforeach
-                </ul>
+                </div>
             @else
                 <p class="text-gray-700">Belum ada data misi yang aktif.</p>
             @endif
+
         </div>
     </div>
 
