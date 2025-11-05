@@ -83,6 +83,7 @@ Route::middleware(['auth', 'permission:profil.view'])
     ->group(function () {
         Route::get('/sejarah-desa', fn() => view('sejarah.index'))->name('sejarah-desa');
         Route::get('/visi-misi', fn() => view('visi-misi.index'))->name('visi-misi');
+        Route::get('/struktur-organisasi', fn() => view('struktur-organisasi.index'))->name('struktur-organisasi');
     });
 
 

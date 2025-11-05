@@ -67,7 +67,7 @@
                             class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.visi-misi') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Visi &amp; Misi
                         </a>
-                        <a href="#"
+                        <a href="{{ route('profil.struktur-organisasi') }}"
                             class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.struktur') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Struktur Organisasi
                         </a>
