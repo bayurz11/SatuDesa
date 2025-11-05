@@ -75,13 +75,29 @@ class StrukturForm extends Component
 
         // Upload foto baru jika ada
         if ($this->foto) {
-            $data['foto'] = $this->foto->store('struktur', 'public');
+            // Tentukan nama file unik
+            $namaFile = uniqid() . '.' . $this->foto->getClientOriginalExtension();
 
-            // Hapus foto lama jika update dan file lama ada
-            if ($this->isEditing && $this->fotoLama && Storage::disk('public')->exists($this->fotoLama)) {
-                Storage::disk('public')->delete($this->fotoLama);
+            // Tentukan path tujuan di folder publik
+            $tujuanPath = public_path('storage/struktur');
+
+            // Pastikan folder ada
+            if (!file_exists($tujuanPath)) {
+                mkdir($tujuanPath, 0775, true);
+            }
+
+            // Pindahkan file ke folder publik
+            $this->foto->move($tujuanPath, $namaFile);
+
+            // Simpan path relatif ke database
+            $data['foto'] = 'storage/struktur/' . $namaFile;
+
+            // Hapus foto lama jika ada
+            if ($this->isEditing && $this->fotoLama && file_exists(public_path($this->fotoLama))) {
+                unlink(public_path($this->fotoLama));
             }
         }
+
 
         if ($this->isEditing) {
             Struktur::findOrFail($this->strukturId)->update($data);
