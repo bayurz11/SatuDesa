@@ -4,10 +4,14 @@ namespace App\Livewire\Struktur;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Blade;
 
-class Strukturmodal extends Component
+
+class StrukturModal extends Component
 {
+
+
 
     public bool $showModal = false;
     public string $content = '';
@@ -16,7 +20,7 @@ class Strukturmodal extends Component
 
     public function openModal()
     {
-        // Ambil isi halaman struktur desa
+        // Ambil isi halaman struktur
         $rawBlade = File::get(resource_path('views/strukturdesa.blade.php'));
 
         // Bersihkan layout section supaya tidak ikut render
@@ -41,6 +45,7 @@ class Strukturmodal extends Component
     {
         $this->reset(['showModal', 'content']);
     }
+
     public function render()
     {
         return view('livewire.struktur.struktur-modal');
