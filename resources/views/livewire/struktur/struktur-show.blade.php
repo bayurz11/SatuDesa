@@ -1,7 +1,6 @@
 @php
-    $img = fn($m, $fallback) => $m?->foto_url ?? asset($fallback);
-    $nameOr = fn($m, $fallback) => $m?->nama ?: $fallback;
-    $fallback = asset('public/img/user/user1.jpg');
+
+    $fallback = asset('img/avatars/default-person.png');
 @endphp
 
 <article class="lg:col-span-2 space-y-8">
