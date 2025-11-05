@@ -130,15 +130,12 @@
 
                         <!-- LEVEL -->
                         <td class="px-6 py-5 whitespace-nowrap">
-                            @php
-                                $badge = $item->badge_color ?? 'bg-gray-300';
-                            @endphp
+
                             <span
                                 class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-900/80 {{ $badge }}">
                                 {{ $item->level_label }}
                             </span>
                         </td>
-
 
                         <!-- STATUS -->
                         <td class="px-6 py-5 whitespace-nowrap">
