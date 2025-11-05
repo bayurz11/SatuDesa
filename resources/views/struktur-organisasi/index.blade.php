@@ -4,6 +4,6 @@
     <div class="space-y-6">
         <livewire:struktur.struktur-list />
         <livewire:struktur.struktur-form />
-        {{-- <livewire:sejarah.sejarah-modal /> --}}
+        <livewire:sejarah.struktur-modal />
     </div>
 @endsection
