@@ -1,5 +1,6 @@
 @php
-
+    $img = fn($m, $fallback) => $m?->foto_url ?? asset($fallback);
+    $nameOr = fn($m, $fallback) => $m?->nama ?: $fallback;
     $fallback = asset('img/avatars/default-person.png');
 @endphp
 
