@@ -130,12 +130,35 @@
 
                         <!-- LEVEL -->
                         <td class="px-6 py-5 whitespace-nowrap">
+                            @php
+                                // Warna dan ikon kecil sesuai level
+                                $colorConfig = match ($item->level) {
+                                    'pimpinan' => [
+                                        'bg' => 'from-green-100 to-emerald-100 text-green-800',
+                                        'dot' => 'bg-green-500 animate-pulse',
+                                    ],
+                                    'struktural' => [
+                                        'bg' => 'from-blue-100 to-cyan-100 text-blue-800',
+                                        'dot' => 'bg-blue-500 animate-pulse',
+                                    ],
+                                    'kewilayahan' => [
+                                        'bg' => 'from-yellow-100 to-lime-100 text-yellow-800',
+                                        'dot' => 'bg-yellow-400 animate-pulse',
+                                    ],
+                                    default => [
+                                        'bg' => 'from-gray-100 to-gray-200 text-gray-700',
+                                        'dot' => 'bg-gray-400',
+                                    ],
+                                };
+                            @endphp
 
                             <span
-                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-900/80 bg-green-500/10">
+                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm bg-gradient-to-r {{ $colorConfig['bg'] }}">
+                                <div class="w-2 h-2 rounded-full mr-2 {{ $colorConfig['dot'] }}"></div>
                                 {{ $item->level_label }}
                             </span>
                         </td>
+
 
                         <!-- STATUS -->
                         <td class="px-6 py-5 whitespace-nowrap">
