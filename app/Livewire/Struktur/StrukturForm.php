@@ -3,6 +3,7 @@
 namespace App\Livewire\Struktur;
 
 use Livewire\Component;
+use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Storage;
@@ -73,31 +74,30 @@ class StrukturForm extends Component
             'is_active' => $this->is_active,
         ];
 
-        // Upload foto baru jika ada
+        // Handle upload foto jika ada
         if ($this->foto) {
-            // Tentukan nama file unik
-            $namaFile = uniqid() . '.' . $this->foto->getClientOriginalExtension();
+            // Pastikan direktori tujuan ada
+            Storage::disk('public_path')->makeDirectory('struktur');
 
-            // Tentukan path tujuan di folder publik
-            $tujuanPath = public_path('storage/struktur');
+            // Nama file unik
+            $ext = strtolower($this->foto->getClientOriginalExtension() ?: 'jpg');
+            $namaFile = Str::random(12) . '.' . $ext;
 
-            // Pastikan folder ada
-            if (!file_exists($tujuanPath)) {
-                mkdir($tujuanPath, 0775, true);
-            }
+            // Simpan langsung ke public/storage/struktur (tanpa symlink)
+            $relative = $this->foto->storeAs('struktur', $namaFile, 'public_path'); // hasil: "struktur/xxxx.jpg"
 
-            // Pindahkan file ke folder publik
-            $this->foto->move($tujuanPath, $namaFile);
+            // Simpan path yg siap dipakai asset()
+            $data['foto'] = 'storage/' . ltrim($relative, '/'); // "storage/struktur/xxxx.jpg"
 
-            // Simpan path relatif ke database
-            $data['foto'] = 'storage/struktur/' . $namaFile;
-
-            // Hapus foto lama jika ada
-            if ($this->isEditing && $this->fotoLama && file_exists(public_path($this->fotoLama))) {
-                unlink(public_path($this->fotoLama));
+            // Hapus foto lama jika update
+            if ($this->isEditing && $this->fotoLama) {
+                // $this->fotoLama disimpan sebagai "storage/struktur/xxxx.jpg"
+                $old = ltrim(str_replace('storage/', '', $this->fotoLama), '/'); // jadi "struktur/xxxx.jpg"
+                if (Storage::disk('public_path')->exists($old)) {
+                    Storage::disk('public_path')->delete($old);
+                }
             }
         }
-
 
         if ($this->isEditing) {
             Struktur::findOrFail($this->strukturId)->update($data);
