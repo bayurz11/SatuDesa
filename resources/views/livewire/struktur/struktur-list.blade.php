@@ -139,6 +139,7 @@
                             </span>
                         </td>
 
+
                         <!-- STATUS -->
                         <td class="px-6 py-5 whitespace-nowrap">
                             <span

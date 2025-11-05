@@ -122,7 +122,7 @@
 
                                 <!-- FOTO -->
                                 <div class="flex flex-col">
-                                    <label class="text-sm font-medium text-gray-700 mb-2">Foto (opsional)</label>
+                                    <label class="text-sm font-medium text-gray-700 mb-2">Foto </label>
                                     <label for="foto"
                                         class="flex flex-col items-center justify-center w-full p-5 border-2 border-dashed rounded-xl bg-gray-50 hover:bg-gray-100 border-gray-300 cursor-pointer transition-all duration-200 shadow-sm">
                                         <svg class="w-10 h-10 text-gray-400 mb-3" fill="none" stroke="currentColor"
