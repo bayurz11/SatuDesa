@@ -142,12 +142,12 @@
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror>
 
-                                    <!-- Preview -->
+                                    {{-- Preview Foto --}}
                                     @if ($foto || $fotoLama)
                                         <div class="mt-3 flex justify-center">
-                                            <img src="{{ $foto ? $foto->temporaryUrl() : Storage::url($fotoLama) }}"
-                                                class="w-28 h-28 object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100"
-                                                alt="Preview Foto">
+                                            <img src="{{ $foto ? $foto->temporaryUrl() : asset($fotoLama) }}"
+                                                alt="Preview Foto"
+                                                class="w-28 h-28 object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100">
                                         </div>
                                     @endif
                                 </div>
