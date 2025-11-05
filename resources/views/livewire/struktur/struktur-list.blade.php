@@ -113,8 +113,8 @@
                         <!-- FOTO -->
                         <td class="px-6 py-5 whitespace-nowrap">
                             <div class="w-12 h-12 rounded-xl overflow-hidden shadow-md ring-1 ring-black/5">
-                                <img src="{{ asset('satudesa/storage/app/public/struktur/' . $item->foto) }}"
-                                    alt="Foto {{ $item->nama }}" class="w-full h-full object-cover">
+                                <img src="{{ asset('satudesa/storage/' . $item->foto) }}" alt="Foto {{ $item->nama }}"
+                                    class="w-full h-full object-cover">
 
                             </div>
                         </td>
