@@ -145,11 +145,12 @@
                                     {{-- Preview Foto --}}
                                     @if ($foto || $fotoLama)
                                         <div class="mt-3 flex justify-center">
-                                            <img src="{{ $foto ? $foto->temporaryUrl() : asset($fotoLama) }}"
+                                            <img src="{{ $foto ? $foto->temporaryUrl() : asset('public/' . ltrim($fotoLama, '/')) }}"
                                                 alt="Preview Foto"
                                                 class="w-28 h-28 object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100">
                                         </div>
                                     @endif
+
                                 </div>
 
                                 <!-- STATUS -->
