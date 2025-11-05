@@ -132,7 +132,7 @@
                         <td class="px-6 py-5 whitespace-nowrap">
 
                             <span
-                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-900/80 {{ $badge }}">
+                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold text-gray-900/80 bg-green-500/10">
                                 {{ $item->level_label }}
                             </span>
                         </td>
