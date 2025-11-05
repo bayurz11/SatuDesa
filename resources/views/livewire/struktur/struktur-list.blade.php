@@ -182,8 +182,7 @@
                         <td class="px-6 py-5 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <!-- VIEW -->
-                                <button
-                                    wire:click="$dispatch('openStrukturModal', { id: @js($item->id) })"
+                                <button wire:click="$dispatch('openStrukturModal')"
                                     class="inline-flex items-center px-3 py-2 text-xs font-semibold text-green-600 bg-green-50 rounded-lg hover:bg-green-100 hover:text-green-700 transition-all duration-200">
                                     <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor"
                                         viewBox="0 0 24 24">
@@ -194,6 +193,7 @@
                                     </svg>
                                     View
                                 </button>
+
 
                                 <!-- EDIT -->
                                 @permission('profil.edit')
