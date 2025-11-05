@@ -12,7 +12,7 @@ class Strukturmodal extends Component
     public bool $showModal = false;
     public string $content = '';
 
-    protected $listeners = ['openVisiMisiModal' => 'openModal'];
+    protected $listeners = ['openStrukturModal' => 'openModal'];
 
     public function openModal()
     {

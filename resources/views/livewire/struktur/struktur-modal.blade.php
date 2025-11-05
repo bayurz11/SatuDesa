@@ -17,7 +17,7 @@
 
                     <!-- Konten halaman publik -->
                     <div class="flex-grow rounded-xl overflow-hidden ring-1 ring-gray-100 shadow-sm">
-                        <iframe id="visiMisiFrame" wire:ignore src="{{ route('struktur-desa') }}"
+                        <iframe id="openStrukturModal" wire:ignore src="{{ route('struktur-desa') }}"
                             style="width: 100%; height: 600px; border: 0;" loading="lazy">
                         </iframe>
                     </div>
@@ -38,8 +38,8 @@
 @push('scripts')
     <script>
         document.addEventListener('livewire:load', function() {
-            function bindVisiMisiIframe() {
-                const iframe = document.getElementById('visiMisiFrame');
+            function bindStrukturIframe() {
+                const iframe = document.getElementById('openStrukturModal');
                 if (!iframe || iframe.dataset.bound === '1') return;
 
                 iframe.dataset.bound = '1';
@@ -60,8 +60,8 @@
                 });
             }
 
-            bindVisiMisiIframe();
-            Livewire.hook('message.processed', () => bindVisiMisiIframe());
+            bindStrukturIframe();
+            Livewire.hook('message.processed', () => bindStrukturIframe());
         });
     </script>
 @endpush
