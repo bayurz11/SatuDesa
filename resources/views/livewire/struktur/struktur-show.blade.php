@@ -1,6 +1,7 @@
 @php
     $img = fn($m, $fallback) => $m?->foto_url ?? asset($fallback);
     $nameOr = fn($m, $fallback) => $m?->nama ?: $fallback;
+    $fallback = asset('public/img/user/user1.jpg');
 @endphp
 
 <article class="lg:col-span-2 space-y-8">
@@ -25,8 +26,11 @@
             <div class="flex justify-center">
                 <div class="text-center">
                     <div class="mx-auto mb-4 h-28 w-28 overflow-hidden rounded-full ring-1 ring-black/5">
-                        <img src="{{ $img($pimpinan, 'public/img/user/user1.jpg') }}" alt="Kepala Desa"
-                            class="h-full w-full object-cover" loading="lazy" decoding="async">
+
+
+                        <img src="{{ $pimpinan?->foto_url ?: $fallback }}" alt="Kepala Desa"
+                            class="h-full w-full object-cover" loading="lazy" />
+
                     </div>
                     <h3 class="text-lg font-semibold text-green-700">Kepala Desa</h3>
                     <p class="text-gray-600">{{ $nameOr($pimpinan, 'Nama Kepala Desa') }}</p>
