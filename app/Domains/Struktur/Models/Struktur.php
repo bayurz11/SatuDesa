@@ -2,7 +2,6 @@
 
 namespace App\Domains\Struktur\Models;
 
-
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Builder;
@@ -26,14 +25,11 @@ class Struktur extends Model
         'is_active' => 'boolean',
     ];
 
-    // Konstanta level (sesuai legenda)
+    // ===== Level konstanta =====
     public const LEVEL_PIMPINAN    = 'pimpinan';
     public const LEVEL_STRUKTURAL  = 'struktural';
     public const LEVEL_KEWILAYAHAN = 'kewilayahan';
 
-    /**
-     * Opsi level untuk select (value => label)
-     */
     public static function levelOptions(): array
     {
         return [
@@ -43,37 +39,70 @@ class Struktur extends Model
         ];
     }
 
-    /**
-     * Global scope: urutkan sesuai hirarki + jabatan
-     */
+    // ===== Default ordering (hierarki → jabatan → nama) =====
     protected static function booted(): void
     {
         static::addGlobalScope('ordered', function (Builder $q) {
             $q->orderByRaw("FIELD(level, 'pimpinan','struktural','kewilayahan')")
-                ->orderBy('jabatan');
+                ->orderBy('jabatan')
+                ->orderBy('nama');
         });
     }
 
+    // ===== Accessors =====
+
     /**
-     * Accessor: URL foto siap pakai (fallback ke aset default)
+     * URL foto yang tahan banting untuk berbagai pola penyimpanan:
+     * - Full URL (http/https)
+     * - File di public/… (contoh: public/struktur/xxx.jpg)
+     * - File di storage/… (pakai disk public dengan symlink)
+     * - Path relatif (contoh: struktur/xxx.jpg)
      */
     public function getFotoUrlAttribute(): string
     {
-        if (empty($this->foto)) {
-            return asset('img/avatars/default-person.png'); // sediakan file ini
+        $fallback = asset('img/avatars/default-person.png'); // sediakan file ini di public/img/avatars/
+
+        if (!$this->foto) {
+            return $fallback;
         }
 
-        // Jika sudah URL penuh, kembalikan apa adanya
-        if (preg_match('~^https?://~i', $this->foto)) {
-            return $this->foto;
+        $path = ltrim($this->foto, '/');
+
+        // 1) Sudah URL penuh
+        if (preg_match('~^https?://~i', $path)) {
+            return $path;
         }
 
-        // Jika path relatif storage
-        return Storage::url($this->foto);
+        // 2) Sudah di dalam folder public (hostinger sering pakai pola ini)
+        //    contoh tersimpan "public/struktur/xxx.jpg" → akses dengan asset($path)
+        if (str_starts_with($path, 'public/')) {
+            $publicPath = public_path($path);
+            return file_exists($publicPath) ? asset($path) : $fallback;
+        }
+
+        // 3) Tersimpan sebagai "storage/struktur/xxx.jpg" → akses asset('storage/…')
+        if (str_starts_with($path, 'storage/')) {
+            $publicPath = public_path($path);
+            return file_exists($publicPath) ? asset($path) : $fallback;
+        }
+
+        // 4) Cek di disk 'public' (storage/app/public/…)
+        if (Storage::disk('public')->exists($path)) {
+            // Ini akan menjadi /storage/struktur/xxx.jpg jika symlink ada
+            return asset('storage/' . $path);
+        }
+
+        // 5) Terakhir, coba langsung di public/… (untuk yang disalin manual ke public/struktur/…)
+        $maybePublic = 'public/' . $path; // contoh: public/struktur/xxx.jpg
+        if (file_exists(public_path($maybePublic))) {
+            return asset($maybePublic);
+        }
+
+        return $fallback;
     }
 
     /**
-     * Accessor: label level siap tampil
+     * Label level siap tampil.
      */
     public function getLevelLabelAttribute(): string
     {
@@ -81,8 +110,7 @@ class Struktur extends Model
     }
 
     /**
-     * Accessor: warna badge Tailwind sesuai legenda
-     * (pimpinan=green-600, struktural=emerald-400, kewilayahan=lime-400)
+     * Warna badge Tailwind berdasarkan level.
      */
     public function getBadgeColorAttribute(): string
     {
@@ -94,11 +122,7 @@ class Struktur extends Model
         };
     }
 
-    /* ===========================
-     * Query Scopes
-     * ===========================
-     */
-
+    // ===== Scopes =====
     public function scopeActive(Builder $q): Builder
     {
         return $q->where('is_active', true);
@@ -111,9 +135,7 @@ class Struktur extends Model
 
     public function scopeSearch(Builder $q, ?string $term): Builder
     {
-        if (!$term) {
-            return $q;
-        }
+        if (!$term) return $q;
 
         return $q->where(function (Builder $w) use ($term) {
             $w->where('jabatan', 'like', "%{$term}%")
