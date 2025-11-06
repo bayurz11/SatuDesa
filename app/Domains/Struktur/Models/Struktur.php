@@ -35,7 +35,7 @@ class Struktur extends Model
         return [
             self::LEVEL_PIMPINAN    => 'Pimpinan',
             self::LEVEL_STRUKTURAL  => 'Struktural',
-            self::LEVEL_KEWILAYAHAN => 'Kewilayahan (RT/RW)',
+            self::LEVEL_KEWILAYAHAN => 'Kewilayahan (Kepala Dusun)',
         ];
     }
 
