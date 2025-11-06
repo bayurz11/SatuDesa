@@ -35,7 +35,7 @@ class StrukturForm extends Component
         // Sekretariat
         'Sekretaris Desa'            => 'struktural',
         'Kaur Keuangan'              => 'struktural',
-        'Kaur Umum & Perencanaan'    => 'struktural',
+        'Kaur Umum Perencanaan'    => 'struktural',
 
         // Seksi
         'Kasi Pemerintahan'          => 'struktural',
@@ -44,8 +44,8 @@ class StrukturForm extends Component
 
         // Kewilayahan
         'Kepala Dusun Mentuda'           => 'kewilayahan',
-        'Kepala Dusun Pulun & Jelutung'  => 'kewilayahan',
-        'Kepala Dusun Tembok & Mentengah' => 'kewilayahan',
+        'Kepala Dusun Pulun Jelutung'  => 'kewilayahan',
+        'Kepala Dusun Tembok Mentengah' => 'kewilayahan',
     ];
 
     protected $listeners = [
@@ -159,7 +159,7 @@ class StrukturForm extends Component
         $levelOptions = [
             'pimpinan'    => 'Pimpinan',
             'struktural'  => 'Struktural',
-            'kewilayahan' => 'Kewilayahan (RT/RW)',
+            'kewilayahan' => 'Kewilayahan (Kepala Dusun)',
         ];
 
         // Kirim daftar opsi jabatan ke Blade
