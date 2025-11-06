@@ -14,7 +14,7 @@
             <div class="mx-auto mb-6 h-1 w-24 rounded-full bg-green-600"></div>
 
             <div
-                class="prose prose-sm md:prose-base max-w-none prose-headings:font-semibold prose-a:text-green-700 prose-strong:text-gray-900 prose-p:text-gray-700">
+                class="prose prose-sm md:prose-base max-w-none prose-headings:font-semibold prose-a:text-green-700 prose-strong:text-gray-900 prose-p:text-gray-900">
                 {!! $sejarah?->isi !!}
             </div>
 
