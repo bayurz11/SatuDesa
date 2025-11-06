@@ -30,24 +30,22 @@ class StrukturForm extends Component
     /** Daftar jabatan -> level */
     public array $jabatanOptions = [
         // Pimpinan
-        'Kepala Desa'                   => 'pimpinan',
+        'Kepala Desa' => 'pimpinan',
 
-        // Sekretariat / Struktural
-        'Sekretaris Desa'               => 'struktural',
-        'Kaur TU & Umum'                => 'struktural',
-        'Kaur Keuangan'                 => 'struktural',
-        'Kaur Perencanaan'              => 'struktural',
+        // Sekretariat
+        'Sekretaris Desa'            => 'struktural',
+        'Kaur Keuangan'              => 'struktural',
+        'Kaur Umum & Perencanaan'    => 'struktural',
 
-        // Seksi / Struktural
-        'Kasi Pemerintahan'             => 'struktural',
-        'Kasi Kesejahteraan'            => 'struktural',
-        'Kasi Pelayanan'                => 'struktural',
+        // Seksi
+        'Kasi Pemerintahan'          => 'struktural',
+        'Kasi Kesejahteraan'         => 'struktural',
+        'Kasi Pelayanan'             => 'struktural',
 
-        // Kewilayahan (Kadus per wilayah)
-        'Kepala Dusun Mentuda'          => 'kewilayahan',
-        'Kepala Dusun Pulun'            => 'kewilayahan',
-        'Kepala Dusun Tembok'           => 'kewilayahan',
-        'Kepala Dusun Jelutung Mentengah' => 'kewilayahan',
+        // Kewilayahan
+        'Kepala Dusun Mentuda'           => 'kewilayahan',
+        'Kepala Dusun Pulun & Jelutung'  => 'kewilayahan',
+        'Kepala Dusun Tembok & Mentengah' => 'kewilayahan',
     ];
 
     protected $listeners = [
@@ -59,14 +57,14 @@ class StrukturForm extends Component
     {
         return [
             'nama'      => 'required|string|max:255',
-            'jabatan'   => ['required', 'string', Rule::in(array_keys($this->jabatanOptions))],
-            'level'     => ['required', Rule::in(['pimpinan', 'struktural', 'kewilayahan'])],
+            'jabatan'   => ['required', \Illuminate\Validation\Rule::in(array_keys($this->jabatanOptions))],
+            'level'     => ['required', \Illuminate\Validation\Rule::in(['pimpinan', 'struktural', 'kewilayahan'])],
             'foto'      => 'nullable|image|max:2048',
             'is_active' => 'boolean',
         ];
     }
 
-    /** Autoset level saat jabatan berubah */
+    // Autoset level begitu jabatan dipilih
     public function updatedJabatan($value): void
     {
         if (isset($this->jabatanOptions[$value])) {

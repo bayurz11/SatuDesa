@@ -58,8 +58,18 @@ class Struktur extends Model
      * - File di storage/… (pakai disk public dengan symlink)
      * - Path relatif (contoh: struktur/xxx.jpg)
      */
+
+
     public function getFotoUrlAttribute(): string
     {
+        $rel = ltrim((string) $this->foto, '/'); // "storage/struktur/xxx.jpg"
+        if ($rel !== '') {
+            // hasil akhir: .../public/storage/struktur/xxx.jpg
+            return asset('public/' . $rel);
+        }
+        // fallback default
+        return asset('img/avatars/default-person.png');
+
         $fallback = asset('img/avatars/default-person.png'); // sediakan file ini di public/img/avatars/
 
         if (!$this->foto) {

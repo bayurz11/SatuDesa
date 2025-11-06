@@ -7,74 +7,79 @@ use App\Domains\Struktur\Models\Struktur;
 
 class StrukturShow extends Component
 {
+    // Pimpinan
     public ?Struktur $pimpinan = null;
 
-    // Sekretariat & Keuangan (2 kartu)
-    public $sekretariat; // Sekretaris Desa
-    public $bendahara;   // Bendahara Desa
+    // Sekretariat (3 kartu)
+    public $sekretaris;             // Sekretaris Desa
+    public $kaurKeuangan;           // Kaur Keuangan
+    public $kaurUmumPerencanaan;    // Kaur Umum & Perencanaan
 
-    // Kepala Urusan (3 kartu)
-    public $kaurUmum;
-    public $kaurKeuangan;
-    public $kaurPembangunan;
+    // Seksi (3 kartu)
+    public $kasiPemerintahan;
+    public $kasiKesejahteraan;
+    public $kasiPelayanan;
 
-    // Kewilayahan (4 kartu: 2 RW + 2 RT)
-    public $rw01;
-    public $rw02;
-    public $rt01;
-    public $rt02;
+    // Kewilayahan (3 Kadus)
+    public $kadusMentuda;
+    public $kadusPulunJelutung;
+    public $kadusTembokMentengah;
 
     public function mount(): void
     {
         // ===== Pimpinan =====
         $this->pimpinan = Struktur::active()
             ->where('level', Struktur::LEVEL_PIMPINAN)
-            ->where(function ($q) {
-                $q->where('jabatan', 'Kepala Desa')
-                    ->orWhere('jabatan', 'like', '%Kepala Desa%');
-            })
+            ->where('jabatan', 'Kepala Desa')
             ->first();
 
-        // ===== Sekretariat & Keuangan =====
-        $sekretariat = Struktur::active()
+        // ===== Sekretariat =====
+        $sekret = Struktur::active()
             ->where('level', Struktur::LEVEL_STRUKTURAL)
-            ->whereIn('jabatan', ['Sekretaris Desa', 'Bendahara Desa'])
-            ->orderByRaw("FIELD(jabatan,'Sekretaris Desa','Bendahara Desa')")
+            ->whereIn('jabatan', [
+                'Sekretaris Desa',
+                'Kaur Keuangan',
+                'Kaur Umum & Perencanaan',
+            ])
+            ->orderByRaw("FIELD(jabatan,'Sekretaris Desa','Kaur Keuangan','Kaur Umum & Perencanaan')")
             ->get()
             ->keyBy('jabatan');
 
-        $this->sekretariat = $sekretariat->get('Sekretaris Desa');
-        $this->bendahara   = $sekretariat->get('Bendahara Desa');
+        $this->sekretaris            = $sekret->get('Sekretaris Desa');
+        $this->kaurKeuangan          = $sekret->get('Kaur Keuangan');
+        $this->kaurUmumPerencanaan   = $sekret->get('Kaur Umum & Perencanaan');
 
-        // ===== Kepala Urusan =====
-        $kaur = Struktur::active()
+        // ===== Seksi =====
+        $seksi = Struktur::active()
             ->where('level', Struktur::LEVEL_STRUKTURAL)
-            ->whereIn('jabatan', ['Kaur Umum', 'Kaur Keuangan', 'Kaur Pembangunan'])
-            ->orderByRaw("FIELD(jabatan,'Kaur Umum','Kaur Keuangan','Kaur Pembangunan')")
+            ->whereIn('jabatan', [
+                'Kasi Pemerintahan',
+                'Kasi Kesejahteraan',
+                'Kasi Pelayanan',
+            ])
+            ->orderByRaw("FIELD(jabatan,'Kasi Pemerintahan','Kasi Kesejahteraan','Kasi Pelayanan')")
             ->get()
             ->keyBy('jabatan');
 
-        $this->kaurUmum         = $kaur->get('Kaur Umum');
-        $this->kaurKeuangan     = $kaur->get('Kaur Keuangan');
-        $this->kaurPembangunan  = $kaur->get('Kaur Pembangunan');
+        $this->kasiPemerintahan  = $seksi->get('Kasi Pemerintahan');
+        $this->kasiKesejahteraan = $seksi->get('Kasi Kesejahteraan');
+        $this->kasiPelayanan     = $seksi->get('Kasi Pelayanan');
 
-        // ===== Kewilayahan (ambil yang ada; fallback akan ditangani di view) =====
-        $rw = Struktur::active()
+        // ===== Kewilayahan (3 Kadus) =====
+        $kadus = Struktur::active()
             ->where('level', Struktur::LEVEL_KEWILAYAHAN)
-            ->where('jabatan', 'like', 'RW%')
-            ->orderBy('jabatan')
-            ->take(2)->get()->values();
+            ->whereIn('jabatan', [
+                'Kepala Dusun Mentuda',
+                'Kepala Dusun Pulun & Jelutung',
+                'Kepala Dusun Tembok & Mentengah',
+            ])
+            ->orderByRaw("FIELD(jabatan,'Kepala Dusun Mentuda','Kepala Dusun Pulun & Jelutung','Kepala Dusun Tembok & Mentengah')")
+            ->get()
+            ->keyBy('jabatan');
 
-        $rt = Struktur::active()
-            ->where('level', Struktur::LEVEL_KEWILAYAHAN)
-            ->where('jabatan', 'like', 'RT%')
-            ->orderBy('jabatan')
-            ->take(2)->get()->values();
-
-        $this->rw01 = $rw->get(0);
-        $this->rw02 = $rw->get(1);
-        $this->rt01 = $rt->get(0);
-        $this->rt02 = $rt->get(1);
+        $this->kadusMentuda         = $kadus->get('Kepala Dusun Mentuda');
+        $this->kadusPulunJelutung   = $kadus->get('Kepala Dusun Pulun & Jelutung');
+        $this->kadusTembokMentengah = $kadus->get('Kepala Dusun Tembok & Mentengah');
     }
 
     public function render()
