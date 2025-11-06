@@ -34,11 +34,10 @@
                 {{-- Featured / Artikel Utama (statik) --}}
                 <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group" data-aos="fade-right"
                     data-aos-delay="150">
-                    <a href="{{ route('berita-detail') }}
-                        <img src="{{ asset('public/img/potensi1.jpg') }}"
-                        alt="Hasil Panen Ikan Kerapu"
-                        class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                        loading="lazy" decoding="async">
+                    <a href="{{ route('berita-detail') }}" class="block">
+                        <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Hasil Panen Ikan Kerapu"
+                            class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                            loading="lazy" decoding="async">
                     </a>
 
                     <div
@@ -76,7 +75,7 @@
                 <div class="grid gap-6 md:grid-cols-2">
                     {{-- Card 1 --}}
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
-                        <a href="#" class="block">
+                        <a href="{{ route('berita-detail') }}" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
                                 <img src="{{ asset('public/img/potensi2.jpg') }}" alt="Pembangunan Balai Desa"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
@@ -107,7 +106,7 @@
 
                     {{-- Card 2 --}}
                     <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
-                        <a href="#" class="block">
+                        <a href="{{ route('berita-detail') }}" class="block">
                             <div class="aspect-[16/9] overflow-hidden rounded-t-xl">
                                 <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Tradisi Adat Desa Mentuda"
                                     class="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.04]"
