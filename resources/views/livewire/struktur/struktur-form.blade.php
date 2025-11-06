@@ -38,10 +38,11 @@
                                 <div class="flex flex-col">
                                     <label for="jabatan" class="text-sm font-medium text-gray-700 mb-2">Jabatan</label>
                                     <div class="relative">
-                                        <select id="jabatan" wire:model="jabatan" class="custom-select ...">
+                                        <select id="jabatan" wire:model="jabatan"
+                                            class="custom-select w-full rounded-xl border border-gray-300 bg-white px-4 py-3 pr-10 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm cursor-pointer">
                                             <option value="" disabled {{ $jabatan === '' ? 'selected' : '' }}>
-                                                Pilih Jabatan</option>
-
+                                                Pilih
+                                                jabatan</option>
                                             <optgroup label="Pimpinan">
                                                 <option value="Kepala Desa">Kepala Desa</option>
                                             </optgroup>
