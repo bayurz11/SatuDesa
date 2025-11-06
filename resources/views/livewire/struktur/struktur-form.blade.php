@@ -49,7 +49,7 @@
                                             <optgroup label="Sekretariat">
                                                 <option value="Sekretaris Desa">Sekretaris Desa</option>
                                                 <option value="Kaur Keuangan">Kaur Keuangan</option>
-                                                <option value="Kaur Umum Perencanaan">Kaur Umum & Perencanaan</option>
+                                                <option value="Kaur Umum & Perencanaan">Kaur Umum & Perencanaan</option>
                                             </optgroup>
 
                                             <optgroup label="Seksi">
@@ -60,9 +60,9 @@
 
                                             <optgroup label="Kewilayahan">
                                                 <option value="Kepala Dusun Mentuda">Kepala Dusun Mentuda</option>
-                                                <option value="Kepala Dusun Pulun Jelutung">Kepala Dusun Pulun &
+                                                <option value="Kepala Dusun Pulun & Jelutung">Kepala Dusun Pulun &
                                                     Jelutung</option>
-                                                <option value="Kepala Dusun Tembok Mentengah">Kepala Dusun Tembok &
+                                                <option value="Kepala Dusun Tembok & Mentengah">Kepala Dusun Tembok &
                                                     Mentengah</option>
                                             </optgroup>
                                         </select>
