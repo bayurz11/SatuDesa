@@ -262,43 +262,6 @@ Kegiatan akan difokuskan pada area balai desa, masjid, dan jalur utama. Harap me
             </aside>
         </div>
 
-        {{-- Pengumuman Terkait --}}
-        @if (!empty($terkait))
-            <section class="mt-10 md:mt-14">
-                <h3 class="text-lg md:text-xl font-semibold text-gray-900">Pengumuman Terkait</h3>
-                <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
-                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($terkait as $item)
-                        @php
-                            $tCover = $item->cover ?? asset('public/img/potensi1.jpg');
-                            $tDate = Carbon::parse($item->tanggal);
-                        @endphp
-                        <a href="#" class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
-                            <div class="aspect-[16/9] bg-gray-100">
-                                <img src="{{ $tCover }}" alt="{{ $item->judul }}"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
-                                    loading="lazy">
-                            </div>
-                            <div class="p-4">
-                                <div class="mb-1 flex flex-wrap items-center gap-2">
-                                    <span
-                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
-                                        <x-heroicon-o-bell class="size-4" /> {{ $item->kategori ?? 'Pengumuman' }}
-                                    </span>
-                                    <time class="inline-flex items-center gap-1 text-[11px] text-gray-500">
-                                        <x-heroicon-o-clock class="size-4" /> {{ $tDate->translatedFormat('d M Y') }}
-                                    </time>
-                                </div>
-                                <h4 class="text-sm md:text-base font-semibold text-gray-900 line-clamp-2">
-                                    {{ $item->judul }}</h4>
-                                <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                                    {{ Str::limit($item->ringkas ?? '', 110) }}</p>
-                            </div>
-                        </a>
-                    @endforeach
-                </div>
-            </section>
-        @endif
     </section>
 @endsection
 
