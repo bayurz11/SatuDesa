@@ -138,7 +138,6 @@
                         Route::is('sejarah') ||
                         Route::is('visi-misi') ||
                         Route::is('struktur-desa') ||
-                        Route::is('potensi-desa') ||
                         Route::is('peta-desa');
                 @endphp
                 <li class="pt-1">
@@ -166,9 +165,6 @@
                             <a href="{{ route('struktur-desa') }}"
                                 class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('struktur-desa') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Struktur
                                 Organisasi</a>
-                            <a href="{{ route('potensi-desa') }}"
-                                class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('potensi-desa') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Potensi
-                                Desa</a>
                             <a href="{{ route('peta-desa') }}"
                                 class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('peta-desa') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Peta
                                 Desa</a>
@@ -181,6 +177,7 @@
                     $isInfoActive =
                         Route::is('data-penduduk') ||
                         Route::is('apbdesa') ||
+                        Route::is('potensi-desa') ||
                         Route::is('berita') ||
                         Route::is('pengumuman') ||
                         Route::is('galeri');
@@ -207,6 +204,9 @@
                                 Penduduk</a>
                             <a href="{{ route('apbdesa') }}"
                                 class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('apbdesa') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">APBDesa</a>
+                            <a href="{{ route('potensi-desa') }}"
+                                class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('potensi-desa') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Potensi
+                                Desa</a>
                             <a href="{{ route('berita') }}"
                                 class="block px-3 py-2 rounded hover:bg-gray-100 {{ Route::is('berita') ? 'bg-green-50 text-green-700 font-semibold' : '' }}">Berita</a>
                             <a href="{{ route('pengumuman') }}"
