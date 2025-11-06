@@ -23,7 +23,12 @@ Route::get('/struktur-desa', function () {
     return view('strukturdesa');
 })->name('struktur-desa');
 
-// Struktur Desa Page Route
+// Potensi Desa Page Route
+Route::get('/potensi-desa', function () {
+    return view('potensidesa');
+})->name('potensi-desa');
+
+// Detail Potensi Desa Page Route
 Route::get('/potensi-desa', function () {
     return view('potensidesa');
 })->name('potensi-desa');
