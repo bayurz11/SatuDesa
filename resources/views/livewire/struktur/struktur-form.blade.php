@@ -41,8 +41,7 @@
                                         <select id="jabatan" wire:model="jabatan"
                                             class="custom-select w-full rounded-xl border border-gray-300 bg-white px-4 py-3 pr-10 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm cursor-pointer">
                                             <option value="" disabled {{ $jabatan === '' ? 'selected' : '' }}>
-                                                Pilih
-                                                jabatan</option>
+                                                Pilih jabatan</option>
                                             <optgroup label="Pimpinan">
                                                 <option value="Kepala Desa">Kepala Desa</option>
                                             </optgroup>
@@ -193,7 +192,7 @@
                                 <!-- STATUS -->
                                 <div class="col-span-2 flex items-center gap-3">
                                     <input id="is_active" type="checkbox" wire:model="is_active"
-                                        class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-500">
+                                        class="h-4 w-4 rounded border-gray-300 text-green-800 focus:ring-green-800">
                                     <label for="is_active" class="text-sm font-medium text-gray-700">
                                         Active
                                     </label>
