@@ -29,7 +29,7 @@
             <!-- Dropdown Profil Desa (desktop) -->
             <div class="relative group">
                 <button
-                    class="flex items-center font-medium {{ request()->is('sejarah') || request()->is('visi-misi') || request()->is('struktur-desa') || request()->is('potensi-desa') || request()->is('peta-desa') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
+                    class="flex items-center font-medium {{ request()->is('sejarah') || request()->is('visi-misi') || request()->is('struktur-desa') || request()->is('peta-desa') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
                     Profil Desa
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -45,9 +45,7 @@
                     <a href="{{ route('struktur-desa') }}"
                         class="block px-4 py-2 {{ Route::is('struktur-desa') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">Struktur
                         Organisasi</a>
-                    <a href="{{ route('potensi-desa') }}"
-                        class="block px-4 py-2 {{ Route::is('potensi-desa') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">Potensi
-                        Desa</a>
+
                     <a href="{{ route('peta-desa') }}"
                         class="block px-4 py-2 {{ Route::is('peta-desa') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">Peta
                         Desa</a>
@@ -57,7 +55,7 @@
             <!-- Dropdown Informasi (desktop) -->
             <div class="relative group">
                 <button
-                    class="text-gray-700 hover:text-green-700 flex items-center font-medium {{ request()->is('berita') || request()->is('data-penduduk') || request()->is('apbdesa') || request()->is('galeri') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
+                    class="text-gray-700 hover:text-green-700 flex items-center font-medium {{ request()->is('berita') || request()->is('data-penduduk') || request()->is('apbdesa') || request()->is('galeri') || request()->is('potensi-desa') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
                     Informasi
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -70,6 +68,9 @@
                         Penduduk</a>
                     <a href="{{ route('apbdesa') }}"
                         class="block px-4 py-2 {{ Route::is('apbdesa') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">APBDesa</a>
+                    <a href="{{ route('potensi-desa') }}"
+                        class="block px-4 py-2 {{ Route::is('potensi-desa') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">Potensi
+                        Desa</a>
                     <a href="{{ route('berita') }}"
                         class="block px-4 py-2 {{ Route::is('berita') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-700 hover:bg-gray-100' }}">Berita</a>
                     <a href="{{ route('pengumuman') }}"
