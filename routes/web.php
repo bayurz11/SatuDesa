@@ -48,6 +48,11 @@ Route::get('/pengumuman', function () {
     return view('pengumuman');
 })->name('pengumuman');
 
+// Detail Pengumuman Page Route
+Route::get('/pengumuman-detail', function () {
+    return view('pengumuman-detail');
+})->name('pengumuman-detail');
+
 // Galeri Page Route
 Route::get('/galeri', function () {
     return view('galeri');

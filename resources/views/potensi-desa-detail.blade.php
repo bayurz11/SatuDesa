@@ -1,4 +1,3 @@
-{{-- resources/views/potensi/show.blade.php --}}
 @extends('layouts.app2')
 
 @section('title', 'Potensi Desa — Contoh Statis')
@@ -98,7 +97,7 @@
         {{-- Breadcrumb --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="#" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li><a href="#" class="hover:text-green-700">Informasi</a></li>
                 <li aria-hidden="true">/</li>
@@ -154,7 +153,7 @@
                             class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                             <x-heroicon-o-information-circle class="size-5" /> Lihat Informasi
                         </a>
-                        <a href="#"
+                        <a href="{{ route('potensi-desa') }}"
                             class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                             <x-heroicon-o-arrow-left class="size-5" /> Kembali
                         </a>
@@ -280,10 +279,7 @@
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                                 <x-heroicon-o-share class="size-4" /> Bagikan
                             </a>
-                            <a href="#"
-                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                                <x-heroicon-o-pencil-square class="size-4" /> Edit Data
-                            </a>
+
                         </div>
                     </div>
                 </section>
