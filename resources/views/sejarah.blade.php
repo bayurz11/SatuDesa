@@ -10,7 +10,7 @@
             <ol class="flex items-center gap-2">
                 <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
-                <li class="text-green-700 font-medium">Profil Desa</li>
+                <li><a href="#" class="hover:text-green-700">Profil Desa</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">Sejarah Desa</li>
             </ol>
