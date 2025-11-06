@@ -30,7 +30,7 @@
 
                         <img src="{{ $pimpinan?->foto_url ?: $fallback }}" alt="Kepala Desa"
                             class="h-full w-full object-cover" loading="lazy" />
-
+                        {{ asset('public/' . $pimpinan->foto) }}
                     </div>
                     <h3 class="text-lg font-semibold text-green-700">Kepala Desa</h3>
                     <p class="text-gray-600">{{ $nameOr($pimpinan, 'Nama Kepala Desa') }}</p>
