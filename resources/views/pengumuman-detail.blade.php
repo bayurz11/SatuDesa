@@ -182,38 +182,6 @@ Kegiatan akan difokuskan pada area balai desa, masjid, dan jalur utama. Harap me
                     @endif
                 </section>
 
-                {{-- Galeri/Foto kegiatan --}}
-                @if (!empty($pengumuman->galeri))
-                    <section class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8" x-data="{ open: false, img: '' }">
-                        <h3 class="text-lg md:text-xl font-semibold text-gray-900">Galeri</h3>
-                        <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
-
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                            @foreach ($pengumuman->galeri as $g)
-                                <button class="group relative aspect-[4/3] overflow-hidden rounded-xl ring-1 ring-black/5"
-                                    @click="open = true; img='{{ $g }}'">
-                                    <img src="{{ $g }}" alt="Galeri {{ $pengumuman->judul }}"
-                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
-                                        loading="lazy">
-                                    <span class="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition"></span>
-                                </button>
-                            @endforeach
-                        </div>
-
-                        {{-- Modal Preview --}}
-                        <div x-show="open" x-transition x-cloak @click.self="open=false"
-                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                            <div
-                                class="relative max-w-3xl w-full bg-white rounded-2xl shadow ring-1 ring-black/5 p-4 md:p-6">
-                                <button @click="open=false" aria-label="Tutup"
-                                    class="absolute right-3 top-3 inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 text-gray-600 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600">✕</button>
-                                <img :src="img" alt="Preview Galeri"
-                                    class="w-full max-h-[70vh] object-contain rounded-lg">
-                            </div>
-                        </div>
-                    </section>
-                @endif
-
                 {{-- CTA Aksi --}}
                 <section class="rounded-2xl border border-green-200 bg-green-50/60 p-5 md:p-6">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
@@ -272,8 +240,7 @@ Kegiatan akan difokuskan pada area balai desa, masjid, dan jalur utama. Harap me
                         <li><a href="{{ url('/pengumuman') }}"
                                 class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
                                 <x-heroicon-o-list-bullet class="size-4" /> Semua Pengumuman</a></li>
-                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
-                                <x-heroicon-o-map class="size-4" /> Peta Lokasi</a></li>
+
                     </ul>
                 </div>
 
