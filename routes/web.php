@@ -29,9 +29,9 @@ Route::get('/potensi-desa', function () {
 })->name('potensi-desa');
 
 // Detail Potensi Desa Page Route
-Route::get('/potensi-desa', function () {
-    return view('potensidesa');
-})->name('potensi-desa');
+Route::get('/potensi-desa-detail', function () {
+    return view('potensi-desa-detail');
+})->name('potensi-desa-detail');
 
 // Data Penduduk Page Route
 Route::get('/data-penduduk', function () {

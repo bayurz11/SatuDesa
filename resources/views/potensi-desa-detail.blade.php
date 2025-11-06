@@ -1,0 +1,409 @@
+{{-- resources/views/potensi/show.blade.php --}}
+@extends('layouts.app2')
+
+@section('title', 'Potensi Desa — Contoh Statis')
+
+@section('content')
+    @php
+        use Illuminate\Support\Str;
+
+        // ====== DATA STATIS (FALLBACK) ======
+        // Jika $potensi tidak dikirim dari controller, buat contoh statis:
+        if (!isset($potensi)) {
+            $potensi = (object) [
+                'judul' => 'Perikanan: Ikan Bilis & Kerapu',
+                'subjudul' => 'Komoditas unggulan pesisir Mentuda',
+                'cover' => asset('public/img/potensi1.jpg'),
+                'cover_url' => null, // jika ada URL absolut, bisa isi di sini
+                'galeri' => [
+                    asset('public/img/potensi1.jpg'),
+                    asset('public/img/potensi2.jpg'),
+                    asset('public/img/potensi1.jpg'),
+                    asset('public/img/potensi2.jpg'),
+                ],
+                'kategori' => 'Perikanan',
+                'tags' => ['UMKM', 'Olahan Ikan', 'Ekspor'],
+                'deskripsi' =>
+                    '<p>Perikanan menjadi tulang punggung ekonomi Desa Mentuda. Ikan bilis dan kerapu memiliki nilai jual tinggi, baik sebagai bahan baku olahan lokal maupun komoditas ekspor.</p><p>Program desa mendorong peningkatan kualitas tangkapan, rantai dingin (cold chain), dan pengolahan bernilai tambah seperti abon bilis, kerupuk ikan, hingga fillet kerapu.</p>',
+                'detail' => [
+                    'Musim Panen' => 'Maret–September',
+                    'Rantai Dingin' => 'Tersedia (Gudang Es + Freezer Komunal)',
+                    'Pasar Utama' => ['Lingga', 'Batam', 'Tanjungpinang'],
+                    'Potensi Ekspor' => 'Sedang dipetakan (Singapura/Malaysia)',
+                    'Sarana Tambat' => 'Dermaga Nelayan Mentuda',
+                ],
+                'embed_map' =>
+                    '<iframe src="https://maps.google.com/maps?q=Mentuda%20Lingga&t=&z=11&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" loading="lazy"></iframe>',
+                'estimasi_produksi' => 180, // angka contoh
+                'estimasi_satuan' => 'ton/tahun',
+                'pelaku_umkm' => 42,
+                'luas_lahan' => null, // tidak relevan untuk perikanan
+                'lokasi' => 'Desa Mentuda, Lingga, Kepulauan Riau',
+                'kontak' => '0812-3456-7890 (Sekretariat BUMDes)',
+                'dokumen_link' => '#',
+                'updated_at' => now()->subDays(3),
+            ];
+        }
+
+        // Jika $related tidak ada, isi contoh statis:
+        if (!isset($related)) {
+            $related = [
+                (object) [
+                    'judul' => 'Pariwisata Alam & Bahari',
+                    'cover' => asset('public/img/potensi2.jpg'),
+                    'cover_url' => null,
+                    'kategori' => 'Pariwisata',
+                    'deskripsi' => 'Pantai & teluk untuk wisata bahari, edukasi, fotografi alam.',
+                ],
+                (object) [
+                    'judul' => 'Pertanian Kelapa & Hortikultura',
+                    'cover' => asset('public/img/potensi1.jpg'),
+                    'cover_url' => null,
+                    'kategori' => 'Pertanian',
+                    'deskripsi' => 'Kelapa, sayur, dan buah lokal; penopang ketahanan pangan.',
+                ],
+                (object) [
+                    'judul' => 'Ekonomi UMKM & Industri Kreatif',
+                    'cover' => asset('public/img/potensi2.jpg'),
+                    'cover_url' => null,
+                    'kategori' => 'Ekonomi',
+                    'deskripsi' => 'Produk olahan ikan, kuliner khas, dan kerajinan lokal.',
+                ],
+            ];
+        }
+
+        // ====== HELPER & FALLBACK Gambar ======
+        $cover =
+            $potensi->cover_url ??
+            (Str::startsWith($potensi->cover ?? '', ['http://', 'https://'])
+                ? $potensi->cover
+                : $potensi->cover ?? asset('public/img/potensi1.jpg'));
+
+        $gallery = collect($potensi->galeri ?? [asset('public/img/potensi1.jpg')])->take(12);
+
+        $tags = collect($potensi->tags ?? [$potensi->kategori ?? 'Potensi'])
+            ->filter()
+            ->unique()
+            ->values();
+
+        // Ringkasan angka
+        $stat1 = $potensi->estimasi_produksi ?? null;
+        $stat1_unit = $potensi->estimasi_satuan ?? 'ton/tahun';
+        $stat2 = $potensi->pelaku_umkm ?? null;
+        $stat3 = $potensi->luas_lahan ?? null;
+        $lokasi = $potensi->lokasi ?? 'Desa Mentuda, Lingga, Kepulauan Riau';
+    @endphp
+
+    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
+        {{-- Breadcrumb --}}
+        <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2">
+                <li><a href="#" class="hover:text-green-700">Beranda</a></li>
+                <li aria-hidden="true">/</li>
+                <li><a href="#" class="hover:text-green-700">Profil Desa</a></li>
+                <li aria-hidden="true">/</li>
+                <li><a href="#" class="hover:text-green-700">Potensi Desa</a></li>
+                <li aria-hidden="true">/</li>
+                <li class="text-green-700 font-medium line-clamp-1">{{ $potensi->judul }}</li>
+            </ol>
+        </nav>
+
+        {{-- HERO --}}
+        <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+            <div class="grid md:grid-cols-12 gap-0">
+                <figure class="md:col-span-7 h-56 md:h-80 overflow-hidden">
+                    <img src="{{ $cover }}" alt="{{ $potensi->judul }}" class="h-full w-full object-cover"
+                        loading="lazy" decoding="async">
+                </figure>
+                <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span
+                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                            <x-heroicon-o-tag class="size-4" />
+                            {{ $potensi->kategori ?? 'Potensi' }}
+                        </span>
+                        @foreach ($tags as $t)
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-medium text-emerald-700 ring-1 ring-emerald-200">
+                                #{{ $t }}
+                            </span>
+                        @endforeach
+                    </div>
+
+                    <h1 class="mt-3 text-2xl md:text-3xl font-extrabold tracking-tight text-gray-900">
+                        {{ $potensi->judul }}
+                    </h1>
+                    @if (!empty($potensi->subjudul))
+                        <p class="mt-1 text-gray-600">{{ $potensi->subjudul }}</p>
+                    @endif
+
+                    <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+                        <span class="inline-flex items-center gap-2">
+                            <x-heroicon-o-map-pin class="size-4 text-green-700" /> {{ $lokasi }}
+                        </span>
+                        @if (!empty($potensi->updated_at))
+                            <span class="inline-flex items-center gap-2">
+                                <x-heroicon-o-clock class="size-4 text-green-700" />
+                                Diperbarui {{ \Illuminate\Support\Carbon::parse($potensi->updated_at)->diffForHumans() }}
+                            </span>
+                        @endif
+                    </div>
+
+                    <div class="mt-5 flex flex-wrap gap-2">
+                        <a href="#informasi"
+                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                            <x-heroicon-o-information-circle class="size-5" /> Lihat Informasi
+                        </a>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                            <x-heroicon-o-arrow-left class="size-5" /> Kembali
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid gap-8 lg:grid-cols-3 items-start mt-8">
+            {{-- KONTEN UTAMA --}}
+            <article class="lg:col-span-2 space-y-8">
+                {{-- Ringkasan Angka --}}
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    <div class="rounded-xl bg-green-50/60 p-4 ring-1 ring-green-200">
+                        <p class="text-[11px] sm:text-xs text-gray-600">Estimasi Produksi</p>
+                        <p class="mt-0.5 font-semibold text-gray-900 text-xl md:text-2xl">
+                            @if ($stat1)
+                                {{ is_numeric($stat1) ? number_format($stat1) : $stat1 }}
+                                <span class="text-sm font-medium text-gray-600">{{ $stat1_unit }}</span>
+                            @else
+                                <span class="text-gray-500">—</span>
+                            @endif
+                        </p>
+                    </div>
+                    <div class="rounded-xl bg-emerald-50/60 p-4 ring-1 ring-emerald-200">
+                        <p class="text-[11px] sm:text-xs text-gray-600">Pelaku UMKM</p>
+                        <p class="mt-0.5 font-semibold text-gray-900 text-xl md:text-2xl">
+                            {{ $stat2 ? number_format($stat2) : '—' }}
+                        </p>
+                    </div>
+                    <div class="rounded-xl bg-lime-50/60 p-4 ring-1 ring-lime-200 hidden sm:block">
+                        <p class="text-[11px] sm:text-xs text-gray-600">Luas Lahan</p>
+                        <p class="mt-0.5 font-semibold text-gray-900 text-xl md:text-2xl">
+                            @if ($stat3)
+                                {{ is_numeric($stat3) ? number_format($stat3, 2) : $stat3 }} <span
+                                    class="text-sm text-gray-600">ha</span>
+                            @else
+                                <span class="text-gray-500">—</span>
+                            @endif
+                        </p>
+                    </div>
+                </div>
+
+                {{-- Informasi Utama --}}
+                <section id="informasi" class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8">
+                    <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Deskripsi</h2>
+                    <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
+                    <div class="prose max-w-none">
+                        {!! $potensi->deskripsi ?: '<p class="text-gray-600">Belum ada deskripsi terperinci untuk potensi ini.</p>' !!}
+                    </div>
+
+                    {{-- Detail Tabel Kunci --}}
+                    @if (!empty($potensi->detail))
+                        <div class="mt-6 overflow-hidden rounded-xl ring-1 ring-gray-200">
+                            <table class="min-w-full divide-y divide-gray-200 text-sm">
+                                <tbody class="divide-y divide-gray-100 bg-white">
+                                    @foreach ($potensi->detail as $k => $v)
+                                        <tr>
+                                            <th class="w-48 bg-gray-50 px-4 py-3 text-left font-medium text-gray-700">
+                                                {{ $k }}</th>
+                                            <td class="px-4 py-3 text-gray-800">{{ is_array($v) ? implode(', ', $v) : $v }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
+                </section>
+
+                {{-- Galeri --}}
+                @if ($gallery->count())
+                    <section class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8" x-data="{ open: false, img: '' }">
+                        <h3 class="text-lg md:text-xl font-semibold text-gray-900">Galeri</h3>
+                        <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            @foreach ($gallery as $g)
+                                <button class="group relative aspect-[4/3] overflow-hidden rounded-xl ring-1 ring-black/5"
+                                    @click="open = true; img='{{ $g }}'">
+                                    <img src="{{ $g }}" alt="Galeri {{ $potensi->judul }}"
+                                        class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
+                                        loading="lazy">
+                                    <span class="absolute inset-0 bg-black/0 group-hover:bg-black/15 transition"></span>
+                                </button>
+                            @endforeach
+                        </div>
+
+                        {{-- Modal Preview --}}
+                        <div x-show="open" x-transition x-cloak @click.self="open=false"
+                            class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+                            <div
+                                class="relative max-w-3xl w-full bg-white rounded-2xl shadow ring-1 ring-black/5 p-4 md:p-6">
+                                <button @click="open=false" aria-label="Tutup"
+                                    class="absolute right-3 top-3 inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 text-gray-600 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600">✕</button>
+                                <img :src="img" alt="Preview Galeri"
+                                    class="w-full max-h-[70vh] object-contain rounded-lg">
+                            </div>
+                        </div>
+                    </section>
+                @endif
+
+                {{-- Lokasi Peta --}}
+                @if (!empty($potensi->embed_map))
+                    <section class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8">
+                        <h3 class="text-lg md:text-xl font-semibold text-gray-900">Lokasi</h3>
+                        <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
+                        <div class="aspect-[16/9] overflow-hidden rounded-xl ring-1 ring-black/5">
+                            {!! $potensi->embed_map !!}
+                        </div>
+                    </section>
+                @endif
+
+                {{-- CTA --}}
+                <section class="rounded-2xl border border-green-200 bg-green-50/60 p-5 md:p-6">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+                        <div>
+                            <h3 class="text-base md:text-lg font-semibold text-gray-900">Bagikan Potensi Ini</h3>
+                            <p class="text-sm text-gray-700">Sebarkan informasi untuk mendukung promosi dan kolaborasi.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <a href="#"
+                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                <x-heroicon-o-share class="size-4" /> Bagikan
+                            </a>
+                            <a href="#"
+                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                <x-heroicon-o-pencil-square class="size-4" /> Edit Data
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            {{-- SIDEBAR --}}
+            <aside class="space-y-6 lg:sticky lg:top-20">
+                <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
+                    <h3 class="font-semibold text-gray-900 mb-3">Ringkasan Cepat</h3>
+                    <ul class="space-y-2 text-sm text-gray-700">
+                        <li class="flex items-center gap-2">
+                            <x-heroicon-o-map-pin class="h-4 w-4 text-green-700" /> {{ $lokasi }}
+                        </li>
+                        @if ($stat1)
+                            <li class="flex items-center gap-2">
+                                <x-heroicon-o-chart-bar class="h-4 w-4 text-green-700" />
+                                Estimasi: {{ is_numeric($stat1) ? number_format($stat1) : $stat1 }} {{ $stat1_unit }}
+                            </li>
+                        @endif
+                        @if ($stat2)
+                            <li class="flex items-center gap-2">
+                                <x-heroicon-o-user-group class="h-4 w-4 text-green-700" />
+                                Pelaku UMKM: {{ number_format($stat2) }}
+                            </li>
+                        @endif
+                        @if ($stat3)
+                            <li class="flex items-center gap-2">
+                                <x-heroicon-o-globe-alt class="h-4 w-4 text-green-700" />
+                                Lahan: {{ is_numeric($stat3) ? number_format($stat3, 2) : $stat3 }} ha
+                            </li>
+                        @endif
+                        @if (!empty($potensi->kontak))
+                            <li class="flex items-center gap-2">
+                                <x-heroicon-o-phone class="h-4 w-4 text-green-700" />
+                                Kontak: {{ $potensi->kontak }}
+                            </li>
+                        @endif
+                    </ul>
+
+                    @if (!empty($potensi->dokumen_link))
+                        <div class="mt-4">
+                            <a href="{{ $potensi->dokumen_link }}" target="_blank" rel="noopener"
+                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-1.5 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                <x-heroicon-o-document-text class="size-4" /> Dokumen Terkait
+                            </a>
+                        </div>
+                    @endif
+                </div>
+
+                <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
+                    <h3 class="font-semibold text-gray-900 mb-3">Tautan Terkait</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                                <x-heroicon-o-newspaper class="size-4" /> Berita Desa</a></li>
+                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                                <x-heroicon-o-building-storefront class="size-4" /> UMKM Desa</a></li>
+                        <li><a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                                <x-heroicon-o-map class="size-4" /> Profil Wilayah</a></li>
+                    </ul>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl shadow p-5 ring-1 ring-green-200">
+                    <h3 class="font-semibold text-gray-900">Butuh Bantuan?</h3>
+                    <p class="text-sm text-gray-700 mt-1">Hubungi admin untuk update data atau kolaborasi promosi.</p>
+                    <div class="mt-3 flex gap-2">
+                        <a href="#"
+                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                            <x-heroicon-o-inbox class="size-4" /> Kontak Admin
+                        </a>
+                        <a href="#"
+                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                            <x-heroicon-o-list-bullet class="size-4" /> Lihat Lainnya
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+
+        {{-- Potensi Terkait --}}
+        @if (!empty($related))
+            <section class="mt-10 md:mt-14">
+                <h3 class="text-lg md:text-xl font-semibold text-gray-900">Potensi Terkait</h3>
+                <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
+                <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach ($related as $item)
+                        @php
+                            $img =
+                                $item->cover_url ??
+                                (Str::startsWith($item->cover ?? '', ['http://', 'https://'])
+                                    ? $item->cover
+                                    : $item->cover ?? asset('public/img/potensi2.jpg'));
+                        @endphp
+                        <a href="#" class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
+                            <div class="aspect-[16/9] bg-gray-100">
+                                <img src="{{ $img }}" alt="{{ $item->judul }}"
+                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
+                                    loading="lazy">
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-1 flex flex-wrap items-center gap-2">
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                                        <x-heroicon-o-tag class="size-4" /> {{ $item->kategori ?? 'Potensi' }}
+                                    </span>
+                                </div>
+                                <h4 class="text-sm md:text-base font-semibold text-gray-900 line-clamp-2">
+                                    {{ $item->judul }}</h4>
+                                <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                                    {{ Str::limit(strip_tags($item->deskripsi ?? ''), 110) }}</p>
+                            </div>
+                        </a>
+                    @endforeach
+                </div>
+            </section>
+        @endif
+    </section>
+@endsection
+
+@push('scripts')
+    <script>
+        document.addEventListener('alpine:init', () => {});
+    </script>
+@endpush
