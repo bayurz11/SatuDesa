@@ -37,9 +37,45 @@
                                 <!-- JABATAN -->
                                 <div class="flex flex-col">
                                     <label for="jabatan" class="text-sm font-medium text-gray-700 mb-2">Jabatan</label>
-                                    <input id="jabatan" type="text" wire:model.defer="jabatan"
-                                        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm"
-                                        placeholder="Contoh: Kepala Desa, Sekretaris Desa, Ketua RT 01">
+                                    <div class="relative">
+                                        <select id="jabatan" wire:model="jabatan" class="custom-select ...">
+                                            <option value="" disabled {{ $jabatan === '' ? 'selected' : '' }}>
+                                                Pilih Jabatan</option>
+
+                                            <optgroup label="Pimpinan">
+                                                <option value="Kepala Desa">Kepala Desa</option>
+                                            </optgroup>
+
+                                            <optgroup label="Sekretariat">
+                                                <option value="Sekretaris Desa">Sekretaris Desa</option>
+                                                <option value="Kaur TU & Umum">Kaur TU & Umum</option>
+                                                <option value="Kaur Keuangan">Kaur Keuangan</option>
+                                                <option value="Kaur Perencanaan">Kaur Perencanaan</option>
+                                            </optgroup>
+
+                                            <optgroup label="Seksi">
+                                                <option value="Kasi Pemerintahan">Kasi Pemerintahan</option>
+                                                <option value="Kasi Kesejahteraan">Kasi Kesejahteraan</option>
+                                                <option value="Kasi Pelayanan">Kasi Pelayanan</option>
+                                            </optgroup>
+
+                                            <optgroup label="Kewilayahan">
+                                                <option value="Kepala Dusun Mentuda">Kepala Dusun Mentuda</option>
+                                                <option value="Kepala Dusun Pulun">Kepala Dusun Pulun</option>
+                                                <option value="Kepala Dusun Tembok">Kepala Dusun Tembok</option>
+                                                <option value="Kepala Dusun Jelutung Mentengah">Kepala Dusun Jelutung
+                                                    Mentengah</option>
+                                            </optgroup>
+                                        </select>
+                                        <div
+                                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                                            <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+                                                viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M19 9l-7 7-7-7" />
+                                            </svg>
+                                        </div>
+                                    </div>
                                     @error('jabatan')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror

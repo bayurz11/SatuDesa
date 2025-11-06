@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Livewire\WithFileUploads;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use App\Domains\Struktur\Models\Struktur;
 
 class StrukturForm extends Component
@@ -26,17 +27,52 @@ class StrukturForm extends Component
     public bool $showModal = false;
     public bool $isEditing = false;
 
-    protected $rules = [
-        'nama'      => 'required|string|max:255',
-        'jabatan'   => 'required|string|max:255',
-        'level'     => 'required|in:pimpinan,struktural,kewilayahan',
-        'foto'      => 'nullable|image|max:2048',
-        'is_active' => 'boolean',
+    /** Daftar jabatan -> level */
+    public array $jabatanOptions = [
+        // Pimpinan
+        'Kepala Desa'                   => 'pimpinan',
+
+        // Sekretariat / Struktural
+        'Sekretaris Desa'               => 'struktural',
+        'Kaur TU & Umum'                => 'struktural',
+        'Kaur Keuangan'                 => 'struktural',
+        'Kaur Perencanaan'              => 'struktural',
+
+        // Seksi / Struktural
+        'Kasi Pemerintahan'             => 'struktural',
+        'Kasi Kesejahteraan'            => 'struktural',
+        'Kasi Pelayanan'                => 'struktural',
+
+        // Kewilayahan (Kadus per wilayah)
+        'Kepala Dusun Mentuda'          => 'kewilayahan',
+        'Kepala Dusun Pulun'            => 'kewilayahan',
+        'Kepala Dusun Tembok'           => 'kewilayahan',
+        'Kepala Dusun Jelutung Mentengah' => 'kewilayahan',
     ];
 
     protected $listeners = [
         'openStrukturForm' => 'openForm',
     ];
+
+    /** Rules dinamis agar validasi jabatan sesuai daftar */
+    protected function rules(): array
+    {
+        return [
+            'nama'      => 'required|string|max:255',
+            'jabatan'   => ['required', 'string', Rule::in(array_keys($this->jabatanOptions))],
+            'level'     => ['required', Rule::in(['pimpinan', 'struktural', 'kewilayahan'])],
+            'foto'      => 'nullable|image|max:2048',
+            'is_active' => 'boolean',
+        ];
+    }
+
+    /** Autoset level saat jabatan berubah */
+    public function updatedJabatan($value): void
+    {
+        if (isset($this->jabatanOptions[$value])) {
+            $this->level = $this->jabatanOptions[$value];
+        }
+    }
 
     public function openForm($id = null): void
     {
@@ -50,13 +86,13 @@ class StrukturForm extends Component
             $this->nama       = (string) $item->nama;
             $this->jabatan    = (string) $item->jabatan;
             $this->level      = (string) $item->level;
-            $this->fotoLama   = $item->foto;       // path relatif di disk public
+            $this->fotoLama   = $item->foto;       // path relatif disimpan, contoh: "storage/struktur/xxxx.jpg"
             $this->is_active  = (bool) $item->is_active;
 
             $this->isEditing  = true;
         } else {
             $this->reset(['strukturId', 'nama', 'jabatan', 'foto', 'fotoLama', 'isEditing']);
-            $this->level      = 'struktural'; // default sesuai legenda
+            $this->level      = 'struktural'; // default
             $this->is_active  = true;
         }
 
@@ -84,15 +120,15 @@ class StrukturForm extends Component
             $namaFile = Str::random(12) . '.' . $ext;
 
             // Simpan langsung ke public/storage/struktur (tanpa symlink)
-            $relative = $this->foto->storeAs('struktur', $namaFile, 'public_path'); // hasil: "struktur/xxxx.jpg"
+            $relative = $this->foto->storeAs('struktur', $namaFile, 'public_path'); // "struktur/xxxx.jpg"
 
-            // Simpan path yg siap dipakai asset()
-            $data['foto'] = 'storage/' . ltrim($relative, '/'); // "storage/struktur/xxxx.jpg"
+            // Simpan path yg siap dipakai asset(): "storage/struktur/xxxx.jpg"
+            $data['foto'] = 'storage/' . ltrim($relative, '/');
 
             // Hapus foto lama jika update
             if ($this->isEditing && $this->fotoLama) {
-                // $this->fotoLama disimpan sebagai "storage/struktur/xxxx.jpg"
-                $old = ltrim(str_replace('storage/', '', $this->fotoLama), '/'); // jadi "struktur/xxxx.jpg"
+                // $this->fotoLama berupa "storage/struktur/xxxx.jpg"
+                $old = ltrim(str_replace('storage/', '', $this->fotoLama), '/'); // "struktur/xxxx.jpg"
                 if (Storage::disk('public_path')->exists($old)) {
                     Storage::disk('public_path')->delete($old);
                 }
@@ -121,13 +157,16 @@ class StrukturForm extends Component
 
     public function render()
     {
-        // Opsi level untuk select
+        // Opsi level untuk select (jika tetap ditampilkan)
         $levelOptions = [
             'pimpinan'    => 'Pimpinan',
             'struktural'  => 'Struktural',
             'kewilayahan' => 'Kewilayahan (RT/RW)',
         ];
 
-        return view('livewire.struktur.struktur-form', compact('levelOptions'));
+        // Kirim daftar opsi jabatan ke Blade
+        $jabatanOptions = array_keys($this->jabatanOptions);
+
+        return view('livewire.struktur.struktur-form', compact('levelOptions', 'jabatanOptions'));
     }
 }
