@@ -43,6 +43,11 @@ Route::get('/berita', function () {
     return view('berita');
 })->name('berita');
 
+// Berita Page Route
+Route::get('/berita-detail', function () {
+    return view('berita-detail');
+})->name('berita-detail');
+
 // Pengumuman Page Route
 Route::get('/pengumuman', function () {
     return view('pengumuman');

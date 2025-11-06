@@ -55,7 +55,7 @@
             <!-- Dropdown Informasi (desktop) -->
             <div class="relative group">
                 <button
-                    class="text-gray-700 hover:text-green-700 flex items-center font-medium {{ request()->is('berita') || request()->is('data-penduduk') || request()->is('apbdesa') || request()->is('galeri') || request()->is('potensi-desa') || request()->is('potensi-desa-detail') || request()->is('pengumuman-detail') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
+                    class="text-gray-700 hover:text-green-700 flex items-center font-medium {{ request()->is('berita') || request()->is('berita-detail') || request()->is('data-penduduk') || request()->is('apbdesa') || request()->is('galeri') || request()->is('potensi-desa') || request()->is('potensi-desa-detail') || request()->is('pengumuman-detail') ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }}">
                     Informasi
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -183,6 +183,7 @@
                         Route::is('pengumuman') ||
                         Route::is('potensi-desa-detail') ||
                         Route::is('pengumuman-detail') ||
+                        Route::is('berita-detail') ||
                         Route::is('galeri');
                 @endphp
                 <li class="pt-1">

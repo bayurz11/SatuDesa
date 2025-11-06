@@ -1,4 +1,3 @@
-{{-- resources/views/pengumuman/show.blade.php --}}
 @extends('layouts.app2')
 
 @section('title', ($pengumuman->judul ?? 'Pengumuman') . ' — Pengumuman Desa')

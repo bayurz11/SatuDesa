@@ -34,10 +34,11 @@
                 {{-- Featured / Artikel Utama (statik) --}}
                 <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group" data-aos="fade-right"
                     data-aos-delay="150">
-                    <a href="#" class="block">
-                        <img src="{{ asset('public/img/potensi1.jpg') }}" alt="Hasil Panen Ikan Kerapu"
-                            class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                            loading="lazy" decoding="async">
+                    <a href="{{ route('berita-detail') }}
+                        <img src="{{ asset('public/img/potensi1.jpg') }}"
+                        alt="Hasil Panen Ikan Kerapu"
+                        class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                        loading="lazy" decoding="async">
                     </a>
 
                     <div
@@ -58,7 +59,8 @@
                         </div>
 
                         <h2 class="text-white text-2xl md:text-3xl font-extrabold leading-snug line-clamp-2 drop-shadow">
-                            <a href="#" class="pointer-events-auto group-hover:text-green-200 transition">
+                            <a href="{{ route('berita-detail') }}"
+                                class="pointer-events-auto group-hover:text-green-200 transition">
                                 Hasil Panen Ikan Kerapu Melimpah Membantu Perekonomian Masyarakat Desa Mentuda
                             </a>
                         </h2>
