@@ -42,7 +42,7 @@
                             <span class="h-2 w-2 rounded-full bg-emerald-400"></span> Struktural
                         </li>
                         <li class="flex items-center gap-2">
-                            <span class="h-2 w-2 rounded-full bg-lime-400"></span> Kewilayahan (RT/RW)
+                            <span class="h-2 w-2 rounded-full bg-lime-400"></span> Kewilayahan (Kepala Dusun)
                         </li>
                     </ul>
                 </div>

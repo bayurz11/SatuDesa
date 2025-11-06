@@ -88,7 +88,7 @@
         </div>
     </div>
 
-    {{-- Seksi --}}
+    {{-- Kasi --}}
     <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
         <div class="p-6 md:p-8">
             <div class="flex items-center justify-between mb-6">
@@ -97,7 +97,7 @@
                         class="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-green-50 ring-1 ring-green-200">
                         <x-heroicon-o-clipboard-document-list class="size-6 text-green-700" />
                     </span>
-                    <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Seksi</h2>
+                    <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Kasi</h2>
                 </div>
                 <span
                     class="inline-flex items-center rounded-full bg-emerald-400 px-3 py-1 text-xs font-medium text-white">
