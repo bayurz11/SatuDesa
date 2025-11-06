@@ -68,13 +68,10 @@
                             Visi &amp; Misi
                         </a>
                         <a href="{{ route('profil.struktur-organisasi') }}"
-                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.struktur') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.struktur-organisasi') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Struktur Organisasi
                         </a>
-                        <a href="#"
-                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.potensi') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
-                            Potensi Desa
-                        </a>
+
                     </div>
                 </div>
             @endpermission
@@ -102,6 +99,10 @@
 
                     <div :id="ids[1]" x-show="activeMenu === 'informasi'" x-collapse
                         class="mt-1 pl-10 space-y-1 overflow-hidden">
+                        <a href="#"
+                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.potensi') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                            Potensi Desa
+                        </a>
                         <a href="#"
                             class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.berita') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Berita
