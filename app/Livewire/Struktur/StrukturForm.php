@@ -29,23 +29,19 @@ class StrukturForm extends Component
 
     /** Daftar jabatan -> level */
     public array $jabatanOptions = [
-        // Pimpinan
         'Kepala Desa' => 'pimpinan',
 
-        // Sekretariat
         'Sekretaris Desa'            => 'struktural',
         'Kaur Keuangan'              => 'struktural',
-        'Kaur Umum Perencanaan'    => 'struktural',
+        'Kaur Umum & Perencanaan'    => 'struktural', // pakai & dan ejaan benar
 
-        // Seksi
         'Kasi Pemerintahan'          => 'struktural',
         'Kasi Kesejahteraan'         => 'struktural',
         'Kasi Pelayanan'             => 'struktural',
 
-        // Kewilayahan
-        'Kepala Dusun Mentuda'           => 'kewilayahan',
-        'Kepala Dusun Pulun Jelutung'  => 'kewilayahan',
-        'Kepala Dusun Tembok Mentengah' => 'kewilayahan',
+        'Kepala Dusun Mentuda'            => 'kewilayahan',
+        'Kepala Dusun Pulun & Jelutung'   => 'kewilayahan',
+        'Kepala Dusun Tembok & Mentengah' => 'kewilayahan',
     ];
 
     protected $listeners = [
