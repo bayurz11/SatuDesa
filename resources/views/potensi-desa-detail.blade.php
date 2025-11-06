@@ -100,9 +100,9 @@
             <ol class="flex items-center gap-2">
                 <li><a href="#" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
-                <li><a href="#" class="hover:text-green-700">Profil Desa</a></li>
+                <li><a href="#" class="hover:text-green-700">Informasi</a></li>
                 <li aria-hidden="true">/</li>
-                <li><a href="#" class="hover:text-green-700">Potensi Desa</a></li>
+                <li><a href="{{ route('potensi-desa') }}" class="hover:text-green-700">Potensi Desa</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium line-clamp-1">{{ $potensi->judul }}</li>
             </ol>
