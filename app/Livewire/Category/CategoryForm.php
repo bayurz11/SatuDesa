@@ -22,10 +22,10 @@ class CategoryForm extends Component
     public int $sort_order = 0;
 
     protected $listeners = [
-        'openCategoryForm' => 'openForm',
+        'openCategoryForm' => 'showModal',
     ];
 
-    public function openForm(?string $id = null): void
+    public function showModal(?string $id = null): void
     {
         $this->resetValidation();
 
