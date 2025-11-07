@@ -75,7 +75,7 @@ class CategoryList extends Component
     {
         // ULID → string
         $item = Category::findOrFail($id);
-        $item->update(['is_active' => ! $item->is_active]);
+        $item->update(['published_at' => ! $item->published_at ? now() : null]);
 
         $this->showSuccessToast('Status kategori diperbarui!');
     }
@@ -94,7 +94,7 @@ class CategoryList extends Component
     {
         $query = Category::query()
             ->when($this->search, fn($q) => $q->search($this->search))
-            ->when(!$this->showInactive, fn($q) => $q->where('is_active', true));
+            ->when(!$this->showInactive, fn($q) => $q->where('published_at', true));
 
         // Validasi sort & perPage
         $sortField = in_array($this->sortField, $this->allowedSorts, true) ? $this->sortField : 'created_at';
