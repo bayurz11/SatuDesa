@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Livewire\Tag;
+namespace App\Livewire\Tags;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Shared\Traits\WithAlerts;
 use App\Domains\Post\Models\Tags;
+use App\Shared\Traits\WithAlerts;
 
 class TagsList extends Component
 {
