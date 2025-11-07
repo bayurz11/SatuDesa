@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domains\Post\Models;
+namespace App\Domains\Tag\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;

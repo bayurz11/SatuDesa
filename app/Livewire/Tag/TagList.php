@@ -5,7 +5,7 @@ namespace App\Livewire\Tag;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Shared\Traits\WithAlerts;
-use App\Domains\Post\Models\Tag;
+use App\Domains\Tag\Models\Tag;
 
 class TagList extends Component
 {

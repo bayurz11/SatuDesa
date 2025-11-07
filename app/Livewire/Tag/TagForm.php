@@ -4,8 +4,8 @@ namespace App\Livewire\Tag;
 
 use Livewire\Component;
 use Illuminate\Support\Str;
+use App\Domains\Tag\Models\Tag;
 use Illuminate\Validation\Rule;
-use App\Domains\Post\Models\Tag;
 
 class TagForm extends Component
 {
