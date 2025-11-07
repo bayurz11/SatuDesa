@@ -60,10 +60,16 @@ class CategoryList extends Component
         }
     }
 
-    public function toggleStatus(string $id): void
+    // public function toggleStatus(string $id): void
+    // {
+    //     $cat = Category::findOrFail($id);
+    //     $cat->update(['is_active' => !$cat->is_active]);
+    //     $this->showSuccessToast('Status kategori diperbarui!');
+    // }
+    public function toggleStatus(int $id): void
     {
-        $cat = Category::findOrFail($id);
-        $cat->update(['is_active' => !$cat->is_active]);
+        $item = Category::findOrFail($id);
+        $item->update(['is_active' => ! $item->is_active]);
         $this->showSuccessToast('Status kategori diperbarui!');
     }
 
