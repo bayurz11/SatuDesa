@@ -11,20 +11,18 @@ class CategoryList extends Component
 {
     use WithPagination, WithAlerts;
 
-    /* ===== Filters & State ===== */
+    // Filters & state
     public string $search = '';
     public bool $showInactive = false;
     public int $perPage = 10;
 
-    /* ===== Sorting ===== */
+    // Sorting
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
-
-    // Batasi field yang bisa di-sort & pilihan per halaman
-    protected array $allowedSorts = ['name', 'slug', 'sort_order', 'created_at', 'published_at'];
+    protected array $allowedSorts = ['name', 'slug', 'sort_order', 'created_at', 'is_active'];
     protected array $allowedPerPage = [10, 25, 50];
 
-    /* ===== Query String Persist ===== */
+    // query string
     protected $queryString = [
         'search'        => ['except' => ''],
         'showInactive'  => ['except' => false],
@@ -33,7 +31,6 @@ class CategoryList extends Component
         'sortDirection' => ['except' => 'desc'],
     ];
 
-    /* ===== Listeners (refresh setelah create/update) ===== */
     protected $listeners = [
         'post-category:saved' => 'refreshList',
     ];
@@ -42,8 +39,6 @@ class CategoryList extends Component
     {
         $this->resetPage();
     }
-
-    /* ===== Pagination resets on filter changes ===== */
     public function updatingSearch()
     {
         $this->resetPage();
@@ -57,10 +52,9 @@ class CategoryList extends Component
         $this->resetPage();
     }
 
-    /* ===== Sorting ===== */
     public function sortBy(string $field): void
     {
-        if (! in_array($field, $this->allowedSorts, true)) return;
+        if (!in_array($field, $this->allowedSorts, true)) return;
 
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -70,38 +64,32 @@ class CategoryList extends Component
         }
     }
 
-    /* ===== Actions ===== */
     public function toggleStatus(string $id): void
     {
-        // ULID → string
-        $item = Category::findOrFail($id);
-        $item->update(['published_at' => ! $item->published_at ? now() : null]);
-
+        $cat = Category::findOrFail($id);
+        $cat->update(['is_active' => !$cat->is_active]);
         $this->showSuccessToast('Status kategori diperbarui!');
     }
 
     public function delete(string $id): void
     {
-        $item = Category::findOrFail($id);
-        $item->delete();
-
-        $this->showSuccessToast('Kategori berhasil dihapus!');
+        $cat = Category::findOrFail($id);
+        $cat->delete();
+        $this->showSuccessToast('Kategori dihapus!');
         $this->resetPage();
     }
 
-    /* ===== Render ===== */
     public function render()
     {
-        $query = Category::query()
-            ->when($this->search, fn($q) => $q->search($this->search))
-            ->when(!$this->showInactive, fn($q) => $q->where('published_at', true));
-
-        // Validasi sort & perPage
-        $sortField = in_array($this->sortField, $this->allowedSorts, true) ? $this->sortField : 'created_at';
+        $sortField     = in_array($this->sortField, $this->allowedSorts, true) ? $this->sortField : 'created_at';
         $sortDirection = $this->sortDirection === 'asc' ? 'asc' : 'desc';
-        $perPage = in_array($this->perPage, $this->allowedPerPage, true) ? $this->perPage : 10;
+        $perPage       = in_array($this->perPage, $this->allowedPerPage, true) ? $this->perPage : 10;
 
-        $data = $query->orderBy($sortField, $sortDirection)->paginate($perPage);
+        $data = Category::query()
+            ->when($this->search, fn($q) => $q->search($this->search))
+            ->when(!$this->showInactive, fn($q) => $q->where('is_active', true))
+            ->orderBy($sortField, $sortDirection)
+            ->paginate($perPage);
 
         return view('livewire.category.category-list', compact('data'));
     }

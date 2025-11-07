@@ -22,8 +22,6 @@ class CategoryForm extends Component
     public int $sort_order = 0;
 
     protected $listeners = [
-        // Buka form: create => openPostCategoryForm
-        // Buka form: edit   => openPostCategoryForm, {id: "..."}
         'openPostCategoryForm' => 'openForm',
     ];
 
@@ -32,22 +30,19 @@ class CategoryForm extends Component
         $this->resetValidation();
 
         if ($id) {
-            // Edit
             $cat = Category::findOrFail($id);
-            $this->categoryId = $cat->id;
-            $this->name       = $cat->name;
-            $this->slug       = $cat->slug ?? '';
+            $this->categoryId  = $cat->id;
+            $this->name        = $cat->name;
+            $this->slug        = $cat->slug ?? '';
             $this->description = $cat->description;
-            $this->is_active  = (bool)$cat->is_active;
-            $this->sort_order = (int)$cat->sort_order;
-
-            $this->isEditing = true;
+            $this->is_active   = (bool) $cat->is_active;
+            $this->sort_order  = (int)  $cat->sort_order;
+            $this->isEditing   = true;
         } else {
-            // Create
             $this->reset(['categoryId', 'name', 'slug', 'description', 'is_active', 'sort_order']);
-            $this->is_active  = true;
-            $this->sort_order = 0;
-            $this->isEditing  = false;
+            $this->is_active   = true;
+            $this->sort_order  = 0;
+            $this->isEditing   = false;
         }
 
         $this->showModal = true;
@@ -69,12 +64,7 @@ class CategoryForm extends Component
     {
         return [
             'name'        => ['required', 'string', 'max:120'],
-            'slug'        => [
-                'nullable',
-                'string',
-                'max:140',
-                Rule::unique('post_categories', 'slug')->ignore($this->categoryId),
-            ],
+            'slug'        => ['nullable', 'string', 'max:140', Rule::unique('post_categories', 'slug')->ignore($this->categoryId)],
             'description' => ['nullable', 'string'],
             'is_active'   => ['boolean'],
             'sort_order'  => ['integer', 'min:0', 'max:65535'],
@@ -91,7 +81,6 @@ class CategoryForm extends Component
     {
         $data = $this->validate();
 
-        // Pastikan slug terisi
         if (blank($data['slug']) && filled($data['name'])) {
             $data['slug'] = Str::slug($data['name']);
         }
@@ -105,7 +94,7 @@ class CategoryForm extends Component
         }
 
         $this->showModal = false;
-        $this->dispatch('post-category:saved'); // agar list refresh
+        $this->dispatch('post-category:saved'); // refresh list
     }
 
     public function render()

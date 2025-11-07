@@ -128,11 +128,11 @@
                         <td class="px-6 py-5 whitespace-nowrap">
                             <span
                                 class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm
-                            {{ $item->published_at ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800' : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800' }}">
+                            {{ $item->is_active ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800' : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800' }}">
                                 <div
-                                    class="w-2 h-2 rounded-full mr-2 {{ $item->published_at ? 'bg-green-500 animate-pulse' : 'bg-red-500' }}">
+                                    class="w-2 h-2 rounded-full mr-2 {{ $item->is_active ? 'bg-green-500 animate-pulse' : 'bg-red-500' }}">
                                 </div>
-                                {{ $item->published_at ? 'Active' : 'Inactive' }}
+                                {{ $item->is_active ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
 
@@ -164,7 +164,7 @@
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-yellow-600 bg-yellow-50 rounded-lg hover:bg-yellow-100 hover:text-yellow-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-180 transition-transform duration-300"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            @if ($item->published_at)
+                                            @if ($item->is_active)
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
                                             @else
@@ -172,7 +172,7 @@
                                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             @endif
                                         </svg>
-                                        {{ $item->published_at ? 'Deactivate' : 'Activate' }}
+                                        {{ $item->is_active ? 'Deactivate' : 'Activate' }}
                                     </button>
                                 @endpermission
 

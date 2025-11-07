@@ -25,7 +25,26 @@ class Category extends Model
     ];
 
     protected $casts = [
-        'is_active' => 'boolean',
+        'is_active'  => 'boolean',
         'sort_order' => 'integer',
     ];
+
+    /** Scopes */
+    public function scopeActive($q)
+    {
+        return $q->where('is_active', true);
+    }
+    public function scopeOrdered($q)
+    {
+        return $q->orderBy('sort_order')->orderBy('name');
+    }
+    public function scopeSearch($q, ?string $term)
+    {
+        if (!$term) return $q;
+        return $q->where(function ($w) use ($term) {
+            $w->where('name', 'like', "%{$term}%")
+                ->orWhere('slug', 'like', "%{$term}%")
+                ->orWhere('description', 'like', "%{$term}%");
+        });
+    }
 }
