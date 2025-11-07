@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="space-y-6">
-        <livewire:tags.tags-list />
-        <livewire:tags.tags-form />
+        <livewire:tag.tag-list />
+        <livewire:tag.tag-form />
     </div>
 @endsection
