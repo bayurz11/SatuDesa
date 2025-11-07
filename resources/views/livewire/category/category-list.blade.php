@@ -145,7 +145,7 @@
                         <!-- AKSI -->
                         <td class="px-6 py-5 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
-                                @permission('post_categories.edit')
+                                @permission('informasi.edit')
                                     <button
                                         wire:click="$dispatch('openPostCategoryForm', { id: @js($item->id) })"
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 hover:text-blue-700 transition-all duration-200 transform hover:scale-105">
@@ -159,7 +159,7 @@
                                     </button>
                                 @endpermission
 
-                                @permission('post_categories.edit')
+                                @permission('informasi.edit')
                                     <button type="button" x-on:click="$wire.call('toggleStatus', {{ $item->id }})"
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-yellow-600 bg-yellow-50 rounded-lg hover:bg-yellow-100 hover:text-yellow-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-180 transition-transform duration-300"
@@ -176,7 +176,7 @@
                                     </button>
                                 @endpermission
 
-                                @permission('post_categories.delete')
+                                @permission('informasi.delete')
                                     <button wire:click="delete({{ $item->id }})" wire:loading.attr="disabled"
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-red-600 bg-red-50 rounded-lg hover:bg-red-100 hover:text-red-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:animate-bounce" fill="none"
