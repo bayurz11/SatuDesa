@@ -16,7 +16,7 @@
                 </div>
             </div>
 
-            @permission('post_categories.create')
+            @permission('informasi.create')
                 <button wire:click="$dispatch('openPostCategoryForm')"
                     class="group bg-gradient-to-r from-green-400 to-green-600 hover:from-green-700 hover:to-green-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                     <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
@@ -128,11 +128,11 @@
                         <td class="px-6 py-5 whitespace-nowrap">
                             <span
                                 class="inline-flex items-center px-3 py-1.5 rounded-xl text-xs font-semibold shadow-sm
-                            {{ $item->is_active ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800' : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800' }}">
+                            {{ $item->published_at ? 'bg-gradient-to-r from-green-100 to-emerald-100 text-green-800' : 'bg-gradient-to-r from-red-100 to-pink-100 text-red-800' }}">
                                 <div
-                                    class="w-2 h-2 rounded-full mr-2 {{ $item->is_active ? 'bg-green-500 animate-pulse' : 'bg-red-500' }}">
+                                    class="w-2 h-2 rounded-full mr-2 {{ $item->published_at ? 'bg-green-500 animate-pulse' : 'bg-red-500' }}">
                                 </div>
-                                {{ $item->is_active ? 'Active' : 'Inactive' }}
+                                {{ $item->published_at ? 'Active' : 'Inactive' }}
                             </span>
                         </td>
 
@@ -164,7 +164,7 @@
                                         class="group/btn inline-flex items-center px-3 py-2 text-xs font-semibold text-yellow-600 bg-yellow-50 rounded-lg hover:bg-yellow-100 hover:text-yellow-700 transition-all duration-200 transform hover:scale-105">
                                         <svg class="w-4 h-4 mr-1.5 group-hover/btn:rotate-180 transition-transform duration-300"
                                             fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            @if ($item->is_active)
+                                            @if ($item->published_at)
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728L5.636 5.636m12.728 12.728L18.364 5.636M5.636 18.364l12.728-12.728" />
                                             @else
@@ -172,7 +172,7 @@
                                                     d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                             @endif
                                         </svg>
-                                        {{ $item->is_active ? 'Deactivate' : 'Activate' }}
+                                        {{ $item->published_at ? 'Deactivate' : 'Activate' }}
                                     </button>
                                 @endpermission
 
@@ -212,7 +212,7 @@
                                 </p>
 
                                 @if (!$search)
-                                    @permission('post_categories.create')
+                                    @permission('informasi.create')
                                         <button wire:click="$dispatch('openPostCategoryForm')"
                                             class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                                             <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300"
