@@ -99,6 +99,43 @@ class PermissionSeeder extends Seeder
                 'group' => 'penduduk',
             ],
 
+            // APBDesa permissions
+            [
+                'name' => 'apbdesa.view',
+                'display_name' => 'View APBDesa',
+                'description' => 'Can view APBDesa list and details',
+                'group' => 'apbdesa',
+            ],
+            [
+                'name' => 'apbdesa.create',
+                'display_name' => 'Create APBDesa',
+                'description' => 'Can create new APBDesa records',
+                'group' => 'apbdesa',
+            ],
+            [
+                'name' => 'apbdesa.edit',
+                'display_name' => 'Edit APBDesa',
+                'description' => 'Can edit existing APBDesa records',
+                'group' => 'apbdesa',
+            ],
+            [
+                'name' => 'apbdesa.delete',
+                'display_name' => 'Delete APBDesa',
+                'description' => 'Can delete APBDesa records',
+                'group' => 'apbdesa',
+            ],
+            [
+                'name' => 'apbdesa.export',
+                'display_name' => 'Export APBDesa',
+                'description' => 'Can export APBDesa data to Excel or PDF',
+                'group' => 'apbdesa',
+            ],
+            [
+                'name' => 'apbdesa.publish',
+                'display_name' => 'Publish APBDesa',
+                'description' => 'Can publish APBDesa data to public site',
+                'group' => 'apbdesa',
+            ],
 
             // User permissions
             ['name' => 'users.view', 'display_name' => 'View Users', 'description' => 'Can view user list and details', 'group' => 'users'],
