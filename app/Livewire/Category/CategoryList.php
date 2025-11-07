@@ -11,18 +11,15 @@ class CategoryList extends Component
 {
     use WithPagination, WithAlerts;
 
-    // Filters & state
     public string $search = '';
     public bool $showInactive = false;
     public int $perPage = 10;
 
-    // Sorting
     public string $sortField = 'created_at';
     public string $sortDirection = 'desc';
     protected array $allowedSorts = ['name', 'slug', 'sort_order', 'created_at', 'is_active'];
     protected array $allowedPerPage = [10, 25, 50];
 
-    // query string
     protected $queryString = [
         'search'        => ['except' => ''],
         'showInactive'  => ['except' => false],
@@ -55,7 +52,6 @@ class CategoryList extends Component
     public function sortBy(string $field): void
     {
         if (!in_array($field, $this->allowedSorts, true)) return;
-
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
         } else {

@@ -22,7 +22,7 @@ class CategoryForm extends Component
     public int $sort_order = 0;
 
     protected $listeners = [
-        'openPostCategoryForm' => 'openForm',
+        'openCategoryForm' => 'openForm',
     ];
 
     public function openForm(?string $id = null): void
@@ -87,14 +87,16 @@ class CategoryForm extends Component
 
         if ($this->isEditing) {
             Category::findOrFail($this->categoryId)->update($data);
-            $this->dispatchBrowserEvent('toast:success', ['message' => 'Kategori diperbarui!']);
+            // Livewire v3 DOM event
+            $this->dispatch('toast:success', message: 'Kategori diperbarui!');
         } else {
             Category::create($data);
-            $this->dispatchBrowserEvent('toast:success', ['message' => 'Kategori ditambahkan!']);
+            $this->dispatch('toast:success', message: 'Kategori ditambahkan!');
         }
 
         $this->showModal = false;
-        $this->dispatch('post-category:saved'); // refresh list
+        // refresh list
+        $this->dispatch('post-category:saved');
     }
 
     public function render()

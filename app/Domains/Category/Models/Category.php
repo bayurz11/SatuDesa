@@ -29,7 +29,6 @@ class Category extends Model
         'sort_order' => 'integer',
     ];
 
-    /** Scopes */
     public function scopeActive($q)
     {
         return $q->where('is_active', true);
