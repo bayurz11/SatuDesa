@@ -99,20 +99,20 @@
 
                     <div :id="ids[1]" x-show="activeMenu === 'informasi'" x-collapse
                         class="mt-1 pl-10 space-y-1 overflow-hidden">
-                        <a href="#"
-                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('profil.potensi') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
-                            Potensi Desa
+                        <a href="{{ route('informasi.postingan') }}"
+                            class="block rounded-md px-4 py-2 text-sm {{ request()->routeIs('informasi.postingan') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                            Postingan
                         </a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.berita') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                        <a href="{{ route('informasi.tag') }}"
+                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.tag') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Berita
                         </a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.pengumuman') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                        <a href="{{ route('informasi.content-category') }}"
+                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.content-category') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Pengumuman
                         </a>
-                        <a href="#"
-                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.galeri') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
+                        <a href="{{ route('informasi.lampiran-galeri') }}"
+                            class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.lampiran-galeri') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
                             Galeri Desa
                         </a>
                     </div>

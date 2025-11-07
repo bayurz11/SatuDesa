@@ -100,6 +100,15 @@ Route::middleware(['auth', 'permission:profil.view'])
         Route::get('/visi-misi', fn() => view('visi-misi.index'))->name('visi-misi');
         Route::get('/struktur-organisasi', fn() => view('struktur-organisasi.index'))->name('struktur-organisasi');
     });
+//informasi Route
+Route::middleware(['auth', 'permission:informasi.view'])
+    ->prefix('informasi')->name('informasi.')
+    ->group(function () {
+        Route::get('/postingan', fn() => view('sejarah.index'))->name('postingan');
+        Route::get('/tag', fn() => view('visi-misi.index'))->name('tag');
+        Route::get('/content-category', fn() => view('struktur-organisasi.index'))->name('content-category');
+        Route::get('/lampiran-galeri', fn() => view('struktur-organisasi.index'))->name('lampiran-galeri');
+    });
 
 
 

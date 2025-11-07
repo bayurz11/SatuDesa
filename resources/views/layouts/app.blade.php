@@ -262,6 +262,8 @@
                                                             Profile Settings
                                                         @elseif(request()->routeIs('sejarah-desa.*'))
                                                             Sejarah Desa
+                                                        @elseif(request()->routeIs('informasi.*'))
+                                                            Informasi Desa
                                                         @elseif(Str::contains(request()->route()->getName(), ['profil', 'profile']))
                                                             Profil Desa
                                                         @else
@@ -281,6 +283,7 @@
                                                             {{ $name }}
                                                         @endif
                                                     </span>
+
                                                 </div>
                                             </li>
                                         @endif
