@@ -264,6 +264,8 @@
                                                             Sejarah Desa
                                                         @elseif(request()->routeIs('informasi.*'))
                                                             Informasi Desa
+                                                        @elseif(request()->routeIs('apbdesa.*'))
+                                                            APBDesa
                                                         @elseif(Str::contains(request()->route()->getName(), ['profil', 'profile']))
                                                             Profil Desa
                                                         @else

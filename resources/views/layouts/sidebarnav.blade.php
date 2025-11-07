@@ -163,7 +163,16 @@
             @endpermission
         </nav>
 
-
+        @permission('apbdesa.view')
+            <a href="#"
+                class="group flex items-center px-4 py-3 text-sm font-medium rounded-lg {{ request()->routeIs('apbdesa-setting.*') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }} transition-colors duration-200">
+                <svg class="mr-3 h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 1 0 7.5 7.5h-7.5V6Z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0 0 13.5 3v7.5Z" />
+                </svg>
+                APBDesa
+            </a>
+        @endpermission
 
         <p class="px-4 text-xs font-semibold text-green-200 uppercase tracking-wider">Account Settings</p>
         <!-- User Management -->
