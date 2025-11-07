@@ -30,10 +30,11 @@
                                 </div>
 
                                 <div class="flex flex-col">
-                                    <label for="slug" class="text-sm font-medium text-gray-700 mb-2">Slug</label>
+                                    <label for="slug" class="text-sm font-medium text-gray-700 mb-2">Slug
+                                        (opsional)</label>
                                     <input id="slug" type="text" wire:model.defer="slug"
                                         class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm"
-                                        placeholder="slug-tag">
+                                        placeholder="otomatis dibuat dari nama jika dikosongkan">
                                     @error('slug')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
