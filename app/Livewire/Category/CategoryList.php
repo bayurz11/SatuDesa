@@ -21,7 +21,7 @@ class CategoryList extends Component
     public string $sortDirection = 'desc';
 
     // Batasi field yang bisa di-sort & pilihan per halaman
-    protected array $allowedSorts = ['name', 'slug', 'sort_order', 'created_at', 'is_active'];
+    protected array $allowedSorts = ['name', 'slug', 'sort_order', 'created_at', 'published_at'];
     protected array $allowedPerPage = [10, 25, 50];
 
     /* ===== Query String Persist ===== */

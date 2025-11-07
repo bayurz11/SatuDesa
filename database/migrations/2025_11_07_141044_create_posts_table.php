@@ -39,8 +39,8 @@ return new class extends Migration {
             // publikasi & audit
             $table->enum('status', ['draft', 'scheduled', 'published', 'archived'])->default('draft');
             $table->dateTime('published_at')->nullable();
-            $table->foreignUlid('created_by')->nullable()->constrained('users')->nullOnDelete();
-            $table->foreignUlid('updated_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('updated_by')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamps();
             $table->softDeletes();
 
