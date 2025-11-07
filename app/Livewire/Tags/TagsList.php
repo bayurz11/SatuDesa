@@ -7,7 +7,7 @@ use Livewire\WithPagination;
 use App\Shared\Traits\WithAlerts;
 use App\Domains\Post\Models\Tags;
 
-class TagList extends Component
+class TagsList extends Component
 {
     use WithPagination, WithAlerts;
 

@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use App\Domains\Post\Models\Tags;
 
-class TagForm extends Component
+class TagsForm extends Component
 {
     public bool $showModal = false;
     public bool $isEditing = false;
