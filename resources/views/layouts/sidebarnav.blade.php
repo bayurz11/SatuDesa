@@ -105,15 +105,15 @@
                         </a>
                         <a href="{{ route('informasi.tag') }}"
                             class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.tag') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
-                            Berita
+                            Tag
                         </a>
                         <a href="{{ route('informasi.content-category') }}"
                             class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.content-category') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
-                            Pengumuman
+                            Kategori Postingan
                         </a>
                         <a href="{{ route('informasi.lampiran-galeri') }}"
                             class="block px-4 py-2 text-sm rounded-md {{ request()->routeIs('informasi.lampiran-galeri') ? 'bg-white bg-opacity-20 text-white' : 'text-green-100 hover:bg-white hover:bg-opacity-10 hover:text-white' }}">
-                            Galeri Desa
+                            Lampiran &Galeri
                         </a>
                     </div>
                 </div>
