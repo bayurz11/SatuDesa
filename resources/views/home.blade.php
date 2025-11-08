@@ -509,7 +509,7 @@
 
 
         {{-- contoh di home.blade.php --}}
-        <livewire:content.content-hub mode="announcement" :show-pagination="true" />
+        <livewire:content.content-hub mode="announcement" :show-pagination="false" />
 
 
         <!-- Tombol -->
