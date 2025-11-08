@@ -38,10 +38,11 @@
         {{-- HERO --}}
         <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
             <div class="grid md:grid-cols-12 gap-0">
-                <figure class="md:col-span-7 h-56 md:h-80 overflow-hidden">
-                    <img src="{{ $cover }}" alt="{{ $item->title }}" class="h-full w-full object-cover"
-                        loading="lazy" decoding="async">
+                <figure class="md:col-span-7 h-56 md:h-80 overflow-hidden rounded-lg">
+                    <img src="{{ asset($item->cover_path) }}" alt="{{ $item->title }}" class="h-full w-full object-cover"
+                        loading="lazy" decoding="async" onerror="this.src='{{ asset('public/img/bg-desa.jpg') }}';">
                 </figure>
+
 
                 <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                     <div class="flex flex-wrap items-center gap-2">

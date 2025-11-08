@@ -12,7 +12,6 @@ use App\Domains\Post\Models\Post;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Storage;
 use App\Domains\Category\Models\Category;
-use App\Domains\Category\Models\PostCategory;
 
 class PostForm extends Component
 {
@@ -43,8 +42,8 @@ class PostForm extends Component
     public ?string $source_url = null;
 
     // media & publish
-    public $cover; // UploadedFile|null
-    public ?string $cover_path = null;
+    public $cover;                // UploadedFile|null (baru)
+    public ?string $cover_path = null; // path relatif yang disimpan ke DB, mis: "storage/covers/xxxx.jpg"
     public string $status = 'draft';
     public ?string $published_at = null;
 
@@ -72,16 +71,17 @@ class PostForm extends Component
                 'author_name',
                 'read_minutes',
                 'source_url',
-                'cover_path',
+                'cover_path', // ← path lama akan terisi di properti ini
                 'status',
             ]));
-            $this->postId = $post->id;
-            $this->is_all_day  = (bool) $post->is_all_day;
-            $this->start_at    = optional($post->start_at)->format('Y-m-d\TH:i');
-            $this->end_at      = optional($post->end_at)->format('Y-m-d\TH:i');
+
+            $this->postId       = $post->id;
+            $this->is_all_day   = (bool) $post->is_all_day;
+            $this->start_at     = optional($post->start_at)->format('Y-m-d\TH:i');
+            $this->end_at       = optional($post->end_at)->format('Y-m-d\TH:i');
             $this->published_at = optional($post->published_at)->format('Y-m-d\TH:i');
-            $this->tag_ids     = $post->tags->pluck('id')->all();
-            $this->isEditing   = true;
+            $this->tag_ids      = $post->tags->pluck('id')->all();
+            $this->isEditing    = true;
         } else {
             $this->reset([
                 'postId',
@@ -106,8 +106,8 @@ class PostForm extends Component
                 'tag_ids'
             ]);
             $this->content_type = 'announcement';
-            $this->status = 'draft';
-            $this->isEditing = false;
+            $this->status       = 'draft';
+            $this->isEditing    = false;
         }
 
         $this->showModal = true;
@@ -152,6 +152,9 @@ class PostForm extends Component
             // tags
             'tag_ids'      => ['array'],
             'tag_ids.*'    => ['string'],
+
+            // cover (baru)
+            'cover'        => ['nullable', 'image', 'max:4096'], // 4MB
         ];
     }
 
@@ -164,22 +167,38 @@ class PostForm extends Component
             $data['slug'] = Str::slug($data['title']);
         }
 
-        // Cover upload
+        // === Handle upload cover mirip StrukturForm ===
         if ($this->cover) {
-            $path = $this->cover->store('covers', 'public'); // simpan ke storage/app/public/covers
-            $data['cover_path'] = $path;
+            // Pastikan folder tujuan ada
+            Storage::disk('public_path')->makeDirectory('storage/covers');
+
+            // Nama file unik
+            $ext = strtolower($this->cover->getClientOriginalExtension() ?: 'jpg');
+            $namaFile = Str::random(16) . '.' . $ext;
+
+            // Simpan ke public/storage/covers (disk public_path)
+            // NB: storeAs pakai path relatif terhadap root disk
+            //     Di sini kita simpan ke "storage/covers/xxx.jpg" agar langsung bisa di-asset()
+            $relative = $this->cover->storeAs('storage/covers', $namaFile, 'public_path'); // "storage/covers/xxxx.jpg"
+
+            // Tulis path ke DB (siap dipakai asset())
+            $data['cover_path'] = $relative;
+
+            // Hapus cover lama jika update
+            if ($this->isEditing && $this->cover_path) {
+                // cover_path berbentuk "storage/covers/xxxx.jpg" → jadikan relatif dari public/
+                $old = ltrim($this->cover_path, '/'); // "storage/covers/xxxx.jpg"
+                if (Storage::disk('public_path')->exists($old)) {
+                    Storage::disk('public_path')->delete($old);
+                }
+            }
         }
+        // === end handle cover ===
 
-        // Konversi datetime HTML5 (Y-m-d\TH:i) ke Carbon otomatis oleh cast di model saat assign string
-        $data['start_at']    = $this->start_at ?: null;
-        $data['end_at']      = $this->end_at ?: null;
+        // Konversi datetime HTML5 (Y-m-d\TH:i) → biarkan cast model yg urus (string OK)
+        $data['start_at']     = $this->start_at ?: null;
+        $data['end_at']       = $this->end_at ?: null;
         $data['published_at'] = $this->published_at ?: null;
-
-        // Auto set created_by/updated_by jika butuh (opsional: pastikan auth()->id() tersedia)
-        // if (auth()->check()) {
-        //     $data['updated_by'] = auth()->id();
-        //     if (! $this->isEditing) $data['created_by'] = auth()->id();
-        // }
 
         if ($this->isEditing) {
             $post = Post::findOrFail($this->postId);
