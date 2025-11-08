@@ -308,7 +308,7 @@
         <!-- Grid Utama -->
         <div class="grid md:grid-cols-3 gap-8 items-stretch">
             <!-- Artikel Utama -->
-            <livewire:content.content-hub mode="news" :show-pagination="fals" />
+            <livewire:content.content-hub mode="news" :show-pagination="false" />
 
             <!-- Tombol -->
             <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
