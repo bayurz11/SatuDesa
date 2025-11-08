@@ -124,9 +124,14 @@
                     <h2 class="text-xl md:text-2xl font-semibold text-gray-900">Detail Pengumuman</h2>
                     <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
 
-                    <div class="prose max-w-none">
-                        {!! $item->body_html !!}
+                    <div class="prose max-w-none text-gray-800 leading-relaxed">
+                        @if (strip_tags($item->body_html) === $item->body_html)
+                            {!! nl2br(e($item->body_html)) !!}
+                        @else
+                            {!! $item->body_html !!}
+                        @endif
                     </div>
+
                 </section>
 
                 {{-- CTA --}}
