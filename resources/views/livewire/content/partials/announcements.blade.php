@@ -9,7 +9,7 @@
         $timeStr = optional($dateRef)?->translatedFormat('d F Y • HH:mm');
         $detailUrl = route('pengumuman.show', $item->slug);
     @endphp
-    <div class="space-y-4">
+    <div class="grid gap-y-4">
         <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition hover:shadow-md">
             <div class="p-5 md:p-6 flex flex-col sm:flex-row sm:items-start gap-4">
 
