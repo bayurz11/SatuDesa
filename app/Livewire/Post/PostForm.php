@@ -42,19 +42,24 @@ class PostForm extends Component
     public ?string $source_url = null;
 
     // media & publish
-    public $cover;                // UploadedFile|null (baru)
-    public ?string $cover_path = null; // path relatif yang disimpan ke DB, mis: "storage/covers/xxxx.jpg"
+    public $cover;                       // UploadedFile|null
+    public ?string $cover_path = null;   // simpan: "storage/covers/xxxx.jpg"
     public string $status = 'draft';
     public ?string $published_at = null;
 
     // tags
     public array $tag_ids = [];
 
+    // editor
+    public string $editorId = '';
+
     protected $listeners = ['openPostForm' => 'openForm'];
 
     public function openForm(?string $id = null): void
     {
         $this->resetValidation();
+        // force re-init Trix setiap open
+        $this->editorId = Str::random(8);
 
         if ($id) {
             $post = Post::with('tags:id')->findOrFail($id);
@@ -71,7 +76,7 @@ class PostForm extends Component
                 'author_name',
                 'read_minutes',
                 'source_url',
-                'cover_path', // ← path lama akan terisi di properti ini
+                'cover_path',
                 'status',
             ]));
 
@@ -153,8 +158,8 @@ class PostForm extends Component
             'tag_ids'      => ['array'],
             'tag_ids.*'    => ['string'],
 
-            // cover (baru)
-            'cover'        => ['nullable', 'image', 'max:4096'], // 4MB
+            // cover
+            'cover'        => ['nullable', 'image', 'max:4096'],
         ];
     }
 
@@ -162,40 +167,32 @@ class PostForm extends Component
     {
         $data = $this->validate();
 
-        // Isi slug bila kosong
         if (blank($data['slug']) && filled($data['title'])) {
             $data['slug'] = Str::slug($data['title']);
         }
 
-        // === Handle upload cover mirip StrukturForm ===
+        // === Upload cover ke public/covers dan simpan "covers/xxxx.jpg"
         if ($this->cover) {
-            // Pastikan folder tujuan ada
             Storage::disk('public_path')->makeDirectory('covers');
 
-            // Nama file unik
             $ext = strtolower($this->cover->getClientOriginalExtension() ?: 'jpg');
             $namaFile = Str::random(16) . '.' . $ext;
 
-            // Simpan ke public/storage/covers (disk public_path)
-            // NB: storeAs pakai path relatif terhadap root disk
-            //     Di sini kita simpan ke "storage/covers/xxx.jpg" agar langsung bisa di-asset()
-            $relative = $this->cover->storeAs('covers', $namaFile, 'public_path'); // "storage/covers/xxxx.jpg"
+            // hasil: "covers/xxxx.jpg" relatif dari public/
+            $relative = $this->cover->storeAs('covers', $namaFile, 'public_path');
 
-            // Tulis path ke DB (siap dipakai asset())
             $data['cover_path'] = $relative;
 
-            // Hapus cover lama jika update
+            // Hapus cover lama saat update
             if ($this->isEditing && $this->cover_path) {
-                // cover_path berbentuk "storage/covers/xxxx.jpg" → jadikan relatif dari public/
                 $old = ltrim($this->cover_path, '/'); // "storage/covers/xxxx.jpg"
                 if (Storage::disk('public_path')->exists($old)) {
                     Storage::disk('public_path')->delete($old);
                 }
             }
         }
-        // === end handle cover ===
+        // === end upload cover
 
-        // Konversi datetime HTML5 (Y-m-d\TH:i) → biarkan cast model yg urus (string OK)
         $data['start_at']     = $this->start_at ?: null;
         $data['end_at']       = $this->end_at ?: null;
         $data['published_at'] = $this->published_at ?: null;
@@ -207,7 +204,6 @@ class PostForm extends Component
             $post = Post::create($data);
         }
 
-        // sync tags
         $post->tags()->sync($this->tag_ids ?? []);
 
         $this->showSuccessToast($this->isEditing ? 'Post diperbarui!' : 'Post ditambahkan!');

@@ -83,16 +83,26 @@
                                     @enderror
                                 </div>
 
-                                <!-- Isi -->
+                                <!-- ISI (Trix) -->
                                 <div class="md:col-span-2 flex flex-col">
-                                    <label class="text-sm font-medium text-gray-700 mb-2">Isi (HTML)</label>
-                                    <textarea wire:model.defer="body_html" rows="8"
-                                        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm"
-                                        placeholder="<p>…</p>"></textarea>
+                                    <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
+
+                                    {{-- hidden input sebagai sumber truth buat Livewire --}}
+                                    <input id="post-body-input-{{ $editorId }}" type="hidden"
+                                        wire:model.defer="body_html">
+
+                                    {{-- Penting: wire:key berbasis $editorId agar trix re-init setiap openForm --}}
+                                    <trix-editor wire:ignore wire:key="trix-{{ $editorId }}"
+                                        input="post-body-input-{{ $editorId }}"
+                                        class="trix-content rounded-xl border border-gray-300 bg-white p-2"
+                                        data-disable-file-uploads="true">
+                                    </trix-editor>
+
                                     @error('body_html')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
+
 
                                 {{-- Announcement Fields --}}
                                 @if ($content_type === 'announcement')
@@ -276,3 +286,43 @@
         </div>
     @endif
 </div>
+@push('scripts')
+    <script>
+        document.addEventListener('trix-initialize', (e) => {
+            const inputId = e.target.getAttribute('input');
+            const hidden = document.getElementById(inputId);
+            if (!hidden) return;
+
+            // Muat konten awal ke editor
+            try {
+                e.target.editor.loadHTML(hidden.value || '');
+            } catch {}
+
+            // Pastikan nilai terakhir tersinkron sebelum submit Livewire
+            const form = e.target.closest('form');
+            if (form) {
+                form.addEventListener('submit', () => {
+                    hidden.dispatchEvent(new Event('input', {
+                        bubbles: true
+                    }));
+                });
+            }
+        });
+
+        // Saat ada perubahan di editor, trigger input di hidden agar Livewire menangkapnya
+        document.addEventListener('trix-change', (e) => {
+            const inputId = e.target.getAttribute('input');
+            const hidden = document.getElementById(inputId);
+            if (hidden) {
+                hidden.value = e.target.editor.getDocument().toString(); // opsional, Trix sudah handle
+                hidden.dispatchEvent(new Event('input', {
+                    bubbles: true
+                }));
+            }
+        });
+
+        // Blokir upload file (opsional)
+        document.addEventListener('trix-file-accept', e => e.preventDefault());
+        document.addEventListener('trix-attachment-add', e => e.preventDefault());
+    </script>
+@endpush
