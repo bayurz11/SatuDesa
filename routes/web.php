@@ -59,7 +59,7 @@ Route::get('/pengumuman/{slug}', function ($slug) {
         ->where('content_type', 'announcement')
         ->firstOrFail();
 
-    return view('pengumuman-detail', compact('pengumuman'));
+    return view('pengumuman-detail', compact('item'));
 })->name('pengumuman.show');
 
 // Galeri Page Route
