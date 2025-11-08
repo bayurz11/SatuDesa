@@ -14,10 +14,6 @@
         @break
     @endswitch
 
-    {{-- PAGINATION --}}
-    @if ($showPagination && $items->hasPages())
-        {
-        {{ $items->onEachSide(1)->links() }}
-    @endif
+
 
 </div>
