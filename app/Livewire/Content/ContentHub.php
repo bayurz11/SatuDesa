@@ -35,9 +35,9 @@ class ContentHub extends Component
         $this->mode = in_array($mode, ['announcement', 'news', 'potensi']) ? $mode : 'announcement';
 
         // Default page size sesuai halaman
-        if ($this->mode === 'news') $this->perPage = 12;
-        if ($this->mode === 'announcement') $this->perPage = 9;
-        if ($this->mode === 'potensi') $this->perPage = 12;
+        if ($this->mode === 'news') $this->perPage = 6;
+        if ($this->mode === 'announcement') $this->perPage = 3;
+        if ($this->mode === 'potensi') $this->perPage = 6;
     }
 
     public function updatingQ()
