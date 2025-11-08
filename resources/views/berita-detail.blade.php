@@ -65,11 +65,11 @@
         {{-- Breadcrumb --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ url('/') }}" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('beranda') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li><a href="#" class="hover:text-green-700">Informasi</a></li>
                 <li aria-hidden="true">/</li>
-                <li><a href="{{ url('/berita') }}" class="hover:text-green-700">Berita</a></li>
+                <li><a href="{{ route('berita') }}" class="hover:text-green-700">Berita</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium line-clamp-1">{{ $berita->judul }}</li>
             </ol>

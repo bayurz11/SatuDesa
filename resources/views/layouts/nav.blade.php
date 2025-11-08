@@ -4,7 +4,7 @@
     <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between lg:justify-center">
 
         <!-- Logo (tetap) -->
-        <a href="{{ route('/') }}" class="block md:block lg:hidden text-green-700 font-bold text-lg">
+        <a href="{{ route('beranda') }}" class="block md:block lg:hidden text-green-700 font-bold text-lg">
             Desa Mentuda
         </a>
 
@@ -21,8 +21,8 @@
         <!-- Menu (DESKTOP: tetap seperti semula, hanya dibungkus hidden md:flex) -->
         <div id="menu-desktop" class="hidden md:h-10 md:flex flex-col md:flex-row md:items-center md:space-x-8">
 
-            <a href="{{ route('/') }}"
-                class="{{ Route::is('/') ? 'text-green-700 font-semibold' : 'text-gray-700 font-medium hover:text-green-700' }}">
+            <a href="{{ route('beranda') }}"
+                class="{{ Route::is('beranda') ? 'text-green-700 font-semibold' : 'text-gray-700 font-medium hover:text-green-700' }}">
                 Beranda
             </a>
 
@@ -104,7 +104,7 @@
         <!-- Header sticky -->
         <div class="sticky top-0 bg-white/90 backdrop-blur border-b border-gray-100">
             <div class="px-4 pt-3 pb-2 flex items-center justify-between">
-                <a href="{{ route('/') }}" class="block text-green-700 font-bold text-lg">
+                <a href="{{ route('beranda') }}" class="block text-green-700 font-bold text-lg">
                     Desa Mentuda
                 </a>
 
@@ -126,9 +126,9 @@
 
                 {{-- BERANDA --}}
                 <li>
-                    <a href="{{ route('/') }}"
+                    <a href="{{ route('beranda') }}"
                         class="block px-3 py-3 rounded-lg hover:bg-gray-100
-               {{ Route::is('/') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}">
+               {{ Route::is('beranda') ? 'bg-green-50 text-green-700 font-semibold' : 'text-gray-900' }}">
                         Beranda
                     </a>
                 </li>

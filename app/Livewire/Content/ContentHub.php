@@ -49,7 +49,7 @@ class ContentHub extends Component
          * Kalau kamu panggil komponen dengan ['showPagination' => false],
          * itu tetap diprioritaskan.
          */
-        $autoHideOnHome = request()->routeIs('/');     // atau: request()->is('/')
+        $autoHideOnHome = request()->routeIs('beranda');     // atau: request()->is('/')
         $this->showPagination = $showPagination && ! $autoHideOnHome;
     }
 

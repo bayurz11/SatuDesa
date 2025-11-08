@@ -5,9 +5,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page Route
-Route::get('/', function () {
+Route::get('/', 'beranda', function () {
     return view('home');
-})->name('/');
+})->name('beranda');
 
 // Sejarah Page Route
 Route::get('/sejarah', function () {
@@ -61,6 +61,7 @@ Route::get('/pengumuman/{slug}', function ($slug) {
 
     return view('pengumuman-detail', compact('item'));
 })->name('pengumuman.show');
+
 // Galeri Page Route
 Route::get('/galeri', function () {
     return view('galeri');

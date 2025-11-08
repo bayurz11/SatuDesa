@@ -8,7 +8,7 @@
         {{-- Breadcrumb (selaras) --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex items-center gap-2">
-                <li><a href="{{ route('/') }}" class="hover:text-green-700">Beranda</a></li>
+                <li><a href="{{ route('beranda') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li><a href="#" class="hover:text-green-700">Informasi</a></li>
                 <li aria-hidden="true">/</li>
@@ -29,7 +29,7 @@
             {{-- KOLOM UTAMA --}}
             <article class="lg:col-span-2 space-y-4">
 
-                @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => true])
+                @livewire('content.content-hub', ['mode' => 'announcement'])
 
             </article>
 
