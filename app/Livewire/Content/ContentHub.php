@@ -71,6 +71,10 @@ class ContentHub extends Component
         }
         $this->resetPage();
     }
+    public function paginationView()
+    {
+        return 'livewire.content.pagination.pagination';
+    }
 
     protected function baseQuery()
     {
