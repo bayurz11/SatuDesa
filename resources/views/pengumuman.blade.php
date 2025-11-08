@@ -25,6 +25,7 @@
                 Informasi dan pengumuman terbaru untuk masyarakat Desa Mentuda.
             </p>
         </header>
+        @livewire('content.content-hub', ['mode' => 'announcement'])
 
         <div class="grid gap-8 lg:grid-cols-3 items-start">
             {{-- KOLOM UTAMA --}}
