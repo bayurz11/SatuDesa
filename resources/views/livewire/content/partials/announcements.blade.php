@@ -2,11 +2,18 @@
 
 @forelse ($items as $item)
     @php
+        use Illuminate\Support\Carbon;
+
+        // Referensi tanggal
         $dateRef = $item->start_at ?? $item->published_at;
-        $dayName = optional($dateRef)?->translatedFormat('l') ?? '-';
-        $dayNum = optional($dateRef)?->format('d') ?? '--';
-        $monYr = optional($dateRef)?->translatedFormat('M Y') ?? '--';
-        $timeStr = optional($dateRef)?->translatedFormat('d F Y • H:i');
+        $dateRef = $dateRef ? Carbon::parse($dateRef) : now();
+
+        // Format tanggal
+        $dayName = $dateRef->translatedFormat('l'); // Contoh: "Senin"
+        $dayNum = $dateRef->format('d'); // Contoh: "09"
+        $monYr = $dateRef->translatedFormat('F Y'); // Contoh: "November 2025"
+        $timeStr = $dateRef->translatedFormat('d F Y • H:i'); // Contoh: "09 November 2025 • 14:30"
+
         $detailUrl = route('pengumuman.show', $item->slug);
     @endphp
 
