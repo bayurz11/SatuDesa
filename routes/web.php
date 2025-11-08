@@ -104,7 +104,7 @@ Route::middleware(['auth', 'permission:profil.view'])
 Route::middleware(['auth', 'permission:informasi.view'])
     ->prefix('informasi')->name('informasi.')
     ->group(function () {
-        Route::get('/postingan', fn() => view('sejarah.index'))->name('postingan');
+        Route::get('/postingan', fn() => view('post.index'))->name('postingan');
         Route::get('/tag', fn() => view('tag.index'))->name('tag');
         Route::get('/content-category', fn() => view('category.index'))->name('content-category');
         Route::get('/lampiran-galeri', fn() => view('struktur-organisasi.index'))->name('lampiran-galeri');

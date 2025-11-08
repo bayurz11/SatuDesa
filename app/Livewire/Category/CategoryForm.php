@@ -14,7 +14,7 @@ class CategoryForm extends Component
     public bool $isEditing = false;
 
     // Data
-    public ?string $categoryId = null; // ULID
+    public ?string $categoryId = null;
     public string $name = '';
     public string $slug = '';
     public ?string $description = null;
