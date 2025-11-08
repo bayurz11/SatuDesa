@@ -507,11 +507,8 @@
             </p>
         </div>
 
-
-        <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition hover:shadow-md">
-            @livewire('content.content-hub', ['mode' => 'announcement'])
-        </div>
-
+        {{-- pengumuman content hub --}}
+        @livewire('content.content-hub', ['mode' => 'announcement'])
 
         <!-- Tombol -->
         <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
