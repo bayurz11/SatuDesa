@@ -291,15 +291,17 @@
             const hidden = document.getElementById(inputId);
             if (!hidden) return;
 
-            // Muat konten awal ke editor dari hidden (HTML)
+            // Muat konten awal
             try {
                 e.target.editor.loadHTML(hidden.value || '');
             } catch {}
 
-            // Pastikan Livewire sync nilai terakhir sebelum submit
+            // Saat submit, pastikan Livewire menerima nilai terakhir
             const form = e.target.closest('form');
             if (form) {
                 form.addEventListener('submit', () => {
+                    // Ambil HTML dari Trix dan suntikkan ke hidden
+                    hidden.value = e.target.value;
                     hidden.dispatchEvent(new Event('input', {
                         bubbles: true
                     }));
@@ -307,19 +309,18 @@
             }
         });
 
-        // Sinkron ke Livewire setiap ada perubahan.
-        // TIDAK perlu set hidden.value manual (Trix sudah set dengan HTML).
+        // Tiap ada perubahan di Trix, suntik HTML ke hidden + trigger input
         document.addEventListener('trix-change', (e) => {
             const inputId = e.target.getAttribute('input');
             const hidden = document.getElementById(inputId);
-            if (hidden) {
-                hidden.dispatchEvent(new Event('input', {
-                    bubbles: true
-                }));
-            }
+            if (!hidden) return;
+            hidden.value = e.target.value;
+            hidden.dispatchEvent(new Event('input', {
+                bubbles: true
+            }));
         });
 
-        // Opsional: blokir upload file via Trix
+        // Blokir upload file via Trix (opsional)
         document.addEventListener('trix-file-accept', e => e.preventDefault());
         document.addEventListener('trix-attachment-add', e => e.preventDefault());
     </script>
