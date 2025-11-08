@@ -20,7 +20,7 @@
         $cover =
             !empty($item->cover_path) && file_exists($coverFile)
                 ? asset('public/storage' . $item->cover_path)
-                : asset('public/img/' . $item->cover_path);
+                : asset('public/storage' . $item->cover_path);
 
         // Tags
         $tags = $item->tags?->pluck('name') ?? collect();
