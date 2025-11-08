@@ -197,21 +197,20 @@
                                     @enderror
 
                                     {{-- Preview Cover --}}
-                                    @if ($cover || $cover_path)
+                                    @if ($cover || (!empty($cover_path) && file_exists(public_path($cover_path))))
                                         <div class="mt-3 flex justify-center">
                                             <img src="{{ $cover ? $cover->temporaryUrl() : asset($cover_path) }}"
                                                 alt="Cover Preview"
-                                                class="h-40 w-full max-w-2xl object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100"
-                                                onerror="this.src='{{ asset('public/img/bg-desa.jpg') }}';">
+                                                class="h-40 w-full max-w-2xl object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100">
                                         </div>
-                                        @if (!$cover && $cover_path)
+                                        @if (!$cover && !empty($cover_path))
                                             <p class="mt-2 text-xs text-gray-500 text-center">
                                                 Sumber: {{ asset($cover_path) }}
                                             </p>
                                         @endif
                                     @endif
-                                </div>
 
+                                </div>
 
                                 <!-- Tags -->
                                 <div class="md:col-span-2 flex flex-col">
