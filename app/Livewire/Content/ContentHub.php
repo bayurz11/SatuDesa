@@ -4,7 +4,7 @@ namespace App\Livewire\Content;
 
 use Livewire\Component;
 use Livewire\WithPagination;
-use App\Domains\Post\Models\Post; // model Post yang sudah kamu buat
+use App\Domains\Post\Models\Post;
 use App\Domains\Category\Models\Category;
 
 class ContentHub extends Component
@@ -14,12 +14,14 @@ class ContentHub extends Component
     /** @var 'announcement'|'news'|'potensi' */
     public string $mode = 'announcement';
 
-    // Filter UI (opsional)
+    // Filter UI
     public ?string $q = null;
     public ?string $category = null;
     public int $perPage = 10;
     public string $sortField = 'published_at';
     public string $sortDirection = 'desc';
+
+    /** Kontrol tampil/tidaknya pagination dari luar (default: true) */
     public bool $showPagination = true;
 
     protected $queryString = [
@@ -30,17 +32,26 @@ class ContentHub extends Component
         'sortDirection' => ['except' => 'desc'],
     ];
 
-
-
-    public function mount(string $mode = 'announcement', bool $showPagination = true)
+    public function mount(string $mode = 'announcement', bool $showPagination = true): void
     {
-        $this->mode = in_array($mode, ['announcement', 'news', 'potensi']) ? $mode : 'announcement';
-        $this->showPagination = $showPagination;
-        if ($this->mode === 'news') $this->perPage = 6;
-        if ($this->mode === 'announcement') $this->perPage = 3;
-        if ($this->mode === 'potensi') $this->perPage = 6;
-    }
+        $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
+        // page size default per mode
+        $this->perPage = match ($this->mode) {
+            'news', 'potensi' => 6,
+            'announcement'    => 3,
+            default           => 10,
+        };
+
+        /**
+         * Otomatis sembunyikan pagination jika sedang di halaman '/'
+         * (nama route kamu adalah '/', sesuai contoh).
+         * Kalau kamu panggil komponen dengan ['showPagination' => false],
+         * itu tetap diprioritaskan.
+         */
+        $autoHideOnHome = request()->routeIs('/');     // atau: request()->is('/')
+        $this->showPagination = $showPagination && ! $autoHideOnHome;
+    }
 
     public function updatingQ()
     {
@@ -58,7 +69,7 @@ class ContentHub extends Component
     public function sortBy(string $field): void
     {
         $allowed = ['published_at', 'created_at', 'title'];
-        if (!in_array($field, $allowed, true)) return;
+        if (! in_array($field, $allowed, true)) return;
 
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -75,8 +86,7 @@ class ContentHub extends Component
             ->with(['category:id,name,slug', 'tags:id,name,slug'])
             ->where('status', 'published')
             ->when($this->mode !== 'potensi', fn($x) => $x->where('content_type', $this->mode))
-            // kalau potensi desa itu juga disimpan di posts, pakai content_type khusus, misal 'potensi'
-            ->when($this->mode === 'potensi',  fn($x) => $x->where('content_type', 'potensi'))
+            ->when($this->mode === 'potensi', fn($x) => $x->where('content_type', 'potensi'))
             ->when($this->q, function ($x) {
                 $term = "%{$this->q}%";
                 $x->where(function ($w) use ($term) {
@@ -86,10 +96,9 @@ class ContentHub extends Component
                 });
             })
             ->when($this->category, fn($x) => $x->where('category_id', $this->category))
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
-
-        // Hanya tampilkan yang sudah terbit
-        $q->whereNotNull('published_at')->where('published_at', '<=', now());
 
         return $q;
     }
@@ -97,10 +106,8 @@ class ContentHub extends Component
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
-        $showPagination = request()->routeIs('/') ? false : true;
         $items = $this->baseQuery()->paginate($this->perPage);
 
-        // Tentukan judul & subjudul berdasarkan mode
         [$title, $subtitle] = match ($this->mode) {
             'announcement' => ['Pengumuman', 'Informasi & agenda resmi desa'],
             'news'         => ['Berita Desa', 'Kabar terbaru seputar Desa Mentuda'],
@@ -108,6 +115,7 @@ class ContentHub extends Component
             default        => ['Konten', ''],
         };
 
-        return view('livewire.content.content-hub', compact('items', 'categories', 'title', 'subtitle', 'showPagination'));
+        return view('livewire.content.content-hub', compact('items', 'categories', 'title', 'subtitle'))
+            ->with('showPagination', $this->showPagination);
     }
 }
