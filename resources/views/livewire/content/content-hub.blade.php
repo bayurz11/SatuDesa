@@ -13,7 +13,11 @@
             @include('livewire.content.partials.potensi', ['items' => $items])
         @break
     @endswitch
-
-
+    {{-- Pagination (selaras gaya contoh, tapi pakai paginator Laravel) --}}
+    @if ($items->hasPages())
+        <div class="pt-2 flex justify-center">
+            {{ $items->onEachSide(1)->links() }}
+        </div>
+    @endif
 
 </div>
