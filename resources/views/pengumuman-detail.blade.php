@@ -15,11 +15,16 @@
         $badgeTgl = $start->format('d');
         $badgeBlnTh = $start->translatedFormat('M Y');
         $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
-        $cover = $item->cover_path ? asset('storage/' . $item->cover_path) : asset('public/img/potensi2.jpg');
+
+        $cover =
+            !empty($item->cover_path) && file_exists(public_path($item->cover_path))
+                ? asset($item->cover_path)
+                : asset('public/img/potensi2.jpg');
 
         // Ambil tags (jika ada relasi tags di model Post)
         $tags = $item->tags?->pluck('name') ?? collect();
     @endphp
+
 
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
