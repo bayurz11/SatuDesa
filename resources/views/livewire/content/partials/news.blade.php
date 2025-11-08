@@ -239,3 +239,12 @@
         </div>
     </aside>
 </div>
+@if (request()->filled('category') &&
+        ($categories ?? collect())->count() > 0 &&
+        !$categories->contains(fn($c) => (string) ($c->slug ?? $c->id) === (string) request('category')))
+    <div class="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-amber-700 text-sm">
+        Kategori yang dipilih tidak ditemukan. Menampilkan semua postingan.
+        <a href="{{ request()->fullUrlWithQuery(['category' => null, 'page' => null]) }}"
+            class="underline hover:no-underline">Reset filter</a>.
+    </div>
+@endif
