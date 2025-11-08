@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Livewire\Content\ContentHub;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Landing Page Route
 Route::get('/', function () {
@@ -24,9 +25,9 @@ Route::get('/struktur-desa', function () {
 })->name('struktur-desa');
 
 // Potensi Desa Page Route
-Route::get('/potensi-desa', function () {
-    return view('potensidesa');
-})->name('potensi-desa');
+Route::get('/potensi-desa', ContentHub::class)
+    ->name('potensi-desa')
+    ->defaults('mode', 'potensi');
 
 // Detail Potensi Desa Page Route
 Route::get('/potensi-desa-detail', function () {
@@ -39,9 +40,9 @@ Route::get('/data-penduduk', function () {
 })->name('data-penduduk');
 
 // Berita Page Route
-Route::get('/berita', function () {
-    return view('berita');
-})->name('berita');
+Route::get('/berita', ContentHub::class)
+    ->name('berita')
+    ->defaults('mode', 'news');
 
 // Berita Page Route
 Route::get('/berita-detail', function () {
@@ -49,9 +50,9 @@ Route::get('/berita-detail', function () {
 })->name('berita-detail');
 
 // Pengumuman Page Route
-Route::get('/pengumuman', function () {
-    return view('pengumuman');
-})->name('pengumuman');
+Route::get('/pengumuman', ContentHub::class)
+    ->name('pengumuman')
+    ->defaults('mode', 'announcement');
 
 // Detail Pengumuman Page Route
 Route::get('/pengumuman-detail', function () {
