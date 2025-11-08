@@ -83,17 +83,24 @@ class ContentHub extends Component
             ->where('status', 'published')
             ->when($this->mode !== 'potensi', fn($q) => $q->where('content_type', $this->mode))
             ->when($this->mode === 'potensi', fn($q) => $q->where('content_type', 'potensi'))
+
+            // 🔎 perluas cakupan pencarian
             ->when($this->q, function ($q) {
                 $t = "%{$this->q}%";
-                $q->where(fn($w) => $w->where('title', 'like', $t)
-                    ->orWhere('summary', 'like', $t)
-                    ->orWhere('body_html', 'like', $t));
+                $q->where(function ($w) use ($t) {
+                    $w->where('title', 'like', $t)
+                        ->orWhere('summary', 'like', $t)
+                        ->orWhere('body_html', 'like', $t)
+                        ->orWhereHas('tags', fn($tq) => $tq->where('name', 'like', $t))
+                        ->orWhereHas('category', fn($cq) => $cq->where('name', 'like', $t));
+                });
             })
+
             ->when($this->category, fn($q) => $q->where('category_id', $this->category))
-            ->whereNotNull('published_at')->where('published_at', '<=', now())
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
     }
-
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
