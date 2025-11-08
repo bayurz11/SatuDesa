@@ -507,8 +507,10 @@
             </p>
         </div>
 
-        {{-- pengumuman content hub --}}
-        @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => true])
+
+        {{-- contoh di home.blade.php --}}
+        <livewire:content.content-hub mode="announcement" :show-pagination="true" />
+
 
         <!-- Tombol -->
         <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
