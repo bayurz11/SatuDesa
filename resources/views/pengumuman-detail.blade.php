@@ -16,11 +16,15 @@
         $badgeBlnTh = $start->translatedFormat('M Y');
         $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
 
-        $coverFile = public_path('public/storage/' . $item->cover_path ?? '');
+        // === COVER ===
+        // Ekspektasi: $item->cover_path = "storage/covers/xxxx.jpg"
+        $coverPath = $item->cover_path ?? '';
+        $coverFile = $coverPath ? public_path($coverPath) : null;
+
         $cover =
-            !empty($item->cover_path) && file_exists($coverFile)
-                ? asset('public/storage/' . $item->cover_path)
-                : asset('public/img/potensi2.jpg');
+            $coverPath && $coverFile && file_exists($coverFile)
+                ? asset($coverPath) // → https://domain.com/storage/covers/xxxx.jpg
+                : asset('public/img/potensi2.jpg'); // fallback
 
         // Tags
         $tags = $item->tags?->pluck('name') ?? collect();
