@@ -6,9 +6,9 @@
     @php
         use Illuminate\Support\Carbon;
 
+        // Waktu & tanggal
         $start = $item->start_at ?? $item->published_at;
         $start = $start ? Carbon::parse($start) : now();
-
         $end = $item->end_at ? Carbon::parse($item->end_at) : null;
 
         $badgeHari = $start->translatedFormat('l');
@@ -16,12 +16,13 @@
         $badgeBlnTh = $start->translatedFormat('M Y');
         $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
 
+        $coverFile = public_path('storage/' . $item->cover_path ?? '');
         $cover =
-            !empty($item->cover_path) && file_exists(public_path($item->cover_path))
-                ? asset($item->cover_path)
+            !empty($item->cover_path) && file_exists($coverFile)
+                ? asset('storage/' . $item->cover_path)
                 : asset('public/img/potensi2.jpg');
 
-        // Ambil tags (jika ada relasi tags di model Post)
+        // Tags
         $tags = $item->tags?->pluck('name') ?? collect();
     @endphp
 
@@ -44,10 +45,9 @@
         <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
             <div class="grid md:grid-cols-12 gap-0">
                 <figure class="md:col-span-7 h-56 md:h-80 overflow-hidden rounded-lg">
-                    <img src="{{ asset($item->cover_path) }}" alt="{{ $item->title }}" class="h-full w-full object-cover"
-                        loading="lazy" decoding="async" onerror="this.src='{{ asset('public/img/bg-desa.jpg') }}';">
+                    <img src="{{ $cover }}" alt="{{ $item->title }}" class="h-full w-full object-cover"
+                        loading="lazy" decoding="async">
                 </figure>
-
 
                 <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                     <div class="flex flex-wrap items-center gap-2">
