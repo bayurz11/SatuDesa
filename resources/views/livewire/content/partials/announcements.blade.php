@@ -9,32 +9,19 @@
         $start = $start ? Carbon::parse($start) : now();
         $end = $item->end_at ? Carbon::parse($item->end_at) : null;
 
-        // Format badge tanggal
-        $dayName = $start->translatedFormat('l');
-        $dayNum = $start->format('d');
-        $monYr = $start->translatedFormat('M Y');
+        // Format tanggal & waktu seperti contoh
+        $badgeHari = $start->translatedFormat('l');
+        $badgeTgl = $start->format('d');
+        $badgeBlnTh = $start->translatedFormat('M Y');
+        $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
 
-        // Format waktu tampilan lengkap
-        if ($end) {
-            // Jika ada waktu selesai, tampilkan range (contoh: "8 November 2025 • 08:00–14:00")
-            $timeStr = $start->translatedFormat('d F Y') . ' • ' . $start->format('H:i') . '–' . $end->format('H:i');
-        } else {
-            // Jika tidak ada, hanya tampilkan tanggal & jam mulai
-            $timeStr = $start->translatedFormat('d F Y') . ' • ' . $start->format('H:i');
-        }
+        // Format string lengkap untuk keperluan tampilan tooltip / info tambahan
+        $timeStr = $end
+            ? $start->translatedFormat('d F Y') . ' • ' . $jamRange
+            : $start->translatedFormat('d F Y • H:i');
 
-        // Cover (dengan fallback ke default)
-        $coverFile = public_path('public/storage/' . $item->cover_path ?? '');
-        $cover =
-            !empty($item->cover_path) && file_exists($coverFile)
-                ? asset('public/storage/' . $item->cover_path)
-                : asset('public/img/potensi2.jpg');
-
-        // URL detail
+        // URL detail pengumuman
         $detailUrl = route('pengumuman.show', $item->slug);
-
-        // Tags
-        $tags = $item->tags?->pluck('name') ?? collect();
     @endphp
 
     <div
