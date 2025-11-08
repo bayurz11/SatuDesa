@@ -32,7 +32,6 @@
                 <livewire:content.content-hub mode="announcement" :show-pagination="true" />
 
 
-
             </article>
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
