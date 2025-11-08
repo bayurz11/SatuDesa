@@ -7,7 +7,9 @@
                 /** @var \App\Domains\Post\Models\Post $featured */
                 $featured = $items->first();
                 $featDate = $featured->published_at ?? $featured->created_at;
-                $featCover = $featured->cover_url ?? asset('public/img/potensi1.jpg');
+                $featCover = $featured->cover_path
+                    ? asset('public/storage/' . ltrim($featured->cover_path, '/'))
+                    : asset('public/img/potensi1.jpg');
                 $featCategory = $featured->category->name ?? 'Berita Utama';
             @endphp
 
@@ -18,11 +20,9 @@
                         class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         loading="lazy" decoding="async">
                 </a>
-
                 <div
                     class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
                 </div>
-
                 <div class="absolute inset-x-0 bottom-0 p-5 md:p-6">
                     <div class="flex flex-wrap items-center gap-2 mb-3">
                         <span
@@ -37,7 +37,6 @@
                         </span>
                         <time
                             class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
-                            {{-- clock --}}
                             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -53,10 +52,7 @@
                             {{ $featured->title }}
                         </a>
                     </h2>
-
-                    <p class="mt-2 text-white/90 line-clamp-2 pointer-events-auto">
-                        {{ $featured->summary }}
-                    </p>
+                    <p class="mt-2 text-white/90 line-clamp-2 pointer-events-auto">{{ $featured->summary }}</p>
                 </div>
             </article>
         @endif
@@ -66,7 +62,9 @@
             @foreach ($items->skip(1) as $post)
                 @php
                     /** @var \App\Domains\Post\Models\Post $post */
-                    $postCover = $post->cover_url ?? asset('public/img/potensi2.jpg');
+                    $postCover = $post->cover_path
+                        ? asset('public/storage/' . ltrim($post->cover_path, '/'))
+                        : asset('public/img/potensi2.jpg');
                     $postDate = $post->published_at ?? $post->created_at;
                     $postCat = $post->category->name ?? 'Berita';
                 @endphp
@@ -82,7 +80,6 @@
                         <div class="mb-2 flex flex-wrap items-center gap-2">
                             <span
                                 class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
-                                {{-- tag icon --}}
                                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -91,7 +88,6 @@
                                 {{ $postCat }}
                             </span>
                             <time class="inline-flex items-center gap-1 text-xs text-gray-500">
-                                {{-- clock --}}
                                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -121,7 +117,6 @@
 
     {{-- SIDEBAR --}}
     <aside class="lg:sticky lg:top-20 space-y-6" data-aos="fade-left" data-aos-delay="200">
-
         {{-- Search --}}
         <form action="{{ url()->current() }}" method="GET" class="bg-white rounded-xl shadow p-4">
             <label for="q" class="sr-only">Cari Berita</label>
@@ -145,7 +140,6 @@
             <div class="flex flex-wrap gap-2">
                 @php
                     $activeCat = request('category');
-                    $baseUrl = url()->current();
                 @endphp
                 <a href="{{ request()->fullUrlWithQuery(['category' => null, 'page' => null]) }}"
                     class="px-3 py-1.5 rounded-lg text-sm border {{ $activeCat ? 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' : 'bg-green-600 border-green-600 text-white' }} transition">
@@ -166,7 +160,6 @@
         <div class="bg-white rounded-xl shadow p-4">
             <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
             @php
-                // Pakai $latest kalau ada; kalau tidak, ambil 3 teratas dari koleksi paginator saat ini
                 $latestList =
                     isset($latest) && $latest instanceof \Illuminate\Support\Collection
                         ? $latest
@@ -175,7 +168,9 @@
             <div class="space-y-3">
                 @forelse ($latestList as $lp)
                     @php
-                        $thumb = $lp->cover_url ?? asset('public/img/potensi1.jpg');
+                        $thumb = $lp->cover_path
+                            ? asset('public/storage/' . ltrim($lp->cover_path, '/'))
+                            : asset('public/img/potensi1.jpg');
                         $ldate = $lp->published_at ?? $lp->created_at;
                         $lcat = $lp->category->name ?? 'Berita';
                     @endphp
@@ -213,6 +208,5 @@
                 @endforelse
             </div>
         </div>
-
     </aside>
 </div>
