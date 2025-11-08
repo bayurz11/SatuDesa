@@ -26,6 +26,6 @@
                 Mentuda.
             </p>
         </header>
-        <livewire:content.content-hub mode="announcement" :show-pagination="true" />
+        <livewire:content.content-hub mode="news" :show-pagination="true" />
     </section>
 @endsection
