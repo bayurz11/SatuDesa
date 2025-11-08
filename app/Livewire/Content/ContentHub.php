@@ -97,7 +97,7 @@ class ContentHub extends Component
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
-
+        $showPagination = request()->routeIs('/') ? false : true;
         $items = $this->baseQuery()->paginate($this->perPage);
 
         // Tentukan judul & subjudul berdasarkan mode
@@ -108,6 +108,6 @@ class ContentHub extends Component
             default        => ['Konten', ''],
         };
 
-        return view('livewire.content.content-hub', compact('items', 'categories', 'title', 'subtitle'));
+        return view('livewire.content.content-hub', compact('items', 'categories', 'title', 'subtitle', 'showPagination'));
     }
 }
