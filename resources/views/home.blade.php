@@ -509,6 +509,11 @@
 
         {{-- pengumuman content hub --}}
         @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => false])
+        @if ($showPagination && $items->hasPages())
+            <div class="pt-4 flex justify-center">
+                {{ $items->onEachSide(1)->links() }}
+            </div>
+        @endif
 
 
         <!-- Tombol -->
