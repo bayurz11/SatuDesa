@@ -175,20 +175,43 @@
                                 <!-- Cover -->
                                 <div class="md:col-span-2 flex flex-col">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Cover</label>
-                                    <input type="file" wire:model="cover" accept="image/*"
-                                        class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+
+                                    <!-- Dropzone -->
+                                    <label for="cover"
+                                        class="flex flex-col items-center justify-center w-full p-5 border-2 border-dashed rounded-xl bg-gray-50 hover:bg-gray-100 border-gray-300 cursor-pointer transition-all duration-200 shadow-sm">
+                                        <svg class="w-10 h-10 text-gray-400 mb-3" fill="none"
+                                            stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3 15l5.159-5.159a2.25 2.25 0 013.182 0L16.5 15M5.25 6.75h13.5a1.5 1.5 0 011.5 1.5v9a1.5 1.5 0 01-1.5 1.5H5.25a1.5 1.5 0 01-1.5-1.5v-9a1.5 1.5 0 011.5-1.5z" />
+                                        </svg>
+                                        <div class="text-center">
+                                            <p class="text-sm text-gray-700 font-medium">Klik untuk pilih cover / drag
+                                                & drop</p>
+                                            <p class="text-xs text-gray-500">PNG/JPG maks. 4 MB</p>
+                                        </div>
+                                    </label>
+                                    <input id="cover" type="file" accept="image/*" wire:model="cover"
+                                        class="hidden">
                                     @error('cover')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
 
-                                    @if ($cover_path || $cover)
-                                        <div class="mt-3">
-                                            <img src="{{ $cover ? $cover->temporaryUrl() : Storage::url($cover_path) }}"
-                                                class="h-32 rounded-lg ring-1 ring-black/10 object-cover"
-                                                alt="Cover Preview">
+                                    {{-- Preview Cover --}}
+                                    @if ($cover || $cover_path)
+                                        <div class="mt-3 flex justify-center">
+                                            <img src="{{ $cover ? $cover->temporaryUrl() : asset($cover_path) }}"
+                                                alt="Cover Preview"
+                                                class="h-40 w-full max-w-2xl object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100"
+                                                onerror="this.src='{{ asset('public/img/bg-desa.jpg') }}';">
                                         </div>
+                                        @if (!$cover && $cover_path)
+                                            <p class="mt-2 text-xs text-gray-500 text-center">
+                                                Sumber: {{ asset($cover_path) }}
+                                            </p>
+                                        @endif
                                     @endif
                                 </div>
+
 
                                 <!-- Tags -->
                                 <div class="md:col-span-2 flex flex-col">
