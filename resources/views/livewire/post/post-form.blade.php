@@ -87,15 +87,17 @@
                                 <div class="md:col-span-2 flex flex-col" wire:key="editor-{{ $editorId }}">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
 
-                                    {{-- hidden input: sumber truth untuk Livewire & Trix --}}
+                                    {{-- Hidden input → sumber truth untuk Livewire --}}
                                     <input id="post-body-input-{{ $editorId }}" type="hidden"
-                                        wire:model.live="body_html">
+                                        wire:model.defer="body_html" {{-- <= DEFER agar tidak trigger request tiap ketik --}}>
 
-                                    {{-- editor Trix diabaikan Livewire, hanya refer ke hidden input --}}
-                                    <trix-editor wire:ignore input="post-body-input-{{ $editorId }}"
-                                        class="trix-content rounded-xl border border-gray-300 bg-white p-2"
-                                        data-disable-file-uploads="true">
-                                    </trix-editor>
+                                    {{-- Editor → di-ignore oleh Livewire, refer ke hidden input --}}
+                                    <div wire:ignore>
+                                        <trix-editor input="post-body-input-{{ $editorId }}"
+                                            class="trix-content rounded-xl border border-gray-300 bg-white p-2"
+                                            data-disable-file-uploads="true">
+                                        </trix-editor>
+                                    </div>
 
                                     @error('body_html')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -287,7 +289,7 @@
 
 @push('scripts')
     <script>
-        // Muat konten awal dari hidden input saat Trix siap
+        // Muat konten awal dari hidden saat editor siap
         document.addEventListener('trix-initialize', (e) => {
             const inputId = e.target.getAttribute('input');
             const hidden = document.getElementById(inputId);
@@ -297,7 +299,7 @@
             } catch {}
         });
 
-        // Setiap perubahan di editor → paksa Livewire menangkap (wire:model.live)
+        // Setiap perubahan → bubble 'input' agar Livewire tahu nilai terbaru
         document.addEventListener('trix-change', (e) => {
             const inputId = e.target.getAttribute('input');
             const hidden = document.getElementById(inputId);
@@ -306,7 +308,7 @@
             }));
         });
 
-        // (Opsional) blokir upload file di Trix
+        // (opsional) blokir upload file
         document.addEventListener('trix-file-accept', e => e.preventDefault());
         document.addEventListener('trix-attachment-add', e => e.preventDefault());
     </script>
