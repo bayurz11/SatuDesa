@@ -2,12 +2,39 @@
 
 @forelse ($items as $item)
     @php
-        $dateRef = $item->start_at ?? $item->published_at;
-        $dayName = optional($dateRef)?->translatedFormat('l') ?? '-';
-        $dayNum = optional($dateRef)?->format('d') ?? '--';
-        $monYr = optional($dateRef)?->translatedFormat('M Y') ?? '--';
-        $timeStr = optional($dateRef)?->translatedFormat('d F Y • HH:mm');
+        use Illuminate\Support\Carbon;
+
+        // Ambil waktu mulai & akhir
+        $start = $item->start_at ?? $item->published_at;
+        $start = $start ? Carbon::parse($start) : now();
+        $end = $item->end_at ? Carbon::parse($item->end_at) : null;
+
+        // Format badge tanggal
+        $dayName = $start->translatedFormat('l');
+        $dayNum = $start->format('d');
+        $monYr = $start->translatedFormat('M Y');
+
+        // Format waktu tampilan lengkap
+        if ($end) {
+            // Jika ada waktu selesai, tampilkan range (contoh: "8 November 2025 • 08:00–14:00")
+            $timeStr = $start->translatedFormat('d F Y') . ' • ' . $start->format('H:i') . '–' . $end->format('H:i');
+        } else {
+            // Jika tidak ada, hanya tampilkan tanggal & jam mulai
+            $timeStr = $start->translatedFormat('d F Y') . ' • ' . $start->format('H:i');
+        }
+
+        // Cover (dengan fallback ke default)
+        $coverFile = public_path('public/storage/' . $item->cover_path ?? '');
+        $cover =
+            !empty($item->cover_path) && file_exists($coverFile)
+                ? asset('public/storage/' . $item->cover_path)
+                : asset('public/img/potensi2.jpg');
+
+        // URL detail
         $detailUrl = route('pengumuman.show', $item->slug);
+
+        // Tags
+        $tags = $item->tags?->pluck('name') ?? collect();
     @endphp
 
     <div
