@@ -8,7 +8,7 @@
                 $dayNum = optional($dateRef)?->format('d') ?? '--';
                 $monYr = optional($dateRef)?->translatedFormat('M Y') ?? '--';
                 $timeStr = optional($dateRef)?->translatedFormat('d F Y • HH:mm');
-                $detailUrl = route('pengumuman.show', $item->slug);
+                // $detailUrl = route('pengumuman.show', $item->slug);
             @endphp
 
             <div
