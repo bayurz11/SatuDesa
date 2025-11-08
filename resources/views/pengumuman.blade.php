@@ -25,6 +25,68 @@
                 Informasi dan pengumuman terbaru untuk masyarakat Desa Mentuda.
             </p>
         </header>
-        @livewire('content.content-hub', ['mode' => 'announcement'])
+        <div class="grid gap-8 lg:grid-cols-3 items-start">
+            {{-- KOLOM UTAMA --}}
+
+            @livewire('content.content-hub', ['mode' => 'announcement'])
+
+            {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
+            <aside class="space-y-6 lg:sticky lg:top-20">
+                {{-- Pencarian (placeholder) --}}
+                <form action="#" method="GET" class="bg-white rounded-xl shadow p-4">
+                    <label for="q" class="sr-only">Cari Pengumuman</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input wire:model.live="q" type="text" placeholder="Cari judul / ringkasan…"
+                            class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
+                    </div>
+                </form>
+
+                {{-- Filter cepat (placeholder) --}}
+                <div class="bg-white rounded-xl shadow p-4">
+                    <h3 class="font-semibold text-gray-900 mb-3">Filter</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a href="#"
+                            class="px-3 py-1.5 rounded-lg text-sm border bg-green-600 border-green-600 text-white">Semua</a>
+                        <a href="#"
+                            class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Umum</a>
+                        <a href="#"
+                            class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Kesehatan</a>
+                        <a href="#"
+                            class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Pendidikan</a>
+                        <a href="#"
+                            class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Agenda</a>
+                    </div>
+                </div>
+
+                {{-- Agenda terdekat (statik contoh) --}}
+                <div class="bg-white rounded-xl shadow p-4">
+                    <h3 class="font-semibold text-gray-900 mb-3">Agenda Terdekat</h3>
+                    <ul class="space-y-3 text-sm">
+                        <li class="flex items-start gap-3">
+                            <x-heroicon-o-calendar class="mt-0.5 size-5 text-green-700" />
+                            <div>
+                                <p class="font-medium text-gray-900">Musyawarah Desa</p>
+                                <p class="text-gray-500">25 September 2025 — Balai Desa</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <x-heroicon-o-megaphone class="mt-0.5 size-5 text-green-700" />
+                            <div>
+                                <p class="font-medium text-gray-900">Sosialisasi Kesehatan</p>
+                                <p class="text-gray-500">27 September 2025 — Posyandu</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </aside>
+        </div>
+
+
     </section>
 @endsection
