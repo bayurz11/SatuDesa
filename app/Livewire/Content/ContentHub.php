@@ -11,17 +11,15 @@ class ContentHub extends Component
 {
     use WithPagination;
 
-    /** @var 'announcement'|'news'|'potensi' */
     public string $mode = 'announcement';
 
-    // Filter UI
     public ?string $q = null;
     public ?string $category = null;
     public int $perPage = 10;
     public string $sortField = 'published_at';
     public string $sortDirection = 'desc';
 
-    /** Kontrol tampil/tidaknya pagination dari luar (default: true) */
+    /** Bisa di-set dari luar; default true */
     public bool $showPagination = true;
 
     protected $queryString = [
@@ -36,20 +34,14 @@ class ContentHub extends Component
     {
         $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
-        // page size default per mode
         $this->perPage = match ($this->mode) {
             'news', 'potensi' => 6,
-            'announcement'    => 3,
-            default           => 10,
+            'announcement'   => 3,
+            default          => 10,
         };
 
-        /**
-         * Otomatis sembunyikan pagination jika sedang di halaman '/'
-         * (nama route kamu adalah '/', sesuai contoh).
-         * Kalau kamu panggil komponen dengan ['showPagination' => false],
-         * itu tetap diprioritaskan.
-         */
-        $autoHideOnHome = request()->routeIs('beranda');     // atau: request()->is('/')
+        // Auto-hide di beranda
+        $autoHideOnHome       = request()->routeIs('beranda');
         $this->showPagination = $showPagination && ! $autoHideOnHome;
     }
 
@@ -69,7 +61,7 @@ class ContentHub extends Component
     public function sortBy(string $field): void
     {
         $allowed = ['published_at', 'created_at', 'title'];
-        if (! in_array($field, $allowed, true)) return;
+        if (!in_array($field, $allowed, true)) return;
 
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -82,31 +74,26 @@ class ContentHub extends Component
 
     protected function baseQuery()
     {
-        $q = Post::query()
+        return Post::query()
             ->with(['category:id,name,slug', 'tags:id,name,slug'])
             ->where('status', 'published')
-            ->when($this->mode !== 'potensi', fn($x) => $x->where('content_type', $this->mode))
-            ->when($this->mode === 'potensi', fn($x) => $x->where('content_type', 'potensi'))
-            ->when($this->q, function ($x) {
-                $term = "%{$this->q}%";
-                $x->where(function ($w) use ($term) {
-                    $w->where('title', 'like', $term)
-                        ->orWhere('summary', 'like', $term)
-                        ->orWhere('body_html', 'like', $term);
-                });
+            ->when($this->mode !== 'potensi', fn($q) => $q->where('content_type', $this->mode))
+            ->when($this->mode === 'potensi', fn($q) => $q->where('content_type', 'potensi'))
+            ->when($this->q, function ($q) {
+                $t = "%{$this->q}%";
+                $q->where(fn($w) => $w->where('title', 'like', $t)
+                    ->orWhere('summary', 'like', $t)
+                    ->orWhere('body_html', 'like', $t));
             })
-            ->when($this->category, fn($x) => $x->where('category_id', $this->category))
-            ->whereNotNull('published_at')
-            ->where('published_at', '<=', now())
+            ->when($this->category, fn($q) => $q->where('category_id', $this->category))
+            ->whereNotNull('published_at')->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
-
-        return $q;
     }
 
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
-        $items = $this->baseQuery()->paginate($this->perPage);
+        $items      = $this->baseQuery()->paginate($this->perPage);
 
         [$title, $subtitle] = match ($this->mode) {
             'announcement' => ['Pengumuman', 'Informasi & agenda resmi desa'],
