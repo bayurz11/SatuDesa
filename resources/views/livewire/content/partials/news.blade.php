@@ -10,7 +10,11 @@
                 $featCover = $featured->cover_path
                     ? asset('public/storage/' . ltrim($featured->cover_path, '/'))
                     : asset('public/img/potensi1.jpg');
-                $featCategory = $featured->category->name ?? 'Berita Utama';
+
+                $featCategoryName = optional($featured->category)->name;
+                $featHasCat = filled($featCategoryName);
+                $featCategory = $featHasCat ? $featCategoryName : 'Tidak berkategori';
+                $featBadgeClass = $featHasCat ? 'bg-white/95 text-green-700' : 'bg-white/90 text-gray-700';
             @endphp
 
             <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group" data-aos="fade-right"
@@ -20,13 +24,15 @@
                         class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                         loading="lazy" decoding="async">
                 </a>
+
                 <div
                     class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
                 </div>
+
                 <div class="absolute inset-x-0 bottom-0 p-5 md:p-6">
                     <div class="flex flex-wrap items-center gap-2 mb-3">
                         <span
-                            class="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-green-700 ring-1 ring-black/5">
+                            class="inline-flex items-center gap-1 rounded-full {{ $featBadgeClass }} px-2.5 py-1 text-xs font-medium ring-1 ring-black/5">
                             {{-- tag icon --}}
                             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                 aria-hidden="true">
@@ -35,6 +41,7 @@
                             </svg>
                             {{ $featCategory }}
                         </span>
+
                         <time
                             class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
                             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -66,7 +73,13 @@
                         ? asset('public/storage/' . ltrim($post->cover_path, '/'))
                         : asset('public/img/potensi2.jpg');
                     $postDate = $post->published_at ?? $post->created_at;
-                    $postCat = $post->category->name ?? 'Berita';
+
+                    $postCategoryName = optional($post->category)->name;
+                    $postHasCat = filled($postCategoryName);
+                    $postCat = $postHasCat ? $postCategoryName : 'Tidak berkategori';
+                    $postBadgeClass = $postHasCat
+                        ? 'bg-green-50 text-green-700 ring-green-200'
+                        : 'bg-gray-100 text-gray-700 ring-gray-200';
                 @endphp
                 <article class="rounded-xl border border-gray-200 bg-white shadow-sm hover:shadow-md transition">
                     <a href="{{ route('berita') }}/{{ $post->slug }}" class="block">
@@ -79,7 +92,8 @@
                     <div class="p-4 md:p-5">
                         <div class="mb-2 flex flex-wrap items-center gap-2">
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                                class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[11px] font-medium ring-1 {{ $postBadgeClass }}">
+                                {{-- tag icon --}}
                                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -88,6 +102,7 @@
                                 {{ $postCat }}
                             </span>
                             <time class="inline-flex items-center gap-1 text-xs text-gray-500">
+                                {{-- clock --}}
                                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                                     aria-hidden="true">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -137,23 +152,35 @@
         {{-- Kategori --}}
         <div class="bg-white rounded-xl shadow p-4">
             <h4 class="font-semibold text-gray-900 mb-3">Kategori</h4>
-            <div class="flex flex-wrap gap-2">
-                @php
-                    $activeCat = request('category');
-                @endphp
-                <a href="{{ request()->fullUrlWithQuery(['category' => null, 'page' => null]) }}"
-                    class="px-3 py-1.5 rounded-lg text-sm border {{ $activeCat ? 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' : 'bg-green-600 border-green-600 text-white' }} transition">
-                    Semua
-                </a>
 
-                @foreach ($categories ?? collect() as $cat)
-                    @php $isActive = $activeCat == ($cat->slug ?? $cat->id); @endphp
-                    <a href="{{ request()->fullUrlWithQuery(['category' => $cat->slug ?? $cat->id, 'page' => null]) }}"
-                        class="px-3 py-1.5 rounded-lg text-sm border {{ $isActive ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' }} transition">
-                        {{ $cat->name }}
+            @php
+                $activeCat = request('category');
+                $cats = $categories ?? collect();
+            @endphp
+
+            @if ($cats->count() === 0)
+                <p class="text-sm text-gray-500">
+                    Kategori belum tersedia. Semua postingan akan ditampilkan.
+                </p>
+            @else
+                <div class="flex flex-wrap gap-2">
+                    <a href="{{ request()->fullUrlWithQuery(['category' => null, 'page' => null]) }}"
+                        class="px-3 py-1.5 rounded-lg text-sm border {{ $activeCat ? 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' : 'bg-green-600 border-green-600 text-white' }} transition">
+                        Semua
                     </a>
-                @endforeach
-            </div>
+
+                    @foreach ($cats as $cat)
+                        @php
+                            $catKey = $cat->slug ?? $cat->id;
+                            $isActive = (string) $activeCat === (string) $catKey;
+                        @endphp
+                        <a href="{{ request()->fullUrlWithQuery(['category' => $catKey, 'page' => null]) }}"
+                            class="px-3 py-1.5 rounded-lg text-sm border {{ $isActive ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' }} transition">
+                            {{ $cat->name }}
+                        </a>
+                    @endforeach
+                </div>
+            @endif
         </div>
 
         {{-- Terbaru --}}
@@ -172,7 +199,9 @@
                             ? asset('public/storage/' . ltrim($lp->cover_path, '/'))
                             : asset('public/img/potensi1.jpg');
                         $ldate = $lp->published_at ?? $lp->created_at;
-                        $lcat = $lp->category->name ?? 'Berita';
+
+                        $lcatName = optional($lp->category)->name;
+                        $lcat = filled($lcatName) ? $lcatName : 'Tidak berkategori';
                     @endphp
                     <a href="{{ route('berita') }}/{{ $lp->slug }}"
                         class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
