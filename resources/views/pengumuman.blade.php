@@ -29,7 +29,8 @@
             {{-- KOLOM UTAMA --}}
             <article class="lg:col-span-2 space-y-4">
 
-                @livewire('content.content-hub', ['mode' => 'announcement'])
+                @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => true])
+
             </article>
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
