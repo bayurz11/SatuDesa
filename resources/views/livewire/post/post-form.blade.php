@@ -83,15 +83,15 @@
                                     @enderror
                                 </div>
 
-                                <!-- ISI (Trix) -->
+                                {{-- ISI (Trix) --}}
                                 <div class="md:col-span-2 flex flex-col" wire:key="editor-{{ $editorId }}">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
 
-                                    {{-- Hidden input sumber truth untuk Livewire (IMMEDIATE) --}}
+                                    {{-- hidden input: sumber truth untuk Livewire & Trix --}}
                                     <input id="post-body-input-{{ $editorId }}" type="hidden"
                                         wire:model.live="body_html">
 
-                                    {{-- Trix terhubung ke hidden input via ID statis --}}
+                                    {{-- editor Trix diabaikan Livewire, hanya refer ke hidden input --}}
                                     <trix-editor wire:ignore input="post-body-input-{{ $editorId }}"
                                         class="trix-content rounded-xl border border-gray-300 bg-white p-2"
                                         data-disable-file-uploads="true">
@@ -205,15 +205,15 @@
                                     @enderror
 
                                     {{-- Preview Cover --}}
-                                    @if ($cover || (!empty($cover_path) && file_exists(public_path('public/storage/' . $cover_path))))
+                                    @if ($cover || (!empty($cover_path) && file_exists(public_path($cover_path))))
                                         <div class="mt-3 flex justify-center">
-                                            <img src="{{ $cover ? $cover->temporaryUrl() : asset('public/storage/' . $cover_path) }}"
+                                            <img src="{{ $cover ? $cover->temporaryUrl() : asset($cover_path) }}"
                                                 alt="Cover Preview"
                                                 class="h-40 w-full max-w-2xl object-cover rounded-lg border shadow-sm bg-white ring-1 ring-gray-100">
                                         </div>
                                         @if (!$cover && !empty($cover_path))
                                             <p class="mt-2 text-xs text-gray-500 text-center">
-                                                Sumber: {{ asset('public/storage/' . $cover_path) }}
+                                                Sumber: {{ asset($cover_path) }}
                                             </p>
                                         @endif
                                     @endif
@@ -284,36 +284,29 @@
         </div>
     @endif
 </div>
+
 @push('scripts')
-    {{-- Pastikan trix.css & trix.umd.min.js sudah dimuat di layout --}}
     <script>
-        // Muat HTML awal ke editor setiap kali muncul
+        // Muat konten awal dari hidden input saat Trix siap
         document.addEventListener('trix-initialize', (e) => {
             const inputId = e.target.getAttribute('input');
-            if (!inputId) return;
             const hidden = document.getElementById(inputId);
             if (!hidden) return;
-
-            // Pastikan editor tampilkan nilai HTML yg ada di Livewire (saat edit)
             try {
                 e.target.editor.loadHTML(hidden.value || '');
             } catch {}
         });
 
-        // Setiap ada perubahan di editor, paksa Livewire membaca nilai terbaru
+        // Setiap perubahan di editor → paksa Livewire menangkap (wire:model.live)
         document.addEventListener('trix-change', (e) => {
             const inputId = e.target.getAttribute('input');
-            if (!inputId) return;
             const hidden = document.getElementById(inputId);
-            if (!hidden) return;
-
-            // Trix sudah menulis HTML ke hidden.value — trigger event input utk Livewire
-            hidden.dispatchEvent(new Event('input', {
+            if (hidden) hidden.dispatchEvent(new Event('input', {
                 bubbles: true
             }));
         });
 
-        // Opsional: blokir upload file dari Trix
+        // (Opsional) blokir upload file di Trix
         document.addEventListener('trix-file-accept', e => e.preventDefault());
         document.addEventListener('trix-attachment-add', e => e.preventDefault());
     </script>

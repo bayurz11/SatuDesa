@@ -8,7 +8,6 @@ use Livewire\WithFileUploads;
 use App\Domains\Tag\Models\Tag;
 use Illuminate\Validation\Rule;
 use App\Domains\Post\Models\Post;
-
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Storage;
 use App\Domains\Category\Models\Category;
@@ -42,8 +41,8 @@ class PostForm extends Component
     public ?string $source_url = null;
 
     // media & publish
-    public $cover;                       // UploadedFile|null
-    public ?string $cover_path = null;   // simpan: "storage/covers/xxxx.jpg"
+    public $cover;                     // UploadedFile|null
+    public ?string $cover_path = null; // simpan: "covers/xxxx.jpg" (relatif dari public/)
     public string $status = 'draft';
     public ?string $published_at = null;
 
@@ -51,18 +50,20 @@ class PostForm extends Component
     public array $tag_ids = [];
 
     // editor
-    public string $editorId = '';
+    public string $editorId = ''; // <- penanda stabil untuk trix
 
     protected $listeners = ['openPostForm' => 'openForm'];
 
     public function openForm(?string $id = null): void
     {
         $this->resetValidation();
-        // force re-init Trix setiap open
-        $this->editorId = Str::random(8);
+
+        // set sekali setiap buka modal. JANGAN diubah lagi selama modal terbuka
+        $this->editorId = $this->editorId ?: Str::random(8);
 
         if ($id) {
             $post = Post::with('tags:id')->findOrFail($id);
+
             $this->fill($post->only([
                 'id',
                 'category_id',
@@ -121,6 +122,8 @@ class PostForm extends Component
     public function closeModal(): void
     {
         $this->showModal = false;
+        // reset editorId agar editor baru saat dibuka lagi
+        $this->editorId = '';
     }
 
     public function updatedTitle(): void
@@ -138,27 +141,22 @@ class PostForm extends Component
             'summary'      => ['nullable', 'string'],
             'body_html'    => ['nullable', 'string'],
 
-            // announcement
             'location'     => ['nullable', 'string', 'max:200'],
             'organizer'    => ['nullable', 'string', 'max:160'],
             'start_at'     => ['nullable', 'date'],
             'end_at'       => ['nullable', 'date', 'after_or_equal:start_at'],
             'is_all_day'   => ['boolean'],
 
-            // news
             'author_name'  => ['nullable', 'string', 'max:160'],
             'read_minutes' => ['nullable', 'integer', 'min:0'],
             'source_url'   => ['nullable', 'url'],
 
-            // publish
             'status'       => ['required', Rule::in(['draft', 'scheduled', 'published', 'archived'])],
             'published_at' => ['nullable', 'date'],
 
-            // tags
             'tag_ids'      => ['array'],
             'tag_ids.*'    => ['string'],
 
-            // cover
             'cover'        => ['nullable', 'image', 'max:4096'],
         ];
     }
@@ -171,27 +169,23 @@ class PostForm extends Component
             $data['slug'] = Str::slug($data['title']);
         }
 
-        // === Upload cover ke public/covers dan simpan "covers/xxxx.jpg"
+        // upload cover ke public/covers → simpan path relatif "covers/xxxx.jpg"
         if ($this->cover) {
             Storage::disk('public_path')->makeDirectory('covers');
 
-            $ext = strtolower($this->cover->getClientOriginalExtension() ?: 'jpg');
+            $ext      = strtolower($this->cover->getClientOriginalExtension() ?: 'jpg');
             $namaFile = Str::random(16) . '.' . $ext;
 
-            // hasil: "covers/xxxx.jpg" relatif dari public/
-            $relative = $this->cover->storeAs('covers', $namaFile, 'public_path');
-
+            $relative = $this->cover->storeAs('covers', $namaFile, 'public_path'); // "covers/xxx.jpg"
             $data['cover_path'] = $relative;
 
-            // Hapus cover lama saat update
             if ($this->isEditing && $this->cover_path) {
-                $old = ltrim($this->cover_path, '/'); // "storage/covers/xxxx.jpg"
+                $old = ltrim($this->cover_path, '/');
                 if (Storage::disk('public_path')->exists($old)) {
                     Storage::disk('public_path')->delete($old);
                 }
             }
         }
-        // === end upload cover
 
         $data['start_at']     = $this->start_at ?: null;
         $data['end_at']       = $this->end_at ?: null;
@@ -208,6 +202,7 @@ class PostForm extends Component
 
         $this->showSuccessToast($this->isEditing ? 'Post diperbarui!' : 'Post ditambahkan!');
         $this->showModal = false;
+        $this->editorId  = ''; // reset setelah close
         $this->dispatch('post:saved');
     }
 
