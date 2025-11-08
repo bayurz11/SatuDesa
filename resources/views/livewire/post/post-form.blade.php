@@ -87,11 +87,9 @@
                                 <div class="md:col-span-2 flex flex-col">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
 
-                                    {{-- hidden input sebagai sumber truth buat Livewire --}}
                                     <input id="post-body-input-{{ $editorId }}" type="hidden"
-                                        wire:model.defer="body_html">
+                                        wire:model.live="body_html"> {{-- <- ubah: live, bukan defer --}}
 
-                                    {{-- Penting: wire:key berbasis $editorId agar trix re-init setiap openForm --}}
                                     <trix-editor wire:ignore wire:key="trix-{{ $editorId }}"
                                         input="post-body-input-{{ $editorId }}"
                                         class="trix-content rounded-xl border border-gray-300 bg-white p-2"
