@@ -13,7 +13,8 @@ class ContentHub extends Component
 
     public string $mode = 'announcement';
 
-    public ?string $q = null;
+    // Ganti $q -> $search (real-time search)
+    public string $search = '';
     public ?string $category = null;
     public int $perPage = 10;
     public string $sortField = 'published_at';
@@ -23,7 +24,7 @@ class ContentHub extends Component
     public bool $showPagination = true;
 
     protected $queryString = [
-        'q'             => ['except' => null],
+        'search'        => ['except' => ''],
         'category'      => ['except' => null],
         'perPage'       => ['except' => 10],
         'sortField'     => ['except' => 'published_at'],
@@ -36,16 +37,22 @@ class ContentHub extends Component
 
         $this->perPage = match ($this->mode) {
             'news', 'potensi' => 6,
-            'announcement'   => 3,
-            default          => 10,
+            'announcement'    => 3,
+            default           => 10,
         };
+
+        // Backward-compat: jika masih ada ?q= di URL lama, pindahkan ke $search
+        if (request()->filled('q') && empty($this->search)) {
+            $this->search = (string) request()->query('q');
+        }
 
         // Auto-hide di beranda
         $autoHideOnHome       = request()->routeIs('beranda');
         $this->showPagination = $showPagination && ! $autoHideOnHome;
     }
 
-    public function updatingQ()
+    // === Reset page saat filter berubah ===
+    public function updatingSearch()
     {
         $this->resetPage();
     }
@@ -71,6 +78,7 @@ class ContentHub extends Component
         }
         $this->resetPage();
     }
+
     public function paginationView()
     {
         return 'livewire.content.pagination.pagination';
@@ -84,9 +92,15 @@ class ContentHub extends Component
             ->when($this->mode !== 'potensi', fn($q) => $q->where('content_type', $this->mode))
             ->when($this->mode === 'potensi', fn($q) => $q->where('content_type', 'potensi'))
 
-            // 🔎 perluas cakupan pencarian
-            ->when($this->q, function ($q) {
-                $t = "%{$this->q}%";
+            // 🔎 cari seperti di PostList: pakai scope search() kalau ada, fallback ke LIKE
+            ->when($this->search, function ($q) {
+                // Jika model Post punya scope ->search($term), gunakan:
+                if (method_exists(Post::class, 'search')) {
+                    $q->search($this->search);
+                    return;
+                }
+                // Fallback manual
+                $t = '%' . $this->search . '%';
                 $q->where(function ($w) use ($t) {
                     $w->where('title', 'like', $t)
                         ->orWhere('summary', 'like', $t)
@@ -101,6 +115,7 @@ class ContentHub extends Component
             ->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
     }
+
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);

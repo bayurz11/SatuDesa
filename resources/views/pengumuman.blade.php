@@ -35,40 +35,45 @@
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
             <aside class="space-y-6 lg:sticky lg:top-20">
-                {{-- Pencarian (tanpa form) --}}
+                {{-- Pencarian tanpa form; real-time --}}
                 <div role="search" class="bg-white rounded-xl shadow p-4">
-                    <label for="search-q" class="sr-only">Cari {{ $title ?? 'Konten' }}</label>
+                    <label for="search-q" class="sr-only">
+                        Cari {{ $title ?? 'Konten' }}
+                    </label>
 
                     <div class="relative">
                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                aria-hidden="true">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                         </div>
 
-                        <input id="search-q" type="text" wire:model.live="q" {{-- cegah Enter memicu apapun --}}
+                        <input id="search-q" type="text" wire:model.live="search"
                             onkeydown="if (event.key === 'Enter') event.preventDefault();"
                             placeholder="Cari judul / ringkasan / tag / kategori…"
                             class="block w-full pl-12 pr-24 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500
-             focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
+                   focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
 
-                        @if (!empty($q))
-                            <button type="button" wire:click="$set('q', null)"
+                        @if (!empty($search))
+                            <button type="button" wire:click="$set('search','')"
                                 class="absolute inset-y-0 right-10 my-2 px-2 text-gray-500 hover:text-gray-700">
                                 Bersihkan
                             </button>
                         @endif
 
-                        <div wire:loading.delay wire:target="q" class="absolute inset-y-0 right-3 flex items-center">
-                            <svg class="animate-spin h-5 w-5 text-gray-400" viewBox="0 0 24 24" fill="none">
+                        <div wire:loading.delay wire:target="search" class="absolute inset-y-0 right-3 flex items-center">
+                            <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24" aria-hidden="true">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                    stroke-width="4" />
-                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                             </svg>
                         </div>
                     </div>
                 </div>
+
 
                 {{-- Filter cepat (placeholder) --}}
                 <div class="bg-white rounded-xl shadow p-4">
