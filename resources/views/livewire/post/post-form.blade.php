@@ -293,12 +293,12 @@
             const hidden = document.getElementById(inputId);
             if (!hidden) return;
 
-            // Muat konten awal ke editor
+            // Muat konten awal ke editor dari hidden (HTML)
             try {
                 e.target.editor.loadHTML(hidden.value || '');
             } catch {}
 
-            // Pastikan nilai terakhir tersinkron sebelum submit Livewire
+            // Pastikan Livewire sync nilai terakhir sebelum submit
             const form = e.target.closest('form');
             if (form) {
                 form.addEventListener('submit', () => {
@@ -309,19 +309,19 @@
             }
         });
 
-        // Saat ada perubahan di editor, trigger input di hidden agar Livewire menangkapnya
+        // Sinkron ke Livewire setiap ada perubahan.
+        // TIDAK perlu set hidden.value manual (Trix sudah set dengan HTML).
         document.addEventListener('trix-change', (e) => {
             const inputId = e.target.getAttribute('input');
             const hidden = document.getElementById(inputId);
             if (hidden) {
-                hidden.value = e.target.editor.getDocument().toString(); // opsional, Trix sudah handle
                 hidden.dispatchEvent(new Event('input', {
                     bubbles: true
                 }));
             }
         });
 
-        // Blokir upload file (opsional)
+        // Opsional: blokir upload file via Trix
         document.addEventListener('trix-file-accept', e => e.preventDefault());
         document.addEventListener('trix-attachment-add', e => e.preventDefault());
     </script>
