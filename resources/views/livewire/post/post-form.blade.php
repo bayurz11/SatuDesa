@@ -84,16 +84,15 @@
                                 </div>
 
                                 <!-- ISI (Trix) -->
-                                <div class="md:col-span-2 flex flex-col">
+                                <div class="md:col-span-2 flex flex-col" x-data="trixBinder(@entangle('body_html'))" x-init="init()"
+                                    wire:key="editor-{{ $editorId }}">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
 
-                                    {{-- Hidden input yang terhubung ke Livewire --}}
-                                    <input id="post-body-input-{{ $editorId }}" type="hidden"
-                                        wire:model.live="body_html">
+                                    {{-- Hidden input sumber truth Trix --}}
+                                    <input :id="inputId" type="hidden">
 
-                                    {{-- Trix editor (abaikan oleh Livewire) --}}
-                                    <trix-editor wire:ignore wire:key="trix-{{ $editorId }}"
-                                        input="post-body-input-{{ $editorId }}"
+                                    {{-- Editor Trix (diabaikan Livewire, sinkron via Alpine @entangle) --}}
+                                    <trix-editor wire:ignore :input="inputId" x-ref="editor"
                                         class="trix-content rounded-xl border border-gray-300 bg-white p-2"
                                         data-disable-file-uploads="true">
                                     </trix-editor>
@@ -102,8 +101,6 @@
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
-
-
 
                                 {{-- Announcement Fields --}}
                                 @if ($content_type === 'announcement')
@@ -288,39 +285,37 @@
     @endif
 </div>
 @push('scripts')
+    {{-- pastikan Trix sudah di-load di layout: trix.css & trix.umd.min.js --}}
     <script>
-        document.addEventListener('trix-initialize', (e) => {
-            const inputId = e.target.getAttribute('input');
-            const hidden = document.getElementById(inputId);
-            if (!hidden) return;
+        // Bridge Alpine ↔ Livewire ↔ Trix
+        function trixBinder(model) {
+            return {
+                model, // @entangle('body_html')
+                inputId: 'trix-' + Math.random().toString(36).slice(2),
 
-            // Muat HTML awal dari hidden (kalau edit)
-            try {
-                e.target.editor.loadHTML(hidden.value || '');
-            } catch {}
+                init() {
+                    this.$nextTick(() => {
+                        const hidden = document.getElementById(this.inputId);
+                        const editor = this.$refs.editor;
 
-            // Pastikan Livewire sync sebelum submit
-            const form = e.target.closest('form');
-            if (form) {
-                form.addEventListener('submit', () => {
-                    hidden.dispatchEvent(new Event('input', {
-                        bubbles: true
-                    }));
-                });
+                        // 1) set nilai awal (saat edit)
+                        hidden.value = this.model ?? '';
+                        try {
+                            editor.editor.loadHTML(hidden.value || '');
+                        } catch {}
+
+                        // 2) setiap ada perubahan, dorong ke Livewire
+                        editor.addEventListener('trix-change', () => {
+                            // Trix akan update hidden.value → sinkronkan ke Livewire via entangle
+                            this.model = hidden.value;
+                        });
+
+                        // 3) opsional: blokir upload file di Trix
+                        editor.addEventListener('trix-file-accept', e => e.preventDefault());
+                        editor.addEventListener('trix-attachment-add', e => e.preventDefault());
+                    });
+                }
             }
-        });
-
-        // Setiap ada perubahan pada editor, trigger 'input' di hidden supaya Livewire baca
-        document.addEventListener('trix-change', (e) => {
-            const inputId = e.target.getAttribute('input');
-            const hidden = document.getElementById(inputId);
-            if (hidden) hidden.dispatchEvent(new Event('input', {
-                bubbles: true
-            }));
-        });
-
-        // Opsional: blokir upload file
-        document.addEventListener('trix-file-accept', e => e.preventDefault());
-        document.addEventListener('trix-attachment-add', e => e.preventDefault());
+        }
     </script>
 @endpush

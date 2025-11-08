@@ -27,18 +27,17 @@ class Post extends Model
         'body_html',
         'location',
         'organizer',
+        'start_at',
+        'end_at',
+        'is_all_day',
         'author_name',
         'read_minutes',
         'source_url',
         'cover_path',
-        'start_at',
-        'end_at',
-        'is_all_day',
         'status',
-        'published_at',
-        'created_by',
-        'updated_by',
+        'published_at'
     ];
+
 
     protected $casts = [
         'is_all_day'   => 'boolean',
