@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 // Landing Page Route
-Route::get('/', 'beranda', function () {
+Route::get('/', function () {
     return view('home');
 })->name('beranda');
 
