@@ -508,7 +508,7 @@
         </div>
 
         {{-- pengumuman content hub --}}
-        @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => false])
+        @livewire('content.content-hub', ['mode' => 'announcement', 'showPagination' => true])
 
         <!-- Tombol -->
         <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
