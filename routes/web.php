@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Domains\Post\Models\Post;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 // Landing Page Route
 Route::get('/', function () {
@@ -53,11 +54,13 @@ Route::get('/pengumuman', function () {
     return view('pengumuman');
 })->name('pengumuman');
 
-// Detail Pengumuman Page Route
-Route::get('/pengumuman-detail', function () {
-    return view('pengumuman-detail');
-})->name('pengumuman-detail');
+Route::get('/pengumuman/{slug}', function ($slug) {
+    $item = Post::where('slug', $slug)
+        ->where('content_type', 'announcement')
+        ->firstOrFail();
 
+    return view('pengumuman-detail', compact('item'));
+})->name('pengumuman.show');
 // Galeri Page Route
 Route::get('/galeri', function () {
     return view('galeri');
