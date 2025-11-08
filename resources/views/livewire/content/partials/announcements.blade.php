@@ -2,25 +2,11 @@
 
 @forelse ($items as $item)
     @php
-        use Illuminate\Support\Carbon;
-
-        // Ambil waktu mulai & akhir
-        $start = $item->start_at ?? $item->published_at;
-        $start = $start ? Carbon::parse($start) : now();
-        $end = $item->end_at ? Carbon::parse($item->end_at) : null;
-
-        // Format tanggal & waktu seperti contoh
-        $badgeHari = $start->translatedFormat('l');
-        $badgeTgl = $start->format('d');
-        $badgeBlnTh = $start->translatedFormat('M Y');
-        $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
-
-        // Format string lengkap untuk keperluan tampilan tooltip / info tambahan
-        $timeStr = $end
-            ? $start->translatedFormat('d F Y') . ' • ' . $jamRange
-            : $start->translatedFormat('d F Y • H:i');
-
-        // URL detail pengumuman
+        $dateRef = $item->start_at ?? $item->published_at;
+        $dayName = optional($dateRef)?->translatedFormat('l') ?? '-';
+        $dayNum = optional($dateRef)?->format('d') ?? '--';
+        $monYr = optional($dateRef)?->translatedFormat('M Y') ?? '--';
+        $timeStr = optional($dateRef)?->translatedFormat('d F Y • H:i');
         $detailUrl = route('pengumuman.show', $item->slug);
     @endphp
 
