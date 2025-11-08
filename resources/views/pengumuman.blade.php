@@ -27,8 +27,9 @@
         </header>
         <div class="grid gap-8 lg:grid-cols-3 items-start">
             {{-- KOLOM UTAMA --}}
-
-            @livewire('content.content-hub', ['mode' => 'announcement'])
+            <article class="lg:col-span-2 space-y-4">
+                @livewire('content.content-hub', ['mode' => 'announcement'])
+            </article>
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
             <aside class="space-y-6 lg:sticky lg:top-20">
