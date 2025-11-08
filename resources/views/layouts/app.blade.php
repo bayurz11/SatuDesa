@@ -538,6 +538,40 @@
     <!-- SweetAlert2 for modern alerts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @push('scripts')
+        {{-- Pastikan trix.css & trix.umd.min.js sudah dimuat di layout --}}
+        <script>
+            // Muat HTML awal ke editor setiap kali muncul
+            document.addEventListener('trix-initialize', (e) => {
+                const inputId = e.target.getAttribute('input');
+                if (!inputId) return;
+                const hidden = document.getElementById(inputId);
+                if (!hidden) return;
+
+                // Pastikan editor tampilkan nilai HTML yg ada di Livewire (saat edit)
+                try {
+                    e.target.editor.loadHTML(hidden.value || '');
+                } catch {}
+            });
+
+            // Setiap ada perubahan di editor, paksa Livewire membaca nilai terbaru
+            document.addEventListener('trix-change', (e) => {
+                const inputId = e.target.getAttribute('input');
+                if (!inputId) return;
+                const hidden = document.getElementById(inputId);
+                if (!hidden) return;
+
+                // Trix sudah menulis HTML ke hidden.value — trigger event input utk Livewire
+                hidden.dispatchEvent(new Event('input', {
+                    bubbles: true
+                }));
+            });
+
+            // Opsional: blokir upload file dari Trix
+            document.addEventListener('trix-file-accept', e => e.preventDefault());
+            document.addEventListener('trix-attachment-add', e => e.preventDefault());
+        </script>
+    @endpush
 
     <script>
         // Modern Alert System

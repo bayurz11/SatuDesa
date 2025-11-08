@@ -84,15 +84,15 @@
                                 </div>
 
                                 <!-- ISI (Trix) -->
-                                <div class="md:col-span-2 flex flex-col" x-data="trixBinder(@entangle('body_html'))" x-init="init()"
-                                    wire:key="editor-{{ $editorId }}">
+                                <div class="md:col-span-2 flex flex-col" wire:key="editor-{{ $editorId }}">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Isi</label>
 
-                                    {{-- Hidden input sumber truth Trix --}}
-                                    <input :id="inputId" type="hidden">
+                                    {{-- Hidden input sumber truth untuk Livewire (IMMEDIATE) --}}
+                                    <input id="post-body-input-{{ $editorId }}" type="hidden"
+                                        wire:model.live="body_html">
 
-                                    {{-- Editor Trix (diabaikan Livewire, sinkron via Alpine @entangle) --}}
-                                    <trix-editor wire:ignore :input="inputId" x-ref="editor"
+                                    {{-- Trix terhubung ke hidden input via ID statis --}}
+                                    <trix-editor wire:ignore input="post-body-input-{{ $editorId }}"
                                         class="trix-content rounded-xl border border-gray-300 bg-white p-2"
                                         data-disable-file-uploads="true">
                                     </trix-editor>
@@ -284,38 +284,3 @@
         </div>
     @endif
 </div>
-@push('scripts')
-    {{-- pastikan Trix sudah di-load di layout: trix.css & trix.umd.min.js --}}
-    <script>
-        // Bridge Alpine ↔ Livewire ↔ Trix
-        function trixBinder(model) {
-            return {
-                model, // @entangle('body_html')
-                inputId: 'trix-' + Math.random().toString(36).slice(2),
-
-                init() {
-                    this.$nextTick(() => {
-                        const hidden = document.getElementById(this.inputId);
-                        const editor = this.$refs.editor;
-
-                        // 1) set nilai awal (saat edit)
-                        hidden.value = this.model ?? '';
-                        try {
-                            editor.editor.loadHTML(hidden.value || '');
-                        } catch {}
-
-                        // 2) setiap ada perubahan, dorong ke Livewire
-                        editor.addEventListener('trix-change', () => {
-                            // Trix akan update hidden.value → sinkronkan ke Livewire via entangle
-                            this.model = hidden.value;
-                        });
-
-                        // 3) opsional: blokir upload file di Trix
-                        editor.addEventListener('trix-file-accept', e => e.preventDefault());
-                        editor.addEventListener('trix-attachment-add', e => e.preventDefault());
-                    });
-                }
-            }
-        }
-    </script>
-@endpush
