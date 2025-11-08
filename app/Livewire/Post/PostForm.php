@@ -170,7 +170,7 @@ class PostForm extends Component
         // === Handle upload cover mirip StrukturForm ===
         if ($this->cover) {
             // Pastikan folder tujuan ada
-            Storage::disk('public_path')->makeDirectory('storage/covers');
+            Storage::disk('public_path')->makeDirectory('covers');
 
             // Nama file unik
             $ext = strtolower($this->cover->getClientOriginalExtension() ?: 'jpg');
@@ -179,7 +179,7 @@ class PostForm extends Component
             // Simpan ke public/storage/covers (disk public_path)
             // NB: storeAs pakai path relatif terhadap root disk
             //     Di sini kita simpan ke "storage/covers/xxx.jpg" agar langsung bisa di-asset()
-            $relative = $this->cover->storeAs('storage/covers', $namaFile, 'public_path'); // "storage/covers/xxxx.jpg"
+            $relative = $this->cover->storeAs('covers', $namaFile, 'public_path'); // "storage/covers/xxxx.jpg"
 
             // Tulis path ke DB (siap dipakai asset())
             $data['cover_path'] = $relative;
