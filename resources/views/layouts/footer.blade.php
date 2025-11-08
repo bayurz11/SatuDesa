@@ -53,7 +53,7 @@
                 <div>
                     <h3 class="text-sm font-semibold uppercase tracking-wider text-white/90">Umum</h3>
                     <ul class="mt-3 space-y-2 text-sm">
-                        <li><a href="{{ route('/') }}"
+                        <li><a href="{{ route('beranda') }}"
                                 class="text-white/80 hover:text-yellow-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded px-1">Beranda</a>
                         </li>
                         <li><a href="{{ route('umkm') }}"
