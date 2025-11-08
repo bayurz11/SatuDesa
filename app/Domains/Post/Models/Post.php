@@ -20,22 +20,22 @@ class Post extends Model
 
     protected $fillable = [
         'category_id',
-        'content_type',     // 'announcement', 'news', 'potential'
+        'content_type',
         'title',
         'slug',
         'summary',
         'body_html',
         'location',
-        'organizer',        // untuk pengumuman
+        'organizer',
         'author_name',
-        'read_minutes',     // untuk berita
+        'read_minutes',
+        'source_url',
         'cover_path',
         'start_at',
         'end_at',
         'is_all_day',
-        'status',           // draft, published, archived
+        'status',
         'published_at',
-        'source_url',
         'created_by',
         'updated_by',
     ];
@@ -48,73 +48,65 @@ class Post extends Model
         'published_at' => 'datetime',
     ];
 
-    /* =======================================
-     |               RELATIONS
-     ======================================= */
+    // Relations
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id');
     }
-
     public function tags()
     {
         return $this->belongsToMany(Tag::class, 'post_tag', 'post_id', 'tag_id');
     }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
     }
-
     public function editor()
     {
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    /* =======================================
-     |               SCOPES
-     ======================================= */
+    // Scopes
     public function scopePublished($q)
     {
         return $q->where('status', 'published')
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now());
     }
-
+    public function scopeScheduled($q)
+    {
+        return $q->where('status', 'scheduled');
+    }
     public function scopeDraft($q)
     {
         return $q->where('status', 'draft');
     }
-
+    public function scopeArchived($q)
+    {
+        return $q->where('status', 'archived');
+    }
     public function scopeNews($q)
     {
         return $q->where('content_type', 'news');
     }
-
     public function scopeAnnouncements($q)
     {
         return $q->where('content_type', 'announcement');
     }
 
-    public function scopePotentials($q)
-    {
-        return $q->where('content_type', 'potential');
-    }
-
     public function scopeSearch($q, ?string $term)
     {
-        if (!$term) return $q;
-
+        if (blank($term)) return $q;
         return $q->where(function ($w) use ($term) {
             $w->where('title', 'like', "%{$term}%")
                 ->orWhere('summary', 'like', "%{$term}%")
-                ->orWhere('body_html', 'like', "%{$term}%");
+                ->orWhere('body_html', 'like', "%{$term}%")
+                ->orWhere('organizer', 'like', "%{$term}%")
+                ->orWhere('author_name', 'like', "%{$term}%");
         });
     }
 
-    /* =======================================
-     |               ACCESSORS
-     ======================================= */
+    // Accessors
     public function getCoverUrlAttribute(): ?string
     {
         return $this->cover_path ? Storage::url($this->cover_path) : asset('public/img/default-cover.jpg');
@@ -127,16 +119,13 @@ class Post extends Model
         return $end ? now()->gt($end) : false;
     }
 
-    /* =======================================
-     |               BOOT
-     ======================================= */
+    // Boot
     protected static function booted()
     {
         static::creating(function (self $post) {
             if (blank($post->slug) && filled($post->title)) {
                 $post->slug = Str::slug($post->title);
             }
-
             $post->status = $post->status ?? 'draft';
         });
 
