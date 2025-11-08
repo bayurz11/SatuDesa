@@ -4,64 +4,23 @@
 
 @section('content')
     @php
-        use Illuminate\Support\Str;
         use Illuminate\Support\Carbon;
+        use Illuminate\Support\Str;
 
-        // ====== DATA STATIS (FALLBACK) ======
-        if (!isset($pengumuman)) {
-            $pengumuman = (object) [
-                'judul' => 'Gotong Royong Bersama',
-                'kategori' => 'Umum',
-                'tag' => ['Lingkungan', 'Kebersamaan'],
-                'tanggal' => '2025-09-21 08:00:00', // mulai acara
-                'selesai' => '2025-09-21 11:30:00', // selesai acara (opsional)
-                'lokasi' => 'Balai Desa Mentuda',
-                'penanggung' => 'Kasi Pemerintahan',
-                'cover' => asset('public/img/potensi2.jpg'),
-                'ringkas' =>
-                    'Diharapkan seluruh warga ikut serta dalam kegiatan gotong royong membersihkan lingkungan desa pada hari Minggu.',
-                'isi_html' => '<p>
-Kegiatan akan difokuskan pada area balai desa, masjid, dan jalur utama. Harap membawa alat kebersihan pribadi seperti <em>sapu lidi</em>, <em>cangkul</em>, dan <em>sarung tangan</em>. Panitia menyiapkan air minum dan snack.</p><ul><li>Briefing singkat pukul 08.00 WIB</li><li>Pembagian area kerja</li><li>Istirahat pukul 10.00 WIB</li><li>Penutupan pukul 11.30 WIB</li></ul>',
-                'lampiran' => [
-                    ['nama' => 'Surat Edaran RW.pdf', 'url' => '#'],
-                    ['nama' => 'Denah Area Kerja.png', 'url' => '#'],
-                ],
-                'galeri' => [asset('public/img/potensi1.jpg'), asset('public/img/potensi2.jpg')],
-                'created_at' => '2025-09-18 09:15:00',
-                'updated_at' => '2025-09-19 14:20:00',
-            ];
-        }
+        $start = $pengumuman->start_at
+            ? Carbon::parse($pengumuman->start_at)
+            : Carbon::parse($pengumuman->published_at);
+        $end = $pengumuman->end_at ? Carbon::parse($pengumuman->end_at) : null;
 
-        if (!isset($terkait)) {
-            $terkait = [
-                (object) [
-                    'judul' => 'Sosialisasi Kesehatan',
-                    'kategori' => 'Kesehatan',
-                    'tanggal' => '2025-09-27 09:00:00',
-                    'cover' => asset('public/img/potensi1.jpg'),
-                    'ringkas' => 'Pemeriksaan kesehatan gratis di Posyandu.',
-                ],
-                (object) [
-                    'judul' => 'Musyawarah Desa',
-                    'kategori' => 'Agenda',
-                    'tanggal' => '2025-09-25 19:30:00',
-                    'cover' => asset('public/img/potensi2.jpg'),
-                    'ringkas' => 'Pembahasan program kerja triwulan berikutnya.',
-                ],
-            ];
-        }
-
-        // Helper tanggal
-        $start = Carbon::parse($pengumuman->tanggal);
-        $end = !empty($pengumuman->selesai) ? Carbon::parse($pengumuman->selesai) : null;
-
-        $badgeHari = $start->translatedFormat('l'); // Senin, Selasa, ...
+        $badgeHari = $start->translatedFormat('l');
         $badgeTgl = $start->format('d');
-        $badgeBlnTh = $start->translatedFormat('M Y'); // Sep 2025
-        $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i') . ' WIB';
-        $cover = $pengumuman->cover ?? asset('public/img/potensi2.jpg');
-        $tags = collect($pengumuman->tag ?? [])->take(4);
+        $badgeBlnTh = $start->translatedFormat('M Y');
+        $jamRange = $end ? $start->format('H:i') . '–' . $end->format('H:i') : $start->format('H:i');
+        $cover = $pengumuman->cover_path
+            ? asset('storage/' . $pengumuman->cover_path)
+            : asset('public/img/potensi2.jpg');
     @endphp
+
 
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
