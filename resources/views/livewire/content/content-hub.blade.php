@@ -14,3 +14,8 @@
         @break
     @endswitch
 </div>
+@if ($showPagination && $items->hasPages())
+    <div class="pt-4 flex justify-center">
+        {{ $items->onEachSide(1)->links() }}
+    </div>
+@endif

@@ -20,6 +20,7 @@ class ContentHub extends Component
     public int $perPage = 10;
     public string $sortField = 'published_at';
     public string $sortDirection = 'desc';
+    public bool $showPagination = true;
 
     protected $queryString = [
         'q'             => ['except' => null],
@@ -29,16 +30,17 @@ class ContentHub extends Component
         'sortDirection' => ['except' => 'desc'],
     ];
 
-    public function mount(string $mode = 'announcement')
-    {
-        // Validasi mode
-        $this->mode = in_array($mode, ['announcement', 'news', 'potensi']) ? $mode : 'announcement';
 
-        // Default page size sesuai halaman
+
+    public function mount(string $mode = 'announcement', bool $showPagination = true)
+    {
+        $this->mode = in_array($mode, ['announcement', 'news', 'potensi']) ? $mode : 'announcement';
+        $this->showPagination = $showPagination;
         if ($this->mode === 'news') $this->perPage = 6;
         if ($this->mode === 'announcement') $this->perPage = 3;
         if ($this->mode === 'potensi') $this->perPage = 6;
     }
+
 
     public function updatingQ()
     {
