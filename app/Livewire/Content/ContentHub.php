@@ -13,7 +13,6 @@ class ContentHub extends Component
 
     public string $mode = 'announcement';
 
-    // Ganti $q -> $search (real-time search)
     public string $search = '';
     public ?string $category = null;
     public int $perPage = 10;
@@ -22,6 +21,10 @@ class ContentHub extends Component
 
     /** Bisa di-set dari luar; default true */
     public bool $showPagination = true;
+
+    /** 🔦 Khusus beranda: featured + 4 lainnya (tanpa paginasi) */
+    public bool $homeSpotlight = false;
+    public int $spotlightLimit = 5; // featured + 4
 
     protected $queryString = [
         'search'        => ['except' => ''],
@@ -41,17 +44,18 @@ class ContentHub extends Component
             default           => 10,
         };
 
-        // Backward-compat: jika masih ada ?q= di URL lama, pindahkan ke $search
+        // Backward-compat untuk ?q= lama
         if (request()->filled('q') && empty($this->search)) {
             $this->search = (string) request()->query('q');
         }
 
-        // Auto-hide di beranda
-        $autoHideOnHome       = request()->routeIs('beranda');
-        $this->showPagination = $showPagination && ! $autoHideOnHome;
+        // Deteksi beranda -> aktifkan spotlight, hilangkan pagination
+        $isHome = request()->routeIs('beranda'); // pastikan nama route beranda = 'beranda'
+        $this->homeSpotlight = $isHome;
+        $this->showPagination = $showPagination && ! $isHome;
     }
 
-    // === Reset page saat filter berubah ===
+    /** Reset page saat filter berubah */
     public function updatingSearch()
     {
         $this->resetPage();
@@ -92,14 +96,12 @@ class ContentHub extends Component
             ->when($this->mode !== 'potensi', fn($q) => $q->where('content_type', $this->mode))
             ->when($this->mode === 'potensi', fn($q) => $q->where('content_type', 'potensi'))
 
-            // 🔎 cari seperti di PostList: pakai scope search() kalau ada, fallback ke LIKE
+            // 🔎 cari pakai scope search() kalau ada; fallback LIKE
             ->when($this->search, function ($q) {
-                // Jika model Post punya scope ->search($term), gunakan:
                 if (method_exists(Post::class, 'search')) {
                     $q->search($this->search);
                     return;
                 }
-                // Fallback manual
                 $t = '%' . $this->search . '%';
                 $q->where(function ($w) use ($t) {
                     $w->where('title', 'like', $t)
@@ -119,7 +121,20 @@ class ContentHub extends Component
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
-        $items      = $this->baseQuery()->paginate($this->perPage);
+
+        // 🔦 Spotlight untuk beranda (tanpa pagination)
+        $spotlight = $this->homeSpotlight
+            ? cache()->remember(
+                "home:spotlight:{$this->mode}:{$this->spotlightLimit}:" . md5($this->search . '|' . $this->category),
+                60,
+                fn() => (clone $this->baseQuery())->take($this->spotlightLimit)->get()
+            )
+            : collect();
+
+        // List biasa (index) pakai paginate
+        $items = $this->homeSpotlight
+            ? collect()
+            : $this->baseQuery()->paginate($this->perPage);
 
         [$title, $subtitle] = match ($this->mode) {
             'announcement' => ['Pengumuman', 'Informasi & agenda resmi desa'],
@@ -128,7 +143,8 @@ class ContentHub extends Component
             default        => ['Konten', ''],
         };
 
-        return view('livewire.content.content-hub', compact('items', 'categories', 'title', 'subtitle'))
-            ->with('showPagination', $this->showPagination);
+        return view('livewire.content.content-hub', compact('items', 'spotlight', 'categories', 'title', 'subtitle'))
+            ->with('showPagination', $this->showPagination)
+            ->with('homeSpotlight', $this->homeSpotlight);
     }
 }

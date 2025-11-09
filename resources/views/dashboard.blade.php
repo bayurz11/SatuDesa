@@ -67,7 +67,7 @@
             $postStats = Cache::remember('dashboard:post_stats', now()->addSeconds(1), function () {
                 return Post::query()
                     ->whereNotNull('content_type')
-                    ->whereNull('deleted_at') // ✅ Abaikan post yang sudah soft delete
+                    ->whereNull('deleted_at')
                     ->selectRaw(
                         "
             content_type,
