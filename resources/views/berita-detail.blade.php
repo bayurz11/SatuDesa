@@ -197,12 +197,14 @@
                         isset($related) && $related instanceof \Illuminate\Support\Collection && $related->count()
                             ? $related
                             : \App\Domains\Post\Models\Post::query()
+                                ->with('category:id,name,slug')
                                 ->news()
                                 ->published()
                                 ->orderByDesc('published_at')
                                 ->take(3)
                                 ->get();
                 @endphp
+
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
                     <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
                     <div class="space-y-3">
@@ -210,10 +212,23 @@
                             @php
                                 $ldate = $lp->published_at ?? $lp->created_at;
                                 $lcat = optional($lp->category)->name ?? 'Tidak berkategori';
+
+                                // ✅ Cover: cek file di public/storage, fallback ke default
+                                $lpCoverPath = ltrim($lp->cover_path ?? '', '/');
+                                $lpCoverFile = public_path('storage/' . $lpCoverPath);
+                                $lpCover =
+                                    !empty($lpCoverPath) && file_exists($lpCoverFile)
+                                        ? asset('storage/' . $lpCoverPath)
+                                        : asset('public/img/default-cover.jpg');
+
+                                // ✅ Link aman: jika slug kosong, jadikan non-klik
+                                $lpHref = $lp->slug ? route('berita.show', $lp->slug) : '#';
+                                $lpLinkCls = $lp->slug ? '' : 'pointer-events-none opacity-70';
                             @endphp
-                            <a href="{{ route('berita.show', $lp->slug) }}"
-                                class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
-                                <img src="{{ $lp->cover_url }}" alt="Thumb {{ $lp->title }}"
+
+                            <a href="{{ $lpHref }}"
+                                class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition {{ $lpLinkCls }}">
+                                <img src="{{ $lpCover }}" alt="Thumb {{ $lp->title }}"
                                     class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
                                     decoding="async">
                                 <div class="min-w-0">
