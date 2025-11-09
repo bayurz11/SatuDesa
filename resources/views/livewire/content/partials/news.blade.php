@@ -122,12 +122,6 @@
             @endforeach
         </div>
 
-        {{-- Pagination --}}
-        <div class="pt-4">
-            <nav class="flex justify-center" aria-label="Pagination">
-                {{ $items->onEachSide(1)->links() }}
-            </nav>
-        </div>
     </div>
 
     {{-- SIDEBAR --}}
