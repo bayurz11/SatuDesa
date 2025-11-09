@@ -277,7 +277,7 @@
                 </div>
 
                 <div class="bg-white rounded-xl shadow p-4">
-                    <a href="{{ route('/') }}"
+                    <a href="{{ route('beranda') }}"
                         class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                         <x-heroicon-o-arrow-left class="size-4" /> Kembali ke Beranda
                     </a>
