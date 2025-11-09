@@ -7,63 +7,76 @@
     {{-- Artikel Utama --}}
     <div class="md:col-span-2 relative rounded-xl overflow-hidden shadow-lg group flex flex-col h-[390px]"
         data-aos="fade-right" data-aos-delay="500">
-        @if ($hasNews)
-            @php
-                $featured = $news->first();
-                $featDate = $featured->published_at ?? $featured->created_at;
-                $featCover = $featured->cover_path
-                    ? asset('public/storage/' . ltrim($featured->cover_path, '/'))
-                    : asset('public/img/potensi1.jpg');
-                $featCategoryName = optional($featured->category)->name;
-                $featHasCat = filled($featCategoryName);
-                $featCategory = $featHasCat ? $featCategoryName : 'Tidak berkategori';
-            @endphp
+        <div class="md:col-span-2">
+            @if ($hasNews)
+                @php
+                    /** @var \App\Domains\Post\Models\Post $featured */
+                    $featured = $news->first();
+                    $featDate = $featured->published_at ?? $featured->created_at;
+                    $featCover = $featured->cover_path
+                        ? asset('public/storage/' . ltrim($featured->cover_path, '/'))
+                        : asset('public/img/potensi1.jpg');
 
-            <a href="{{ route('berita') }}/{{ $featured->slug }}" class="block absolute inset-0">
-                <img src="{{ $featCover }}" alt="{{ $featured->title }}"
-                    class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy" decoding="async">
-            </a>
+                    $featCategoryName = optional($featured->category)->name;
+                    $featHasCat = filled($featCategoryName);
+                    $featCategory = $featHasCat ? $featCategoryName : 'Tidak berkategori';
+                    $featBadgeClass = $featHasCat ? 'bg-white/95 text-green-700' : 'bg-white/90 text-gray-700';
+                @endphp
 
-            {{-- Overlay Judul + Gradient --}}
-            <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 to-transparent p-6 text-white">
-                <h3 class="font-semibold text-lg md:text-xl group-hover:text-white transition line-clamp-2">
-                    <a href="{{ route('berita') }}/{{ $featured->slug }}" class="pointer-events-auto">
-                        {{ $featured->title }}
+                <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group"
+                    data-aos="fade-right" data-aos-delay="150">
+                    <a href="{{ route('berita') }}/{{ $featured->slug }}" class="block">
+                        <img src="{{ $featCover }}" alt="{{ $featured->title }}"
+                            class="h-[380px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                            loading="lazy" decoding="async">
                     </a>
-                </h3>
 
-                {{-- Box Metadata --}}
-                <div class="absolute bottom-0 right-0 flex justify-start">
                     <div
-                        class="bg-white text-green-700 px-4 py-2 rounded-tl-2xl flex items-center gap-4 text-sm shadow-md">
-                        {{-- Kategori --}}
-                        <span class="flex items-center gap-1">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 0 0 5.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6Z" />
-                            </svg>
-                            {{ $featCategory }}
-                        </span>
-                        {{-- Tanggal --}}
-                        <span class="flex items-center gap-1 text-gray-800">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="size-4">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0a9 9 0 0 1 18 0Z" />
-                            </svg>
-                            {{ optional($featDate)?->format('d-m-Y') }}
-                        </span>
+                        class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent">
                     </div>
+
+                    <div class="absolute inset-x-0 bottom-0 p-5 md:p-6">
+                        <div class="flex flex-wrap items-center gap-2 mb-3">
+                            <span
+                                class="inline-flex items-center gap-1 rounded-full {{ $featBadgeClass }} px-2.5 py-1 text-xs font-medium ring-1 ring-black/5">
+                                {{-- tag icon --}}
+                                <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M7 7h.01M3 10a4 4 0 004-4h10l4 4-8 8-4-4-6 6" />
+                                </svg>
+                                {{ $featCategory }}
+                            </span>
+
+                            <time
+                                class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
+                                <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                    aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0a9 9 0 0118 0z" />
+                                </svg>
+                                {{ optional($featDate)?->format('d-m-Y') }}
+                            </time>
+                        </div>
+
+                        <h2
+                            class="text-white text-2xl md:text-3xl font-extrabold leading-snug line-clamp-2 drop-shadow">
+                            <a href="{{ route('berita') }}/{{ $featured->slug }}"
+                                class="pointer-events-auto group-hover:text-green-200 transition">
+                                {{ $featured->title }}
+                            </a>
+                        </h2>
+                        <p class="mt-2 text-white/90 line-clamp-2 pointer-events-auto">{{ $featured->summary }}</p>
+                    </div>
+                </article>
+            @else
+                <div
+                    class="relative overflow-hidden rounded-2xl ring-1 ring-black/5 bg-gray-100 h-[380px] grid place-items-center text-gray-500">
+                    Belum ada berita.
                 </div>
-            </div>
-        @else
-            <div class="absolute inset-0 grid place-items-center bg-gray-100 text-gray-500">
-                Belum ada berita.
-            </div>
-        @endif
+            @endif
+        </div>
+
     </div>
 
     {{-- Artikel Lainnya --}}
