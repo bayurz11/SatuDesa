@@ -137,14 +137,31 @@
                 {{-- CTA --}}
                 <section class="rounded-2xl border border-green-200 bg-green-50/60 p-5 md:p-6">
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                        <div>
+                        <div class="flex-1">
                             <h3 class="text-base md:text-lg font-semibold text-gray-900">Aksi</h3>
                             <p class="text-sm text-gray-700">
                                 Sebarkan informasi ini agar lebih banyak warga yang hadir.
                             </p>
+
+                            {{-- ✅ Tampilkan cover berita --}}
+                            @php
+                                $coverPath = ltrim($item->cover_path ?? '', '/');
+                                $coverFile = public_path('storage/' . $coverPath);
+                                $coverImg =
+                                    !empty($coverPath) && file_exists($coverFile)
+                                        ? asset('public/storage/' . $coverPath)
+                                        : asset('public/storage/' . $coverPath);
+                            @endphp
+
+                            <div class="mt-4">
+                                <img src="{{ $coverImg }}" alt="Cover {{ $item->title }}"
+                                    class="rounded-xl border border-green-200 shadow-sm max-w-sm md:max-w-md">
+                                <p class="text-xs text-gray-500 mt-2">Cover berita: {{ $item->title }}</p>
+                            </div>
                         </div>
 
-                        <div class="flex items-center gap-2">
+                        {{-- Tombol Share & Print --}}
+                        <div class="flex items-center gap-2 md:ml-6">
                             <button type="button" id="btnShare"
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                                 <x-heroicon-o-share class="size-4" /> Bagikan
@@ -175,12 +192,10 @@
                                 if (navigator.share) {
                                     try {
                                         await navigator.share(shareData);
-                                        console.log('Berhasil dibagikan');
                                     } catch (err) {
                                         console.warn('Share dibatalkan:', err);
                                     }
                                 } else {
-                                    // fallback: salin link
                                     navigator.clipboard.writeText(window.location.href)
                                         .then(() => alert('🔗 Link berita disalin ke clipboard!'))
                                         .catch(() => alert('Tidak bisa menyalin link otomatis.'));
@@ -194,6 +209,7 @@
                         });
                     </script>
                 @endpush
+
 
             </article>
 

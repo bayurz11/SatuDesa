@@ -127,12 +127,28 @@
 
                 {{-- Isi Berita --}}
                 <section class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8">
+                    {{-- ✅ Cover berita --}}
+                    @php
+                        $coverPath = ltrim($item->cover_path ?? '', '/');
+                        $coverFile = public_path('storage/' . $coverPath);
+                        $coverImg =
+                            !empty($coverPath) && file_exists($coverFile)
+                                ? asset('storage/' . $coverPath)
+                                : asset('public/img/default-cover.jpg');
+                    @endphp
+
+                    <div class="mb-6">
+                        <img src="{{ $coverImg }}" alt="Cover {{ $item->title }}"
+                            class="rounded-xl border border-gray-200 shadow-sm w-full max-h-[420px] object-cover">
+                    </div>
+
+                    {{-- ✅ Konten berita --}}
                     <div class="prose max-w-none">
                         {!! $item->body_html !!}
                     </div>
 
-                    {{-- Share / Print --}}
-                    <div class="mt-6 flex flex-wrap gap-2">
+                    {{-- ✅ Tombol Share & Cetak --}}
+                    <div class="mt-8 flex flex-wrap gap-2">
                         <button type="button" id="btnShare"
                             class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                             <x-heroicon-o-share class="size-4" /> Bagikan
@@ -181,6 +197,7 @@
                         });
                     </script>
                 @endpush
+
 
                 {{-- Navigasi Sebelumnya / Berikutnya (opsional: diisi dari controller) --}}
                 @php
