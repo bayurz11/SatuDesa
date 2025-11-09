@@ -57,7 +57,28 @@
 
         <!-- Modern Stats Cards -->
         @php
+            use Illuminate\Support\Facades\Cache;
+            use App\Domains\Post\Models\Post;
+
+            // Stats lain yang sudah ada
             $stats = \App\Shared\Services\CacheService::getDashboardStats();
+
+            // Hitung total Post per content_type (cache 10 menit)
+            $postCounts = Cache::remember('dashboard:post_counts', now()->addMinutes(10), function () {
+                return Post::query()
+                    // Sesuaikan filter "published" sesuai skema kamu (pilih salah satu baris di bawah ini)
+                    //->where('status', 'published')
+                    //->whereNotNull('published_at')
+                    ->whereNotNull('content_type')
+                    ->selectRaw('content_type, COUNT(*) as total')
+                    ->groupBy('content_type')
+                    ->pluck('total', 'content_type')
+                    ->toArray();
+            });
+
+            // Normalisasi alias (jika kamu pakai 'berita'/'pengumuman')
+            $totalNews = $postCounts['news'] ?? ($postCounts['berita'] ?? 0);
+            $totalAnnouncement = $postCounts['announcement'] ?? ($postCounts['pengumuman'] ?? 0);
         @endphp
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -84,11 +105,11 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm font-medium text-gray-600 mb-1">Total Berita</p>
-                                    <p class="text-2xl font-bold text-gray-900">20
+                                    <p class="text-2xl font-bold text-gray-900">{{ number_format($totalNews) }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-4 flex items-center justify-between">
+                            {{-- <div class="mt-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
                                     <span class="text-sm text-yellow-600 font-semibold">{{ $stats['active_users'] }}
@@ -101,7 +122,7 @@
                                     </svg>
                                     +12% this month
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -129,11 +150,11 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm font-medium text-gray-600 mb-1">Total Pengumuman</p>
-                                    <p class="text-2xl font-bold text-gray-900">10
+                                    <p class="text-2xl font-bold text-gray-900"> {{ number_format($totalAnnouncement) }}
                                     </p>
                                 </div>
                             </div>
-                            <div class="mt-4 flex items-center justify-between">
+                            {{-- <div class="mt-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
                                     <span class="text-sm text-pink-600 font-semibold">{{ $stats['active_roles'] }}
@@ -146,7 +167,7 @@
                                     </svg>
                                     All secure
                                 </div>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
