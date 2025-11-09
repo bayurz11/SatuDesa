@@ -130,11 +130,11 @@
                     {{-- ✅ Cover berita --}}
                     @php
                         $coverPath = ltrim($item->cover_path ?? '', '/');
-                        $coverFile = public_path('storage/' . $coverPath);
+                        $coverFile = public_path('public/storage/' . $coverPath);
                         $coverImg =
                             !empty($coverPath) && file_exists($coverFile)
-                                ? asset('storage/' . $coverPath)
-                                : asset('public/img/default-cover.jpg');
+                                ? asset('public/storage/' . $coverPath)
+                                : asset('public/storage/' . $coverPaths);
                     @endphp
 
                     <div class="mb-6">
