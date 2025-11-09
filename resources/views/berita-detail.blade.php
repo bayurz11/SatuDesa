@@ -266,11 +266,11 @@
 
                             // ✅ Cover: cek file di public/storage, fallback ke default
                             $rpCoverPath = ltrim($rp->cover_path ?? '', '/');
-                            $rpCoverFile = public_path('storage/' . $rpCoverPath); // public_path sudah menunjuk ke /public
+                            $rpCoverFile = public_path('public/storage/' . $rpCoverPath); // public_path sudah menunjuk ke /public
                             $rpCover =
                                 !empty($rpCoverPath) && file_exists($rpCoverFile)
-                                    ? asset('storage/' . $rpCoverPath)
-                                    : asset('public/img/default-cover.jpg');
+                                    ? asset('public/storage/' . $rpCoverPath)
+                                    : asset('public/storage/' . $rpCoverPath);
 
                             // ✅ Link aman
                             $rpHref = $rp->slug ? route('berita.show', $rp->slug) : '#';
