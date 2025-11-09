@@ -184,38 +184,11 @@
         <div class="bg-white rounded-xl shadow p-4">
             <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
             @php
-                use Illuminate\Support\Collection;
-                use Illuminate\Pagination\AbstractPaginator;
-
-                // Normalisasi sumber data jadi Collection
-                if (isset($latest) && $latest instanceof Collection && $latest->isNotEmpty()) {
-                    $source = $latest;
-                } else {
-                    if (isset($items)) {
-                        if ($items instanceof AbstractPaginator) {
-                            // Paginator -> ambil koleksinya
-                            $source = $items->getCollection();
-                        } elseif ($items instanceof Collection) {
-                            // Sudah Collection
-                            $source = $items;
-                        } else {
-                            // Array/null/tipe lain -> paksa jadi Collection
-                            $source = collect($items);
-                        }
-                    } else {
-                        $source = collect();
-                    }
-                }
-
-                // Ambil maksimal 3 item, tetap aman kalau kosong
-                $latestList = $source->take(3);
+                $latestList =
+                    isset($latest) && $latest instanceof \Illuminate\Support\Collection
+                        ? $latest
+                        : $items->getCollection()->take(3);
             @endphp
-            @forelse ($latestList as $lp)
-                {{-- item --}}
-            @empty
-                <p class="text-sm text-gray-500">Belum ada data terbaru.</p>
-            @endforelse
-
             <div class="space-y-3">
                 @forelse ($latestList as $lp)
                     @php
