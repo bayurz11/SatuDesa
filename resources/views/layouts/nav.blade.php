@@ -182,7 +182,7 @@
                         Route::is('berita') ||
                         Route::is('pengumuman') ||
                         Route::is('potensi-desa-detail') ||
-                        Route::is('pengumuman-detail') ||
+                        Route::is('pengumuman.show') ||
                         Route::is('berita.show') ||
                         Route::is('galeri');
                 @endphp
