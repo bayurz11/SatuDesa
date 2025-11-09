@@ -131,18 +131,56 @@
                         {!! $item->body_html !!}
                     </div>
 
-                    {{-- Share / Print (dummy) --}}
+                    {{-- Share / Print --}}
                     <div class="mt-6 flex flex-wrap gap-2">
-                        <a href="#"
+                        <button type="button" id="btnShare"
                             class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                             <x-heroicon-o-share class="size-4" /> Bagikan
-                        </a>
-                        <a href="#"
+                        </button>
+
+                        <button type="button" id="btnPrint"
                             class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                             <x-heroicon-o-printer class="size-4" /> Cetak
-                        </a>
+                        </button>
                     </div>
                 </section>
+
+                @push('scripts')
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const shareBtn = document.getElementById('btnShare');
+                            const printBtn = document.getElementById('btnPrint');
+
+                            // === Fitur BAGIKAN ===
+                            shareBtn?.addEventListener('click', async () => {
+                                const shareData = {
+                                    title: "{{ $item->title ?? 'Berita Desa Mentuda' }}",
+                                    text: "{{ Str::limit(strip_tags($item->summary ?? $item->body_html), 150) }}",
+                                    url: window.location.href
+                                };
+
+                                if (navigator.share) {
+                                    try {
+                                        await navigator.share(shareData);
+                                        console.log('Berhasil dibagikan');
+                                    } catch (err) {
+                                        console.warn('Share dibatalkan:', err);
+                                    }
+                                } else {
+                                    // fallback: salin link
+                                    navigator.clipboard.writeText(window.location.href)
+                                        .then(() => alert('🔗 Link berita disalin ke clipboard!'))
+                                        .catch(() => alert('Tidak bisa menyalin link otomatis.'));
+                                }
+                            });
+
+                            // === Fitur CETAK ===
+                            printBtn?.addEventListener('click', () => {
+                                window.print();
+                            });
+                        });
+                    </script>
+                @endpush
 
                 {{-- Navigasi Sebelumnya / Berikutnya (opsional: diisi dari controller) --}}
                 @php
