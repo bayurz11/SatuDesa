@@ -341,14 +341,22 @@
         {{-- contoh di home.blade.php --}}
         <livewire:content.content-hub mode="announcement" :show-pagination="false" />
 
+        @php
+            use App\Domains\Post\Models\Post;
 
-        <!-- Tombol -->
-        <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
-            <a href="{{ route('pengumuman') }}"
-                class="px-6 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
-                Lihat Pengumuman Lainnya
-            </a>
-        </div>
+            $hasAnnouncements = Post::where('content_type', 'announcement')->where('status', 'published')->exists();
+        @endphp
+
+        @if ($hasAnnouncements)
+            <!-- Tombol -->
+            <div class="text-center mt-10" data-aos="fade-up" data-aos-delay="200">
+                <a href="{{ route('pengumuman') }}"
+                    class="px-6 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
+                    Lihat Pengumuman Lainnya
+                </a>
+            </div>
+        @endif
+
     </section>
 
 @endsection
