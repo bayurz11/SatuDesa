@@ -253,20 +253,34 @@
         </div>
 
         {{-- Berita Terkait --}}
-        @if (isset($related) && $related->count())
+        @if ($related->count())
             <section class="mt-10 md:mt-14">
                 <h3 class="text-lg md:text-xl font-semibold text-gray-900">Berita Terkait</h3>
                 <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
+
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                     @foreach ($related as $rp)
                         @php
                             $rDate = $rp->published_at ?? $rp->created_at;
                             $rcat = optional($rp->category)->name ?? 'Berita';
+
+                            // ✅ Cover: cek file di public/storage, fallback ke default
+                            $rpCoverPath = ltrim($rp->cover_path ?? '', '/');
+                            $rpCoverFile = public_path('storage/' . $rpCoverPath); // public_path sudah menunjuk ke /public
+                            $rpCover =
+                                !empty($rpCoverPath) && file_exists($rpCoverFile)
+                                    ? asset('storage/' . $rpCoverPath)
+                                    : asset('public/img/default-cover.jpg');
+
+                            // ✅ Link aman
+                            $rpHref = $rp->slug ? route('berita.show', $rp->slug) : '#';
+                            $rpLinkCls = $rp->slug ? '' : 'pointer-events-none opacity-70';
                         @endphp
-                        <a href="{{ route('berita.show', $rp->slug) }}"
-                            class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
+
+                        <a href="{{ $rpHref }}"
+                            class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden {{ $rpLinkCls }}">
                             <div class="aspect-[16/9] bg-gray-100">
-                                <img src="{{ $rp->cover_url }}" alt="{{ $rp->title }}"
+                                <img src="{{ $rpCover }}" alt="{{ $rp->title }}"
                                     class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
                                     loading="lazy" decoding="async">
                             </div>
@@ -281,11 +295,14 @@
                                         {{ optional($rDate)->translatedFormat('d M Y') }}
                                     </time>
                                 </div>
+
                                 <h4 class="text-sm md:text-base font-semibold text-gray-900 line-clamp-2">
                                     {{ $rp->title }}
                                 </h4>
+
                                 @if (!blank($rp->summary))
-                                    <p class="mt-1 text-sm text-gray-600 line-clamp-2">{{ Str::limit($rp->summary, 110) }}
+                                    <p class="mt-1 text-sm text-gray-600 line-clamp-2">
+                                        {{ \Illuminate\Support\Str::limit($rp->summary, 110) }}
                                     </p>
                                 @endif
                             </div>
