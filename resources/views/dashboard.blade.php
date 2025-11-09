@@ -60,26 +60,42 @@
             use Illuminate\Support\Facades\Cache;
             use App\Domains\Post\Models\Post;
 
-            // Stats lain yang sudah ada
+            // Ambil statistik global (jika ada)
             $stats = \App\Shared\Services\CacheService::getDashboardStats();
 
-            // Hitung total Post per content_type (cache 10 menit)
-            $postCounts = Cache::remember('dashboard:post_counts', now()->addMinutes(10), function () {
+            // Ambil data per content_type + status (cache 10 menit)
+            $postStats = Cache::remember('dashboard:post_stats', now()->addMinutes(10), function () {
                 return Post::query()
-                    // Sesuaikan filter "published" sesuai skema kamu (pilih salah satu baris di bawah ini)
-                    //->where('status', 'published')
-                    //->whereNotNull('published_at')
                     ->whereNotNull('content_type')
-                    ->selectRaw('content_type, COUNT(*) as total')
+                    ->selectRaw(
+                        "
+                content_type,
+                SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) AS published,
+                SUM(CASE WHEN status != 'published' OR status IS NULL THEN 1 ELSE 0 END) AS unpublished
+            ",
+                    )
                     ->groupBy('content_type')
-                    ->pluck('total', 'content_type')
+                    ->get()
+                    ->mapWithKeys(
+                        fn($row) => [
+                            $row->content_type => [
+                                'published' => (int) $row->published,
+                                'unpublished' => (int) $row->unpublished,
+                                'total' => (int) $row->published + (int) $row->unpublished,
+                            ],
+                        ],
+                    )
                     ->toArray();
             });
 
-            // Normalisasi alias (jika kamu pakai 'berita'/'pengumuman')
-            $totalNews = $postCounts['news'] ?? ($postCounts['berita'] ?? 0);
-            $totalAnnouncement = $postCounts['announcement'] ?? ($postCounts['pengumuman'] ?? 0);
+            // Normalisasi alias (jika kamu pakai nama 'berita' / 'pengumuman' di DB)
+            $newsKey =
+                $postStats['news'] ?? ($postStats['berita'] ?? ['published' => 0, 'unpublished' => 0, 'total' => 0]);
+            $announcementKey =
+                $postStats['announcement'] ??
+                ($postStats['pengumuman'] ?? ['published' => 0, 'unpublished' => 0, 'total' => 0]);
         @endphp
+
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -105,24 +121,18 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm font-medium text-gray-600 mb-1">Total Berita</p>
-                                    <p class="text-2xl font-bold text-gray-900">{{ number_format($totalNews) }}
+                                    <p class="text-2xl font-bold text-gray-900">{{ number_format($newsKey['total']) }}
                                     </p>
                                 </div>
                             </div>
-                            {{-- <div class="mt-4 flex items-center justify-between">
+                            <div class="mt-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-yellow-500 rounded-full animate-pulse"></div>
-                                    <span class="text-sm text-yellow-600 font-semibold">{{ $stats['active_users'] }}
-                                        active</span>
+                                    <span class="text-sm text-yellow-600 font-semibold"> Published:
+                                        {{ $newsKey['published'] }} • Unpublished: {{ $newsKey['unpublished'] }}</span>
                                 </div>
-                                <div class="flex items-center text-xs text-gray-500">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
-                                    </svg>
-                                    +12% this month
-                                </div>
-                            </div> --}}
+
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -150,24 +160,20 @@
                                 </div>
                                 <div class="flex-1">
                                     <p class="text-sm font-medium text-gray-600 mb-1">Total Pengumuman</p>
-                                    <p class="text-2xl font-bold text-gray-900"> {{ number_format($totalAnnouncement) }}
+                                    <p class="text-2xl font-bold text-gray-900">
+                                        {{ number_format($announcementKey['total']) }}
                                     </p>
                                 </div>
                             </div>
-                            {{-- <div class="mt-4 flex items-center justify-between">
+                            <div class="mt-4 flex items-center justify-between">
                                 <div class="flex items-center space-x-2">
                                     <div class="w-2 h-2 bg-pink-500 rounded-full"></div>
-                                    <span class="text-sm text-pink-600 font-semibold">{{ $stats['active_roles'] }}
-                                        active</span>
+                                    <span class="text-sm text-pink-600 font-semibold">Published:
+                                        {{ $announcementKey['published'] }} • Unpublished:
+                                        {{ $announcementKey['unpublished'] }}</span>
                                 </div>
-                                <div class="flex items-center text-xs text-gray-500">
-                                    <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                    </svg>
-                                    All secure
-                                </div>
-                            </div> --}}
+
+                            </div>
                         </div>
                     </div>
                 </div>
