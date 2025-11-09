@@ -200,23 +200,7 @@
                 }
             @endphp
 
-            @if ($latestList->isEmpty())
-                <div class="text-center text-gray-500 italic py-6">
-                    Belum ada berita yang ditambahkan.
-                </div>
-            @else
-                @foreach ($latestList as $post)
-                    <div class="flex gap-4">
-                        <img src="{{ $post->cover_url ?? asset('public/img/default-news.jpg') }}"
-                            alt="{{ $post->title }}" class="w-24 h-24 object-cover rounded-lg">
-                        <div>
-                            <h3 class="font-semibold text-gray-800">{{ $post->title }}</h3>
-                            <p class="text-sm text-gray-500">
-                                {{ optional($post->published_at)->translatedFormat('d F Y') }}</p>
-                        </div>
-                    </div>
-                @endforeach
-            @endif
+
 
             <div class="space-y-3">
                 @forelse ($latestList as $lp)
