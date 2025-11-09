@@ -67,12 +67,13 @@
             $postStats = Cache::remember('dashboard:post_stats', now()->addSeconds(1), function () {
                 return Post::query()
                     ->whereNotNull('content_type')
+                    ->whereNull('deleted_at') // ✅ Abaikan post yang sudah soft delete
                     ->selectRaw(
                         "
-                content_type,
-                SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) AS published,
-                SUM(CASE WHEN status != 'published' OR status IS NULL THEN 1 ELSE 0 END) AS unpublished
-            ",
+            content_type,
+            SUM(CASE WHEN status = 'published' THEN 1 ELSE 0 END) AS published,
+            SUM(CASE WHEN status != 'published' OR status IS NULL THEN 1 ELSE 0 END) AS unpublished
+        ",
                     )
                     ->groupBy('content_type')
                     ->get()
@@ -88,14 +89,13 @@
                     ->toArray();
             });
 
-            // Normalisasi alias (jika kamu pakai nama 'berita' / 'pengumuman' di DB)
+            // Normalisasi alias (untuk variasi nama)
             $newsKey =
                 $postStats['news'] ?? ($postStats['berita'] ?? ['published' => 0, 'unpublished' => 0, 'total' => 0]);
             $announcementKey =
                 $postStats['announcement'] ??
                 ($postStats['pengumuman'] ?? ['published' => 0, 'unpublished' => 0, 'total' => 0]);
         @endphp
-
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
