@@ -215,11 +215,11 @@
 
                                 // ✅ Cover: cek file di public/storage, fallback ke default
                                 $lpCoverPath = ltrim($lp->cover_path ?? '', '/');
-                                $lpCoverFile = public_path('storage/' . $lpCoverPath);
+                                $lpCoverFile = public_path('public/storage/' . $lpCoverPath);
                                 $lpCover =
                                     !empty($lpCoverPath) && file_exists($lpCoverFile)
-                                        ? asset('storage/' . $lpCoverPath)
-                                        : asset('public/img/default-cover.jpg');
+                                        ? asset('public/storage/' . $lpCoverPath)
+                                        : asset('public/storage/' . $lpCoverPath);
 
                                 // ✅ Link aman: jika slug kosong, jadikan non-klik
                                 $lpHref = $lp->slug ? route('berita.show', $lp->slug) : '#';
