@@ -139,20 +139,62 @@
                     <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                         <div>
                             <h3 class="text-base md:text-lg font-semibold text-gray-900">Aksi</h3>
-                            <p class="text-sm text-gray-700">Sebarkan informasi ini agar lebih banyak warga yang hadir.</p>
+                            <p class="text-sm text-gray-700">
+                                Sebarkan informasi ini agar lebih banyak warga yang hadir.
+                            </p>
                         </div>
+
                         <div class="flex items-center gap-2">
-                            <a href="#"
+                            <button type="button" id="btnShare"
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                                 <x-heroicon-o-share class="size-4" /> Bagikan
-                            </a>
-                            <a href="#"
+                            </button>
+
+                            <button type="button" id="btnPrint"
                                 class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                                 <x-heroicon-o-printer class="size-4" /> Cetak
-                            </a>
+                            </button>
                         </div>
                     </div>
                 </section>
+
+                @push('scripts')
+                    <script>
+                        document.addEventListener('DOMContentLoaded', () => {
+                            const shareBtn = document.getElementById('btnShare');
+                            const printBtn = document.getElementById('btnPrint');
+
+                            // === BAGIKAN ===
+                            shareBtn?.addEventListener('click', async () => {
+                                const shareData = {
+                                    title: "{{ $item->title ?? 'Berita Desa Mentuda' }}",
+                                    text: "{{ Str::limit(strip_tags($item->summary ?? $item->body_html), 150) }}",
+                                    url: window.location.href
+                                };
+
+                                if (navigator.share) {
+                                    try {
+                                        await navigator.share(shareData);
+                                        console.log('Berhasil dibagikan');
+                                    } catch (err) {
+                                        console.warn('Share dibatalkan:', err);
+                                    }
+                                } else {
+                                    // fallback: salin link
+                                    navigator.clipboard.writeText(window.location.href)
+                                        .then(() => alert('🔗 Link berita disalin ke clipboard!'))
+                                        .catch(() => alert('Tidak bisa menyalin link otomatis.'));
+                                }
+                            });
+
+                            // === CETAK ===
+                            printBtn?.addEventListener('click', () => {
+                                window.print();
+                            });
+                        });
+                    </script>
+                @endpush
+
             </article>
 
             {{-- SIDEBAR --}}
