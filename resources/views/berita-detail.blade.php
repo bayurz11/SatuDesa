@@ -1,64 +1,27 @@
 @extends('layouts.app2')
 
-@section('title', ($berita->judul ?? 'Berita') . ' — Berita Desa')
+@section('title', ($item->title ?? 'Berita') . ' — Berita Desa')
 
 @section('content')
     @php
         use Illuminate\Support\Str;
         use Illuminate\Support\Carbon;
 
-        // ===== DATA STATIS (fallback) =====
-        if (!isset($berita)) {
-            $berita = (object) [
-                'judul' => 'Hasil Panen Ikan Kerapu Melimpah Membantu Perekonomian Masyarakat Desa Mentuda',
-                'kategori' => 'Berita Utama',
-                'tag' => ['Perikanan', 'Ekonomi'],
-                'cover' => asset('public/img/potensi1.jpg'),
-                'penulis' => 'Admin Desa',
-                'tanggal' => '2024-12-12 08:30:00',
-                'ringkas' =>
-                    'Panen ikan kerapu tahun ini meningkat signifikan dan berdampak positif pada pendapatan nelayan setempat.',
-                'isi_html' => '
-                <p>Musim panen kali ini menunjukkan peningkatan kualitas dan kuantitas hasil tangkapan. Nelayan mengaku terbantu dengan adanya fasilitas <em>cold chain</em> yang menjaga kesegaran hasil laut.</p>
-                <h3>Dukungan Sarana & Prasarana</h3>
-                <p>Pemerintah desa bersama BUMDes memperkuat rantai pasok melalui gudang es dan pengembangan pemasaran digital.</p>
-                <blockquote>“Harga lebih stabil, pembeli juga lebih banyak,” ujar salah satu nelayan.</blockquote>
-                <p>Langkah selanjutnya adalah memperluas pasar ke kota terdekat, serta mendorong produk olahan bernilai tambah.</p>
-            ',
-                'baca_menit' => 4, // estimasi membaca
-                'updated_at' => '2024-12-13 14:20:00',
-            ];
-        }
+        // ====== Sumber data dari model Post ======
+        $title = $item->title ?? 'Berita';
+        $categoryName = optional($item->category)->name ?? 'Tidak berkategori';
+        $cover = $item->cover_url; // accessor dari model
+        $publishedAt = $item->published_at ?? $item->created_at;
+        $author = $item->author_name ?: optional($item->creator)->name ?: 'Admin';
+        $editorName = optional($item->editor)->name; // relasi editor() jika ada
+        $updatedAt = $item->updated_at ?? null;
 
-        if (!isset($terkait)) {
-            $terkait = [
-                (object) [
-                    'judul' => 'Pembangunan Balai Desa Mentuda Resmi Dimulai',
-                    'kategori' => 'Berita',
-                    'tanggal' => '2024-12-12 10:00:00',
-                    'cover' => asset('public/img/potensi2.jpg'),
-                    'ringkas' => 'Balai desa baru sebagai pusat layanan publik dan kegiatan warga.',
-                ],
-                (object) [
-                    'judul' => 'Tradisi Adat Desa Mentuda Tetap Dilestarikan',
-                    'kategori' => 'Budaya',
-                    'tanggal' => '2024-12-12 11:00:00',
-                    'cover' => asset('public/img/potensi1.jpg'),
-                    'ringkas' => 'Festival tahunan dan kegiatan komunitas menjaga warisan budaya.',
-                ],
-                (object) [
-                    'judul' => 'Pelatihan UMKM: Dorong Perekonomian Lokal',
-                    'kategori' => 'UMKM',
-                    'tanggal' => '2024-12-12 13:00:00',
-                    'cover' => asset('public/img/potensi2.jpg'),
-                    'ringkas' => 'Pemasaran digital & pengemasan produk untuk pelaku UMKM.',
-                ],
-            ];
-        }
+        // Estimasi menit baca: pakai read_minutes kalau ada; jika tidak, hitung ~200 kata/menit
+        $readMinutes =
+            $item->read_minutes ?? max(1, (int) ceil(str_word_count(strip_tags($item->body_html ?? '')) / 200));
 
-        $tgl = Carbon::parse($berita->tanggal);
-        $cover = $berita->cover ?? asset('public/img/potensi1.jpg');
-        $tags = collect($berita->tag ?? [])->take(5);
+        // Tags: ambil sampai 5
+        $tags = $item->relationLoaded('tags') ? $item->tags->pluck('name')->take(5) : collect();
     @endphp
 
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
@@ -71,16 +34,16 @@
                 <li aria-hidden="true">/</li>
                 <li><a href="{{ route('berita') }}" class="hover:text-green-700">Berita</a></li>
                 <li aria-hidden="true">/</li>
-                <li class="text-green-700 font-medium line-clamp-1">{{ $berita->judul }}</li>
+                <li class="text-green-700 font-medium line-clamp-1">{{ $title }}</li>
             </ol>
         </nav>
 
         {{-- HERO / Featured Cover --}}
         <article class="relative overflow-hidden rounded-2xl shadow ring-1 ring-black/5 group">
             <figure class="h-[320px] md:h-[420px] overflow-hidden">
-                <img src="{{ $cover }}" alt="{{ $berita->judul }}"
+                <img src="{{ $cover }}" alt="{{ $title }}"
                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                    loading="lazy">
+                    loading="lazy" decoding="async">
             </figure>
 
             <div class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/70 via-black/25 to-transparent">
@@ -90,24 +53,30 @@
                 <div class="flex flex-wrap items-center gap-2 mb-3">
                     <span
                         class="inline-flex items-center gap-1 rounded-full bg-white/95 px-2.5 py-1 text-xs font-medium text-green-700 ring-1 ring-black/5">
-                        <x-heroicon-o-tag class="size-4" /> {{ $berita->kategori ?? 'Berita' }}
+                        <x-heroicon-o-tag class="size-4" /> {{ $categoryName }}
                     </span>
-                    <time class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
-                        <x-heroicon-o-clock class="size-4" /> {{ $tgl->translatedFormat('d M Y') }}
-                    </time>
-                    @if ($berita->baca_menit ?? false)
+                    @if ($publishedAt)
+                        <time
+                            class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
+                            <x-heroicon-o-clock class="size-4" />
+                            {{ Carbon::parse($publishedAt)->translatedFormat('d M Y') }}
+                        </time>
+                    @endif
+                    @if ($readMinutes)
                         <span
                             class="inline-flex items-center gap-1 rounded-full bg-black/50 px-2.5 py-1 text-xs text-white">
-                            <x-heroicon-o-book-open class="size-4" /> {{ $berita->baca_menit }} menit baca
+                            <x-heroicon-o-book-open class="size-4" /> {{ $readMinutes }} menit baca
                         </span>
                     @endif
                 </div>
 
                 <h1 class="text-white text-2xl md:text-3xl font-extrabold leading-snug drop-shadow">
-                    {{ $berita->judul }}
+                    {{ $title }}
                 </h1>
 
-                <p class="mt-2 text-white/90 line-clamp-2">{{ $berita->ringkas }}</p>
+                @if (!blank($item->summary))
+                    <p class="mt-2 text-white/90 line-clamp-2">{{ $item->summary }}</p>
+                @endif
             </div>
         </article>
 
@@ -117,18 +86,23 @@
                 {{-- Meta atas --}}
                 <div class="flex flex-wrap items-center gap-3 text-sm text-gray-600">
                     <span class="inline-flex items-center gap-2">
-                        <x-heroicon-o-user class="size-5 text-green-700" /> {{ $berita->penulis ?? 'Admin' }}
+                        <x-heroicon-o-user class="size-5 text-green-700" /> {{ $author }}
                     </span>
-                    <span class="inline-flex items-center gap-2">
-                        <x-heroicon-o-calendar class="size-5 text-green-700" /> {{ $tgl->translatedFormat('d F Y, H:i') }}
-                        WIB
-                    </span>
-                    @if (!empty($berita->updated_at))
+                    @if ($publishedAt)
+                        <span class="inline-flex items-center gap-2">
+                            <x-heroicon-o-calendar class="size-5 text-green-700" />
+                            {{ Carbon::parse($publishedAt)->translatedFormat('d F Y, H:i') }} WIB
+                        </span>
+                    @endif
+                    @if ($updatedAt)
                         <span class="inline-flex items-center gap-2">
                             <x-heroicon-o-pencil-square class="size-5 text-green-700" />
-                            Diperbarui {{ Carbon::parse($berita->updated_at)->diffForHumans() }}
+                            Diperbarui {{ Carbon::parse($updatedAt)->diffForHumans() }}
+                            @if ($editorName)
+                                oleh {{ $editorName }}
+                            @endif
                         </span>
-                    @endif>
+                    @endif
                 </div>
 
                 {{-- Tag --}}
@@ -146,10 +120,10 @@
                 {{-- Isi Berita --}}
                 <section class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8">
                     <div class="prose max-w-none">
-                        {!! $berita->isi_html !!}
+                        {!! $item->body_html !!}
                     </div>
 
-                    {{-- Share / Print --}}
+                    {{-- Share / Print (dummy) --}}
                     <div class="mt-6 flex flex-wrap gap-2">
                         <a href="#"
                             class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
@@ -162,12 +136,30 @@
                     </div>
                 </section>
 
-                {{-- Navigasi Sebelumnya / Berikutnya (placeholder) --}}
+                {{-- Navigasi Sebelumnya / Berikutnya (opsional: diisi dari controller) --}}
+                @php
+                    // Contoh pencarian prev/next sederhana (berdasarkan published_at)
+                    $prev = \App\Domains\Post\Models\Post::query()
+                        ->where('content_type', 'news')
+                        ->published()
+                        ->where('published_at', '<', $publishedAt)
+                        ->orderByDesc('published_at')
+                        ->first();
+
+                    $next = \App\Domains\Post\Models\Post::query()
+                        ->where('content_type', 'news')
+                        ->published()
+                        ->where('published_at', '>', $publishedAt)
+                        ->orderBy('published_at')
+                        ->first();
+                @endphp
                 <nav class="flex items-center justify-between text-sm">
-                    <a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                    <a href="{{ $prev ? route('berita.show', $prev->slug) : '#' }}"
+                        class="inline-flex items-center gap-2 text-green-700 hover:text-green-800 {{ $prev ? '' : 'opacity-50 pointer-events-none' }}">
                         <x-heroicon-o-arrow-left class="size-4" /> Berita sebelumnya
                     </a>
-                    <a href="#" class="inline-flex items-center gap-2 text-green-700 hover:text-green-800">
+                    <a href="{{ $next ? route('berita.show', $next->slug) : '#' }}"
+                        class="inline-flex items-center gap-2 text-green-700 hover:text-green-800 {{ $next ? '' : 'opacity-50 pointer-events-none' }}">
                         Berita berikutnya <x-heroicon-o-arrow-right class="size-4" />
                     </a>
                 </nav>
@@ -180,54 +172,53 @@
                     <h3 class="font-semibold text-gray-900 mb-3">Ringkasan</h3>
                     <ul class="space-y-2 text-sm text-gray-700">
                         <li class="flex items-center gap-2">
-                            <x-heroicon-o-tag class="h-4 w-4 text-green-700" /> {{ $berita->kategori ?? 'Berita' }}
+                            <x-heroicon-o-tag class="h-4 w-4 text-green-700" /> {{ $categoryName }}
                         </li>
                         <li class="flex items-center gap-2">
-                            <x-heroicon-o-user class="h-4 w-4 text-green-700" /> {{ $berita->penulis ?? 'Admin' }}
+                            <x-heroicon-o-user class="h-4 w-4 text-green-700" /> {{ $author }}
                         </li>
                         <li class="flex items-center gap-2">
-                            <x-heroicon-o-clock class="h-4 w-4 text-green-700" /> {{ $berita->baca_menit ?? 3 }} menit baca
+                            <x-heroicon-o-clock class="h-4 w-4 text-green-700" /> {{ $readMinutes }} menit baca
                         </li>
                     </ul>
                 </div>
 
-                {{-- Kategori (statis) --}}
-                <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
-                    <h4 class="font-semibold text-gray-900 mb-3">Kategori</h4>
-                    <div class="flex flex-wrap gap-2 text-sm">
-                        <a href="#"
-                            class="px-3 py-1.5 rounded-lg border bg-green-600 border-green-600 text-white">Semua</a>
-                        <a href="#"
-                            class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Berita
-                            Utama</a>
-                        <a href="#"
-                            class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Pengumuman</a>
-                        <a href="#"
-                            class="px-3 py-1.5 rounded-lg border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Agenda</a>
-                    </div>
-                </div>
-
-                {{-- Terbaru (statis) --}}
+                {{-- Terbaru (pakai $related dari route; fallback ambil 3 terbaru) --}}
+                @php
+                    $latestList =
+                        isset($related) && $related instanceof \Illuminate\Support\Collection && $related->count()
+                            ? $related
+                            : \App\Domains\Post\Models\Post::query()
+                                ->news()
+                                ->published()
+                                ->orderByDesc('published_at')
+                                ->take(3)
+                                ->get();
+                @endphp
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
                     <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
                     <div class="space-y-3">
-                        @foreach ($terkait as $item)
+                        @foreach ($latestList as $lp)
                             @php
-                                $tDate = Carbon::parse($item->tanggal);
+                                $ldate = $lp->published_at ?? $lp->created_at;
+                                $lcat = optional($lp->category)->name ?? 'Tidak berkategori';
                             @endphp
-                            <a href="#" class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
-                                <img src="{{ $item->cover }}" alt="Thumb berita"
-                                    class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy">
+                            <a href="{{ route('berita.show', $lp->slug) }}"
+                                class="flex items-center gap-3 rounded-lg p-2 hover:bg-gray-50 transition">
+                                <img src="{{ $lp->cover_url }}" alt="Thumb {{ $lp->title }}"
+                                    class="h-16 w-20 rounded-md object-cover ring-1 ring-black/5" loading="lazy"
+                                    decoding="async">
                                 <div class="min-w-0">
                                     <h5 class="text-sm font-medium text-gray-900 line-clamp-2 hover:text-green-700">
-                                        {{ $item->judul }}
+                                        {{ $lp->title }}
                                     </h5>
                                     <div class="mt-1 flex items-center gap-3 text-xs text-gray-500">
                                         <span class="inline-flex items-center gap-1">
-                                            <x-heroicon-o-tag class="size-4" /> {{ $item->kategori }}
+                                            <x-heroicon-o-tag class="size-4" /> {{ $lcat }}
                                         </span>
                                         <time class="inline-flex items-center gap-1">
-                                            <x-heroicon-o-clock class="size-4" /> {{ $tDate->translatedFormat('d-m-Y') }}
+                                            <x-heroicon-o-clock class="size-4" />
+                                            {{ optional($ldate)->translatedFormat('d-m-Y') }}
                                         </time>
                                     </div>
                                 </div>
@@ -239,36 +230,41 @@
         </div>
 
         {{-- Berita Terkait --}}
-        @if (!empty($terkait))
+        @if (isset($related) && $related->count())
             <section class="mt-10 md:mt-14">
                 <h3 class="text-lg md:text-xl font-semibold text-gray-900">Berita Terkait</h3>
                 <div class="mx-auto my-4 h-1 w-20 rounded-full bg-green-600"></div>
                 <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                    @foreach ($terkait as $item)
+                    @foreach ($related as $rp)
                         @php
-                            $img = $item->cover ?? asset('public/img/potensi2.jpg');
-                            $tDate = Carbon::parse($item->tanggal);
+                            $rDate = $rp->published_at ?? $rp->created_at;
+                            $rcat = optional($rp->category)->name ?? 'Berita';
                         @endphp
-                        <a href="#" class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
+                        <a href="{{ route('berita.show', $rp->slug) }}"
+                            class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
                             <div class="aspect-[16/9] bg-gray-100">
-                                <img src="{{ $img }}" alt="{{ $item->judul }}"
+                                <img src="{{ $rp->cover_url }}" alt="{{ $rp->title }}"
                                     class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
-                                    loading="lazy">
+                                    loading="lazy" decoding="async">
                             </div>
                             <div class="p-4">
                                 <div class="mb-1 flex flex-wrap items-center gap-2">
                                     <span
                                         class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
-                                        <x-heroicon-o-tag class="size-4" /> {{ $item->kategori ?? 'Berita' }}
+                                        <x-heroicon-o-tag class="size-4" /> {{ $rcat }}
                                     </span>
                                     <time class="inline-flex items-center gap-1 text-[11px] text-gray-500">
-                                        <x-heroicon-o-clock class="size-4" /> {{ $tDate->translatedFormat('d M Y') }}
+                                        <x-heroicon-o-clock class="size-4" />
+                                        {{ optional($rDate)->translatedFormat('d M Y') }}
                                     </time>
                                 </div>
                                 <h4 class="text-sm md:text-base font-semibold text-gray-900 line-clamp-2">
-                                    {{ $item->judul }}</h4>
-                                <p class="mt-1 text-sm text-gray-600 line-clamp-2">
-                                    {{ Str::limit($item->ringkas ?? '', 110) }}</p>
+                                    {{ $rp->title }}
+                                </h4>
+                                @if (!blank($rp->summary))
+                                    <p class="mt-1 text-sm text-gray-600 line-clamp-2">{{ Str::limit($rp->summary, 110) }}
+                                    </p>
+                                @endif
                             </div>
                         </a>
                     @endforeach

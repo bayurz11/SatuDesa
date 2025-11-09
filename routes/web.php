@@ -44,10 +44,27 @@ Route::get('/berita', function () {
     return view('berita');
 })->name('berita');
 
-// Berita Page Route
-Route::get('/berita-detail', function () {
-    return view('berita-detail');
-})->name('berita-detail');
+// Berita Page detail Route
+Route::get('/berita/{slug}', function ($slug) {
+    $item = Post::query()
+        ->with(['category:id,name,slug', 'tags:id,name,slug', 'editor:id,name'])
+        ->where('slug', $slug)
+        ->where('content_type', 'news')
+        ->published()
+        ->firstOrFail();
+
+    $related = Post::query()
+        ->with('category:id,name,slug')
+        ->where('content_type', 'news')
+        ->published()
+        ->when($item->category_id, fn($q) => $q->where('category_id', $item->category_id))
+        ->where('id', '!=', $item->id)
+        ->orderByDesc('published_at')
+        ->take(3)
+        ->get();
+
+    return view('berita-detail', compact('item', 'related'));
+})->name('berita.show');
 
 // Pengumuman Page Route
 Route::get('/pengumuman', function () {
