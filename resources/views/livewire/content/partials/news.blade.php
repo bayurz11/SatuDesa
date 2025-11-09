@@ -184,21 +184,39 @@
         <div class="bg-white rounded-xl shadow p-4">
             <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
             @php
-                use Illuminate\Pagination\AbstractPaginator;
-                use Illuminate\Support\Collection;
+                // Tentukan list berita terbaru
+                $latestList = collect(); // default kosong
 
-                if (isset($latest) && $latest instanceof Collection) {
-                    $latestList = $latest;
-                } elseif (isset($items) && $items instanceof AbstractPaginator) {
-                    // Jika $items adalah Paginator, ambil koleksinya
-                    $latestList = $items->getCollection()->take(3);
-                } elseif (isset($items) && $items instanceof Collection) {
-                    // Jika $items sudah Collection
-                    $latestList = $items->take(3);
-                } else {
-                    $latestList = collect();
+                if (isset($latest) && $latest instanceof \Illuminate\Support\Collection) {
+                    $latestList = $latest->take(3);
+                } elseif (isset($items)) {
+                    // Jika $items adalah LengthAwarePaginator / Paginator
+                    $latestList =
+                        $items instanceof \Illuminate\Pagination\AbstractPaginator
+                            ? $items->take(3)
+                            : (is_iterable($items)
+                                ? collect($items)->take(3)
+                                : collect());
                 }
             @endphp
+
+            @if ($latestList->isEmpty())
+                <div class="text-center text-gray-500 italic py-6">
+                    Belum ada berita yang ditambahkan.
+                </div>
+            @else
+                @foreach ($latestList as $post)
+                    <div class="flex gap-4">
+                        <img src="{{ $post->cover_url ?? asset('public/img/default-news.jpg') }}"
+                            alt="{{ $post->title }}" class="w-24 h-24 object-cover rounded-lg">
+                        <div>
+                            <h3 class="font-semibold text-gray-800">{{ $post->title }}</h3>
+                            <p class="text-sm text-gray-500">
+                                {{ optional($post->published_at)->translatedFormat('d F Y') }}</p>
+                        </div>
+                    </div>
+                @endforeach
+            @endif
 
             <div class="space-y-3">
                 @forelse ($latestList as $lp)
