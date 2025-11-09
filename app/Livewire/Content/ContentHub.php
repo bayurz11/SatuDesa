@@ -34,26 +34,26 @@ class ContentHub extends Component
         'sortDirection' => ['except' => 'desc'],
     ];
 
-    public function mount(string $mode = 'announcement', bool $showPagination = true): void
-    {
-        $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
+    // public function mount(string $mode = 'announcement', bool $showPagination = true): void
+    // {
+    //     $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
-        $this->perPage = match ($this->mode) {
-            'news', 'potensi' => 6,
-            'announcement'    => 3,
-            default           => 10,
-        };
+    //     $this->perPage = match ($this->mode) {
+    //         'news', 'potensi' => 6,
+    //         'announcement'    => 3,
+    //         default           => 10,
+    //     };
 
-        // Backward-compat untuk ?q= lama
-        if (request()->filled('q') && empty($this->search)) {
-            $this->search = (string) request()->query('q');
-        }
+    //     // Backward-compat untuk ?q= lama
+    //     if (request()->filled('q') && empty($this->search)) {
+    //         $this->search = (string) request()->query('q');
+    //     }
 
-        // Deteksi beranda -> aktifkan spotlight, hilangkan pagination
-        $isHome = request()->routeIs('beranda'); // pastikan nama route beranda = 'beranda'
-        $this->homeSpotlight = $isHome;
-        $this->showPagination = $showPagination && ! $isHome;
-    }
+    //     // Deteksi beranda -> aktifkan spotlight, hilangkan pagination
+    //     $isHome = request()->routeIs('beranda'); // pastikan nama route beranda = 'beranda'
+    //     $this->homeSpotlight = $isHome;
+    //     $this->showPagination = $showPagination && ! $isHome;
+    // }
 
     /** Reset page saat filter berubah */
     public function updatingSearch()
@@ -117,12 +117,32 @@ class ContentHub extends Component
             ->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
     }
+    public function mount(string $mode = 'announcement', bool $showPagination = true): void
+    {
+        $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
+
+        $this->perPage = match ($this->mode) {
+            'news', 'potensi' => 6,
+            'announcement'    => 3,
+            default           => 10,
+        };
+
+        if (request()->filled('q') && empty($this->search)) {
+            $this->search = (string) request()->query('q');
+        }
+
+        $isHome = request()->routeIs('beranda'); // ganti kalau nama route beranda berbeda
+        // ✅ Spotlight hanya untuk beranda + mode news
+        $this->homeSpotlight = $isHome && $this->mode === 'news';
+
+        $this->showPagination = $showPagination && ! $this->homeSpotlight;
+    }
 
     public function render()
     {
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
 
-        // 🔦 Spotlight untuk beranda (tanpa pagination)
+        // ✅ Hitung spotlight hanya kalau diaktifkan
         $spotlight = $this->homeSpotlight
             ? cache()->remember(
                 "home:spotlight:{$this->mode}:{$this->spotlightLimit}:" . md5($this->search . '|' . $this->category),
@@ -131,7 +151,6 @@ class ContentHub extends Component
             )
             : collect();
 
-        // List biasa (index) pakai paginate
         $items = $this->homeSpotlight
             ? collect()
             : $this->baseQuery()->paginate($this->perPage);
@@ -145,6 +164,37 @@ class ContentHub extends Component
 
         return view('livewire.content.content-hub', compact('items', 'spotlight', 'categories', 'title', 'subtitle'))
             ->with('showPagination', $this->showPagination)
-            ->with('homeSpotlight', $this->homeSpotlight);
+            ->with('homeSpotlight', $this->homeSpotlight)
+            ->with('mode', $this->mode); // pastikan $mode tersedia di blade
     }
+
+    // public function render()
+    // {
+    //     $categories = Category::orderBy('sort_order')->get(['id', 'name']);
+
+    //     // 🔦 Spotlight untuk beranda (tanpa pagination)
+    //     $spotlight = $this->homeSpotlight
+    //         ? cache()->remember(
+    //             "home:spotlight:{$this->mode}:{$this->spotlightLimit}:" . md5($this->search . '|' . $this->category),
+    //             60,
+    //             fn() => (clone $this->baseQuery())->take($this->spotlightLimit)->get()
+    //         )
+    //         : collect();
+
+    //     // List biasa (index) pakai paginate
+    //     $items = $this->homeSpotlight
+    //         ? collect()
+    //         : $this->baseQuery()->paginate($this->perPage);
+
+    //     [$title, $subtitle] = match ($this->mode) {
+    //         'announcement' => ['Pengumuman', 'Informasi & agenda resmi desa'],
+    //         'news'         => ['Berita Desa', 'Kabar terbaru seputar Desa Mentuda'],
+    //         'potensi'      => ['Potensi Desa', 'Ekonomi, wisata, pertanian, perikanan & kreatif'],
+    //         default        => ['Konten', ''],
+    //     };
+
+    //     return view('livewire.content.content-hub', compact('items', 'spotlight', 'categories', 'title', 'subtitle'))
+    //         ->with('showPagination', $this->showPagination)
+    //         ->with('homeSpotlight', $this->homeSpotlight);
+    // }
 }
