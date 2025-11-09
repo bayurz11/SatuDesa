@@ -13,11 +13,11 @@
 
         // 🔽 Cover: cek file di public/storage, fallback ke default
         $coverPath = ltrim($item->cover_path ?? '', '/');
-        $coverFile = public_path('storage/' . $coverPath); // public_path sudah mengarah ke /public
+        $coverFile = public_path('public/storage/' . $coverPath); // public_path sudah mengarah ke /public
         $cover =
             !empty($coverPath) && file_exists($coverFile)
-                ? asset('storage/' . $coverPath)
-                : asset('public/img/default-cover.jpg');
+                ? asset('public/storage/' . $coverPath)
+                : asset('public/storage/' . $item->cover_path);
 
         $publishedAt = $item->published_at ?? $item->created_at;
         $author = $item->author_name ?: optional($item->creator)->name ?: 'Admin';
