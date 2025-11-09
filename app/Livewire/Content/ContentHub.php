@@ -122,9 +122,9 @@ class ContentHub extends Component
         $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
         $this->perPage = match ($this->mode) {
-            'news', 'potensi' => 6,
+            'news', 'potensi' => 4,
             'announcement'    => 3,
-            default           => 10,
+            default           => 6,
         };
 
         if (request()->filled('q') && empty($this->search)) {
