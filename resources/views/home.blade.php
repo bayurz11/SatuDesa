@@ -295,29 +295,37 @@
     </section>
 
     <!-- Berita Desa Section -->
-    <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-        <!-- Heading -->
-        <div class="text-center mb-10">
-            <h2 class="text-2xl md:text-3xl font-bold text-green-700">Berita Desa</h2>
-            <p class="text-gray-600 mt-2 text-sm md:text-base">
-                Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari
-                Desa
-            </p>
-        </div>
+    @php
+        use App\Domains\Post\Models\Post;
 
-        <!-- Grid Utama -->
-        <livewire:content.content-hub mode="news" />
+        $hasNews = Post::where('content_type', 'news')->where('status', 'published')->exists();
+    @endphp
 
-        <!-- Tombol -->
-        <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
-            <a href="{{ route('berita') }}"
-                class="px-6 py-2 border border-green-700 text-green-700 rounded-full 
-              hover:bg-green-700 hover:text-white transition">
-                Lihat Berita Lainnya
-            </a>
-        </div>
+    @if ($hasNews)
+        <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+            <!-- Heading -->
+            <div class="text-center mb-10">
+                <h2 class="text-2xl md:text-3xl font-bold text-green-700">Berita Desa</h2>
+                <p class="text-gray-600 mt-2 text-sm md:text-base">
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari
+                    Desa
+                </p>
+            </div>
 
-    </section>
+            <!-- Grid Utama -->
+            <livewire:content.content-hub mode="news" />
+
+            <!-- Tombol -->
+            <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
+                <a href="{{ route('berita') }}"
+                    class="px-6 py-2 border border-green-700 text-green-700 rounded-full 
+                hover:bg-green-700 hover:text-white transition">
+                    Lihat Berita Lainnya
+                </a>
+            </div>
+        </section>
+    @endif
+
 
     <!-- Pengumuman Resmi Section -->
     <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
