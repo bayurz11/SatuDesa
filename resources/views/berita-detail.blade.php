@@ -130,15 +130,15 @@
                     {{-- ✅ Cover berita --}}
                     @php
                         $coverPath = ltrim($item->cover_path ?? '', '/');
-                        $coverFile = public_path('public/storage/' . $coverPath);
-                        $coverImg =
+                        $coverFile = public_path('public/storage/' . $coverPath); // public_path sudah mengarah ke /public
+                        $cover =
                             !empty($coverPath) && file_exists($coverFile)
                                 ? asset('public/storage/' . $coverPath)
-                                : asset('public/storage/' . $coverPaths);
+                                : asset('public/storage/' . $item->cover_path);
                     @endphp
 
                     <div class="mb-6">
-                        <img src="{{ $coverImg }}" alt="Cover {{ $item->title }}"
+                        <img src="{{ $cover }}" alt="Cover {{ $item->title }}"
                             class="rounded-xl border border-gray-200 shadow-sm w-full max-h-[420px] object-cover">
                     </div>
 
