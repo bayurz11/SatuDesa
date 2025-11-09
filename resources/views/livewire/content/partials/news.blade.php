@@ -184,11 +184,22 @@
         <div class="bg-white rounded-xl shadow p-4">
             <h4 class="font-semibold text-gray-900 mb-3">Terbaru</h4>
             @php
-                $latestList =
-                    isset($latest) && $latest instanceof \Illuminate\Support\Collection
-                        ? $latest
-                        : $items->getCollection()->take(3);
+                use Illuminate\Pagination\AbstractPaginator;
+                use Illuminate\Support\Collection;
+
+                if (isset($latest) && $latest instanceof Collection) {
+                    $latestList = $latest;
+                } elseif (isset($items) && $items instanceof AbstractPaginator) {
+                    // Jika $items adalah Paginator, ambil koleksinya
+                    $latestList = $items->getCollection()->take(3);
+                } elseif (isset($items) && $items instanceof Collection) {
+                    // Jika $items sudah Collection
+                    $latestList = $items->take(3);
+                } else {
+                    $latestList = collect();
+                }
             @endphp
+
             <div class="space-y-3">
                 @forelse ($latestList as $lp)
                     @php
