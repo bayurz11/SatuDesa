@@ -63,8 +63,8 @@
             // Ambil statistik global (jika ada)
             $stats = \App\Shared\Services\CacheService::getDashboardStats();
 
-            // Ambil data per content_type + status (cache 10 menit)
-            $postStats = Cache::remember('dashboard:post_stats', now()->addMinutes(10), function () {
+            // Ambil data per content_type + status (cache 1 detik)
+            $postStats = Cache::remember('dashboard:post_stats', now()->addSeconds(1), function () {
                 return Post::query()
                     ->whereNotNull('content_type')
                     ->selectRaw(
