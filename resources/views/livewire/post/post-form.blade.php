@@ -30,6 +30,7 @@
                                         class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
                                         <option value="announcement">Pengumuman</option>
                                         <option value="news">Berita</option>
+                                        <option value="potensi">Potensi Desa</option>
                                     </select>
                                     @error('content_type')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
