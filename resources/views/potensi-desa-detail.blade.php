@@ -167,10 +167,10 @@
                         </a>
                         <a href="{{ route('potensi-desa') }}"
                             class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
-                              bg-green-600 text-white hover:bg-green-700 transition
-                              md:bg-transparent md:text-green-700 md:hover:text-white md:border md:border-green-600 md:hover:bg-green-600">
+           border border-green-300 text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition">
                             <x-heroicon-o-arrow-left class="size-5" /> Kembali
                         </a>
+
                     </div>
                 </div>
             </div>
