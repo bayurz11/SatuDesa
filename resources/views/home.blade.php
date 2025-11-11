@@ -255,7 +255,7 @@
             <article
                 class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transitionSS hover:shadow-xl hover:-translate-y-0.5 duration-300">
 
-                <div class="grid md:grid-cols-12 h-150 gap-0">
+                <div class="grid md:grid-cols-12 h-250 gap-0">
                     {{-- Gambar: full-bleed + zoom saat hover --}}
                     <figure class="relative md:col-span-7 h-100 md:h-72 overflow-hidden">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
