@@ -25,7 +25,7 @@
                             <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900"> Wisata Alam & Bahari </h2>
                             <p class="mt-2 text-gray-700"> Garis pantai, pasir putih, dan perairan yang kaya biota laut
                                 menjadi peluang pariwisata edukasi dan konservasi. </p>
-                            <div class="mt-4"> <a href="{{ route('potensi-desa-detail') }}"
+                            <div class="mt-4"> <a href="{{ route('potensi-desa-detail', ['slug' => $item->slug]) }}"
                                     class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                                     <x-heroicon-o-eye class="size-4" /> Lihat Detail </a> </div>
                         </div>

@@ -50,6 +50,7 @@ Route::get('/potensi/{slug}', function ($slug) {
 
     return view('potensi-desa-detail', compact('item', 'related'));
 })->name('potensi-desa-detail');
+
 // Data Penduduk Page Route
 Route::get('/data-penduduk', function () {
     return view('data-penduduk');
