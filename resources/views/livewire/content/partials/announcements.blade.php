@@ -66,12 +66,16 @@
             </div>
 
             {{-- CTA --}}
-            <div class="sm:self-center">
+            <div class="sm:self-center mt-4 sm:mt-0">
                 <a href="{{ $detailUrl }}"
-                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                    <x-heroicon-o-eye class="size-4" /> Baca Selengkapnya
+                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-1.5 
+               text-xs sm:text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white 
+               transition duration-200 sm:px-4 sm:py-2 md:px-5 md:py-2.5 md:text-base">
+                    <x-heroicon-o-eye class="size-4 md:size-5" />
+                    <span>Baca Selengkapnya</span>
                 </a>
             </div>
+
         </div>
     </div>
 @empty
