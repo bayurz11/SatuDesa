@@ -253,10 +253,10 @@
             @endphp
 
             <article
-                class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition hover:shadow-xl hover:-translate-y-0.5 duration-300">
+                class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-300/60">
 
                 <div class="grid md:grid-cols-12 gap-0 h-[280px] md:h-[300px]">
-                    {{-- Gambar: full-bleed + zoom saat hover --}}
+                    {{-- Gambar --}}
                     <figure class="relative md:col-span-7 h-full overflow-hidden">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -296,34 +296,27 @@
                         </p>
 
                         <div class="mt-5 flex flex-wrap justify-between items-center gap-3">
-                            {{-- Tombol Lihat Detail (solid hijau) --}}
                             <a href="{{ $featUrl }}"
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white
-                           hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2
-                           focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                          hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2
+                          focus-visible:ring-green-600 focus-visible:ring-offset-2"
                                 aria-label="Lihat detail: {{ $featured->title }}">
                                 <x-heroicon-o-eye class="size-4" /> Detail
                             </a>
 
-                            {{-- Tombol Tautan Eksternal (outline hijau) --}}
                             @if ($featured->external_link)
                                 <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
                                     class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700
-                               hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none
-                               focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+                              hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none
+                              focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                     <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                 </a>
                             @endif
                         </div>
                     </div>
                 </div>
-
-                {{-- Ring halus saat hover --}}
-                <div
-                    class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent
-               group-hover:ring-green-200/70 transition duration-300">
-                </div>
             </article>
+
 
         @endif
 
