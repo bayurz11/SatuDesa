@@ -125,7 +125,7 @@
                hover:bg-green-700 transition-colors
                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
                                         aria-label="Lihat detail: {{ $featured->title }}">
-                                        <x-heroicon-o-eye class="size-4" /> Lihat Detail
+                                        <x-heroicon-o-eye class="size-4" />Detail
                                     </a>
 
                                     {{-- Tombol Tautan Eksternal (outline hijau) --}}
