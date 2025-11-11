@@ -135,6 +135,7 @@
                     </div>
                 @endif
 
+
                 {{-- Filter kategori (placeholder statik, nanti bisa di-wire ke Livewire kalau mau) --}}
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
                     @php
