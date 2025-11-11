@@ -219,35 +219,38 @@
                                 </div>
                             </div>
 
-                            {{-- Modal Preview (fade + scale, zoom on image, no darkening) --}}
+                            {{-- Modal Preview (center + body scroll lock + internal scroll) --}}
                             <div x-show="open" x-transition:enter="transition ease-out duration-300"
                                 x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
                                 x-transition:leave="transition ease-in duration-200"
                                 x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
-                                x-cloak @click.self="open=false"
+                                x-cloak @click.self="open=false" x-on:keydown.escape.window="open=false"
+                                x-effect="document.body.style.overflow = open ? 'hidden' : ''" {{-- BODY SCROLL LOCK --}}
                                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-
                                 <div
-                                    class="relative max-w-2xl w-full bg-white rounded-2xl shadow-xl ring-1 ring-black/10 overflow-hidden">
+                                    class="relative max-w-2xl w-full bg-white rounded-2xl shadow-xl ring-1 ring-black/10 overflow-hidden
+                flex flex-col max-h-[90vh]">
+                                    {{-- FLEX + MAX HEIGHT UNTUK CENTER & SCROLL INTERNAL --}}
+
                                     {{-- Tombol Tutup --}}
                                     <button @click="open=false" aria-label="Tutup"
-                                        class="absolute right-3 top-3 z-10 inline-flex items-center justify-center rounded-full bg-white/90 p-2 text-gray-600 hover:text-green-700 shadow hover:shadow-md transition">
+                                        class="absolute right-3 top-3 z-10 inline-flex items-center justify-center rounded-full bg-white/90 p-2
+                       text-gray-600 hover:text-green-700 shadow hover:shadow-md transition">
                                         <x-heroicon-o-x-mark class="size-5" />
                                     </button>
 
-                                    {{-- Gambar Preview (zoom on hover only) --}}
-                                    <div class="overflow-hidden h-64 md:h-80">
+                                    {{-- Gambar Preview (tinggi adaptif tapi tidak melebihi modal) --}}
+                                    <div class="overflow-hidden max-h-[40vh]">
                                         <img src="{{ $cover }}" alt="{{ $item->title }}"
                                             class="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                                             loading="lazy" decoding="async">
                                     </div>
 
-                                    {{-- Isi Preview --}}
-                                    <div class="p-6">
+                                    {{-- Isi Preview: bikin scroll di dalam modal jika konten panjang --}}
+                                    <div class="p-6 overflow-y-auto flex-1">
                                         <h4 class="text-lg font-semibold text-gray-900">{{ $item->title }}</h4>
                                         <p class="mt-1 text-sm text-gray-600 leading-relaxed">{{ $desc }}</p>
 
-                                        {{-- Info ringkas --}}
                                         <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                             <div>
                                                 <span
@@ -269,7 +272,6 @@
                                             @endif
                                         </dl>
 
-                                        {{-- Tombol Aksi --}}
                                         <div class="mt-5 flex flex-wrap gap-2">
                                             <a href="{{ $detailUrl }}"
                                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
@@ -286,6 +288,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     @empty
                         {{-- Jika tidak ada data --}}
