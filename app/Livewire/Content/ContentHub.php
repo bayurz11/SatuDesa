@@ -126,7 +126,7 @@ class ContentHub extends Component
 
         $this->perPage = match ($this->mode) {
             'news', 'potensi' => 5, // sedikit dinaikkan untuk grid potensi
-            'announcement'    => 5,
+            'announcement'    => 3,
             default           => 6,
         };
 
