@@ -284,7 +284,7 @@
                         </div>
 
                         <h2
-                            class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2  transition-colors duration-200 group-hover:text-green-700">
+                            class="mt-3 text-2xl md:text-2xl font-semibold text-gray-900 line-clamp-2  transition-colors duration-200 group-hover:text-green-700">
                             {{ $featured->title }}
                         </h2>
 
