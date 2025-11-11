@@ -160,10 +160,12 @@
                         @endphp
 
                         <div x-data="{ open: false }"
-                            class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
-                            <a href="{{ $detailUrl }}" class="block aspect-[16/9] bg-gray-100">
+                            class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden hover:shadow-lg transition-shadow duration-300">
+
+                            {{-- Cover Card (zoom only) --}}
+                            <a href="{{ $detailUrl }}" class="block aspect-[16/9] bg-gray-100 overflow-hidden">
                                 <img src="{{ $cover }}" alt="{{ $item->title }}"
-                                    class="h-full w-full object-cover transition duration-500 group-hover:scale-[1.02] group-hover:grayscale"
+                                    class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
                                     loading="lazy" decoding="async">
                             </a>
 
@@ -181,7 +183,7 @@
 
                                 <p class="mt-1 text-sm text-gray-600 line-clamp-2">{{ $desc }}</p>
 
-                                {{-- Info singkat opsional --}}
+                                {{-- Info singkat (opsional) --}}
                                 <div class="mt-2 text-xs text-gray-600 space-y-1">
                                     @if ($item->address)
                                         <div class="flex items-center gap-1">
@@ -217,50 +219,68 @@
                                 </div>
                             </div>
 
-                            {{-- Modal Preview --}}
-                            <div x-show="open" x-transition x-cloak @click.self="open=false"
-                                class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-                                <div class="relative max-w-xl w-full bg-white rounded-2xl shadow ring-1 ring-black/5 p-6">
+                            {{-- Modal Preview (fade + scale, zoom on image, no darkening) --}}
+                            <div x-show="open" x-transition:enter="transition ease-out duration-300"
+                                x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                                x-transition:leave="transition ease-in duration-200"
+                                x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                                x-cloak @click.self="open=false"
+                                class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+
+                                <div
+                                    class="relative max-w-2xl w-full bg-white rounded-2xl shadow-xl ring-1 ring-black/10 overflow-hidden">
+                                    {{-- Tombol Tutup --}}
                                     <button @click="open=false" aria-label="Tutup"
-                                        class="absolute right-3 top-3 inline-flex items-center justify-center rounded-full bg-gray-100 p-1.5 text-gray-600 hover:bg-gray-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600">✕</button>
+                                        class="absolute right-3 top-3 z-10 inline-flex items-center justify-center rounded-full bg-white/90 p-2 text-gray-600 hover:text-green-700 shadow hover:shadow-md transition">
+                                        <x-heroicon-o-x-mark class="size-5" />
+                                    </button>
 
-                                    <img src="{{ $cover }}" alt="{{ $item->title }}"
-                                        class="w-full h-64 object-cover rounded-lg">
-                                    <h4 class="mt-4 text-lg font-semibold text-gray-900">{{ $item->title }}</h4>
-                                    <p class="mt-1 text-sm text-gray-600">{{ $desc }}</p>
+                                    {{-- Gambar Preview (zoom on hover only) --}}
+                                    <div class="overflow-hidden h-64 md:h-80">
+                                        <img src="{{ $cover }}" alt="{{ $item->title }}"
+                                            class="h-full w-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                                            loading="lazy" decoding="async">
+                                    </div>
 
-                                    {{-- Info ringkas --}}
-                                    <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
-                                        <div>
-                                            <dt class="font-medium text-gray-800">Kategori</dt>
-                                            <dd>{{ $tag }}</dd>
-                                        </div>
-                                        @if ($item->address)
+                                    {{-- Isi Preview --}}
+                                    <div class="p-6">
+                                        <h4 class="text-lg font-semibold text-gray-900">{{ $item->title }}</h4>
+                                        <p class="mt-1 text-sm text-gray-600 leading-relaxed">{{ $desc }}</p>
+
+                                        {{-- Info ringkas --}}
+                                        <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                             <div>
-                                                <dt class="font-medium text-gray-800">Alamat</dt>
-                                                <dd>{{ $item->address }}</dd>
+                                                <dt class="font-medium text-gray-800">Kategori</dt>
+                                                <dd>{{ $tag }}</dd>
                                             </div>
-                                        @endif
-                                        @if ($item->latitude && $item->longitude)
-                                            <div class="col-span-2">
-                                                <dt class="font-medium text-gray-800">Koordinat</dt>
-                                                <dd>{{ $item->latitude }}, {{ $item->longitude }}</dd>
-                                            </div>
-                                        @endif
-                                    </dl>
+                                            @if ($item->address)
+                                                <div>
+                                                    <dt class="font-medium text-gray-800">Alamat</dt>
+                                                    <dd>{{ $item->address }}</dd>
+                                                </div>
+                                            @endif
+                                            @if ($item->latitude && $item->longitude)
+                                                <div class="col-span-2">
+                                                    <dt class="font-medium text-gray-800">Koordinat</dt>
+                                                    <dd>{{ $item->latitude }}, {{ $item->longitude }}</dd>
+                                                </div>
+                                            @endif
+                                        </dl>
 
-                                    <div class="mt-4 flex items-center gap-2">
-                                        <a href="{{ $detailUrl }}"
-                                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
-                                            <x-heroicon-o-link class="size-4" /> Buka Halaman
-                                        </a>
-
-                                        @if ($item->external_link)
-                                            <a href="{{ $item->external_link }}" target="_blank" rel="noopener"
-                                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                                                <x-heroicon-o-arrow-top-right-on-square class="size-4" /> Sumber
+                                        {{-- Tombol Aksi --}}
+                                        <div class="mt-5 flex flex-wrap gap-2">
+                                            <a href="{{ $detailUrl }}"
+                                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                                <x-heroicon-o-eye class="size-4" /> Buka Halaman
                                             </a>
-                                        @endif
+
+                                            @if ($item->external_link)
+                                                <a href="{{ $item->external_link }}" target="_blank" rel="noopener"
+                                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                                    <x-heroicon-o-arrow-top-right-on-square class="size-4" /> Sumber
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
