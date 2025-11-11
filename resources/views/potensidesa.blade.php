@@ -69,18 +69,18 @@
 
                             {{-- Konten --}}
                             <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
-                                <span
-                                    class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
-                           transition-colors duration-300 group-hover:bg-green-100">
-                                    <x-heroicon-o-sparkles class="size-4" /> Sorotan
-                                </span>
-                                <div>
+                                <div class="flex items-center gap-2 w-fit">
                                     <span
-                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
-                                   transition-colors duration-200 group-hover:bg-green-100">
+                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-300 group-hover:bg-green-100">
+                                        <x-heroicon-o-sparkles class="size-4" /> Sorotan
+                                    </span>
+
+                                    <span
+                                        class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-200 group-hover:bg-green-100">
                                         <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                                     </span>
                                 </div>
+
                                 <h2
                                     class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2
                            transition-colors duration-200 group-hover:text-green-700">
