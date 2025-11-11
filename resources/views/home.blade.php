@@ -247,7 +247,7 @@
                 $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
 
                 $featDesc =
-                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 100);
+                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 250);
 
                 $featUrl = route('potensi-desa-detail', $featured->slug);
             @endphp
