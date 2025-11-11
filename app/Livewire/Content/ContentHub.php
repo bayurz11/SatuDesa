@@ -125,7 +125,7 @@ class ContentHub extends Component
         $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
         $this->perPage = match ($this->mode) {
-            'news', 'potensi' => 7, // sedikit dinaikkan untuk grid potensi
+            'news', 'potensi' => 5, // sedikit dinaikkan untuk grid potensi
             'announcement'    => 5,
             default           => 6,
         };
