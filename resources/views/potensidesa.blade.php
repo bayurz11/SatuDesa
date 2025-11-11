@@ -116,15 +116,30 @@
 
                 {{-- Filter kategori (placeholder statik, nanti bisa di-wire ke Livewire kalau mau) --}}
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
+                    @php
+                        $selected = $selected ?? request('cat');
+                    @endphp
                     <div class="flex flex-wrap gap-2">
-                        @foreach (['Semua', 'Ekonomi', 'Pariwisata', 'Pertanian', 'Perikanan', 'Industri Kreatif', 'Lingkungan'] as $k)
-                            <a href="#"
-                                class="px-3 py-1.5 rounded-lg text-sm border {{ $k === 'Semua' ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition' }}">
+                        @php $isAll = empty($selected) || $selected === 'Semua'; @endphp
+                        <a href="{{ route('potensi-desa', ['cat' => 'Semua']) }}"
+                            class="px-3 py-1.5 rounded-lg text-sm border {{ $isAll ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition' }}">
+                            Semua
+                        </a>
+
+                        @forelse($categories as $k)
+                            @php $active = $selected === $k; @endphp
+                            <a href="{{ route('potensi-desa', ['cat' => $k]) }}"
+                                class="px-3 py-1.5 rounded-lg text-sm border {{ $active ? 'bg-green-600 border-green-600 text-white' : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition' }}">
                                 {{ $k }}
                             </a>
-                        @endforeach
+                        @empty
+                            <span class="px-3 py-1.5 rounded-lg text-sm border border-dashed border-gray-300 text-gray-500">
+                                Belum ada kategori
+                            </span>
+                        @endforelse
                     </div>
                 </div>
+
 
                 {{-- Grid Potensi: sisa item setelah featured --}}
                 <div class="grid gap-6 sm:grid-cols-2">

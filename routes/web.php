@@ -26,14 +26,31 @@ Route::get('/struktur-desa', function () {
 
 // Potensi Desa Page Route
 Route::get('/potensi-desa', function () {
+    $selected = request('cat'); // nilai kategori terpilih (string)
+
+    // daftar kategori unik dari kolom posts.potensi_category
+    $categories = Post::query()
+        ->where('content_type', 'potensi')
+        ->whereNotNull('potensi_category')
+        ->select('potensi_category')
+        ->distinct()
+        ->orderBy('potensi_category')
+        ->pluck('potensi_category'); // ->collect(['Ekonomi', 'Pariwisata', ...])
+
     $items = Post::query()
-        ->with(['category:id,name,slug'])
+        ->with('category:id,name,slug')
         ->where('content_type', 'potensi')
         ->published()
+        ->when(
+            $selected && $selected !== 'Semua',
+            fn($q) =>
+            $q->where('potensi_category', $selected)
+        )
         ->orderByDesc('published_at')
-        ->paginate(10); // bebas: paginate / get
+        ->paginate(10)
+        ->appends(['cat' => $selected]); // jaga query string saat paginate
 
-    return view('potensidesa', compact('items'));
+    return view('potensidesa', compact('items', 'categories', 'selected'));
 })->name('potensi-desa');
 
 // Detail Potensi Desa Page Route
