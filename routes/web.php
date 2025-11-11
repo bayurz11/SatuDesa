@@ -6,7 +6,20 @@ use Illuminate\Support\Facades\Route;
 
 // Landing Page Route
 Route::get('/', function () {
-    return view('home');
+    $selected = request('cat');
+    $items = Post::query()
+        ->with('category:id,name,slug')
+        ->where('content_type', 'potensi')
+        ->published()
+        ->when(
+            $selected && $selected !== 'Semua',
+            fn($q) =>
+            $q->where('potensi_category', $selected)
+        )
+        ->orderByDesc('published_at')
+        ->paginate(10)
+        ->appends(['cat' => $selected]); // jaga query string saat paginate
+    return view('home', compact('items', 'selected'));
 })->name('beranda');
 
 // Sejarah Page Route
