@@ -423,9 +423,18 @@
                     @foreach ($related as $rel)
                         @php
                             /** @var \App\Domains\Post\Models\Post $rel */
-                            $img = $rel->cover_url ?? asset('public/img/potensi2.jpg');
+                            // ✅ Samakan cara resolve cover dengan asset('public/storage/..')
+                            if (filled($rel->cover_path)) {
+                                $img = \Illuminate\Support\Str::startsWith($rel->cover_path, ['http://', 'https://'])
+                                    ? $rel->cover_path
+                                    : asset('public/storage/' . ltrim($rel->cover_path, '/'));
+                            } else {
+                                $img = asset('public/img/potensi2.jpg'); // fallback
+                            }
+
                             $cat = $rel->potensi_category ?: optional($rel->category)->name ?: 'Potensi';
                         @endphp
+
                         <a href="{{ route('potensi-desa-detail', $rel->slug) }}"
                             class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-green-600">
                             <div class="aspect-[16/9] bg-gray-100">
@@ -451,6 +460,7 @@
                             </div>
                         </a>
                     @endforeach
+
                 </div>
             </section>
         @endif
