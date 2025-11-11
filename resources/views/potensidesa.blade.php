@@ -54,7 +54,7 @@
 
                         <div class="grid md:grid-cols-12 h-100 gap-0">
                             {{-- Gambar: full-bleed + zoom saat hover --}}
-                            <figure class="relative md:col-span-7 h-60 md:h-72 overflow-hidden">
+                            <figure class="relative md:col-span-7 h-100 md:h-72 overflow-hidden">
                                 <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     loading="lazy" decoding="async">
