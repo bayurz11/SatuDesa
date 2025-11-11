@@ -50,12 +50,11 @@
                     @endphp
 
                     <article
-                        class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition
-               hover:shadow-xl hover:-translate-y-0.5 duration-300">
+                        class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transitionSS hover:shadow-xl hover:-translate-y-0.5 duration-300">
 
                         <div class="grid md:grid-cols-12 gap-0">
                             {{-- Gambar: full-bleed + zoom saat hover --}}
-                            <figure class="relative md:col-span-7 h-56 md:h-72 overflow-hidden">
+                            <figure class="relative md:col-span-7 h-60 md:h-72 overflow-hidden">
                                 <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                                     class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                                     loading="lazy" decoding="async">
