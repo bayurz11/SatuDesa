@@ -12,7 +12,7 @@
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold text-gray-900">Postingan</h2>
-                    <p class="text-sm text-gray-600 mt-1">Kelola Berita & Pengumuman Desa</p>
+                    <p class="text-sm text-gray-600 mt-1">Kelola Berita, Pengumuman & Potensi Desa</p>
                 </div>
             </div>
 
@@ -40,7 +40,8 @@
                                 d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                         </svg>
                     </div>
-                    <input wire:model.live="search" type="text" placeholder="Cari judul, ringkasan, atau penulis…"
+                    <input wire:model.live="search" type="text"
+                        placeholder="Cari judul, ringkasan, penulis, penyelenggara…"
                         class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
                 </div>
             </div>
@@ -59,7 +60,19 @@
                     <option value="">Semua Tipe</option>
                     <option value="announcement">Pengumuman</option>
                     <option value="news">Berita</option>
+                    <option value="potensi">Potensi</option>
                 </select>
+
+                {{-- Filter kategori khusus Potensi (muncul hanya jika type=potensi) --}}
+                @if ($type === 'potensi')
+                    <select wire:model.live="potensiCategory"
+                        class="px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
+                        <option value="">Semua Kategori Potensi</option>
+                        @foreach ($potensiCategories as $pc)
+                            <option value="{{ $pc }}">{{ $pc }}</option>
+                        @endforeach
+                    </select>
+                @endif
 
                 <select wire:model.live="status"
                     class="px-4 py-3 border border-gray-300 rounded-xl bg-white text-sm font-medium focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200">
@@ -75,6 +88,7 @@
                     <option value="10">10 per halaman</option>
                     <option value="25">25 per halaman</option>
                     <option value="50">50 per halaman</option>
+                    <option value="100">100 per halaman</option>
                 </select>
             </div>
         </div>
@@ -87,12 +101,25 @@
                 <tr>
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Judul
                     </th>
+
                     <th wire:click="sortBy('content_type')"
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-200">
                         Tipe
                     </th>
+
+                    {{-- Kolom kategori umum --}}
                     <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                        Kategori</th>
+                        Kategori
+                    </th>
+
+                    {{-- Kolom opsional: Kategori Potensi (tampil bila list sedang type=potensi) --}}
+                    @if ($type === 'potensi')
+                        <th wire:click="sortBy('potensi_category')"
+                            class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-200">
+                            Kategori Potensi
+                        </th>
+                    @endif
+
                     <th wire:click="sortBy('status')"
                         class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:bg-gray-200">
                         Status
@@ -127,12 +154,29 @@
                         </td>
 
                         <td class="px-6 py-5 text-sm text-gray-800">
-                            {{ $item->content_type === 'news' ? 'Berita' : 'Pengumuman' }}
+                            @switch($item->content_type)
+                                @case('news')
+                                    Berita
+                                @break
+
+                                @case('potensi')
+                                    Potensi
+                                @break
+
+                                @default
+                                    Pengumuman
+                            @endswitch
                         </td>
 
                         <td class="px-6 py-5 text-sm text-gray-800">
                             {{ $item->category->name ?? '-' }}
                         </td>
+
+                        @if ($type === 'potensi')
+                            <td class="px-6 py-5 text-sm text-gray-800">
+                                {{ $item->potensi_category ?? '-' }}
+                            </td>
+                        @endif
 
                         <td class="px-6 py-5 whitespace-nowrap">
                             <span
@@ -194,57 +238,57 @@
                             </div>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="7" class="px-6 py-16 text-center">
-                            <div class="flex flex-col items-center justify-center">
-                                <div
-                                    class="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
-                                    <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                            d="M4 6h16M4 10h16M4 14h10M4 18h6" />
-                                    </svg>
-                                </div>
-                                <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada postingan</h3>
-                                <p class="text-gray-500 mb-6 max-w-sm text-center">
-                                    @if ($search)
-                                        Coba ubah kata kunci pencarian atau filter.
-                                    @else
-                                        Tambahkan berita atau pengumuman pertama Anda.
-                                    @endif
-                                </p>
-
-                                @permission('informasi.create')
-                                    <button wire:click="$dispatch('openPostForm')"
-                                        class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                                        <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300"
-                                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                    @empty
+                        <tr>
+                            <td colspan="{{ $type === 'potensi' ? 8 : 7 }}" class="px-6 py-16 text-center">
+                                <div class="flex flex-col items-center justify-center">
+                                    <div
+                                        class="w-20 h-20 bg-gradient-to-br from-gray-100 to-gray-200 rounded-2xl flex items-center justify-center mb-6 shadow-inner">
+                                        <svg class="w-10 h-10 text-gray-400" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                                d="M4 6h16M4 10h16M4 14h10M4 18h6" />
                                         </svg>
-                                        Tambah Post
-                                    </button>
-                                @endpermission
-                            </div>
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
-    </div>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada postingan</h3>
+                                    <p class="text-gray-500 mb-6 max-w-sm text-center">
+                                        @if ($search)
+                                            Coba ubah kata kunci pencarian atau filter.
+                                        @else
+                                            Tambahkan berita, pengumuman, atau potensi pertama Anda.
+                                        @endif
+                                    </p>
 
-    <!-- FOOTER -->
-    <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 rounded-b-2xl">
-        <div class="flex items-center justify-between">
-            <div class="text-sm text-gray-600">
-                Menampilkan <span class="font-medium">{{ $data->firstItem() ?? 0 }}</span>
-                sampai <span class="font-medium">{{ $data->lastItem() ?? 0 }}</span>
-                dari <span class="font-medium">{{ $data->total() }}</span> data
-            </div>
-            <div class="flex-1 flex justify-center">
-                {{ $data->links() }}
+                                    @permission('informasi.create')
+                                        <button wire:click="$dispatch('openPostForm')"
+                                            class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                            <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300"
+                                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                            </svg>
+                                            Tambah Post
+                                        </button>
+                                    @endpermission
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-t border-gray-200 rounded-b-2xl">
+            <div class="flex items-center justify-between">
+                <div class="text-sm text-gray-600">
+                    Menampilkan <span class="font-medium">{{ $data->firstItem() ?? 0 }}</span>
+                    sampai <span class="font-medium">{{ $data->lastItem() ?? 0 }}</span>
+                    dari <span class="font-medium">{{ $data->total() }}</span> data
+                </div>
+                <div class="flex-1 flex justify-center">
+                    {{ $data->links() }}
+                </div>
             </div>
         </div>
     </div>
-</div>
