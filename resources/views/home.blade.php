@@ -252,6 +252,7 @@
                 $featUrl = route('potensi-desa-detail', $featured->slug);
             @endphp
 
+            {{-- Kartu Utama --}}
             <article
                 class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5
            transition-all duration-300
@@ -259,16 +260,14 @@
            focus-within:-translate-y-0.5 focus-within:shadow-xl focus-within:ring-green-300/60">
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-0 md:h-[300px]">
-                    {{-- Gambar: mobile pakai aspect, desktop fixed height --}}
-                    <figure
-                        class="relative md:col-span-7 overflow-hidden
-                       aspect-[16/10] md:aspect-auto md:h-full">
+                    {{-- Gambar --}}
+                    <figure class="relative md:col-span-7 overflow-hidden aspect-[16/10] md:aspect-auto md:h-full">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                             class="h-full w-full object-cover transition-transform duration-500
-                        md:group-hover:scale-105 motion-reduce:transition-none"
+                    md:group-hover:scale-105 motion-reduce:transition-none"
                             loading="lazy" decoding="async">
 
-                        {{-- Overlay gradient saat hover/focus --}}
+                        {{-- Overlay gradient saat hover --}}
                         <div
                             class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
                         opacity-0 md:group-hover:opacity-100 group-focus-within:opacity-100
@@ -281,19 +280,19 @@
                         <div class="flex flex-wrap items-center gap-2 w-fit">
                             <span
                                 class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
-                           ring-1 ring-green-200 transition-colors duration-300 md:group-hover:bg-green-100">
+                        ring-1 ring-green-200 transition-colors duration-300 md:group-hover:bg-green-100">
                                 <x-heroicon-o-sparkles class="size-4" /> Sorotan
                             </span>
                             <span
                                 class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
-                           ring-1 ring-green-200 transition-colors duration-300 md:group-hover:bg-green-100">
+                        ring-1 ring-green-200 transition-colors duration-300 md:group-hover:bg-green-100">
                                 <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                             </span>
                         </div>
 
                         <h2
                             class="mt-3 text-base sm:text-lg md:text-xl font-semibold text-gray-900 line-clamp-2
-                       transition-colors duration-200 md:group-hover:text-green-700">
+                    transition-colors duration-200 md:group-hover:text-green-700">
                             {{ $featured->title }}
                         </h2>
 
@@ -303,22 +302,20 @@
 
                         <div
                             class="mt-5 flex flex-col md:flex-row md:justify-between items-stretch md:items-center gap-2 md:gap-3">
-                            {{-- Primary: full-width di mobile --}}
                             <a href="{{ $featUrl }}"
                                 class="inline-flex justify-center items-center gap-2 rounded-lg bg-green-600 px-4 py-2
-                          text-sm font-medium text-white hover:bg-green-700 active:scale-[0.99]
-                          transition-colors focus-visible:outline-none focus-visible:ring-2
-                          focus-visible:ring-green-600 focus-visible:ring-offset-2 w-full md:w-auto"
-                                aria-label="Lihat detail: {{ $featured->title }}">
+                            text-sm font-medium text-white hover:bg-green-700 active:scale-[0.99]
+                            transition-colors focus-visible:outline-none focus-visible:ring-2
+                            focus-visible:ring-green-600 focus-visible:ring-offset-2 w-full md:w-auto">
                                 <x-heroicon-o-eye class="size-4" /> Detail
                             </a>
 
                             @if ($featured->external_link)
                                 <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
                                     class="inline-flex justify-center items-center gap-2 rounded-lg border border-green-600 px-4 py-2
-                              text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white active:scale-[0.99]
-                              transition-colors focus-visible:outline-none focus-visible:ring-2
-                              focus-visible:ring-green-600 focus-visible:ring-offset-2 w-full md:w-auto">
+                                text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white active:scale-[0.99]
+                                transition-colors focus-visible:outline-none focus-visible:ring-2
+                                focus-visible:ring-green-600 focus-visible:ring-offset-2 w-full md:w-auto">
                                     <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                 </a>
                             @endif
@@ -326,15 +323,19 @@
                     </div>
                 </div>
 
-                {{-- Ring halus seluruh card (hover di desktop, focus untuk keyboard/mobile) --}}
+                {{-- Ring halus --}}
                 <div
                     class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent
                 md:group-hover:ring-green-200/70 group-focus-within:ring-green-200/70
                 transition duration-300">
                 </div>
             </article>
-
-
+        @else
+            {{-- Keterangan jika data kosong --}}
+            <div class="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
+                <x-heroicon-o-information-circle class="mx-auto size-10 text-gray-400" />
+                <h3 class="mt-3 text-gray-700 font-medium">Belum ada potensi desa yang ditambahkan</h3>
+            </div>
         @endif
 
         <!-- Tombol -->
