@@ -94,6 +94,11 @@
         $postDate = $post->published_at ?? $post->created_at;
         $postDateHuman = optional($postDate)?->translatedFormat('d F Y • H:i');
 
+        // === Meta waktu ===
+        $updatedAt = $post?->updated_at;
+        $updatedAtHuman = optional($updatedAt)?->diffForHumans();
+        $showUpdatedInfo = $updatedAt && (!$postDate || $updatedAt->gt($postDate));
+
         // === Responsive srcset untuk cover (bisa diganti ke varian resolusi milikmu) ===
         $coverSrcSet = implode(', ', [$cover . ' 800w', $cover . ' 1200w', $cover . ' 1600w']);
     @endphp
