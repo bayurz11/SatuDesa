@@ -166,9 +166,12 @@
                             <x-heroicon-o-information-circle class="size-5" /> Lihat Informasi
                         </a>
                         <a href="{{ route('potensi-desa') }}"
-                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium
-           border border-green-300 text-green-700 hover:bg-green-600 hover:text-white hover:border-green-600 transition">
-                            <x-heroicon-o-arrow-left class="size-5" /> Kembali
+                            class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium border border-green-600 text-green-700 hover:bg-green-600 hover:text-white transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="size-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+                            </svg>
+                            Kembali
                         </a>
 
                     </div>
