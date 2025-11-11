@@ -272,10 +272,11 @@
                             <p class="text-sm text-gray-700">Sebarkan informasi untuk mendukung promosi dan kolaborasi.</p>
                         </div>
                         <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
-                            <a href="#"
+                            <a href="#" id="btnShare"
                                 class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
                                 <x-heroicon-o-share class="size-4" /> Bagikan
                             </a>
+
                         </div>
                     </div>
                 </section>
@@ -407,5 +408,77 @@
 @push('scripts')
     <script>
         document.addEventListener('alpine:init', () => {});
+    </script>
+@endpush
+@push('scripts')
+    @php
+        $shareTitle = $post->title ?? 'Potensi Desa Mentuda';
+        $shareText = \Illuminate\Support\Str::limit(strip_tags($post->summary ?? ($post->body_html ?? '')), 140);
+        $shareUrl = request()->fullUrl();
+    @endphp
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btn = document.getElementById('btnShare');
+            if (!btn) return;
+
+            const shareData = {
+                title: @json($shareTitle),
+                text: @json($shareText ?: 'Lihat detail potensi desa di tautan berikut.'),
+                url: @json($shareUrl),
+            };
+
+            btn.addEventListener('click', async (e) => {
+                e.preventDefault();
+
+                // 1) Coba Web Share API (mobile/modern browsers)
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                        toast('Tautan dibagikan.');
+                        return;
+                    } catch (err) {
+                        // Jika user cancel, diam aja; selain itu fallback copy
+                        if (err && err.name === 'AbortError') return;
+                    }
+                }
+
+                // 2) Fallback: salin URL ke clipboard
+                try {
+                    await navigator.clipboard.writeText(shareData.url);
+                    toast('Tautan disalin ke clipboard.');
+                } catch {
+                    // 3) Fallback terakhir: prompt manual
+                    prompt('Salin tautan berikut:', shareData.url);
+                }
+            });
+
+            // util toast sederhana (Tailwind)
+            function toast(message = 'Berhasil', timeout = 2200) {
+                const el = document.createElement('div');
+                el.setAttribute('role', 'status');
+                el.className =
+                    'fixed z-[60] right-4 bottom-4 max-w-sm rounded-xl bg-gray-900 text-white text-sm ' +
+                    'px-4 py-2 shadow-lg ring-1 ring-black/5 pointer-events-none';
+                el.textContent = message;
+                document.body.appendChild(el);
+
+                // animasi masuk/keluar sederhana
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(6px)';
+                requestAnimationFrame(() => {
+                    el.style.transition = 'opacity .18s ease, transform .18s ease';
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+
+                setTimeout(() => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(6px)';
+                    el.addEventListener('transitionend', () => el.remove(), {
+                        once: true
+                    });
+                }, timeout);
+            }
+        });
     </script>
 @endpush
