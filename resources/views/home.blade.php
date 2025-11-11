@@ -247,7 +247,7 @@
                 $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
 
                 $featDesc =
-                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 50);
+                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 100);
 
                 $featUrl = route('potensi-desa-detail', $featured->slug);
             @endphp
@@ -255,7 +255,7 @@
             <article
                 class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transitionSS hover:shadow-xl hover:-translate-y-0.5 duration-300">
 
-                <div class="grid md:grid-cols-12 h-100 gap-0">
+                <div class="grid md:grid-cols-12 h-150 gap-0">
                     {{-- Gambar: full-bleed + zoom saat hover --}}
                     <figure class="relative md:col-span-7 h-100 md:h-72 overflow-hidden">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
@@ -292,7 +292,7 @@
                             {{ $featDesc }}
                         </p>
 
-                        <div class="mt-3 flex flex-wrap justify-between items-center gap-2">
+                        <div class="mt-4 flex flex-wrap justify-between items-center gap-2">
                             {{-- Tombol Lihat Detail (solid hijau) --}}
                             <a href="{{ $featUrl }}"
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
