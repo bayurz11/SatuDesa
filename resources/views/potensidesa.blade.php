@@ -41,43 +41,50 @@
                             : asset('public/img/potensi2.jpg');
 
                         $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
+
                         $featDesc =
                             $featured->summary ?:
-                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 300);
+                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 200);
+
                         $featUrl = route('potensi-desa-detail', $featured->slug);
                     @endphp
 
-                    <div
-                        class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition-all duration-300
-               hover:shadow-xl hover:ring-green-600/20 hover:-translate-y-0.5">
+                    <article
+                        class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition
+               hover:shadow-xl hover:-translate-y-0.5 duration-300">
+
                         <div class="grid md:grid-cols-12 gap-0">
-                            {{-- Gambar: tidak terpotong + zoom lembut saat hover --}}
-                            <figure class="md:col-span-7">
-                                <div class="h-56 md:h-72 bg-gray-100 flex items-center justify-center overflow-hidden">
-                                    <img src="{{ $featCover }}" alt="{{ $featured->title }}"
-                                        class="max-h-full max-w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
-                                        loading="lazy" decoding="async">
+                            {{-- Gambar: full-bleed + zoom saat hover --}}
+                            <figure class="relative md:col-span-7 h-56 md:h-72 overflow-hidden">
+                                <img src="{{ $featCover }}" alt="{{ $featured->title }}"
+                                    class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                                    loading="lazy" decoding="async">
+
+                                {{-- Overlay gradient muncul saat hover --}}
+                                <div
+                                    class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
+                           opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                                 </div>
                             </figure>
 
+                            {{-- Konten --}}
                             <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                                 <span
                                     class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
-                           transition-transform duration-300 group-hover:-translate-y-0.5">
+                           transition-colors duration-300 group-hover:bg-green-100">
                                     <x-heroicon-o-sparkles class="size-4" /> Sorotan
                                 </span>
 
                                 <h2
-                                    class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2 transition-colors duration-200 group-hover:text-green-700">
+                                    class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2
+                           transition-colors duration-200 group-hover:text-green-700">
                                     {{ $featured->title }}
                                 </h2>
 
-                                {{-- Deskripsi tampil sebagian (rapi) --}}
                                 <p class="mt-2 text-gray-700 line-clamp-3">
                                     {{ $featDesc }}
                                 </p>
 
-                                {{-- Info ringkas --}}
                                 <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                     <div>
                                         <span
@@ -88,9 +95,9 @@
                                     </div>
 
                                     @if ($featured->address)
-                                        <div>
+                                        <div class="col-span-1">
                                             <dt class="font-medium text-gray-800">Alamat</dt>
-                                            <dd>{{ $featured->address }}</dd>
+                                            <dd class="truncate">{{ $featured->address }}</dd>
                                         </div>
                                     @endif
 
@@ -115,7 +122,7 @@
                                 <div class="mt-4 flex flex-wrap gap-2">
                                     <a href="{{ $featUrl }}"
                                         class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
-                              hover:bg-green-600 hover:text-white transition
+                              hover:bg-green-600 hover:text-white transition-colors
                               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
                                         aria-label="Lihat detail: {{ $featured->title }}">
                                         <x-heroicon-o-eye class="size-4" /> Lihat Detail
@@ -124,7 +131,7 @@
                                     @if ($featured->external_link)
                                         <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
                                             class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
-                                  hover:bg-green-600 hover:text-white transition
+                                  hover:bg-green-600 hover:text-white transition-colors
                                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                             <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                         </a>
@@ -132,7 +139,13 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+
+                        {{-- Ring halus saat hover di seluruh artikel --}}
+                        <div
+                            class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent
+                   group-hover:ring-green-200/70 transition duration-300">
+                        </div>
+                    </article>
                 @endif
 
 
