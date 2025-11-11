@@ -41,17 +41,21 @@
                             : asset('public/img/potensi2.jpg');
 
                         $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
+                        // tetap limit dari backend agar aman, lalu di-clamp di UI
                         $featDesc =
                             $featured->summary ?:
-                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 100);
+                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 300);
                         $featUrl = route('potensi-desa-detail', $featured->slug);
                     @endphp
 
                     <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
                         <div class="grid md:grid-cols-12 gap-0">
-                            <figure class="md:col-span-7 h-56 md:h-72 overflow-hidden">
-                                <img src="{{ $featCover }}" alt="{{ $featured->title }}"
-                                    class="h-full w-full object-cover" loading="lazy" decoding="async">
+                            {{-- Gambar: tidak terpotong, center, letterbox rapi --}}
+                            <figure class="md:col-span-7">
+                                <div class="h-56 md:h-72 bg-gray-100 flex items-center justify-center overflow-hidden">
+                                    <img src="{{ $featCover }}" alt="{{ $featured->title }}"
+                                        class="max-h-full max-w-full object-contain" loading="lazy" decoding="async">
+                                </div>
                             </figure>
 
                             <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
@@ -60,27 +64,31 @@
                                     <x-heroicon-o-sparkles class="size-4" /> Sorotan
                                 </span>
 
-                                <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900">
+                                <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2">
                                     {{ $featured->title }}
                                 </h2>
 
-                                <p class="mt-2 text-gray-700">{{ $featDesc }}</p>
+                                {{-- Deskripsi: tampil sebagian saja --}}
+                                <p class="mt-2 text-gray-700 line-clamp-3">
+                                    {{ $featDesc }}
+                                </p>
 
-                                {{-- Info ringkas potensi (opsional) --}}
+                                {{-- Info ringkas potensi --}}
                                 <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                     <div>
                                         <span
                                             class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
                                             <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                                         </span>
-
                                     </div>
+
                                     @if ($featured->address)
                                         <div>
                                             <dt class="font-medium text-gray-800">Alamat</dt>
                                             <dd>{{ $featured->address }}</dd>
                                         </div>
                                     @endif
+
                                     @if ($featured->price_min || $featured->price_max)
                                         <div class="col-span-2">
                                             <dt class="font-medium text-gray-800">Harga</dt>
@@ -116,6 +124,7 @@
                         </div>
                     </div>
                 @endif
+
 
                 {{-- Filter kategori (placeholder statik, nanti bisa di-wire ke Livewire kalau mau) --}}
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
