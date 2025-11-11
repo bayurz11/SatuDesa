@@ -135,7 +135,7 @@ class PostForm extends Component
     {
         return [
             'category_id'  => ['nullable', 'string'],
-            'content_type' => ['required', Rule::in(['announcement', 'news'])],
+            'content_type' => ['required', Rule::in(['announcement', 'news', 'potensi'])],
             'title'        => ['required', 'string', 'max:200'],
             'slug'         => ['nullable', 'string', 'max:220', Rule::unique('posts', 'slug')->ignore($this->postId)],
             'summary'      => ['nullable', 'string'],
