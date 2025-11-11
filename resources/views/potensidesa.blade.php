@@ -73,8 +73,7 @@
                                             class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
                                             <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                                         </span>
-                                        <dt class="font-medium text-gray-800">Kategori</dt>
-                                        <dd>{{ $featTag }}</dd>
+
                                     </div>
                                     @if ($featured->address)
                                         <div>
