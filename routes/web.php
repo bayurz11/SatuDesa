@@ -34,7 +34,7 @@ Route::get('/potensi', function () {
         ->paginate(10); // bebas: paginate / get
 
     return view('potensidesa', compact('items'));
-})->name('potensi-desa');
+})->name('potensi');
 
 // Detail Potensi Desa Page Route
 Route::get('/potensi/{slug}', function ($slug) {
