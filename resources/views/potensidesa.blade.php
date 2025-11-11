@@ -41,43 +41,48 @@
                             : asset('public/img/potensi2.jpg');
 
                         $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
-                        // tetap limit dari backend agar aman, lalu di-clamp di UI
                         $featDesc =
                             $featured->summary ?:
                             \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 300);
                         $featUrl = route('potensi-desa-detail', $featured->slug);
                     @endphp
 
-                    <div class="relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5">
+                    <div
+                        class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition-all duration-300
+               hover:shadow-xl hover:ring-green-600/20 hover:-translate-y-0.5">
                         <div class="grid md:grid-cols-12 gap-0">
-                            {{-- Gambar: tidak terpotong, center, letterbox rapi --}}
+                            {{-- Gambar: tidak terpotong + zoom lembut saat hover --}}
                             <figure class="md:col-span-7">
                                 <div class="h-56 md:h-72 bg-gray-100 flex items-center justify-center overflow-hidden">
                                     <img src="{{ $featCover }}" alt="{{ $featured->title }}"
-                                        class="max-h-full max-w-full object-contain" loading="lazy" decoding="async">
+                                        class="max-h-full max-w-full object-contain transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+                                        loading="lazy" decoding="async">
                                 </div>
                             </figure>
 
                             <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                                 <span
-                                    class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                                    class="inline-flex items-center gap-1 w-fit rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
+                           transition-transform duration-300 group-hover:-translate-y-0.5">
                                     <x-heroicon-o-sparkles class="size-4" /> Sorotan
                                 </span>
 
-                                <h2 class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2">
+                                <h2
+                                    class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2 transition-colors duration-200 group-hover:text-green-700">
                                     {{ $featured->title }}
                                 </h2>
 
-                                {{-- Deskripsi: tampil sebagian saja --}}
+                                {{-- Deskripsi tampil sebagian (rapi) --}}
                                 <p class="mt-2 text-gray-700 line-clamp-3">
                                     {{ $featDesc }}
                                 </p>
 
-                                {{-- Info ringkas potensi --}}
+                                {{-- Info ringkas --}}
                                 <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                     <div>
                                         <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200
+                                   transition-colors duration-200 group-hover:bg-green-100">
                                             <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                                         </span>
                                     </div>
@@ -107,15 +112,20 @@
                                     @endif
                                 </dl>
 
-                                <div class="mt-4">
+                                <div class="mt-4 flex flex-wrap gap-2">
                                     <a href="{{ $featUrl }}"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                        class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
+                              hover:bg-green-600 hover:text-white transition
+                              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                                        aria-label="Lihat detail: {{ $featured->title }}">
                                         <x-heroicon-o-eye class="size-4" /> Lihat Detail
                                     </a>
 
                                     @if ($featured->external_link)
                                         <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
-                                            class="ml-2 inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
+                                  hover:bg-green-600 hover:text-white transition
+                                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                             <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                         </a>
                                     @endif
@@ -124,7 +134,6 @@
                         </div>
                     </div>
                 @endif
-
 
                 {{-- Filter kategori (placeholder statik, nanti bisa di-wire ke Livewire kalau mau) --}}
                 <div class="bg-white rounded-xl shadow p-4 ring-1 ring-black/5">
