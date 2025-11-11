@@ -44,7 +44,7 @@
 
                         $featDesc =
                             $featured->summary ?:
-                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 100);
+                            \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 50);
 
                         $featUrl = route('potensi-desa-detail', $featured->slug);
                     @endphp
