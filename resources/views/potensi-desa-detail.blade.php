@@ -427,7 +427,7 @@
 
 @push('scripts')
     @php
-        $shareTitle = $post->title ?? 'Potensi Desa Mentuda';
+        $shareTitle = $post->title ?? 'Potensi Desa ';
         $shareText = \Illuminate\Support\Str::limit(strip_tags($post->summary ?? ($post->body_html ?? '')), 140);
         $shareUrl = request()->fullUrl();
     @endphp
