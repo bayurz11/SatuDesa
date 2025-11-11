@@ -82,8 +82,7 @@
                                 </div>
 
                                 <h2
-                                    class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2
-                           transition-colors duration-200 group-hover:text-green-700">
+                                    class="mt-3 text-xl md:text-2xl font-semibold text-gray-900 line-clamp-2  transition-colors duration-200 group-hover:text-green-700">
                                     {{ $featured->title }}
                                 </h2>
 
@@ -119,24 +118,27 @@
                                     @endif
                                 </dl>
 
-                                <div class="mt-4 flex flex-wrap gap-2">
+                                <div class="mt-4 flex flex-wrap justify-between items-center gap-3">
+                                    {{-- Tombol Lihat Detail (solid hijau) --}}
                                     <a href="{{ $featUrl }}"
-                                        class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
-                              hover:bg-green-600 hover:text-white transition-colors
-                              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                                        class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white
+               hover:bg-green-700 transition-colors
+               focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
                                         aria-label="Lihat detail: {{ $featured->title }}">
                                         <x-heroicon-o-eye class="size-4" /> Lihat Detail
                                     </a>
 
+                                    {{-- Tombol Tautan Eksternal (outline hijau) --}}
                                     @if ($featured->external_link)
                                         <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
-                                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700
-                                  hover:bg-green-600 hover:text-white transition-colors
-                                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+                                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700
+                   hover:bg-green-600 hover:text-white transition-colors
+                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                             <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                         </a>
                                     @endif
                                 </div>
+
                             </div>
                         </div>
 
