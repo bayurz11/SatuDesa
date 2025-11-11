@@ -247,25 +247,26 @@
                 $featTag = $featured->potensi_category ?: optional($featured->category)->name ?: 'Potensi';
 
                 $featDesc =
-                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 250);
+                    $featured->summary ?: \Illuminate\Support\Str::limit(strip_tags($featured->body_html ?? ''), 350);
 
                 $featUrl = route('potensi-desa-detail', $featured->slug);
             @endphp
 
             <article
-                class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-300/60">
+                class="group relative z-0 overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5
+         transition-all duration-300
+         hover:-translate-y-1 hover:shadow-2xl hover:ring-green-300/60 hover:bg-green-50/10">
 
                 <div class="grid md:grid-cols-12 gap-0 h-[280px] md:h-[300px]">
                     {{-- Gambar --}}
-                    <figure class="relative md:col-span-7 h-full overflow-hidden">
+                    <figure class="relative md:col-span-7 h-full overflow-hidden pointer-events-none">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                            loading="lazy" decoding="async">
+                            loading="lazy" decoding="async" />
 
-                        {{-- Overlay gradient muncul saat hover --}}
                         <div
-                            class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
-                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
+                  opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </div>
                     </figure>
 
@@ -273,21 +274,17 @@
                     <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                         <div class="flex items-center gap-2 w-fit">
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
-                           ring-1 ring-green-200 transition-colors duration-300 group-hover:bg-green-100">
+                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-300 group-hover:bg-green-100">
                                 <x-heroicon-o-sparkles class="size-4" /> Sorotan
                             </span>
-
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
-                           ring-1 ring-green-200 transition-colors duration-200 group-hover:bg-green-100">
+                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-200 group-hover:bg-green-100">
                                 <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                             </span>
                         </div>
 
                         <h2
-                            class="mt-3 text-lg md:text-xl font-semibold text-gray-900 line-clamp-2
-                       transition-colors duration-200 group-hover:text-green-700">
+                            class="mt-3 text-lg md:text-xl font-semibold text-gray-900 line-clamp-2 transition-colors duration-200 group-hover:text-green-700">
                             {{ $featured->title }}
                         </h2>
 
@@ -297,18 +294,13 @@
 
                         <div class="mt-5 flex flex-wrap justify-between items-center gap-3">
                             <a href="{{ $featUrl }}"
-                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white
-                          hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2
-                          focus-visible:ring-green-600 focus-visible:ring-offset-2"
-                                aria-label="Lihat detail: {{ $featured->title }}">
+                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                 <x-heroicon-o-eye class="size-4" /> Detail
                             </a>
 
                             @if ($featured->external_link)
                                 <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700
-                              hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none
-                              focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                     <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                 </a>
                             @endif
@@ -316,7 +308,6 @@
                     </div>
                 </div>
             </article>
-
 
         @endif
 
