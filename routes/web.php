@@ -25,8 +25,15 @@ Route::get('/struktur-desa', function () {
 })->name('struktur-desa');
 
 // Potensi Desa Page Route
-Route::get('/potensi-desa', function () {
-    return view('potensidesa');
+Route::get('/potensi', function () {
+    $items = Post::query()
+        ->with(['category:id,name,slug'])
+        ->where('content_type', 'potensi')
+        ->published()
+        ->orderByDesc('published_at')
+        ->paginate(10); // bebas: paginate / get
+
+    return view('potensidesa', compact('items'));
 })->name('potensi-desa');
 
 // Detail Potensi Desa Page Route
