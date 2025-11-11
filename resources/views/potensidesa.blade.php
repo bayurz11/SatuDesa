@@ -250,8 +250,10 @@
                                         {{-- Info ringkas --}}
                                         <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
                                             <div>
-                                                <dt class="font-medium text-gray-800">Kategori</dt>
-                                                <dd>{{ $tag }}</dd>
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200">
+                                                    <x-heroicon-o-tag class="size-4" /> {{ $tag }}
+                                                </span>
                                             </div>
                                             @if ($item->address)
                                                 <div>
