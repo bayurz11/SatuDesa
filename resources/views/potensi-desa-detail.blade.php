@@ -5,26 +5,45 @@
 @section('content')
     @php
         use Illuminate\Support\Str;
+        use Illuminate\Support\Facades\Storage;
 
         /** @var \App\Domains\Post\Models\Post $item */
         $post = $item;
 
-        $cover = $post?->cover_url ?? asset('public/img/potensi1.jpg');
+        // === COVER: utamakan cover_path di storage; dukung URL absolut ===
+        $cover = null;
+        if (filled($post->cover_path)) {
+            if (Str::startsWith($post->cover_path, ['http://', 'https://'])) {
+                $cover = $post->cover_path; // sudah URL penuh
+            } else {
+                // coba baca dari disk default; jika tak ada, fallback ke /public/storage/ path
+                $cover = Storage::disk(config('filesystems.default'))->exists($post->cover_path)
+                    ? Storage::url($post->cover_path) // ex: /storage/xxx.jpg
+                    : asset('public/storage/' . ltrim($post->cover_path, '/'));
+            }
+        }
+        $cover = $cover ?: asset('public/img/potensi1.jpg'); // fallback akhir
+
+        // Kategori potensi
         $kategori = $post?->potensi_category ?: optional($post?->category)->name ?: 'Potensi';
 
+        // Tags (aman eager/non-eager)
         $tags = collect();
         if ($post) {
             $tags = $post->relationLoaded('tags') ? $post->tags->pluck('name') : $post->tags()->pluck('name');
             $tags = $tags->filter()->unique()->values();
         }
 
+        // Galeri dari meta.gallery
         $gallery = collect(data_get($post, 'meta.gallery', []))
             ->filter()
             ->map(fn($g) => Str::startsWith($g, ['http://', 'https://']) ? $g : asset($g))
             ->take(12);
 
+        // Lokasi/alamat
         $lokasi = $post?->address ?: 'Desa Mentuda, Lingga, Kepulauan Riau';
 
+        // Map embed: koordinat > alamat
         $embedMap =
             $post?->map_embed_url ?:
             (filled($lokasi)
@@ -33,15 +52,19 @@
                     '&t=&z=13&ie=UTF8&iwloc=&output=embed" class="w-full h-full border-0" loading="lazy"></iframe>'
                 : null);
 
+        // Ringkasan angka dari meta
         $stat1 = data_get($post, 'meta.estimasi_produksi');
         $stat1_unit = data_get($post, 'meta.estimasi_satuan', 'ton/tahun');
         $stat2 = data_get($post, 'meta.pelaku_umkm');
         $stat3 = data_get($post, 'meta.luas_lahan');
 
+        // Deskripsi
         $deskripsiHtml = filled($post?->body_html) ? $post->body_html : e($post?->summary);
 
+        // Format rupiah helper
         $fmtRp = fn($n) => is_numeric($n) ? 'Rp ' . number_format($n, 0, ',', '.') : $n;
 
+        // Rentang harga
         $rentangHarga = null;
         if (!is_null($post?->price_min) || !is_null($post?->price_max)) {
             $min = $post?->price_min !== null ? $fmtRp($post->price_min) : null;
@@ -49,6 +72,7 @@
             $rentangHarga = trim(($min ?? '') . ($min && $max ? ' — ' : '') . ($max ?? ''));
         }
 
+        // Detail tabel kunci (eksplisit + meta.detail)
         $detailBase = array_filter(
             [
                 'Kategori' => $kategori,
@@ -66,11 +90,14 @@
         $detailMeta = (array) data_get($post, 'meta.detail', []);
         $detail = array_filter(array_merge($detailBase, $detailMeta), fn($v) => filled($v));
 
-        $updatedAt = $post?->updated_at;
+        // === Tanggal rilis (published_at > created_at) ===
+        $postDate = $post->published_at ?? $post->created_at;
+        $postDateHuman = optional($postDate)?->translatedFormat('d F Y • H:i');
 
-        // ✅ responsive srcset helper untuk cover (gunakan ukuran gambar kamu bila ada)
+        // === Responsive srcset untuk cover (bisa diganti ke varian resolusi milikmu) ===
         $coverSrcSet = implode(', ', [$cover . ' 800w', $cover . ' 1200w', $cover . ' 1600w']);
     @endphp
+
 
     <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-10 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
