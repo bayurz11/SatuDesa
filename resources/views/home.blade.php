@@ -330,6 +330,14 @@
                 transition duration-300">
                 </div>
             </article>
+
+            <!-- Tombol -->
+            <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
+                <a href="{{ route('potensi-desa') }}"
+                    class="px-6 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
+                    Lihat Potensi Lainnya
+                </a>
+            </div>
         @else
             {{-- Keterangan jika data kosong --}}
             <div class="text-center py-16 bg-gray-50 rounded-2xl border border-dashed border-gray-300">
@@ -338,13 +346,7 @@
             </div>
         @endif
 
-        <!-- Tombol -->
-        <div class="text-center mt-10" data-aos="zoom-in" data-aos-delay="200">
-            <a href="{{ route('potensi-desa') }}"
-                class="px-6 py-2 border border-green-700 text-green-700 rounded-full hover:bg-green-700 hover:text-white transition">
-                Lihat Potensi Lainnya
-            </a>
-        </div>
+
     </section>
 
     <!-- Berita Desa Section -->
