@@ -19,7 +19,7 @@ class PostForm extends Component
     public bool $showModal = false;
     public bool $isEditing = false;
 
-    // fields
+    // fields umum
     public ?string $postId = null;
     public ?string $category_id = null;
     public string $content_type = 'announcement';
@@ -40,17 +40,34 @@ class PostForm extends Component
     public ?int $read_minutes = null;
     public ?string $source_url = null;
 
+    // === POTENSI (kolom eksplisit) ===
+    public ?string $potensi_category = null;
+    public ?float  $latitude = null;
+    public ?float  $longitude = null;
+    public ?string $address = null;
+    public ?string $contact_name = null;
+    public ?string $contact_phone = null;
+    public ?int    $price_min = null;
+    public ?int    $price_max = null;
+    public ?string $external_link = null;
+
+    // === META fleksibel (opsional) ===
+    public array $meta = [
+        'gallery' => [],
+        'tags'    => [],
+    ];
+
     // media & publish
     public $cover;                     // UploadedFile|null
-    public ?string $cover_path = null; // simpan: "covers/xxxx.jpg" (relatif dari public/)
+    public ?string $cover_path = null; // "covers/xxxx.jpg" (relatif dari public/)
     public string $status = 'draft';
     public ?string $published_at = null;
 
-    // tags
+    // tags pivot
     public array $tag_ids = [];
 
     // editor
-    public string $editorId = ''; // <- penanda stabil untuk trix
+    public string $editorId = ''; // penanda stabil untuk trix
 
     protected $listeners = ['openPostForm' => 'openForm'];
 
@@ -58,7 +75,7 @@ class PostForm extends Component
     {
         $this->resetValidation();
 
-        // set sekali setiap buka modal. JANGAN diubah lagi selama modal terbuka
+        // set sekali setiap buka modal
         $this->editorId = $this->editorId ?: Str::random(8);
 
         if ($id) {
@@ -81,11 +98,26 @@ class PostForm extends Component
                 'status',
             ]));
 
+            // waktu & publish
             $this->postId       = $post->id;
             $this->is_all_day   = (bool) $post->is_all_day;
             $this->start_at     = optional($post->start_at)->format('Y-m-d\TH:i');
             $this->end_at       = optional($post->end_at)->format('Y-m-d\TH:i');
             $this->published_at = optional($post->published_at)->format('Y-m-d\TH:i');
+
+            // potensi
+            $this->potensi_category = $post->potensi_category;
+            $this->latitude         = $post->latitude ? (float) $post->latitude : null;
+            $this->longitude        = $post->longitude ? (float) $post->longitude : null;
+            $this->address          = $post->address;
+            $this->contact_name     = $post->contact_name;
+            $this->contact_phone    = $post->contact_phone;
+            $this->price_min        = $post->price_min;
+            $this->price_max        = $post->price_max;
+            $this->external_link    = $post->external_link;
+            $this->meta             = array_merge($this->meta, $post->meta ?? []);
+
+            // tags
             $this->tag_ids      = $post->tags->pluck('id')->all();
             $this->isEditing    = true;
         } else {
@@ -109,11 +141,23 @@ class PostForm extends Component
                 'end_at',
                 'is_all_day',
                 'published_at',
-                'tag_ids'
+                'tag_ids',
+                // potensi
+                'potensi_category',
+                'latitude',
+                'longitude',
+                'address',
+                'contact_name',
+                'contact_phone',
+                'price_min',
+                'price_max',
+                'external_link',
+                'meta',
             ]);
             $this->content_type = 'announcement';
             $this->status       = 'draft';
             $this->isEditing    = false;
+            $this->meta         = ['gallery' => [], 'tags' => []];
         }
 
         $this->showModal = true;
@@ -122,7 +166,6 @@ class PostForm extends Component
     public function closeModal(): void
     {
         $this->showModal = false;
-        // reset editorId agar editor baru saat dibuka lagi
         $this->editorId = '';
     }
 
@@ -141,22 +184,41 @@ class PostForm extends Component
             'summary'      => ['nullable', 'string'],
             'body_html'    => ['nullable', 'string'],
 
+            // announcement
             'location'     => ['nullable', 'string', 'max:200'],
             'organizer'    => ['nullable', 'string', 'max:160'],
             'start_at'     => ['nullable', 'date'],
             'end_at'       => ['nullable', 'date', 'after_or_equal:start_at'],
             'is_all_day'   => ['boolean'],
 
+            // news
             'author_name'  => ['nullable', 'string', 'max:160'],
             'read_minutes' => ['nullable', 'integer', 'min:0'],
             'source_url'   => ['nullable', 'url'],
 
+            // potensi
+            'potensi_category' => [Rule::requiredIf(fn() => $this->content_type === 'potensi'), 'nullable', 'string', 'max:100'],
+            'latitude'         => ['nullable', 'numeric', 'between:-90,90'],
+            'longitude'        => ['nullable', 'numeric', 'between:-180,180'],
+            'address'          => ['nullable', 'string', 'max:200'],
+            'contact_name'     => ['nullable', 'string', 'max:160'],
+            'contact_phone'    => ['nullable', 'string', 'max:40'],
+            'price_min'        => ['nullable', 'integer', 'min:0'],
+            'price_max'        => ['nullable', 'integer', 'min:0', 'gte:price_min'],
+            'external_link'    => ['nullable', 'url'],
+
+            // meta opsional
+            'meta'             => ['array'],
+            'meta.gallery'     => ['array'],
+            'meta.gallery.*'   => ['string', 'max:255'],
+            'meta.tags'        => ['array'],
+            'meta.tags.*'      => ['string', 'max:40'],
+
+            // publish & tag & cover
             'status'       => ['required', Rule::in(['draft', 'scheduled', 'published', 'archived'])],
             'published_at' => ['nullable', 'date'],
-
             'tag_ids'      => ['array'],
             'tag_ids.*'    => ['string'],
-
             'cover'        => ['nullable', 'image', 'max:4096'],
         ];
     }
@@ -169,7 +231,7 @@ class PostForm extends Component
             $data['slug'] = Str::slug($data['title']);
         }
 
-        // upload cover ke public/covers → simpan path relatif "covers/xxxx.jpg"
+        // upload cover ke public/covers → simpan path relatif "covers/xxx.jpg"
         if ($this->cover) {
             Storage::disk('public_path')->makeDirectory('covers');
 
@@ -187,9 +249,24 @@ class PostForm extends Component
             }
         }
 
+        // normalisasi tanggal
         $data['start_at']     = $this->start_at ?: null;
         $data['end_at']       = $this->end_at ?: null;
         $data['published_at'] = $this->published_at ?: null;
+
+        // set kolom POTENSI
+        $data['potensi_category'] = $this->potensi_category ?: null;
+        $data['latitude']         = $this->latitude ?: null;
+        $data['longitude']        = $this->longitude ?: null;
+        $data['address']          = $this->address ?: null;
+        $data['contact_name']     = $this->contact_name ?: null;
+        $data['contact_phone']    = $this->contact_phone ?: null;
+        $data['price_min']        = $this->price_min ?: null;
+        $data['price_max']        = $this->price_max ?: null;
+        $data['external_link']    = $this->external_link ?: null;
+
+        // meta fleksibel
+        $data['meta'] = $this->meta;
 
         if ($this->isEditing) {
             $post = Post::findOrFail($this->postId);
@@ -202,7 +279,7 @@ class PostForm extends Component
 
         $this->showSuccessToast($this->isEditing ? 'Post diperbarui!' : 'Post ditambahkan!');
         $this->showModal = false;
-        $this->editorId  = ''; // reset setelah close
+        $this->editorId  = '';
         $this->dispatch('post:saved');
     }
 

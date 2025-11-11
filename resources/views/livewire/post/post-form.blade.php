@@ -90,9 +90,9 @@
 
                                     {{-- Hidden input → sumber truth untuk Livewire --}}
                                     <input id="post-body-input-{{ $editorId }}" type="hidden"
-                                        wire:model.defer="body_html" {{-- <= DEFER agar tidak trigger request tiap ketik --}}>
+                                        wire:model.defer="body_html">
 
-                                    {{-- Editor → di-ignore oleh Livewire, refer ke hidden input --}}
+                                    {{-- Editor --}}
                                     <div wire:ignore>
                                         <trix-editor input="post-body-input-{{ $editorId }}"
                                             class="trix-content rounded-xl border border-gray-300 bg-white p-2"
@@ -183,6 +183,101 @@
                                     </div>
                                 @endif
 
+                                {{-- Potensi Fields --}}
+                                @if ($content_type === 'potensi')
+                                    <div class="flex flex-col">
+                                        <label class="text-sm font-medium text-gray-700 mb-2">Kategori Potensi</label>
+                                        <select wire:model.defer="potensi_category"
+                                            class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            <option value="">— Pilih —</option>
+                                            @foreach (['Pariwisata', 'Perikanan', 'Pertanian', 'Ekonomi', 'Industri Kreatif', 'Lingkungan', 'Lainnya'] as $opt)
+                                                <option value="{{ $opt }}">{{ $opt }}</option>
+                                            @endforeach
+                                        </select>
+                                        @error('potensi_category')
+                                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Latitude</label>
+                                            <input type="number" step="0.000001" wire:model.defer="latitude"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('latitude')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Longitude</label>
+                                            <input type="number" step="0.000001" wire:model.defer="longitude"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('longitude')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="md:col-span-2 flex flex-col">
+                                        <label class="text-sm font-medium text-gray-700 mb-2">Alamat/Lokasi
+                                            Spesifik</label>
+                                        <input type="text" wire:model.defer="address"
+                                            class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                        @error('address')
+                                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Kontak (Nama)</label>
+                                            <input type="text" wire:model.defer="contact_name"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('contact_name')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Kontak (HP)</label>
+                                            <input type="text" wire:model.defer="contact_phone"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('contact_phone')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Harga Min</label>
+                                            <input type="number" min="0" wire:model.defer="price_min"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('price_min')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <label class="text-sm font-medium text-gray-700 mb-2">Harga Max</label>
+                                            <input type="number" min="0" wire:model.defer="price_max"
+                                                class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm">
+                                            @error('price_max')
+                                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                    </div>
+
+                                    <div class="md:col-span-2 flex flex-col">
+                                        <label class="text-sm font-medium text-gray-700 mb-2">Tautan Eksternal
+                                            (opsional)</label>
+                                        <input type="url" wire:model.defer="external_link"
+                                            class="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm focus:border-green-500 focus:ring-2 focus:ring-green-500 focus:ring-offset-1 transition-all duration-200 shadow-sm"
+                                            placeholder="https://…">
+                                        @error('external_link')
+                                            <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                        @enderror
+                                    </div>
+                                @endif
+
                                 <!-- Cover -->
                                 <div class="md:col-span-2 flex flex-col">
                                     <label class="text-sm font-medium text-gray-700 mb-2">Cover</label>
@@ -220,7 +315,6 @@
                                             </p>
                                         @endif
                                     @endif
-
                                 </div>
 
                                 <!-- Tags -->
@@ -309,7 +403,7 @@
             }));
         });
 
-        // (opsional) blokir upload file
+        // blokir upload file di trix
         document.addEventListener('trix-file-accept', e => e.preventDefault());
         document.addEventListener('trix-attachment-add', e => e.preventDefault());
     </script>
