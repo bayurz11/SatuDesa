@@ -30,10 +30,26 @@ Route::get('/potensi-desa', function () {
 })->name('potensi-desa');
 
 // Detail Potensi Desa Page Route
-Route::get('/potensi-desa-detail', function () {
-    return view('potensi-desa-detail');
-})->name('potensi-desa-detail');
+Route::get('/potensi/{slug}', function ($slug) {
+    $item = Post::query()
+        ->with(['category:id,name,slug', 'tags:id,name,slug', 'editor:id,name'])
+        ->where('slug', $slug)
+        ->where('content_type', 'potensi')
+        ->published()
+        ->firstOrFail();
 
+    $related = Post::query()
+        ->with('category:id,name,slug')
+        ->where('content_type', 'potensi')
+        ->published()
+        ->when($item->category_id, fn($q) => $q->where('category_id', $item->category_id))
+        ->where('id', '!=', $item->id)
+        ->orderByDesc('published_at')
+        ->take(3)
+        ->get();
+
+    return view('potensi-desa-detail', compact('item', 'related'));
+})->name('potensi-desa-detail');
 // Data Penduduk Page Route
 Route::get('/data-penduduk', function () {
     return view('data-penduduk');

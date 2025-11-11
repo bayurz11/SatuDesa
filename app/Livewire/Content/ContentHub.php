@@ -6,6 +6,7 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use App\Domains\Post\Models\Post;
 use App\Domains\Category\Models\Category;
+use Illuminate\Support\Str;
 
 class ContentHub extends Component
 {
@@ -15,6 +16,7 @@ class ContentHub extends Component
 
     public string $search = '';
     public ?string $category = null;
+    public ?string $potensiCategory = null; // ★ filter kategori potensi
     public int $perPage = 10;
     public string $sortField = 'published_at';
     public string $sortDirection = 'desc';
@@ -29,11 +31,11 @@ class ContentHub extends Component
     protected $queryString = [
         'search'        => ['except' => ''],
         'category'      => ['except' => null],
+        'potensiCategory' => ['except' => null], // ★
         'perPage'       => ['except' => 10],
         'sortField'     => ['except' => 'published_at'],
         'sortDirection' => ['except' => 'desc'],
     ];
-
 
     /** Reset page saat filter berubah */
     public function updatingSearch()
@@ -48,6 +50,10 @@ class ContentHub extends Component
     {
         $this->resetPage();
     }
+    public function updatingPotensiCategory()
+    {
+        $this->resetPage();
+    } // ★
 
     public function sortBy(string $field): void
     {
@@ -76,9 +82,10 @@ class ContentHub extends Component
             ->when($this->mode !== 'potensi', fn($q) => $q->where('content_type', $this->mode))
             ->when($this->mode === 'potensi', fn($q) => $q->where('content_type', 'potensi'))
 
-            // 🔎 cari pakai scope search() kalau ada; fallback LIKE
+            // 🔎 search
             ->when($this->search, function ($q) {
-                if (method_exists(Post::class, 'search')) {
+                // pakai scope search() jika ada
+                if (method_exists(Post::query()->getModel(), 'scopeSearch')) {
                     $q->search($this->search);
                     return;
                 }
@@ -90,20 +97,36 @@ class ContentHub extends Component
                         ->orWhereHas('tags', fn($tq) => $tq->where('name', 'like', $t))
                         ->orWhereHas('category', fn($cq) => $cq->where('name', 'like', $t));
                 });
+
+                // ★ untuk potensi: ikut cari di field potensi (jika ada di DB)
+                if ($this->mode === 'potensi') {
+                    $q->orWhere('potensi_category', 'like', $t)
+                        ->orWhere('lokasi', 'like', $t)
+                        ->orWhere('potensi_detail->deskripsi', 'like', $t)
+                        ->orWhere('potensi_detail->subjudul', 'like', $t);
+                }
             })
 
+            // kategori umum
             ->when($this->category, fn($q) => $q->where('category_id', $this->category))
+
+            // ★ filter kategori potensi spesifik
+            ->when($this->mode === 'potensi' && $this->potensiCategory, function ($q) {
+                $q->where('potensi_category', $this->potensiCategory);
+            })
+
             ->whereNotNull('published_at')
             ->where('published_at', '<=', now())
             ->orderBy($this->sortField, $this->sortDirection);
     }
+
     public function mount(string $mode = 'announcement', bool $showPagination = true): void
     {
         $this->mode = in_array($mode, ['announcement', 'news', 'potensi'], true) ? $mode : 'announcement';
 
         $this->perPage = match ($this->mode) {
-            'news', 'potensi' => 5,
-            'announcement'    => 3,
+            'news', 'potensi' => 6, // sedikit dinaikkan untuk grid potensi
+            'announcement'    => 5,
             default           => 6,
         };
 
@@ -111,7 +134,7 @@ class ContentHub extends Component
             $this->search = (string) request()->query('q');
         }
 
-        $isHome = request()->routeIs('beranda'); // ganti kalau nama route beranda berbeda
+        $isHome = request()->routeIs('beranda'); // sesuaikan jika beda
         // ✅ Spotlight hanya untuk beranda + mode news
         $this->homeSpotlight = $isHome && $this->mode === 'news';
 
@@ -120,9 +143,25 @@ class ContentHub extends Component
 
     public function render()
     {
+        // daftar kategori umum
         $categories = Category::orderBy('sort_order')->get(['id', 'name']);
 
-        // ✅ Hitung spotlight hanya kalau diaktifkan
+        // ★ daftar kategori potensi unik untuk dropdown:
+        $potensiCategories = [];
+        if ($this->mode === 'potensi') {
+            $potensiCategories = cache()->remember('potensi:categories', 300, function () {
+                return Post::query()
+                    ->where('content_type', 'potensi')
+                    ->whereNotNull('potensi_category')
+                    ->where('potensi_category', '!=', '')
+                    ->distinct()
+                    ->orderBy('potensi_category')
+                    ->pluck('potensi_category')
+                    ->toArray();
+            });
+        }
+
+        // ✅ Spotlight (beranda + news)
         $spotlight = $this->homeSpotlight
             ? cache()->remember(
                 "home:spotlight:{$this->mode}:{$this->spotlightLimit}:" . md5($this->search . '|' . $this->category),
@@ -142,9 +181,16 @@ class ContentHub extends Component
             default        => ['Konten', ''],
         };
 
-        return view('livewire.content.content-hub', compact('items', 'spotlight', 'categories', 'title', 'subtitle'))
+        return view('livewire.content.content-hub', [
+            'items'             => $items,
+            'spotlight'         => $spotlight,
+            'categories'        => $categories,
+            'potensiCategories' => $potensiCategories, // ★
+            'title'             => $title,
+            'subtitle'          => $subtitle,
+        ])
             ->with('showPagination', $this->showPagination)
             ->with('homeSpotlight', $this->homeSpotlight)
-            ->with('mode', $this->mode); // pastikan $mode tersedia di blade
+            ->with('mode', $this->mode);
     }
 }
