@@ -89,35 +89,6 @@
                                     {{ $featDesc }}
                                 </p>
 
-
-                                <dl class="mt-3 grid grid-cols-2 gap-2 text-xs text-gray-600">
-
-
-                                    @if ($featured->address)
-                                        <div class="col-span-1">
-                                            <dt class="font-medium text-gray-800">Alamat</dt>
-                                            <dd class="truncate">{{ $featured->address }}</dd>
-                                        </div>
-                                    @endif
-
-                                    @if ($featured->price_min || $featured->price_max)
-                                        <div class="col-span-2">
-                                            <dt class="font-medium text-gray-800">Harga</dt>
-                                            <dd>
-                                                @php
-                                                    $min = $featured->price_min
-                                                        ? number_format($featured->price_min, 0, ',', '.')
-                                                        : null;
-                                                    $max = $featured->price_max
-                                                        ? number_format($featured->price_max, 0, ',', '.')
-                                                        : null;
-                                                @endphp
-                                                {{ $min && $max ? "Rp{$min} - Rp{$max}" : ($min ? "Mulai Rp{$min}" : ($max ? "Sampai Rp{$max}" : '-')) }}
-                                            </dd>
-                                        </div>
-                                    @endif
-                                </dl>
-
                                 <div class="mt-3 flex flex-wrap justify-between items-center gap-2">
                                     {{-- Tombol Lihat Detail (solid hijau) --}}
                                     <a href="{{ $featUrl }}"
