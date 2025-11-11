@@ -9,7 +9,7 @@
             @php
                 $img = $it->cover_url ?? asset('public/img/potensi1.jpg');
                 $badge = $it->potensi_category ?: optional($it->category)->name ?: 'Potensi';
-                $detailUrl = route('potensi-desa.detail', $it->slug ?? $it->id); // sesuaikan route detail-mu
+                $detailUrl = route('potensi-desa-detail', $it->slug ?? $it->id); // sesuaikan route detail-mu
             @endphp
             <article class="group rounded-2xl bg-white shadow ring-1 ring-black/5 overflow-hidden">
                 <a href="{{ $detailUrl }}" class="block aspect-[16/9] bg-gray-100">
