@@ -253,11 +253,11 @@
             @endphp
 
             <article
-                class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transitionSS hover:shadow-xl hover:-translate-y-0.5 duration-300">
+                class="group relative overflow-hidden rounded-2xl bg-white shadow ring-1 ring-black/5 transition hover:shadow-xl hover:-translate-y-0.5 duration-300">
 
-                <div class="grid md:grid-cols-12 h-250 gap-0">
+                <div class="grid md:grid-cols-12 gap-0 h-[280px] md:h-[300px]">
                     {{-- Gambar: full-bleed + zoom saat hover --}}
-                    <figure class="relative md:col-span-7 h-100 md:h-72 overflow-hidden">
+                    <figure class="relative md:col-span-7 h-full overflow-hidden">
                         <img src="{{ $featCover }}" alt="{{ $featured->title }}"
                             class="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             loading="lazy" decoding="async">
@@ -265,7 +265,7 @@
                         {{-- Overlay gradient muncul saat hover --}}
                         <div
                             class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/50 to-transparent
-                           opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                       opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         </div>
                     </figure>
 
@@ -273,51 +273,58 @@
                     <div class="md:col-span-5 p-6 md:p-8 flex flex-col justify-center">
                         <div class="flex items-center gap-2 w-fit">
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-300 group-hover:bg-green-100">
+                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
+                           ring-1 ring-green-200 transition-colors duration-300 group-hover:bg-green-100">
                                 <x-heroicon-o-sparkles class="size-4" /> Sorotan
                             </span>
 
                             <span
-                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700 ring-1 ring-green-200 transition-colors duration-200 group-hover:bg-green-100">
+                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700
+                           ring-1 ring-green-200 transition-colors duration-200 group-hover:bg-green-100">
                                 <x-heroicon-o-tag class="size-4" /> {{ $featTag }}
                             </span>
                         </div>
 
                         <h2
-                            class="mt-3 text-2xl md:text-2xl font-semibold text-gray-900 line-clamp-2  transition-colors duration-200 group-hover:text-green-700">
+                            class="mt-3 text-lg md:text-xl font-semibold text-gray-900 line-clamp-2
+                       transition-colors duration-200 group-hover:text-green-700">
                             {{ $featured->title }}
                         </h2>
 
-                        <p class="mt-4 text-xs md:text-sm text-gray-700 leading-snug line-clamp-3">
+                        <p class="mt-3 text-xs md:text-sm text-gray-700 leading-snug line-clamp-3">
                             {{ $featDesc }}
                         </p>
 
-                        <div class="mt-6 flex flex-wrap justify-between items-center gap-3">
+                        <div class="mt-5 flex flex-wrap justify-between items-center gap-3">
                             {{-- Tombol Lihat Detail (solid hijau) --}}
                             <a href="{{ $featUrl }}"
-                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
+                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white
+                           hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2
+                           focus-visible:ring-green-600 focus-visible:ring-offset-2"
                                 aria-label="Lihat detail: {{ $featured->title }}">
-                                <x-heroicon-o-eye class="size-4" />Detail
+                                <x-heroicon-o-eye class="size-4" /> Detail
                             </a>
 
                             {{-- Tombol Tautan Eksternal (outline hijau) --}}
                             @if ($featured->external_link)
                                 <a href="{{ $featured->external_link }}" target="_blank" rel="noopener"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
+                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700
+                               hover:bg-green-600 hover:text-white transition-colors focus-visible:outline-none
+                               focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2">
                                     <x-heroicon-o-link class="size-4" /> Tautan Eksternal
                                 </a>
                             @endif
                         </div>
-
                     </div>
                 </div>
 
-                {{-- Ring halus saat hover di seluruh artikel --}}
+                {{-- Ring halus saat hover --}}
                 <div
                     class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-transparent
-                   group-hover:ring-green-200/70 transition duration-300">
+               group-hover:ring-green-200/70 transition duration-300">
                 </div>
             </article>
+
         @endif
 
         <!-- Tombol -->
