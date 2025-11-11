@@ -292,7 +292,7 @@
                             {{ $featDesc }}
                         </p>
 
-                        <div class="mt-4 flex flex-wrap justify-between items-center gap-3">
+                        <div class="mt-6 flex flex-wrap justify-between items-center gap-3">
                             {{-- Tombol Lihat Detail (solid hijau) --}}
                             <a href="{{ $featUrl }}"
                                 class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-600 focus-visible:ring-offset-2"
