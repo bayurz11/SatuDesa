@@ -3,6 +3,29 @@
 @section('title', 'Masuk Layanan Publik')
 
 @section('content')
+    <style>
+        input[type="date"] {
+            color-scheme: light;
+        }
+
+        /* datepicker lebih kontras */
+        ::placeholder {
+            color: #6b7280;
+            opacity: 1;
+        }
+
+        /* placeholder = text-gray-500 */
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+    </style>
+
     <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
         <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
@@ -18,16 +41,15 @@
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-green-700">
                 Masuk Layanan Publik Desa Mentuda
             </h1>
-            <p class="mt-3 md:mt-4 text-gray-600 md:text-lg max-w-2xl mx-auto">
-                Akses pengajuan surat, pengaduan, dan pelacakan status. Pilih metode masuk sebagai Warga (NIK) atau
-                Daftar Akun baru untuk Admin/Operator.
+            <p class="mt-3 md:mt-4 text-gray-700 md:text-lg max-w-2xl mx-auto">
+                Pilih <span class="font-semibold">Masuk Warga (NIK)</span> atau <span class="font-semibold">Daftar
+                    Warga</span> bila belum punya akun.
             </p>
         </header>
 
         <div x-data="{ tab: 'warga' }" class="grid gap-8 lg:grid-cols-3 items-start">
-            {{-- FORM --}}
+            {{-- FORM CARD --}}
             <article class="lg:col-span-2 space-y-6">
-                {{-- Alert error global --}}
                 @if ($errors->any())
                     <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
                         <div class="font-semibold mb-1">Ada kesalahan pada input Anda</div>
@@ -39,54 +61,68 @@
                     </div>
                 @endif
 
-                {{-- Tabs --}}
                 <div class="rounded-2xl bg-white shadow ring-1 ring-black/5">
+                    {{-- Tabs --}}
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
                         <div class="inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5">
                             <button type="button" @click="tab='warga'"
                                 :class="tab === 'warga' ? 'bg-white text-green-700 shadow' :
-                                    'text-gray-600 hover:text-gray-900'"
+                                    'text-gray-700 hover:text-gray-900'"
                                 class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
                                 Masuk Warga (NIK)
                             </button>
-                            <button type="button" @click="tab='register'"
-                                :class="tab === 'register' ? 'bg-white text-green-700 shadow' :
-                                    'text-gray-600 hover:text-gray-900'"
+                            <button type="button" @click="tab='daftar-warga'"
+                                :class="tab === 'daftar-warga' ? 'bg-white text-green-700 shadow' :
+                                    'text-gray-700 hover:text-gray-900'"
                                 class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
-                                Daftar Akun (Admin/Operator)
+                                Daftar Warga
                             </button>
                         </div>
                     </div>
 
-                    {{-- Panel: Warga --}}
+                    {{-- Panel: Masuk Warga (NIK) --}}
                     <div x-show="tab==='warga'" x-cloak class="p-6 md:p-8">
-                        {{-- NOTE: ganti ke route yang sesuai milikmu, contoh: route('public-login') / route('public.login.warga') --}}
-                        <form method="POST" action="{{ route('public-login') }}" class="space-y-5" novalidate>
+                        <form method="POST" action="{{ route('public-login') }}" class="space-y-6" novalidate>
                             @csrf
 
-                            <div class="grid gap-5 sm:grid-cols-2">
+                            <div class="grid gap-6 sm:grid-cols-2">
                                 {{-- NIK --}}
                                 <div class="sm:col-span-2">
-                                    <label for="nik" class="block text-sm font-medium text-gray-700">NIK</label>
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" name="nik"
-                                        id="nik" value="{{ old('nik') }}" autofocus
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
-                                        placeholder="16 digit NIK" required>
+                                    <label for="nik"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        NIK <span class="text-red-600" title="Wajib">*</span>
+                                    </label>
+                                    <div class="relative mt-1">
+                                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                                            name="nik" id="nik" value="{{ old('nik') }}"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            placeholder="Masukkan 16 digit NIK" required aria-describedby="nik_help">
+                                    </div>
+                                    <p id="nik_help" class="mt-1 text-xs text-gray-600">
+                                        Gunakan NIK sesuai KTP. Angka saja, tanpa spasi/tanda.
+                                    </p>
                                     @error('nik')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
-                                    <p class="mt-1 text-xs text-gray-500">Gunakan NIK sesuai KTP. Angka saja, tanpa
-                                        spasi/tanda.</p>
                                 </div>
 
                                 {{-- Tanggal Lahir --}}
                                 <div>
-                                    <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal
-                                        Lahir</label>
-                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir"
-                                        value="{{ old('tanggal_lahir') }}"
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
-                                        required>
+                                    <label for="tanggal_lahir"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Tanggal Lahir <span class="text-red-600">*</span>
+                                    </label>
+                                    <div class="relative mt-1">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <x-heroicon-o-calendar class="size-4 text-gray-500" />
+                                        </span>
+                                        <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                            value="{{ old('tanggal_lahir') }}"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            required>
+                                    </div>
                                     @error('tanggal_lahir')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
@@ -94,11 +130,17 @@
 
                                 {{-- No. HP (opsional) --}}
                                 <div>
-                                    <label for="phone" class="block text-sm font-medium text-gray-700">No. HP
+                                    <label for="phone" class="text-sm font-semibold text-gray-900">No. HP
                                         (opsional)</label>
-                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
-                                        placeholder="08xxxxxxxxxx">
+                                    <div class="relative mt-1">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <x-heroicon-o-phone class="size-4 text-gray-500" />
+                                        </span>
+                                        <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            placeholder="08xxxxxxxxxx">
+                                    </div>
                                     @error('phone')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
@@ -106,23 +148,19 @@
                             </div>
 
                             {{-- Persetujuan --}}
-                            <div class="flex items-start gap-3 text-sm text-gray-600">
+                            <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree" name="agree" type="checkbox"
                                     class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
                                 <label for="agree">
                                     Saya menyetujui
                                     <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
                                     dan
-                                    <a href="#" class="text-green-700 hover:underline">Syarat
-                                        & Ketentuan</a>.
+                                    <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
                                 </label>
                             </div>
                             @error('agree')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
-
-                            {{-- (Opsional) Captcha --}}
-                            {{-- @captchaView --}}
 
                             <div class="flex items-center justify-between gap-4">
                                 <a href="{{ route('layanan') }}"
@@ -137,44 +175,104 @@
                         </form>
                     </div>
 
-                    {{-- Panel: Register (Daftar Akun) --}}
-                    <div x-show="tab==='register'" x-cloak class="p-6 md:p-8">
-                        {{-- NOTE: jika pakai Breeze/Fortify standar gunakan route('register') --}}
-                        <form method="POST" action="{{ route('register') }}" class="space-y-5" novalidate
-                            x-data="{
-                                showPwd: false,
-                                showPwd2: false,
-                                pwd: '',
-                                strength() {
-                                    let s = 0;
-                                    if (this.pwd.length >= 8) s++;
-                                    if (/[A-Z]/.test(this.pwd)) s++;
-                                    if (/[a-z]/.test(this.pwd)) s++;
-                                    if (/[0-9]/.test(this.pwd)) s++;
-                                    if (/[^A-Za-z0-9]/.test(this.pwd)) s++;
-                                    return s; // 0..5
-                                }
-                            }">
+                    {{-- Panel: Daftar Warga --}}
+                    <div x-show="tab==='daftar-warga'" x-cloak class="p-6 md:p-8" x-data="{
+                        showPwd: false,
+                        showPwd2: false,
+                        pwd: '',
+                        strength() {
+                            let s = 0;
+                            if (this.pwd.length >= 8) s++;
+                            if (/[A-Z]/.test(this.pwd)) s++;
+                            if (/[a-z]/.test(this.pwd)) s++;
+                            if (/[0-9]/.test(this.pwd)) s++;
+                            if (/[^A-Za-z0-9]/.test(this.pwd)) s++;
+                            return s;
+                        }
+                    }">
+                        <form method="POST" action="#" class="space-y-6" enctype="multipart/form-data" novalidate>
                             @csrf
 
-                            <div class="grid gap-5 sm:grid-cols-2">
+                            <div class="grid gap-6 sm:grid-cols-2">
+                                {{-- NIK --}}
+                                <div class="sm:col-span-2">
+                                    <label for="reg_nik"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        NIK <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                                        name="nik" id="reg_nik" value="{{ old('nik') }}"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                        placeholder="16 digit NIK" required>
+                                    @error('nik')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
                                 {{-- Nama --}}
                                 <div class="sm:col-span-2">
-                                    <label for="name" class="block text-sm font-medium text-gray-700">Nama
-                                        Lengkap</label>
-                                    <input type="text" name="name" id="name" value="{{ old('name') }}"
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
-                                        placeholder="Nama lengkap" required>
+                                    <label for="reg_name"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Nama Lengkap <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" name="name" id="reg_name" value="{{ old('name') }}"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                        placeholder="Sesuai KTP" required>
                                     @error('name')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Tanggal Lahir --}}
+                                <div>
+                                    <label for="reg_tanggal_lahir"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Tanggal Lahir <span class="text-red-600">*</span>
+                                    </label>
+                                    <div class="relative mt-1">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <x-heroicon-o-calendar class="size-4 text-gray-500" />
+                                        </span>
+                                        <input type="date" name="tanggal_lahir" id="reg_tanggal_lahir"
+                                            value="{{ old('tanggal_lahir') }}"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            required>
+                                    </div>
+                                    @error('tanggal_lahir')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- No. HP --}}
+                                <div>
+                                    <label for="reg_phone" class="text-sm font-semibold text-gray-900">No. HP <span
+                                            class="text-red-600">*</span></label>
+                                    <div class="relative mt-1">
+                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <x-heroicon-o-phone class="size-4 text-gray-500" />
+                                        </span>
+                                        <input type="tel" name="phone" id="reg_phone" value="{{ old('phone') }}"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            placeholder="08xxxxxxxxxx" required>
+                                    </div>
+                                    @error('phone')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
                                 </div>
 
                                 {{-- Email --}}
                                 <div class="sm:col-span-2">
-                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                    <input type="email" name="email" id="email" value="{{ old('email') }}"
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                    <label for="reg_email"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Email <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="email" name="email" id="reg_email" value="{{ old('email') }}"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
                                         placeholder="nama@email.com" required>
                                     @error('email')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -183,12 +281,15 @@
 
                                 {{-- Password --}}
                                 <div class="sm:col-span-2">
-                                    <label for="password" class="block text-sm font-medium text-gray-700">Kata
-                                        Sandi</label>
+                                    <label for="reg_password"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Kata Sandi <span class="text-red-600">*</span>
+                                    </label>
                                     <div class="mt-1 relative">
                                         <input :type="showPwd ? 'text' : 'password'" x-model="pwd" name="password"
-                                            id="password"
-                                            class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                                            id="reg_password"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
+                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
                                             placeholder="Min. 8 karakter" required>
                                         <button type="button" @click="showPwd=!showPwd"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -210,8 +311,7 @@
                                                 ]"
                                                 :style="`width:${Math.min(strength(),5)/5*100}%`"></div>
                                         </div>
-                                        <p class="mt-1 text-xs text-gray-500">
-                                            Gunakan kombinasi huruf besar, kecil, angka, dan simbol.
+                                        <p class="mt-1 text-xs text-gray-600">Gunakan huruf besar/kecil, angka, & simbol.
                                         </p>
                                     </div>
                                     @error('password')
@@ -220,14 +320,16 @@
                                 </div>
 
                                 {{-- Konfirmasi Password --}}
-                                <div class="sm:col-span-2">
-                                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
-                                        Konfirmasi Kata Sandi
+                                <div class="sm:col-span-2" x-data>
+                                    <label for="reg_password_confirmation"
+                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
+                                        Konfirmasi Kata Sandi <span class="text-red-600">*</span>
                                     </label>
-                                    <div class="mt-1 relative" x-data>
+                                    <div class="mt-1 relative">
                                         <input :type="$root.showPwd2 ? 'text' : 'password'" name="password_confirmation"
-                                            id="password_confirmation"
-                                            class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                                            id="reg_password_confirmation"
+                                            class="block w-full rounded-lg border border-gray-300 bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
+                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
                                             required>
                                         <button type="button" @click="$root.showPwd2=!$root.showPwd2"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -238,57 +340,43 @@
                                     </div>
                                 </div>
 
-                                {{-- (Opsional) Pilih Peran --}}
-                                {{-- Jika kamu punya RBAC, tampilkan select berikut dan validasi di server --}}
-                                {{-- <div class="sm:col-span-2">
-                                    <label for="role" class="block text-sm font-medium text-gray-700">Peran</label>
-                                    <select id="role" name="role"
-                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500">
-                                        <option value="">Pilih peran</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="operator">Operator</option>
-                                    </select>
-                                    @error('role')
+                                {{-- (Opsional) Upload KTP --}}
+                                <div class="sm:col-span-2">
+                                    <label for="ktp" class="text-sm font-semibold text-gray-900">Upload KTP
+                                        (opsional)</label>
+                                    <input type="file" name="ktp" id="ktp" accept="image/*,application/pdf"
+                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-[15px]
+                                                  focus:border-green-600 focus:ring-2 focus:ring-green-200">
+                                    <p class="mt-1 text-xs text-gray-600">jpg/png/pdf, maks. 2MB.</p>
+                                    @error('ktp')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                                     @enderror
-                                </div> --}}
+                                </div>
                             </div>
 
                             {{-- Persetujuan --}}
-                            <div class="flex items-start gap-3 text-sm text-gray-600">
-                                <input id="agree_reg" name="agree_reg" type="checkbox"
+                            <div class="flex items-start gap-3 text-sm text-gray-700">
+                                <input id="agree_warga" name="agree_warga" type="checkbox"
                                     class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
-                                <label for="agree_reg">
-                                    Saya menyetujui
-                                    <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
-                                    dan
+                                <label for="agree_warga">
+                                    Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
+                                        Privasi</a> dan
                                     <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
                                 </label>
                             </div>
-                            @error('agree_reg')
+                            @error('agree_warga')
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
 
                             <div class="flex items-center justify-between gap-4">
-                                <a href="{{ route('beranda') }}"
+                                <a href="{{ route('layanan') }}"
                                     class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                                     <x-heroicon-o-arrow-left class="size-4" /> Kembali
                                 </a>
                                 <button type="submit"
                                     class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
-                                    <x-heroicon-o-user-plus class="size-4" /> Daftarkan Akun
+                                    <x-heroicon-o-user-plus class="size-4" /> Daftarkan Akun Warga
                                 </button>
-                            </div>
-
-                            {{-- (Opsional) Divider & SSO --}}
-                            <div class="mt-6 border-t pt-6">
-                                <p class="text-sm text-gray-600 mb-3">Atau daftar/masuk dengan</p>
-                                <div class="flex flex-wrap gap-2">
-                                    <a href="#"
-                                        class="inline-flex items-center justify-center gap-2 rounded-lg ring-1 ring-black/10 px-4 py-2 text-sm hover:bg-gray-50">
-                                        <x-heroicon-o-key class="size-4" /> SSO Pemda (coming soon)
-                                    </a>
-                                </div>
                             </div>
                         </form>
                     </div>
@@ -297,7 +385,6 @@
 
             {{-- SIDEBAR --}}
             <aside class="space-y-6 lg:sticky lg:top-20">
-                {{-- Info Keamanan --}}
                 <div class="rounded-xl bg-white shadow p-5 ring-1 ring-black/5">
                     <div class="flex items-start gap-3">
                         <span
@@ -312,7 +399,6 @@
                     </div>
                 </div>
 
-                {{-- Kontak Bantuan --}}
                 <div class="rounded-xl bg-white shadow p-5 ring-1 ring-black/5">
                     <h3 class="font-semibold text-gray-900 mb-2">Butuh Bantuan?</h3>
                     <ul class="text-sm text-gray-700 space-y-1">
@@ -323,7 +409,6 @@
                     </ul>
                 </div>
 
-                {{-- Kembali --}}
                 <div class="bg-white rounded-xl shadow p-4">
                     <a href="{{ route('layanan') }}"
                         class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
