@@ -119,21 +119,25 @@
                                     </div>
 
                                     <div class="mt-3 flex flex-wrap gap-2">
-                                        <button type="button" @click="startCamera"
-                                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                        <!-- Nyalakan kamera: nonaktif saat sudah streaming -->
+                                        <button type="button" @click="startCamera" :disabled="streaming"
+                                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50 transition">
                                             <x-heroicon-o-camera class="size-4" /> Nyalakan Kamera
                                         </button>
 
+                                        <!-- Ambil Foto: nonaktif jika kamera belum aktif atau sedang OCR -->
                                         <button type="button" @click="capture" :disabled="!streaming || loadingOCR"
                                             class="inline-flex items-center gap-2 rounded-lg bg-emerald-600/90 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 transition">
                                             <x-heroicon-o-photo class="size-4" /> Ambil Foto
                                         </button>
 
+                                        <!-- Matikan Kamera: nonaktif bila kamera tidak aktif -->
                                         <button type="button" @click="stopCamera" :disabled="!streaming"
                                             class="inline-flex items-center gap-2 rounded-lg border border-red-600 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-600 hover:text-white disabled:opacity-50 transition">
                                             <x-heroicon-o-power class="size-4" /> Matikan Kamera
                                         </button>
 
+                                        <!-- Ulangi: muncul hanya setelah ada foto, akan otomatis menyalakan kamera -->
                                         <button type="button" @click="retake" x-show="hasPhoto"
                                             class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
                                             <x-heroicon-o-arrow-path class="size-4" /> Ulangi
@@ -412,31 +416,40 @@
                     const canvas = this.$refs.canvas;
                     const snapImg = this.$refs.snapshot;
 
-                    // Downscale agar ringan (mengurangi freeze)
+                    // Downscale agar ringan
                     const maxW = 1100;
-                    const ratio = (video.videoWidth || 1280) / (video.videoHeight || 720);
-                    const w = Math.min(video.videoWidth || 1280, maxW);
+                    const vw = video.videoWidth || 1280;
+                    const vh = video.videoHeight || 720;
+                    const ratio = vw / vh;
+                    const w = Math.min(vw, maxW);
                     const h = Math.round(w / ratio);
 
                     canvas.width = w;
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
-                    // gambar apa adanya (mirror sudah dihandle di video)
+                    // Gambar apa adanya (mirror sudah ditangani di element <video>)
                     ctx.drawImage(video, 0, 0, w, h);
 
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.80); // kompres 80%
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.80);
                     this.form.base64 = dataUrl;
                     snapImg.src = dataUrl;
                     this.hasPhoto = true;
 
-                    // beri kesempatan UI render dulu
+                    // >>> Baru: otomatis matikan kamera setelah ambil foto
+                    this.stopCamera();
+
+                    // Jalankan OCR non-blocking
                     setTimeout(() => this.runOCR(dataUrl, 'camera'), 30);
                 },
 
                 retake() {
+                    // Reset preview & pesan
                     this.hasPhoto = false;
                     this.form.base64 = '';
                     this.msgOCR = '';
+
+                    // >>> Baru: otomatis hidupkan kamera lagi
+                    this.startCamera();
                 },
 
                 onFileChange(e) {
