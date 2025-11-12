@@ -100,7 +100,7 @@
                         <div class="mt-6 flex justify-end">
                             <button type="submit"
                                 class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition w-full sm:w-auto">
-                                <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
+                                <x-heroicon-o-lock-closed class="size-4" /> Masuk
                             </button>
                         </div>
                     </form>
@@ -177,12 +177,13 @@
                             </div>
                         </div>
 
-                        <div class="flex justify-end mt-6">
+                        <div class="mt-6 flex flex-col sm:flex-row sm:justify-end items-stretch gap-3">
                             <button type="submit"
-                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
-                                <x-heroicon-o-user-plus class="size-4" /> Daftar Warga
+                                class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
+                                <x-heroicon-o-user-plus class="size-4" /> Daftar Akun Baru
                             </button>
                         </div>
+
                     </form>
                 </div>
             </div>
