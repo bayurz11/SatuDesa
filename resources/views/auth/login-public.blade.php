@@ -376,14 +376,10 @@
                                 <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
                             @enderror
 
-                            <div class="flex items-center justify-between gap-4">
-                                <a href="{{ route('layanan') }}"
-                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                                    <x-heroicon-o-arrow-left class="size-4" /> Kembali
-                                </a>
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                                 <button type="submit"
-                                    class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
-                                    <x-heroicon-o-user-plus class="size-4" /> Daftarkan Akun Warga
+                                    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
+                                    <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
                                 </button>
                             </div>
                         </form>
