@@ -19,124 +19,278 @@
                 Masuk Layanan Publik Desa Mentuda
             </h1>
             <p class="mt-3 md:mt-4 text-gray-600 md:text-lg max-w-2xl mx-auto">
-                Pratayang statis halaman masuk untuk <span class="font-semibold">Warga</span>.
-                Fitur autentikasi akan diaktifkan kemudian.
+                Akses pengajuan surat, pengaduan, dan pelacakan status. Pilih metode masuk sebagai Warga (NIK) atau
+                Daftar Akun baru untuk Admin/Operator.
             </p>
         </header>
 
-        <div class="grid gap-8 lg:grid-cols-3 items-start">
-            {{-- KARTU: Warga --}}
-            <article class="lg:col-span-2">
-                <div class="rounded-2xl bg-white shadow ring-1 ring-black/5 p-6 md:p-8">
-                    {{-- Judul kartu --}}
-                    <h2 class="text-lg md:text-xl font-semibold text-gray-900">Masuk sebagai Warga</h2>
-                    <p class="mt-1 text-sm text-gray-600">Gunakan NIK dan tanggal lahir untuk verifikasi (contoh tampilan).
-                    </p>
+        <div x-data="{ tab: 'warga' }" class="grid gap-8 lg:grid-cols-3 items-start">
+            {{-- FORM --}}
+            <article class="lg:col-span-2 space-y-6">
+                {{-- Alert error global --}}
+                @if ($errors->any())
+                    <div class="rounded-xl border border-red-200 bg-red-50 p-4 text-red-800">
+                        <div class="font-semibold mb-1">Ada kesalahan pada input Anda</div>
+                        <ul class="list-disc list-inside text-sm">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-                    {{-- Form (statis / non-aktif) --}}
-                    <div class="mt-6 space-y-5">
-                        <div class="grid gap-5 sm:grid-cols-2">
-                            {{-- NIK --}}
-                            <div class="sm:col-span-2">
-                                <label for="nik" class="block text-sm font-medium text-gray-700">NIK</label>
-                                <div class="mt-1 relative">
-                                    <span
-                                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                                        <x-heroicon-o-identification class="size-5" />
-                                    </span>
-                                    <input type="text" id="nik" placeholder="16 digit NIK"
-                                        class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pl-10 bg-gray-50"
-                                        disabled>
-                                </div>
-                                <p class="mt-1 text-xs text-gray-500">Angka saja, tanpa spasi atau tanda.</p>
-                            </div>
-
-                            {{-- Tanggal Lahir --}}
-                            <div>
-                                <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal
-                                    Lahir</label>
-                                <div class="mt-1 relative">
-                                    <span
-                                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                                        <x-heroicon-o-calendar-days class="size-5" />
-                                    </span>
-                                    <input type="text" id="tanggal_lahir" placeholder="yyyy-mm-dd"
-                                        class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pl-10 bg-gray-50"
-                                        disabled>
-                                </div>
-                            </div>
-
-                            {{-- No. HP (opsional) --}}
-                            <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700">No. HP
-                                    (opsional)</label>
-                                <div class="mt-1 relative">
-                                    <span
-                                        class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-gray-400">
-                                        <x-heroicon-o-phone class="size-5" />
-                                    </span>
-                                    <input type="text" id="phone" placeholder="08xxxxxxxxxx"
-                                        class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pl-10 bg-gray-50"
-                                        disabled>
-                                </div>
-                            </div>
-                        </div>
-
-                        {{-- Persetujuan (statis) --}}
-                        <div class="flex items-start gap-3 text-sm text-gray-600">
-                            <input type="checkbox" class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500"
-                                disabled>
-                            <span>
-                                Saya menyetujui
-                                <a href="#" class="text-green-700 hover:underline">Kebijakan
-                                    Privasi</a>
-                                dan
-                                <a href="#" class="text-green-700 hover:underline">Syarat &
-                                    Ketentuan</a>.
-                            </span>
-                        </div>
-
-                        <div class="flex items-center justify-between gap-4">
-                            <a href="{{ route('beranda') }}"
-                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                                <x-heroicon-o-arrow-left class="size-4" /> Kembali
-                            </a>
-                            <button type="button" disabled aria-disabled="true"
-                                class="inline-flex items-center gap-2 rounded-lg bg-green-600/60 px-4 py-2 text-sm font-medium text-white cursor-not-allowed">
-                                <x-heroicon-o-lock-closed class="size-4" /> Masuk (non-aktif)
+                {{-- Tabs --}}
+                <div class="rounded-2xl bg-white shadow ring-1 ring-black/5">
+                    <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
+                        <div class="inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5">
+                            <button type="button" @click="tab='warga'"
+                                :class="tab === 'warga' ? 'bg-white text-green-700 shadow' :
+                                    'text-gray-600 hover:text-gray-900'"
+                                class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
+                                Masuk Warga (NIK)
+                            </button>
+                            <button type="button" @click="tab='register'"
+                                :class="tab === 'register' ? 'bg-white text-green-700 shadow' :
+                                    'text-gray-600 hover:text-gray-900'"
+                                class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
+                                Daftar Akun (Admin/Operator)
                             </button>
                         </div>
                     </div>
 
-                    {{-- Divider --}}
-                    <div class="relative my-6">
-                        <div class="absolute inset-0 flex items-center" aria-hidden="true">
-                            <div class="w-full border-t border-gray-200"></div>
-                        </div>
-                        <div class="relative flex justify-center">
-                            <span class="bg-white px-3 text-xs uppercase tracking-wide text-gray-500">atau</span>
-                        </div>
+                    {{-- Panel: Warga --}}
+                    <div x-show="tab==='warga'" x-cloak class="p-6 md:p-8">
+                        {{-- NOTE: ganti ke route yang sesuai milikmu, contoh: route('public-login') / route('public.login.warga') --}}
+                        <form method="POST" action="{{ route('public-login') }}" class="space-y-5" novalidate>
+                            @csrf
+
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                {{-- NIK --}}
+                                <div class="sm:col-span-2">
+                                    <label for="nik" class="block text-sm font-medium text-gray-700">NIK</label>
+                                    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16" name="nik"
+                                        id="nik" value="{{ old('nik') }}" autofocus
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                        placeholder="16 digit NIK" required>
+                                    @error('nik')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                    <p class="mt-1 text-xs text-gray-500">Gunakan NIK sesuai KTP. Angka saja, tanpa
+                                        spasi/tanda.</p>
+                                </div>
+
+                                {{-- Tanggal Lahir --}}
+                                <div>
+                                    <label for="tanggal_lahir" class="block text-sm font-medium text-gray-700">Tanggal
+                                        Lahir</label>
+                                    <input type="date" name="tanggal_lahir" id="tanggal_lahir"
+                                        value="{{ old('tanggal_lahir') }}"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                        required>
+                                    @error('tanggal_lahir')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- No. HP (opsional) --}}
+                                <div>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700">No. HP
+                                        (opsional)</label>
+                                    <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                        placeholder="08xxxxxxxxxx">
+                                    @error('phone')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            {{-- Persetujuan --}}
+                            <div class="flex items-start gap-3 text-sm text-gray-600">
+                                <input id="agree" name="agree" type="checkbox"
+                                    class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
+                                <label for="agree">
+                                    Saya menyetujui
+                                    <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
+                                    dan
+                                    <a href="#" class="text-green-700 hover:underline">Syarat
+                                        & Ketentuan</a>.
+                                </label>
+                            </div>
+                            @error('agree')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+
+                            {{-- (Opsional) Captcha --}}
+                            {{-- @captchaView --}}
+
+                            <div class="flex items-center justify-between gap-4">
+                                <a href="{{ route('layanan') }}"
+                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                    <x-heroicon-o-arrow-left class="size-4" /> Kembali
+                                </a>
+                                <button type="submit"
+                                    class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                    <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
+                                </button>
+                            </div>
+                        </form>
                     </div>
 
-                    {{-- Google Login (statis) --}}
-                    <div>
-                        <a href="#" aria-disabled="true"
-                            class="w-full inline-flex items-center justify-center gap-3 rounded-lg ring-1 ring-black/10 px-4 py-2.5 text-sm bg-gray-50 cursor-not-allowed">
-                            {{-- Google SVG --}}
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="h-5 w-5" aria-hidden="true">
-                                <path fill="#FFC107"
-                                    d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12   s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20   s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
-                                <path fill="#FF3D00"
-                                    d="M6.306,14.691l6.571,4.819C14.655,16.108,18.961,13,24,13c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657   C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
-                                <path fill="#4CAF50"
-                                    d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.191-5.238C29.211,35.091,26.715,36,24,36c-5.192,0-9.607-3.317-11.267-7.946   l-6.553,5.047C9.488,39.556,16.227,44,24,44z" />
-                                <path fill="#1976D2"
-                                    d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-3.994,5.571c0,0,0,0,0,0l6.191,5.238   C35.271,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
-                            </svg>
-                            <span class="font-medium">Masuk dengan Google (non-aktif)</span>
-                        </a>
-                        <p class="mt-2 text-xs text-gray-500">Ini hanya contoh tampilan. Integrasi Google akan diaktifkan
-                            kemudian.</p>
+                    {{-- Panel: Register (Daftar Akun) --}}
+                    <div x-show="tab==='register'" x-cloak class="p-6 md:p-8">
+                        {{-- NOTE: jika pakai Breeze/Fortify standar gunakan route('register') --}}
+                        <form method="POST" action="{{ route('register') }}" class="space-y-5" novalidate
+                            x-data="{
+                                showPwd: false,
+                                showPwd2: false,
+                                pwd: '',
+                                strength() {
+                                    let s = 0;
+                                    if (this.pwd.length >= 8) s++;
+                                    if (/[A-Z]/.test(this.pwd)) s++;
+                                    if (/[a-z]/.test(this.pwd)) s++;
+                                    if (/[0-9]/.test(this.pwd)) s++;
+                                    if (/[^A-Za-z0-9]/.test(this.pwd)) s++;
+                                    return s; // 0..5
+                                }
+                            }">
+                            @csrf
+
+                            <div class="grid gap-5 sm:grid-cols-2">
+                                {{-- Nama --}}
+                                <div class="sm:col-span-2">
+                                    <label for="name" class="block text-sm font-medium text-gray-700">Nama
+                                        Lengkap</label>
+                                    <input type="text" name="name" id="name" value="{{ old('name') }}"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                        placeholder="Nama lengkap" required>
+                                    @error('name')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Email --}}
+                                <div class="sm:col-span-2">
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+                                    <input type="email" name="email" id="email" value="{{ old('email') }}"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500"
+                                        placeholder="nama@email.com" required>
+                                    @error('email')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Password --}}
+                                <div class="sm:col-span-2">
+                                    <label for="password" class="block text-sm font-medium text-gray-700">Kata
+                                        Sandi</label>
+                                    <div class="mt-1 relative">
+                                        <input :type="showPwd ? 'text' : 'password'" x-model="pwd" name="password"
+                                            id="password"
+                                            class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                                            placeholder="Min. 8 karakter" required>
+                                        <button type="button" @click="showPwd=!showPwd"
+                                            class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
+                                            aria-label="Toggle password visibility">
+                                            <x-heroicon-o-eye class="size-5" x-show="!showPwd" />
+                                            <x-heroicon-o-eye-slash class="size-5" x-show="showPwd" />
+                                        </button>
+                                    </div>
+                                    {{-- Strength meter --}}
+                                    <div class="mt-2">
+                                        <div
+                                            class="h-2 w-full rounded-full bg-gray-200 overflow-hidden ring-1 ring-black/5">
+                                            <div class="h-2"
+                                                :class="[
+                                                    strength() <= 1 ? 'bg-red-500' :
+                                                    strength() == 2 ? 'bg-orange-500' :
+                                                    strength() == 3 ? 'bg-yellow-500' :
+                                                    strength() == 4 ? 'bg-lime-500' : 'bg-green-600'
+                                                ]"
+                                                :style="`width:${Math.min(strength(),5)/5*100}%`"></div>
+                                        </div>
+                                        <p class="mt-1 text-xs text-gray-500">
+                                            Gunakan kombinasi huruf besar, kecil, angka, dan simbol.
+                                        </p>
+                                    </div>
+                                    @error('password')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div>
+
+                                {{-- Konfirmasi Password --}}
+                                <div class="sm:col-span-2">
+                                    <label for="password_confirmation" class="block text-sm font-medium text-gray-700">
+                                        Konfirmasi Kata Sandi
+                                    </label>
+                                    <div class="mt-1 relative" x-data>
+                                        <input :type="$root.showPwd2 ? 'text' : 'password'" name="password_confirmation"
+                                            id="password_confirmation"
+                                            class="block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500 pr-10"
+                                            required>
+                                        <button type="button" @click="$root.showPwd2=!$root.showPwd2"
+                                            class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
+                                            aria-label="Toggle confirm password visibility">
+                                            <x-heroicon-o-eye class="size-5" x-show="!$root.showPwd2" />
+                                            <x-heroicon-o-eye-slash class="size-5" x-show="$root.showPwd2" />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {{-- (Opsional) Pilih Peran --}}
+                                {{-- Jika kamu punya RBAC, tampilkan select berikut dan validasi di server --}}
+                                {{-- <div class="sm:col-span-2">
+                                    <label for="role" class="block text-sm font-medium text-gray-700">Peran</label>
+                                    <select id="role" name="role"
+                                        class="mt-1 block w-full rounded-lg border-gray-300 focus:border-green-500 focus:ring-green-500">
+                                        <option value="">Pilih peran</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="operator">Operator</option>
+                                    </select>
+                                    @error('role')
+                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                                    @enderror
+                                </div> --}}
+                            </div>
+
+                            {{-- Persetujuan --}}
+                            <div class="flex items-start gap-3 text-sm text-gray-600">
+                                <input id="agree_reg" name="agree_reg" type="checkbox"
+                                    class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
+                                <label for="agree_reg">
+                                    Saya menyetujui
+                                    <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
+                                    dan
+                                    <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
+                                </label>
+                            </div>
+                            @error('agree_reg')
+                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
+                            @enderror
+
+                            <div class="flex items-center justify-between gap-4">
+                                <a href="{{ route('beranda') }}"
+                                    class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                    <x-heroicon-o-arrow-left class="size-4" /> Kembali
+                                </a>
+                                <button type="submit"
+                                    class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                    <x-heroicon-o-user-plus class="size-4" /> Daftarkan Akun
+                                </button>
+                            </div>
+
+                            {{-- (Opsional) Divider & SSO --}}
+                            <div class="mt-6 border-t pt-6">
+                                <p class="text-sm text-gray-600 mb-3">Atau daftar/masuk dengan</p>
+                                <div class="flex flex-wrap gap-2">
+                                    <a href="#"
+                                        class="inline-flex items-center justify-center gap-2 rounded-lg ring-1 ring-black/10 px-4 py-2 text-sm hover:bg-gray-50">
+                                        <x-heroicon-o-key class="size-4" /> SSO Pemda (coming soon)
+                                    </a>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </article>
