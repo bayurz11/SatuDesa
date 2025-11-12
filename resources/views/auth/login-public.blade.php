@@ -1,6 +1,6 @@
 @extends('layouts.app2')
 
-@section('title', 'Layanan Publik Warga')
+@section('title', 'Masuk Layanan Publik')
 
 @section('content')
     <style>
@@ -36,154 +36,207 @@
         }
     </style>
 
-    <section class="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
+    <section class="mx-auto max-w-7xl px-4 md:px-6 lg:px-8 py-10 md:py-14" data-aos="fade-up">
+        {{-- Breadcrumb --}}
+        <nav class="mb-6 mt-8 md:mb-8 text-sm text-gray-500" aria-label="Breadcrumb">
+            <ol class="flex items-center gap-2">
+                <li><a href="{{ route('beranda') }}" class="hover:text-green-700">Beranda</a></li>
+                <li aria-hidden="true">/</li>
+                <li class="text-green-700 font-medium">Masuk</li>
+                <li aria-hidden="true">/</li>
+                <li class="text-green-700 font-medium">Pindai KTP</li>
+            </ol>
+        </nav>
+
         {{-- Heading --}}
         <header class="text-center mb-8 md:mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-green-700">
-                Portal Warga Desa Mentuda
+                Verifikasi Warga dengan Pindai KTP
             </h1>
-            <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
-                Masuk dengan NIK & PIN atau daftar akun baru dengan memindai / mengunggah KTP Anda.
+            <p class="mt-3 md:mt-4 text-gray-700 md:text-lg max-w-2xl mx-auto">
+                Pilih metode <span class="font-semibold">Pindai KTP (kamera)</span> atau <span class="font-semibold">Unggah
+                    Foto KTP</span>.
+                Data akan dibaca (OCR) untuk mencocokkan <span class="font-semibold">NIK & Tanggal Lahir</span> sebelum
+                masuk layanan publik.
             </p>
         </header>
 
-        {{-- Main --}}
-        <div x-data="loginWarga()" x-init="init()"
-            class="max-w-4xl mx-auto bg-white rounded-2xl shadow ring-1 ring-black/5 overflow-hidden">
-            {{-- Tabs --}}
-            <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
-                <div class="grid grid-cols-2 rounded-xl bg-gray-50 p-1 ring-1 ring-black/5">
-                    <button @click="tab='masuk'"
-                        :class="tab === 'masuk' ? 'bg-white text-green-700 shadow font-semibold' :
-                            'text-gray-600 hover:text-gray-900'"
-                        class="px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
-                        Masuk Warga (NIK)
-                    </button>
-                    <button @click="tab='daftar'"
-                        :class="tab === 'daftar' ? 'bg-white text-green-700 shadow font-semibold' :
-                            'text-gray-600 hover:text-gray-900'"
-                        class="px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
-                        Daftar Warga Baru
-                    </button>
+        <div x-data="scanKTP()" x-init="init()" class="grid gap-8 lg:grid-cols-3 items-start">
+            {{-- FORM CARD --}}
+            <div x-data="loginWarga()" x-init="init()"
+                class="max-w-4xl mx-auto bg-white rounded-2xl shadow ring-1 ring-black/5 overflow-hidden">
+                {{-- Tabs --}}
+                <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
+                    <div class="grid grid-cols-2 rounded-xl bg-gray-50 p-1 ring-1 ring-black/5">
+                        <button @click="tab='masuk'"
+                            :class="tab === 'masuk' ? 'bg-white text-green-700 shadow font-semibold' :
+                                'text-gray-600 hover:text-gray-900'"
+                            class="px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
+                            Masuk Warga (NIK)
+                        </button>
+                        <button @click="tab='daftar'"
+                            :class="tab === 'daftar' ? 'bg-white text-green-700 shadow font-semibold' :
+                                'text-gray-600 hover:text-gray-900'"
+                            class="px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
+                            Daftar Warga Baru
+                        </button>
+                    </div>
+                </div>
+
+                {{-- Panel: Login --}}
+                <div x-show="tab==='masuk'" x-cloak class="p-6 md:p-8">
+                    <form method="POST" action="#" class="space-y-5" @submit.prevent="doLogin">
+                        @csrf
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900">NIK</label>
+                            <input type="text" x-model="login.nik" maxlength="16" inputmode="numeric"
+                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                placeholder="Masukkan NIK Anda" required>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-900">PIN</label>
+                            <input type="password" x-model="login.pin" maxlength="6"
+                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                placeholder="6 digit PIN" required>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row gap-3 justify-between sm:items-center mt-6">
+                            <button type="submit"
+                                class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
+                                <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {{-- Panel: Registrasi --}}
+                <div x-show="tab==='daftar'" x-cloak class="p-6 md:p-8">
+                    <form method="POST" action="#" class="space-y-6" @submit.prevent="doRegister">
+                        @csrf
+
+                        {{-- Kamera --}}
+                        <div class="rounded-xl overflow-hidden ring-1 ring-black/5 bg-black/5 relative aspect-video">
+                            <video x-ref="video" playsinline muted
+                                class="absolute inset-0 w-full h-full object-cover rounded-xl bg-black/10"></video>
+                            <img x-ref="snapshot" x-show="hasPhoto"
+                                class="absolute inset-0 h-full w-full object-cover rounded-xl" />
+                            <canvas x-ref="canvas"></canvas>
+                            <div class="absolute inset-x-0 bottom-0 p-2 text-center text-[11px] text-white/90 bg-gradient-to-t from-black/50 to-transparent"
+                                x-show="!hasPhoto">
+                                Arahkan KTP ke kamera belakang dan ambil foto
+                            </div>
+                        </div>
+
+                        {{-- Tombol Kamera --}}
+                        <div class="mt-3 flex flex-wrap gap-2">
+                            <button type="button" @click="startCamera" :disabled="streaming"
+                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50">
+                                <x-heroicon-o-camera class="size-4" /> Nyalakan Kamera
+                            </button>
+
+                            <button type="button" @click="capture" :disabled="!streaming"
+                                class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50">
+                                <x-heroicon-o-photo class="size-4" /> Ambil Foto
+                            </button>
+
+                            <button type="button" @click="retake" x-show="hasPhoto"
+                                class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                <x-heroicon-o-arrow-path class="size-4" /> Ulangi
+                            </button>
+                        </div>
+
+                        <p class="text-sm text-gray-600"><span x-text="msgOCR"></span></p>
+
+                        {{-- Data --}}
+                        <div class="grid gap-4 md:grid-cols-2">
+                            <div class="md:col-span-2">
+                                <label class="block text-sm font-semibold text-gray-900">NIK</label>
+                                <input type="text" x-model="reg.nik" maxlength="16" inputmode="numeric"
+                                    class="mt-1 block w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                    placeholder="16 digit NIK" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900">Tanggal Lahir</label>
+                                <input type="date" x-model="reg.tanggal_lahir"
+                                    class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                    required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900">Nama Lengkap</label>
+                                <input type="text" x-model="reg.nama"
+                                    class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                    placeholder="Nama sesuai KTP">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900">No. HP / Email</label>
+                                <input type="text" x-model="reg.kontak"
+                                    class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                    placeholder="08xxxx / email@example.com" required>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-semibold text-gray-900">PIN (6 Digit)</label>
+                                <input type="password" x-model="reg.pin" maxlength="6"
+                                    class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
+                                    placeholder="******" required>
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end mt-6">
+                            <button type="submit"
+                                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
+                                <x-heroicon-o-user-plus class="size-4" /> Daftar Warga
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
-
-            {{-- Panel: Login --}}
-            <div x-show="tab==='masuk'" x-cloak class="p-6 md:p-8">
-                <form method="POST" action="#" class="space-y-5" @submit.prevent="doLogin">
-                    @csrf
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-900">NIK</label>
-                        <input type="text" x-model="login.nik" maxlength="16" inputmode="numeric"
-                            class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                            placeholder="Masukkan NIK Anda" required>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-900">PIN</label>
-                        <input type="password" x-model="login.pin" maxlength="6"
-                            class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                            placeholder="6 digit PIN" required>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3 justify-between sm:items-center mt-6">
-                        <button type="submit"
-                            class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
-                            <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            {{-- Panel: Registrasi --}}
-            <div x-show="tab==='daftar'" x-cloak class="p-6 md:p-8">
-                <form method="POST" action="#" class="space-y-6" @submit.prevent="doRegister">
-                    @csrf
-
-                    {{-- Kamera --}}
-                    <div class="rounded-xl overflow-hidden ring-1 ring-black/5 bg-black/5 relative aspect-video">
-                        <video x-ref="video" playsinline muted
-                            class="absolute inset-0 w-full h-full object-cover rounded-xl bg-black/10"></video>
-                        <img x-ref="snapshot" x-show="hasPhoto"
-                            class="absolute inset-0 h-full w-full object-cover rounded-xl" />
-                        <canvas x-ref="canvas"></canvas>
-                        <div class="absolute inset-x-0 bottom-0 p-2 text-center text-[11px] text-white/90 bg-gradient-to-t from-black/50 to-transparent"
-                            x-show="!hasPhoto">
-                            Arahkan KTP ke kamera belakang dan ambil foto
+            {{-- SIDEBAR --}}
+            <aside class="space-y-6 lg:sticky lg:top-20">
+                <div class="rounded-xl bg-white shadow p-5 ring-1 ring-black/5">
+                    <div class="flex items-start gap-3">
+                        <span
+                            class="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-green-50 ring-1 ring-green-200">
+                            <x-heroicon-o-shield-check class="size-6 text-green-700" />
+                        </span>
+                        <div class="min-w-0">
+                            <h3 class="font-semibold text-gray-900">Keamanan Data</h3>
+                            <p class="mt-1 text-sm text-gray-600">
+                                Foto KTP hanya digunakan untuk verifikasi identitas dan akan dihapus setelah proses selesai
+                                sesuai Kebijakan Privasi.
+                            </p>
                         </div>
                     </div>
+                </div>
 
-                    {{-- Tombol Kamera --}}
-                    <div class="mt-3 flex flex-wrap gap-2">
-                        <button type="button" @click="startCamera" :disabled="streaming"
-                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700 disabled:opacity-50">
-                            <x-heroicon-o-camera class="size-4" /> Nyalakan Kamera
-                        </button>
+                <div class="rounded-xl bg-white shadow p-5 ring-1 ring-black/5">
+                    <h3 class="font-semibold text-gray-900 mb-2">Butuh Bantuan?</h3>
+                    <ul class="text-sm text-gray-700 space-y-1">
+                        <li>WhatsApp Admin: <a class="text-green-700 hover:underline"
+                                href="https://wa.me/6281234567890">0812-3456-7890</a></li>
+                        <li>Email: <a class="text-green-700 hover:underline"
+                                href="mailto:admin@mentuda.go.id">admin@mentuda.go.id</a></li>
+                    </ul>
+                </div>
 
-                        <button type="button" @click="capture" :disabled="!streaming"
-                            class="inline-flex items-center gap-2 rounded-lg bg-emerald-600 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50">
-                            <x-heroicon-o-photo class="size-4" /> Ambil Foto
-                        </button>
-
-                        <button type="button" @click="retake" x-show="hasPhoto"
-                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
-                            <x-heroicon-o-arrow-path class="size-4" /> Ulangi
-                        </button>
-                    </div>
-
-                    <p class="text-sm text-gray-600"><span x-text="msgOCR"></span></p>
-
-                    {{-- Data --}}
-                    <div class="grid gap-4 md:grid-cols-2">
-                        <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-900">NIK</label>
-                            <input type="text" x-model="reg.nik" maxlength="16" inputmode="numeric"
-                                class="mt-1 block w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                                placeholder="16 digit NIK" required>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900">Tanggal Lahir</label>
-                            <input type="date" x-model="reg.tanggal_lahir"
-                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                                required>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900">Nama Lengkap</label>
-                            <input type="text" x-model="reg.nama"
-                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                                placeholder="Nama sesuai KTP">
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900">No. HP / Email</label>
-                            <input type="text" x-model="reg.kontak"
-                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                                placeholder="08xxxx / email@example.com" required>
-                        </div>
-
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-900">PIN (6 Digit)</label>
-                            <input type="password" x-model="reg.pin" maxlength="6"
-                                class="mt-1 w-full rounded-lg bg-white px-4 py-2.5 text-gray-900 shadow-md focus:ring-2 focus:ring-green-300 outline-none transition"
-                                placeholder="******" required>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end mt-6">
-                        <button type="submit"
-                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
-                            <x-heroicon-o-user-plus class="size-4" /> Daftar Warga
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <div class="bg-white rounded-xl shadow p-4">
+                    <a href="{{ route('layanan') }}"
+                        class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-green-600 px-4 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                        <x-heroicon-o-arrow-left class="size-4" /> Kembali ke Layanan
+                    </a>
+                </div>
+            </aside>
         </div>
     </section>
 
-    {{-- OCR --}}
+    {{-- Tesseract.js (OCR di browser) --}}
     <script defer src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+    {{-- AlpineJS State & Camera + OCR Logic --}}
     <script>
         function loginWarga() {
             return {
@@ -300,3 +353,35 @@
         }
     </script>
 @endsection
+<style>
+    input[type="date"] {
+        color-scheme: light;
+    }
+
+    ::placeholder {
+        color: #6b7280;
+        opacity: 1;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    video {
+        transform: none;
+    }
+
+    video.mirror {
+        transform: scaleX(-1);
+    }
+
+    canvas {
+        display: none;
+    }
+</style>
