@@ -96,8 +96,7 @@
 
                     {{-- Panel: Pindai KTP (Kamera) --}}
                     <div x-show="tab==='kamera'" x-cloak class="p-6 md:p-8">
-                        <form method="POST" action="{{ route('warga.scan.ktp.process') }}" class="space-y-6"
-                            @submit="prepareSubmit" novalidate>
+                        <form method="POST" action="#" class="space-y-6" @submit="prepareSubmit" novalidate>
                             @csrf
 
                             {{-- Kamera preview --}}
@@ -200,8 +199,7 @@
 
                     {{-- Panel: Unggah Foto KTP --}}
                     <div x-show="tab==='unggah'" x-cloak class="p-6 md:p-8">
-                        <form method="POST" action="{{ route('warga.scan.ktp.process') }}" class="space-y-6"
-                            enctype="multipart/form-data" novalidate>
+                        <form method="POST" action="#" class="space-y-6" enctype="multipart/form-data" novalidate>
                             @csrf
 
                             <div class="grid gap-6 md:grid-cols-2">
