@@ -64,21 +64,31 @@
                 <div class="rounded-2xl bg-white shadow ring-1 ring-black/5">
                     {{-- Tabs --}}
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
-                        <div class="inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5">
+                        <div
+                            class="flex flex-col sm:inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full sm:w-auto">
+
+                            {{-- Tab: Masuk Warga --}}
                             <button type="button" @click="tab='warga'"
-                                :class="tab === 'warga' ? 'bg-white text-green-700 shadow' :
-                                    'text-gray-700 hover:text-gray-900'"
-                                class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
+                                :class="tab === 'warga'
+                                    ?
+                                    'bg-white text-green-700 shadow font-semibold' :
+                                    'text-gray-600 hover:text-gray-900'"
+                                class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
                                 Masuk Warga (NIK)
                             </button>
+
+                            {{-- Tab: Daftar Warga --}}
                             <button type="button" @click="tab='daftar-warga'"
-                                :class="tab === 'daftar-warga' ? 'bg-white text-green-700 shadow' :
-                                    'text-gray-700 hover:text-gray-900'"
-                                class="px-4 py-2.5 text-sm font-medium rounded-lg transition">
+                                :class="tab === 'daftar-warga'
+                                    ?
+                                    'bg-white text-green-700 shadow font-semibold' :
+                                    'text-gray-600 hover:text-gray-900'"
+                                class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center mt-1 sm:mt-0 sm:ml-1">
                                 Daftar Warga
                             </button>
                         </div>
                     </div>
+
 
                     {{-- Panel: Masuk Warga (NIK) --}}
                     <div x-show="tab==='warga'" x-cloak class="p-6 md:p-8">
