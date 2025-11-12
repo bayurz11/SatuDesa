@@ -8,14 +8,11 @@
             color-scheme: light;
         }
 
-        /* datepicker lebih kontras */
         ::placeholder {
             color: #6b7280;
             opacity: 1;
         }
 
-        /* placeholder = text-gray-500 */
-        /* Hilangkan spinner number utk NIK */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -24,6 +21,16 @@
 
         input[type="number"] {
             -moz-appearance: textfield;
+        }
+
+        video {
+            -webkit-transform: scaleX(-1);
+            transform: scaleX(-1);
+        }
+
+        /* mirror camera for better UX */
+        canvas {
+            display: none;
         }
     </style>
 
@@ -34,21 +41,25 @@
                 <li><a href="{{ route('beranda') }}" class="hover:text-green-700">Beranda</a></li>
                 <li aria-hidden="true">/</li>
                 <li class="text-green-700 font-medium">Masuk</li>
+                <li aria-hidden="true">/</li>
+                <li class="text-green-700 font-medium">Pindai KTP</li>
             </ol>
         </nav>
 
         {{-- Heading --}}
         <header class="text-center mb-8 md:mb-12">
             <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-green-700">
-                Masuk Layanan Publik Desa Mentuda
+                Verifikasi Warga dengan Pindai KTP
             </h1>
             <p class="mt-3 md:mt-4 text-gray-700 md:text-lg max-w-2xl mx-auto">
-                Pilih <span class="font-semibold">Masuk Warga (NIK)</span> atau <span class="font-semibold">Daftar
-                    Warga</span> bila belum punya akun.
+                Pilih metode <span class="font-semibold">Pindai KTP (kamera)</span> atau <span class="font-semibold">Unggah
+                    Foto KTP</span>.
+                Data akan dibaca (OCR) untuk mencocokkan <span class="font-semibold">NIK & Tanggal Lahir</span> sebelum
+                masuk layanan publik.
             </p>
         </header>
 
-        <div x-data="{ tab: 'warga' }" class="grid gap-8 lg:grid-cols-3 items-start">
+        <div x-data="scanKTP()" x-init="init()" class="grid gap-8 lg:grid-cols-3 items-start">
             {{-- FORM CARD --}}
             <article class="lg:col-span-2 space-y-6">
                 @if ($errors->any())
@@ -66,320 +77,203 @@
                     {{-- Tabs --}}
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
                         <div class="flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full max-w-md">
-                            {{-- Tab: Masuk Warga --}}
-                            <button type="button" @click="tab='warga'"
-                                :class="tab === 'warga'
-                                    ?
-                                    'bg-white text-green-700 shadow font-semibold' :
+                            {{-- Tab: Kamera --}}
+                            <button type="button" @click="tab='kamera'"
+                                :class="tab === 'kamera' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
                                 class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
-                                Masuk Warga (NIK)
+                                Pindai KTP (Kamera)
                             </button>
-
-                            {{-- Tab: Daftar Warga --}}
-                            <button type="button" @click="tab='daftar-warga'"
-                                :class="tab === 'daftar-warga'
-                                    ?
-                                    'bg-white text-green-700 shadow font-semibold' :
+                            {{-- Tab: Unggah --}}
+                            <button type="button" @click="tab='unggah'"
+                                :class="tab === 'unggah' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
                                 class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
-                                Daftar Warga
+                                Unggah Foto KTP
                             </button>
                         </div>
                     </div>
 
-                    {{-- Panel: Masuk Warga (NIK) --}}
-                    <div x-show="tab==='warga'" x-cloak class="p-6 md:p-8">
-                        <form method="POST" action="#" class="space-y-6" novalidate>
+                    {{-- Panel: Pindai KTP (Kamera) --}}
+                    <div x-show="tab==='kamera'" x-cloak class="p-6 md:p-8">
+                        <form method="POST" action="{{ route('warga.scan.ktp.process') }}" class="space-y-6"
+                            @submit="prepareSubmit" novalidate>
                             @csrf
 
-                            <div class="grid gap-6 sm:grid-cols-2">
-                                {{-- NIK --}}
-                                <div class="sm:col-span-2">
-                                    <label for="nik"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        NIK <span class="text-red-600">*</span>
-                                    </label>
-                                    <div class="relative mt-1">
-                                        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
-                                            name="nik" id="nik" value="{{ old('nik') }}"
-                                            class="block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            placeholder="Masukkan 16 digit NIK" required aria-describedby="nik_help">
-                                    </div>
-                                    <p id="nik_help" class="mt-1 text-xs text-gray-600">
-                                        Gunakan NIK sesuai KTP. Angka saja, tanpa spasi/tanda.
-                                    </p>
-                                    @error('nik')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Tanggal Lahir --}}
-                                <div>
-                                    <label for="tanggal_lahir"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Tanggal Lahir <span class="text-red-600">*</span>
-                                    </label>
-                                    <div class="relative mt-1">
-                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <x-heroicon-o-calendar class="size-4 text-gray-500" />
-                                        </span>
-                                        <input type="date" name="tanggal_lahir" id="tanggal_lahir"
-                                            value="{{ old('tanggal_lahir') }}"
-                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            required>
-                                    </div>
-                                    @error('tanggal_lahir')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- No. HP (opsional) --}}
-                                <div>
-                                    <label for="phone" class="text-sm font-semibold text-gray-900">No. HP
-                                        (opsional)</label>
-                                    <div class="relative mt-1">
-                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <x-heroicon-o-phone class="size-4 text-gray-500" />
-                                        </span>
-                                        <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
-                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            placeholder="08xxxxxxxxxx">
-                                    </div>
-                                    @error('phone')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            {{-- Persetujuan --}}
-                            <div class="flex items-start gap-3 text-sm text-gray-700">
-                                <input id="agree" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
-                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
-                                    required>
-                                <label for="agree">
-                                    Saya menyetujui
-                                    <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
-                                    dan
-                                    <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
-                                </label>
-                            </div>
-                            @error('agree')
-                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                            @enderror
-
-                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                                <button type="submit"
-                                    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
-                                    <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-
-                    {{-- Panel: Daftar Warga --}}
-                    <div x-show="tab==='daftar-warga'" x-cloak class="p-6 md:p-8" x-data="{
-                        showPwd: false,
-                        showPwd2: false,
-                        pwd: '',
-                        strength() {
-                            let s = 0;
-                            if (this.pwd.length >= 8) s++;
-                            if (/[A-Z]/.test(this.pwd)) s++;
-                            if (/[a-z]/.test(this.pwd)) s++;
-                            if (/[0-9]/.test(this.pwd)) s++;
-                            if (/[^A-Za-z0-9]/.test(this.pwd)) s++;
-                            return s;
-                        }
-                    }">
-                        <form method="POST" action="#" class="space-y-6" enctype="multipart/form-data" novalidate>
-                            @csrf
-
-                            <div class="grid gap-6 sm:grid-cols-2">
-                                {{-- NIK --}}
-                                <div class="sm:col-span-2">
-                                    <label for="reg_nik"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        NIK <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
-                                        name="nik" id="reg_nik" value="{{ old('nik') }}"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                        placeholder="16 digit NIK" required>
-                                    @error('nik')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Nama --}}
-                                <div class="sm:col-span-2">
-                                    <label for="reg_name"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Nama Lengkap <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="text" name="name" id="reg_name" value="{{ old('name') }}"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                        placeholder="Sesuai KTP" required>
-                                    @error('name')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Tanggal Lahir --}}
-                                <div>
-                                    <label for="reg_tanggal_lahir"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Tanggal Lahir <span class="text-red-600">*</span>
-                                    </label>
-                                    <div class="relative mt-1">
-                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <x-heroicon-o-calendar class="size-4 text-gray-500" />
-                                        </span>
-                                        <input type="date" name="tanggal_lahir" id="reg_tanggal_lahir"
-                                            value="{{ old('tanggal_lahir') }}"
-                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            required>
-                                    </div>
-                                    @error('tanggal_lahir')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- No. HP --}}
-                                <div>
-                                    <label for="reg_phone" class="text-sm font-semibold text-gray-900">No. HP <span
-                                            class="text-red-600">*</span></label>
-                                    <div class="relative mt-1">
-                                        <span class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                                            <x-heroicon-o-phone class="size-4 text-gray-500" />
-                                        </span>
-                                        <input type="tel" name="phone" id="reg_phone" value="{{ old('phone') }}"
-                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            placeholder="08xxxxxxxxxx" required>
-                                    </div>
-                                    @error('phone')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Email --}}
-                                <div class="sm:col-span-2">
-                                    <label for="reg_email"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Email <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="email" name="email" id="reg_email" value="{{ old('email') }}"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                        placeholder="nama@email.com" required>
-                                    @error('email')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Password --}}
-                                <div class="sm:col-span-2">
-                                    <label for="reg_password"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Kata Sandi <span class="text-red-600">*</span>
-                                    </label>
-                                    <div class="mt-1 relative">
-                                        <input :type="showPwd ? 'text' : 'password'" x-model="pwd" name="password"
-                                            id="reg_password"
-                                            class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            placeholder="Min. 8 karakter" required>
-                                        <button type="button" @click="showPwd=!showPwd"
-                                            class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
-                                            aria-label="Toggle password visibility">
-                                            <x-heroicon-o-eye class="size-5" x-show="!showPwd" />
-                                            <x-heroicon-o-eye-slash class="size-5" x-show="showPwd" />
-                                        </button>
-                                    </div>
-                                    {{-- Strength meter --}}
-                                    <div class="mt-2">
-                                        <div
-                                            class="h-2 w-full rounded-full bg-gray-200 overflow-hidden ring-1 ring-black/5">
-                                            <div class="h-2"
-                                                :class="[
-                                                    strength() <= 1 ? 'bg-red-500' :
-                                                    strength() == 2 ? 'bg-orange-500' :
-                                                    strength() == 3 ? 'bg-yellow-500' :
-                                                    strength() == 4 ? 'bg-lime-500' : 'bg-green-600'
-                                                ]"
-                                                :style="`width:${Math.min(strength(),5)/5*100}%`"></div>
+                            {{-- Kamera preview --}}
+                            <div class="grid gap-4 md:grid-cols-2">
+                                <div class="rounded-xl overflow-hidden ring-1 ring-black/5 bg-black/5">
+                                    <div class="aspect-video bg-black/5 relative">
+                                        <video x-ref="video" autoplay playsinline muted
+                                            class="absolute inset-0 h-full w-full object-cover rounded-xl bg-black/10"></video>
+                                        <img x-ref="snapshot" x-show="hasPhoto"
+                                            class="absolute inset-0 h-full w-full object-cover rounded-xl" />
+                                        <canvas x-ref="canvas"></canvas>
+                                        <div class="absolute inset-x-0 bottom-0 p-2 text-center text-[11px] text-white/90 bg-gradient-to-t from-black/50 to-transparent"
+                                            x-show="!hasPhoto">
+                                            Posisikan KTP pada bingkai, hindari silau & blur
                                         </div>
-                                        <p class="mt-1 text-xs text-gray-600">Gunakan huruf besar/kecil, angka, & simbol.
-                                        </p>
                                     </div>
-                                    @error('password')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
-                                </div>
-
-                                {{-- Konfirmasi Password --}}
-                                <div class="sm:col-span-2" x-data>
-                                    <label for="reg_password_confirmation"
-                                        class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        Konfirmasi Kata Sandi <span class="text-red-600">*</span>
-                                    </label>
-                                    <div class="mt-1 relative">
-                                        <input :type="$root.showPwd2 ? 'text' : 'password'" name="password_confirmation"
-                                            id="reg_password_confirmation"
-                                            class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
-                                            required>
-                                        <button type="button" @click="$root.showPwd2=!$root.showPwd2"
-                                            class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
-                                            aria-label="Toggle confirm password visibility">
-                                            <x-heroicon-o-eye class="size-5" x-show="!$root.showPwd2" />
-                                            <x-heroicon-o-eye-slash class="size-5" x-show="$root.showPwd2" />
+                                    <div class="mt-3 flex flex-wrap gap-2">
+                                        <button type="button" @click="startCamera"
+                                            class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-3 py-2 text-sm font-medium text-white hover:bg-green-700 transition">
+                                            <x-heroicon-o-camera class="size-4" /> Nyalakan Kamera
+                                        </button>
+                                        <button type="button" @click="capture" :disabled="!streaming"
+                                            class="inline-flex items-center gap-2 rounded-lg bg-emerald-600/90 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 transition">
+                                            <x-heroicon-o-photo class="size-4" /> Ambil Foto
+                                        </button>
+                                        <button type="button" @click="retake" x-show="hasPhoto"
+                                            class="inline-flex items-center gap-2 rounded-lg border border-green-600 px-3 py-2 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                            <x-heroicon-o-arrow-path class="size-4" /> Ulangi
                                         </button>
                                     </div>
+                                    <p class="mt-2 text-xs text-gray-500">Tips: gunakan kamera belakang (facingMode:
+                                        environment), pencahayaan cukup, dan luruskan kartu.</p>
                                 </div>
 
-                                {{-- (Opsional) Upload KTP --}}
-                                <div class="sm:col-span-2">
-                                    <label for="ktp" class="text-sm font-semibold text-gray-900">Upload KTP
-                                        (opsional)</label>
-                                    <input type="file" name="ktp" id="ktp" accept="image/*,application/pdf"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px]
-                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition">
-                                    <p class="mt-1 text-xs text-gray-600">jpg/png/pdf, maks. 2MB.</p>
-                                    @error('ktp')
-                                        <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                                    @enderror
+                                {{-- Data yang akan dicocokkan (bisa diisi manual jika OCR nanti di server) --}}
+                                <div class="space-y-4">
+                                    <div>
+                                        <label for="nik_kamera" class="block text-sm font-semibold text-gray-900">NIK <span
+                                                class="text-red-600">*</span></label>
+                                        <input type="text" id="nik_kamera" name="nik" x-model="form.nik"
+                                            inputmode="numeric" pattern="[0-9]*" maxlength="16"
+                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                            placeholder="16 digit NIK" required>
+                                    </div>
+                                    <div>
+                                        <label for="dob_kamera" class="block text-sm font-semibold text-gray-900">Tanggal
+                                            Lahir <span class="text-red-600">*</span></label>
+                                        <div class="relative mt-1">
+                                            <span
+                                                class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                                <x-heroicon-o-calendar class="size-4 text-gray-500" />
+                                            </span>
+                                            <input type="date" id="dob_kamera" name="tanggal_lahir"
+                                                x-model="form.tanggal_lahir"
+                                                class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                       shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="nama_kamera" class="block text-sm font-semibold text-gray-900">Nama
+                                            Lengkap</label>
+                                        <input type="text" id="nama_kamera" name="nama" x-model="form.nama"
+                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                            placeholder="(opsional) akan dicocokkan jika tersedia">
+                                    </div>
+                                    {{-- Hidden base64 dari hasil capture --}}
+                                    <input type="hidden" name="ktp_base64" x-model="form.base64">
                                 </div>
                             </div>
 
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
-                                <input id="agree_warga" name="agree_warga" type="checkbox"
+                                <input id="agree_camera" name="agree" type="checkbox"
                                     class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
                                            focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
-                                <label for="agree_warga">
+                                <label for="agree_camera">
                                     Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
                                         Privasi</a> dan
                                     <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
                                 </label>
                             </div>
-                            @error('agree_warga')
-                                <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
-                            @enderror
 
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                                <a href="{{ route('layanan') }}"
+                                    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-green-600 px-4 py-3 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                    <x-heroicon-o-arrow-left class="size-4" /> Kembali
+                                </a>
+                                <button type="submit"
+                                    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition"
+                                    :disabled="!hasPhoto && !form.nik">
+                                    <x-heroicon-o-finger-print class="size-4" /> Kirim & Verifikasi
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    {{-- Panel: Unggah Foto KTP --}}
+                    <div x-show="tab==='unggah'" x-cloak class="p-6 md:p-8">
+                        <form method="POST" action="{{ route('warga.scan.ktp.process') }}" class="space-y-6"
+                            enctype="multipart/form-data" novalidate>
+                            @csrf
+
+                            <div class="grid gap-6 md:grid-cols-2">
+                                <div>
+                                    <label for="file_ktp" class="block text-sm font-semibold text-gray-900">
+                                        Unggah Foto KTP <span class="text-red-600">*</span>
+                                    </label>
+                                    <input id="file_ktp" name="ktp_file" type="file"
+                                        accept="image/*,application/pdf" @change="onFileChange"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px]
+                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        capture="environment" required>
+                                    <p class="mt-1 text-xs text-gray-500">jpg/png/pdf, maks. 4MB. Pastikan teks jelas &
+                                        tidak blur.</p>
+                                </div>
+
+                                <div
+                                    class="rounded-xl overflow-hidden ring-1 ring-black/5 min-h-48 bg-gray-50 flex items-center justify-center">
+                                    <img x-ref="uploadPreview" alt="Pratinjau KTP" class="max-h-60 object-contain"
+                                        style="display:none;">
+                                    <p class="text-xs text-gray-500" x-show="!uploadHasPreview">Pratinjau akan tampil di
+                                        sini</p>
+                                </div>
+                            </div>
+
+                            <div class="grid gap-4 md:grid-cols-3">
+                                <div class="md:col-span-2">
+                                    <label for="nik_upload" class="block text-sm font-semibold text-gray-900">NIK <span
+                                            class="text-red-600">*</span></label>
+                                    <input type="text" id="nik_upload" name="nik"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        placeholder="16 digit NIK" required>
+                                </div>
+                                <div>
+                                    <label for="dob_upload" class="block text-sm font-semibold text-gray-900">Tanggal
+                                        Lahir <span class="text-red-600">*</span></label>
+                                    <input type="date" id="dob_upload" name="tanggal_lahir"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        required>
+                                </div>
+                                <div class="md:col-span-3">
+                                    <label for="nama_upload" class="block text-sm font-semibold text-gray-900">Nama
+                                        Lengkap</label>
+                                    <input type="text" id="nama_upload" name="nama"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                  shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        placeholder="(opsional)">
+                                </div>
+                            </div>
+
+                            <div class="flex items-start gap-3 text-sm text-gray-700">
+                                <input id="agree_upload" name="agree" type="checkbox"
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
+                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
+                                    required>
+                                <label for="agree_upload">
+                                    Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
+                                        Privasi</a> dan
+                                    <a href="#" class="text-green-700 hover:underline">Syarat & Ketentuan</a>.
+                                </label>
+                            </div>
+
+                            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                                <a href="{{ route('layanan') }}"
+                                    class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg border border-green-600 px-4 py-3 text-sm font-medium text-green-700 hover:bg-green-600 hover:text-white transition">
+                                    <x-heroicon-o-arrow-left class="size-4" /> Kembali
+                                </a>
                                 <button type="submit"
                                     class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
-                                    <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
+                                    <x-heroicon-o-document-check class="size-4" /> Kirim & Verifikasi
                                 </button>
                             </div>
                         </form>
@@ -397,8 +291,10 @@
                         </span>
                         <div class="min-w-0">
                             <h3 class="font-semibold text-gray-900">Keamanan Data</h3>
-                            <p class="mt-1 text-sm text-gray-600">Data pribadi dilindungi dan hanya digunakan untuk
-                                verifikasi layanan publik.</p>
+                            <p class="mt-1 text-sm text-gray-600">
+                                Foto KTP hanya digunakan untuk verifikasi identitas dan akan dihapus setelah proses selesai
+                                sesuai Kebijakan Privasi.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -422,4 +318,109 @@
             </aside>
         </div>
     </section>
+
+    {{-- AlpineJS State & Camera Logic --}}
+    <script>
+        function scanKTP() {
+            return {
+                tab: 'kamera',
+                streaming: false,
+                hasPhoto: false,
+                uploadHasPreview: false,
+                streamRef: null,
+                form: {
+                    nik: '',
+                    tanggal_lahir: '',
+                    nama: '',
+                    base64: '',
+                },
+                init() {
+                    // optionally auto-start camera for mobile
+                },
+                async startCamera() {
+                    try {
+                        const constraints = {
+                            audio: false,
+                            video: {
+                                facingMode: {
+                                    ideal: 'environment'
+                                },
+                                width: {
+                                    ideal: 1280
+                                },
+                                height: {
+                                    ideal: 720
+                                }
+                            }
+                        };
+                        const stream = await navigator.mediaDevices.getUserMedia(constraints);
+                        this.streamRef = stream;
+                        const video = this.$refs.video;
+                        video.srcObject = stream;
+                        await video.play();
+                        this.streaming = true;
+                        this.hasPhoto = false;
+                    } catch (e) {
+                        alert('Tidak dapat mengakses kamera. Izinkan akses kamera atau gunakan metode unggah.');
+                        console.error(e);
+                    }
+                },
+                capture() {
+                    const video = this.$refs.video;
+                    const canvas = this.$refs.canvas;
+                    const snapshot = this.$refs.snapshot;
+
+                    const w = video.videoWidth || 1280;
+                    const h = video.videoHeight || 720;
+
+                    canvas.width = w;
+                    canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    // un-mirror when saving (karena video dimirror di CSS)
+                    ctx.translate(w, 0);
+                    ctx.scale(-1, 1);
+                    ctx.drawImage(video, 0, 0, w, h);
+
+                    // kompres ke jpeg 0.85
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                    this.form.base64 = dataUrl;
+                    snapshot.src = dataUrl;
+                    this.hasPhoto = true;
+                },
+                retake() {
+                    this.hasPhoto = false;
+                    this.form.base64 = '';
+                },
+                onFileChange(e) {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+                    if (file.size > 4 * 1024 * 1024) {
+                        alert('Ukuran file melebihi 4MB');
+                        e.target.value = '';
+                        return;
+                    }
+                    const reader = new FileReader();
+                    reader.onload = (ev) => {
+                        this.$refs.uploadPreview.src = ev.target.result;
+                        this.$refs.uploadPreview.style.display = 'block';
+                        this.uploadHasPreview = true;
+                    };
+                    reader.readAsDataURL(file);
+                },
+                prepareSubmit() {
+                    if (!this.form.base64 && !this.form.nik) {
+                        alert('Ambil foto KTP atau isi NIK terlebih dahulu.');
+                        return false;
+                    }
+                    // stop camera on submit (optional)
+                    if (this.streamRef) {
+                        this.streamRef.getTracks().forEach(t => t.stop());
+                        this.streamRef = null;
+                        this.streaming = false;
+                    }
+                    return true;
+                }
+            }
+        }
+    </script>
 @endsection
