@@ -63,7 +63,7 @@
                         {{-- NOTE: pakai route yang benar sesuai definisi kamu.
                          Jika route kamu = public-login => ganti ke route('public-login')
                          Jika mengikuti saran saya => route('public.login.warga') --}}
-                        <form method="POST" action="{{ route('public.login.warga') }}" class="space-y-5" novalidate>
+                        <form method="POST" action="{{ route('public-login') }}" class="space-y-5" novalidate>
                             @csrf
 
                             <div class="grid gap-5 sm:grid-cols-2">
@@ -113,10 +113,9 @@
                                     class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
                                 <label for="agree">
                                     Saya menyetujui
-                                    <a href="{{ route('kebijakan-privasi') }}"
-                                        class="text-green-700 hover:underline">Kebijakan Privasi</a>
+                                    <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
                                     dan
-                                    <a href="{{ route('syarat-ketentuan') }}" class="text-green-700 hover:underline">Syarat
+                                    <a href="#" class="text-green-700 hover:underline">Syarat
                                         & Ketentuan</a>.
                                 </label>
                             </div>
