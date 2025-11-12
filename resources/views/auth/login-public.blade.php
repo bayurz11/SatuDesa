@@ -65,20 +65,24 @@
                 <div class="rounded-2xl bg-white shadow ring-1 ring-black/5">
                     {{-- Tabs --}}
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
-                        <div
-                            class="flex flex-col sm:inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full sm:w-auto">
+                        <div class="flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full max-w-md">
                             {{-- Tab: Masuk Warga --}}
                             <button type="button" @click="tab='warga'"
-                                :class="tab === 'warga' ? 'bg-white text-green-700 shadow font-semibold' :
+                                :class="tab === 'warga'
+                                    ?
+                                    'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
-                                class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
+                                class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
                                 Masuk Warga (NIK)
                             </button>
+
                             {{-- Tab: Daftar Warga --}}
                             <button type="button" @click="tab='daftar-warga'"
-                                :class="tab === 'daftar-warga' ? 'bg-white text-green-700 shadow font-semibold' :
+                                :class="tab === 'daftar-warga'
+                                    ?
+                                    'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
-                                class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center mt-1 sm:mt-0 sm:ml-1">
+                                class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
                                 Daftar Warga
                             </button>
                         </div>
