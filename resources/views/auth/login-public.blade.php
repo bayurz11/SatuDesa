@@ -137,6 +137,12 @@
                                         </button>
                                     </div>
 
+                                    {{-- Status OCR kamera --}}
+                                    <p class="mt-2 text-sm" :class="loadingOCR ? 'text-gray-600' : 'text-gray-500'">
+                                        <span x-show="loadingOCR">⏳ <span x-text="msgOCR || 'Membaca KTP…'"></span></span>
+                                        <span x-show="!loadingOCR && msgOCR" x-text="msgOCR"></span>
+                                    </p>
+
                                     <p class="mt-2 text-xs text-gray-500">Tips: gunakan kamera belakang (facingMode:
                                         environment), pencahayaan cukup, dan luruskan kartu.</p>
                                 </div>
@@ -183,7 +189,7 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_camera" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border透明 bg-white text-green-600 shadow-md
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
                                            focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree_camera">
@@ -232,6 +238,12 @@
                                 </div>
                             </div>
 
+                            {{-- Status OCR unggah --}}
+                            <p class="mt-2 text-sm" :class="loadingOCR ? 'text-gray-600' : 'text-gray-500'">
+                                <span x-show="loadingOCR">⏳ <span x-text="msgOCR || 'Membaca KTP…'"></span></span>
+                                <span x-show="!loadingOCR && msgOCR" x-text="msgOCR"></span>
+                            </p>
+
                             <div class="grid gap-4 md:grid-cols-3">
                                 <div class="md:col-span-2">
                                     <label for="nik_upload" class="block text-sm font-semibold text-gray-900">
@@ -261,7 +273,7 @@
 
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_upload" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border透明 bg-white text-green-600 shadow-md
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
                                            focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree_upload">
@@ -271,7 +283,6 @@
                                 </label>
                             </div>
 
-                            {{-- HAPUS tombol "Kembali" sesuai request --}}
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4">
                                 <button type="submit"
                                     class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition">
@@ -321,7 +332,10 @@
         </div>
     </section>
 
-    {{-- AlpineJS State & Camera Logic --}}
+    {{-- Tesseract.js (OCR di browser) --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+    {{-- AlpineJS State & Camera + OCR Logic --}}
     <script>
         function scanKTP() {
             return {
@@ -330,6 +344,8 @@
                 hasPhoto: false,
                 uploadHasPreview: false,
                 streamRef: null,
+                loadingOCR: false,
+                msgOCR: '',
                 form: {
                     nik: '',
                     tanggal_lahir: '',
@@ -339,9 +355,7 @@
 
                 init() {
                     // Matikan kamera otomatis saat pindah halaman/tab menutup
-                    window.addEventListener('beforeunload', () => {
-                        this.stopCamera();
-                    });
+                    window.addEventListener('beforeunload', () => this.stopCamera());
                     document.addEventListener('visibilitychange', () => {
                         if (document.hidden) this.stopCamera();
                     });
@@ -405,11 +419,15 @@
                     this.form.base64 = dataUrl;
                     snapshot.src = dataUrl;
                     this.hasPhoto = true;
+
+                    // OCR client-side dari kamera
+                    this.runOCR(dataUrl, 'camera');
                 },
 
                 retake() {
                     this.hasPhoto = false;
                     this.form.base64 = '';
+                    this.msgOCR = '';
                 },
 
                 onFileChange(e) {
@@ -425,8 +443,80 @@
                         this.$refs.uploadPreview.src = ev.target.result;
                         this.$refs.uploadPreview.style.display = 'block';
                         this.uploadHasPreview = true;
+
+                        // OCR client-side dari unggah
+                        this.runOCR(ev.target.result, 'upload'); // data URL
                     };
                     reader.readAsDataURL(file);
+                },
+
+                async runOCR(dataUrl, target) {
+                    if (!window.Tesseract) {
+                        this.msgOCR = 'OCR belum siap.';
+                        return;
+                    }
+                    this.loadingOCR = true;
+                    this.msgOCR = 'Membaca KTP…';
+
+                    try {
+                        const {
+                            data
+                        } = await Tesseract.recognize(dataUrl, 'eng');
+                        const text = (data.text || '').replace(/\s+/g, ' ').trim();
+
+                        // Ekstrak NIK (16 digit; toleransi spasi/titik/strip)
+                        let nik = null;
+                        const nikMatch = text.match(/(?:NIK|N0K|N1K)?[^0-9]*((?:\d[\s\.\-]*){16})/i);
+                        if (nikMatch && nikMatch[1]) {
+                            nik = nikMatch[1].replace(/\D+/g, '');
+                            if (nik.length !== 16) nik = null;
+                        }
+
+                        // Ekstrak Tanggal Lahir (dd-mm-yyyy / dd/mm/yyyy / dd mm yyyy)
+                        let dob = null;
+                        const dobMatch = text.match(
+                            /\b(0?[1-9]|[12][0-9]|3[01])[\-\/\s\.](0?[1-9]|1[0-2])[\-\/\s\.]((?:19|20)\d{2})\b/);
+                        if (dobMatch) {
+                            const d = String(dobMatch[1]).padStart(2, '0');
+                            const m = String(dobMatch[2]).padStart(2, '0');
+                            const y = String(dobMatch[3]);
+                            dob = `${y}-${m}-${d}`;
+                        }
+
+                        // Ekstrak Nama (opsional)
+                        let nama = null;
+                        const upper = text.toUpperCase();
+                        const namaMatch = upper.match(/\bNAMA(?: LENGKAP)?\s*[:\-]?\s*([A-Z\s\.'\-]{3,})/);
+                        if (namaMatch && namaMatch[1]) {
+                            nama = namaMatch[1].replace(/\s{2,}/g, ' ').trim();
+                        }
+
+                        if (target === 'camera') {
+                            if (nik) this.form.nik = this.form.nik || nik;
+                            if (dob) this.form.tanggal_lahir = this.form.tanggal_lahir || dob;
+                            if (nama && !this.form.nama) this.form.nama = nama;
+                        } else {
+                            // target upload: isi langsung ke input upload
+                            if (nik && !document.getElementById('nik_upload').value) {
+                                document.getElementById('nik_upload').value = nik;
+                            }
+                            if (dob && !document.getElementById('dob_upload').value) {
+                                document.getElementById('dob_upload').value = dob;
+                            }
+                            if (nama && !document.getElementById('nama_upload').value) {
+                                document.getElementById('nama_upload').value = nama;
+                            }
+                        }
+
+                        this.msgOCR = (nik || dob || nama) ?
+                            'Data terisi dari hasil scan. Mohon periksa kembali.' :
+                            'Tidak ditemukan NIK/TTL secara otomatis. Silakan isi manual.';
+                    } catch (err) {
+                        console.error(err);
+                        this.msgOCR = 'OCR gagal. Silakan isi manual.';
+                    } finally {
+                        this.loadingOCR = false;
+                    }
                 },
 
                 prepareSubmit() {
