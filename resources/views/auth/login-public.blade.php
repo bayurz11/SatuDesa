@@ -15,6 +15,7 @@
         }
 
         /* placeholder = text-gray-500 */
+        /* Hilangkan spinner number utk NIK */
         input[type="number"]::-webkit-outer-spin-button,
         input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -66,22 +67,16 @@
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
                         <div
                             class="flex flex-col sm:inline-flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full sm:w-auto">
-
                             {{-- Tab: Masuk Warga --}}
                             <button type="button" @click="tab='warga'"
-                                :class="tab === 'warga'
-                                    ?
-                                    'bg-white text-green-700 shadow font-semibold' :
+                                :class="tab === 'warga' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
                                 class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
                                 Masuk Warga (NIK)
                             </button>
-
                             {{-- Tab: Daftar Warga --}}
                             <button type="button" @click="tab='daftar-warga'"
-                                :class="tab === 'daftar-warga'
-                                    ?
-                                    'bg-white text-green-700 shadow font-semibold' :
+                                :class="tab === 'daftar-warga' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
                                 class="w-full sm:w-auto px-4 py-2.5 text-sm font-medium rounded-lg transition text-center mt-1 sm:mt-0 sm:ml-1">
                                 Daftar Warga
@@ -89,10 +84,9 @@
                         </div>
                     </div>
 
-
                     {{-- Panel: Masuk Warga (NIK) --}}
                     <div x-show="tab==='warga'" x-cloak class="p-6 md:p-8">
-                        <form method="POST" action="{{ route('public-login') }}" class="space-y-6" novalidate>
+                        <form method="POST" action="#" class="space-y-6" novalidate>
                             @csrf
 
                             <div class="grid gap-6 sm:grid-cols-2">
@@ -100,13 +94,13 @@
                                 <div class="sm:col-span-2">
                                     <label for="nik"
                                         class="flex items-center gap-1 text-sm font-semibold text-gray-900">
-                                        NIK <span class="text-red-600" title="Wajib">*</span>
+                                        NIK <span class="text-red-600">*</span>
                                     </label>
                                     <div class="relative mt-1">
                                         <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                             name="nik" id="nik" value="{{ old('nik') }}"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="Masukkan 16 digit NIK" required aria-describedby="nik_help">
                                     </div>
                                     <p id="nik_help" class="mt-1 text-xs text-gray-600">
@@ -129,8 +123,8 @@
                                         </span>
                                         <input type="date" name="tanggal_lahir" id="tanggal_lahir"
                                             value="{{ old('tanggal_lahir') }}"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                     </div>
                                     @error('tanggal_lahir')
@@ -147,8 +141,8 @@
                                             <x-heroicon-o-phone class="size-4 text-gray-500" />
                                         </span>
                                         <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="08xxxxxxxxxx">
                                     </div>
                                     @error('phone')
@@ -160,7 +154,9 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree" name="agree" type="checkbox"
-                                    class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-sm
+                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
+                                    required>
                                 <label for="agree">
                                     Saya menyetujui
                                     <a href="#" class="text-green-700 hover:underline">Kebijakan Privasi</a>
@@ -178,7 +174,6 @@
                                     <x-heroicon-o-lock-closed class="size-4" /> Masuk sebagai Warga
                                 </button>
                             </div>
-
                         </form>
                     </div>
 
@@ -209,8 +204,8 @@
                                     </label>
                                     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                         name="nik" id="reg_nik" value="{{ old('nik') }}"
-                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                               placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="16 digit NIK" required>
                                     @error('nik')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -224,8 +219,8 @@
                                         Nama Lengkap <span class="text-red-600">*</span>
                                     </label>
                                     <input type="text" name="name" id="reg_name" value="{{ old('name') }}"
-                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                               shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="Sesuai KTP" required>
                                     @error('name')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -244,8 +239,8 @@
                                         </span>
                                         <input type="date" name="tanggal_lahir" id="reg_tanggal_lahir"
                                             value="{{ old('tanggal_lahir') }}"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                     </div>
                                     @error('tanggal_lahir')
@@ -262,8 +257,8 @@
                                             <x-heroicon-o-phone class="size-4 text-gray-500" />
                                         </span>
                                         <input type="tel" name="phone" id="reg_phone" value="{{ old('phone') }}"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
+                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="08xxxxxxxxxx" required>
                                     </div>
                                     @error('phone')
@@ -278,8 +273,8 @@
                                         Email <span class="text-red-600">*</span>
                                     </label>
                                     <input type="email" name="email" id="reg_email" value="{{ old('email') }}"
-                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
+                                               placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="nama@email.com" required>
                                     @error('email')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -295,8 +290,8 @@
                                     <div class="mt-1 relative">
                                         <input :type="showPwd ? 'text' : 'password'" x-model="pwd" name="password"
                                             id="reg_password"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                      placeholder:text-gray-500 focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
+                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="Min. 8 karakter" required>
                                         <button type="button" @click="showPwd=!showPwd"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -335,8 +330,8 @@
                                     <div class="mt-1 relative">
                                         <input :type="$root.showPwd2 ? 'text' : 'password'" name="password_confirmation"
                                             id="reg_password_confirmation"
-                                            class="block w-full rounded-lg border border-gray-300 bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                      focus:border-green-600 focus:ring-2 focus:ring-green-200"
+                                            class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
+                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                         <button type="button" @click="$root.showPwd2=!$root.showPwd2"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -352,8 +347,8 @@
                                     <label for="ktp" class="text-sm font-semibold text-gray-900">Upload KTP
                                         (opsional)</label>
                                     <input type="file" name="ktp" id="ktp" accept="image/*,application/pdf"
-                                        class="mt-1 block w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-[15px]
-                                                  focus:border-green-600 focus:ring-2 focus:ring-green-200">
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px]
+                                               shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition">
                                     <p class="mt-1 text-xs text-gray-600">jpg/png/pdf, maks. 2MB.</p>
                                     @error('ktp')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -364,7 +359,9 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_warga" name="agree_warga" type="checkbox"
-                                    class="mt-1 rounded border-gray-300 text-green-600 focus:ring-green-500" required>
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-sm
+                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
+                                    required>
                                 <label for="agree_warga">
                                     Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
                                         Privasi</a> dan
