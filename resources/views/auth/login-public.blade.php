@@ -23,12 +23,18 @@
             -moz-appearance: textfield;
         }
 
+        /* Jangan mirror default; mirror hanya bila class .mirror di-set (kamera depan) */
         video {
-            -webkit-transform: scaleX(-1);
-            transform: scaleX(-1);
+            transform: none;
+            -webkit-transform: none;
         }
 
-        /* mirror camera for better UX */
+        video.mirror {
+            transform: scaleX(-1);
+            -webkit-transform: scaleX(-1);
+        }
+
+        /* Canvas hanya untuk capture */
         canvas {
             display: none;
         }
@@ -77,14 +83,12 @@
                     {{-- Tabs --}}
                     <div class="border-b border-gray-100 px-4 md:px-6 pt-4">
                         <div class="flex rounded-xl bg-gray-50 p-1 ring-1 ring-black/5 w-full max-w-md">
-                            {{-- Tab: Kamera --}}
                             <button type="button" @click="tab='kamera'"
                                 :class="tab === 'kamera' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
                                 class="flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition text-center">
                                 Pindai KTP (Kamera)
                             </button>
-                            {{-- Tab: Unggah --}}
                             <button type="button" @click="tab='unggah'"
                                 :class="tab === 'unggah' ? 'bg-white text-green-700 shadow font-semibold' :
                                     'text-gray-600 hover:text-gray-900'"
@@ -103,7 +107,7 @@
                                 {{-- Kamera preview --}}
                                 <div class="rounded-xl overflow-hidden ring-1 ring-black/5 bg-black/5">
                                     <div class="aspect-video bg-black/5 relative">
-                                        <video x-ref="video" autoplay playsinline muted
+                                        <video x-ref="video" playsinline muted
                                             class="absolute inset-0 h-full w-full object-cover rounded-xl bg-black/10"></video>
                                         <img x-ref="snapshot" x-show="hasPhoto"
                                             class="absolute inset-0 h-full w-full object-cover rounded-xl" />
@@ -120,12 +124,11 @@
                                             <x-heroicon-o-camera class="size-4" /> Nyalakan Kamera
                                         </button>
 
-                                        <button type="button" @click="capture" :disabled="!streaming"
+                                        <button type="button" @click="capture" :disabled="!streaming || loadingOCR"
                                             class="inline-flex items-center gap-2 rounded-lg bg-emerald-600/90 px-3 py-2 text-sm font-medium text-white hover:bg-emerald-700 disabled:opacity-50 transition">
                                             <x-heroicon-o-photo class="size-4" /> Ambil Foto
                                         </button>
 
-                                        {{-- TOMBOL MATIKAN KAMERA --}}
                                         <button type="button" @click="stopCamera" :disabled="!streaming"
                                             class="inline-flex items-center gap-2 rounded-lg border border-red-600 px-3 py-2 text-sm font-medium text-red-700 hover:bg-red-600 hover:text-white disabled:opacity-50 transition">
                                             <x-heroicon-o-power class="size-4" /> Matikan Kamera
@@ -154,8 +157,7 @@
                                             NIK <span class="text-red-600">*</span></label>
                                         <input type="text" id="nik_kamera" name="nik" x-model="form.nik"
                                             inputmode="numeric" pattern="[0-9]*" maxlength="16"
-                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900 placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="16 digit NIK" required>
                                     </div>
                                     <div>
@@ -168,8 +170,7 @@
                                             </span>
                                             <input type="date" id="dob_kamera" name="tanggal_lahir"
                                                 x-model="form.tanggal_lahir"
-                                                class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                       shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                                 required>
                                         </div>
                                     </div>
@@ -177,11 +178,9 @@
                                         <label for="nama_kamera" class="block text-sm font-semibold text-gray-900">Nama
                                             Lengkap</label>
                                         <input type="text" id="nama_kamera" name="nama" x-model="form.nama"
-                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                            class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="(opsional) akan dicocokkan jika tersedia">
                                     </div>
-                                    {{-- Base64 hasil capture --}}
                                     <input type="hidden" name="ktp_base64" x-model="form.base64">
                                 </div>
                             </div>
@@ -189,8 +188,7 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_camera" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
-                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree_camera">
                                     Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
@@ -202,7 +200,7 @@
                             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-end gap-4">
                                 <button type="submit"
                                     class="inline-flex w-full sm:w-auto items-center justify-center gap-2 rounded-lg bg-green-600 px-4 py-3 text-sm font-medium text-white hover:bg-green-700 transition"
-                                    :disabled="!hasPhoto && !form.nik">
+                                    :disabled="(!hasPhoto && !form.nik) || loadingOCR">
                                     <x-heroicon-o-finger-print class="size-4" /> Kirim & Verifikasi
                                 </button>
                             </div>
@@ -211,7 +209,6 @@
 
                     {{-- Panel: Unggah Foto KTP --}}
                     <div x-show="tab==='unggah'" x-cloak class="p-6 md:p-8">
-
                         <form method="POST" action="#" class="space-y-6" enctype="multipart/form-data" novalidate>
                             @csrf
 
@@ -222,8 +219,7 @@
                                     </label>
                                     <input id="file_ktp" name="ktp_file" type="file"
                                         accept="image/*,application/pdf" @change="onFileChange"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px]
-                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px] shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         capture="environment" required>
                                     <p class="mt-1 text-xs text-gray-500">jpg/png/pdf, maks. 4MB. Pastikan teks jelas &
                                         tidak blur.</p>
@@ -238,7 +234,6 @@
                                 </div>
                             </div>
 
-                            {{-- Status OCR unggah --}}
                             <p class="mt-2 text-sm" :class="loadingOCR ? 'text-gray-600' : 'text-gray-500'">
                                 <span x-show="loadingOCR">⏳ <span x-text="msgOCR || 'Membaca KTP…'"></span></span>
                                 <span x-show="!loadingOCR && msgOCR" x-text="msgOCR"></span>
@@ -246,35 +241,31 @@
 
                             <div class="grid gap-4 md:grid-cols-3">
                                 <div class="md:col-span-2">
-                                    <label for="nik_upload" class="block text-sm font-semibold text-gray-900">
-                                        NIK <span class="text-red-600">*</span></label>
+                                    <label for="nik_upload" class="block text-sm font-semibold text-gray-900">NIK <span
+                                            class="text-red-600">*</span></label>
                                     <input type="text" id="nik_upload" name="nik"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900 placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="16 digit NIK" required>
                                 </div>
                                 <div>
-                                    <label for="dob_upload" class="block text-sm font-semibold text-gray-900">
-                                        Tanggal Lahir <span class="text-red-600">*</span></label>
+                                    <label for="dob_upload" class="block text-sm font-semibold text-gray-900">Tanggal
+                                        Lahir <span class="text-red-600">*</span></label>
                                     <input type="date" id="dob_upload" name="tanggal_lahir"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         required>
                                 </div>
                                 <div class="md:col-span-3">
                                     <label for="nama_upload" class="block text-sm font-semibold text-gray-900">Nama
                                         Lengkap</label>
                                     <input type="text" id="nama_upload" name="nama"
-                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                  shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                        class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="(opsional)">
                                 </div>
                             </div>
 
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_upload" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
-                                           focus:ring-green-500 focus:ring-2 focus:outline-none"
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree_upload">
                                     Saya menyetujui <a href="#" class="text-green-700 hover:underline">Kebijakan
@@ -354,7 +345,6 @@
                 },
 
                 init() {
-                    // Matikan kamera otomatis saat pindah halaman/tab menutup
                     window.addEventListener('beforeunload', () => this.stopCamera());
                     document.addEventListener('visibilitychange', () => {
                         if (document.hidden) this.stopCamera();
@@ -363,25 +353,43 @@
 
                 async startCamera() {
                     try {
+                        // pastikan stream lama dimatikan
+                        this.stopCamera();
+
                         const constraints = {
                             audio: false,
                             video: {
                                 facingMode: {
                                     ideal: 'environment'
-                                },
+                                }, // belakang
                                 width: {
-                                    ideal: 1280
+                                    ideal: 1280,
+                                    max: 1280
                                 },
                                 height: {
-                                    ideal: 720
+                                    ideal: 720,
+                                    max: 720
+                                },
+                                frameRate: {
+                                    ideal: 30,
+                                    max: 30
                                 }
                             }
                         };
                         const stream = await navigator.mediaDevices.getUserMedia(constraints);
                         this.streamRef = stream;
+
                         const video = this.$refs.video;
                         video.srcObject = stream;
+                        video.setAttribute('playsinline', 'true'); // iOS
                         await video.play();
+
+                        // mirror hanya bila kamera depan
+                        const track = stream.getVideoTracks()[0];
+                        const settings = track.getSettings?.() || {};
+                        const isFront = (settings.facingMode || '').toLowerCase().includes('user');
+                        video.classList.toggle('mirror', isFront);
+
                         this.streaming = true;
                         this.hasPhoto = false;
                     } catch (e) {
@@ -402,26 +410,27 @@
                     if (!this.streaming) return;
                     const video = this.$refs.video;
                     const canvas = this.$refs.canvas;
-                    const snapshot = this.$refs.snapshot;
+                    const snapImg = this.$refs.snapshot;
 
-                    const w = video.videoWidth || 1280;
-                    const h = video.videoHeight || 720;
+                    // Downscale agar ringan (mengurangi freeze)
+                    const maxW = 1100;
+                    const ratio = (video.videoWidth || 1280) / (video.videoHeight || 720);
+                    const w = Math.min(video.videoWidth || 1280, maxW);
+                    const h = Math.round(w / ratio);
 
                     canvas.width = w;
                     canvas.height = h;
                     const ctx = canvas.getContext('2d');
-                    // un-mirror (video dimirror via CSS)
-                    ctx.translate(w, 0);
-                    ctx.scale(-1, 1);
+                    // gambar apa adanya (mirror sudah dihandle di video)
                     ctx.drawImage(video, 0, 0, w, h);
 
-                    const dataUrl = canvas.toDataURL('image/jpeg', 0.85);
+                    const dataUrl = canvas.toDataURL('image/jpeg', 0.80); // kompres 80%
                     this.form.base64 = dataUrl;
-                    snapshot.src = dataUrl;
+                    snapImg.src = dataUrl;
                     this.hasPhoto = true;
 
-                    // OCR client-side dari kamera
-                    this.runOCR(dataUrl, 'camera');
+                    // beri kesempatan UI render dulu
+                    setTimeout(() => this.runOCR(dataUrl, 'camera'), 30);
                 },
 
                 retake() {
@@ -443,18 +452,18 @@
                         this.$refs.uploadPreview.src = ev.target.result;
                         this.$refs.uploadPreview.style.display = 'block';
                         this.uploadHasPreview = true;
-
-                        // OCR client-side dari unggah
                         this.runOCR(ev.target.result, 'upload'); // data URL
                     };
                     reader.readAsDataURL(file);
                 },
 
                 async runOCR(dataUrl, target) {
+                    if (this.loadingOCR) return; // cegah OCR ganda
                     if (!window.Tesseract) {
                         this.msgOCR = 'OCR belum siap.';
                         return;
                     }
+
                     this.loadingOCR = true;
                     this.msgOCR = 'Membaca KTP…';
 
@@ -464,18 +473,16 @@
                         } = await Tesseract.recognize(dataUrl, 'eng');
                         const text = (data.text || '').replace(/\s+/g, ' ').trim();
 
-                        // Ekstrak NIK (16 digit; toleransi spasi/titik/strip)
                         let nik = null;
-                        const nikMatch = text.match(/(?:NIK|N0K|N1K)?[^0-9]*((?:\d[\s\.\-]*){16})/i);
+                        const nikMatch = text.match(/(?:NIK|N0K|N1K)?[^0-9]*((?:\d[\s.\-]*){16})/i);
                         if (nikMatch && nikMatch[1]) {
                             nik = nikMatch[1].replace(/\D+/g, '');
                             if (nik.length !== 16) nik = null;
                         }
 
-                        // Ekstrak Tanggal Lahir (dd-mm-yyyy / dd/mm/yyyy / dd mm yyyy)
                         let dob = null;
                         const dobMatch = text.match(
-                            /\b(0?[1-9]|[12][0-9]|3[01])[\-\/\s\.](0?[1-9]|1[0-2])[\-\/\s\.]((?:19|20)\d{2})\b/);
+                            /\b(0?[1-9]|[12][0-9]|3[01])[\-\/\s.](0?[1-9]|1[0-2])[\-\/\s.]((?:19|20)\d{2})\b/);
                         if (dobMatch) {
                             const d = String(dobMatch[1]).padStart(2, '0');
                             const m = String(dobMatch[2]).padStart(2, '0');
@@ -483,29 +490,22 @@
                             dob = `${y}-${m}-${d}`;
                         }
 
-                        // Ekstrak Nama (opsional)
                         let nama = null;
                         const upper = text.toUpperCase();
-                        const namaMatch = upper.match(/\bNAMA(?: LENGKAP)?\s*[:\-]?\s*([A-Z\s\.'\-]{3,})/);
-                        if (namaMatch && namaMatch[1]) {
-                            nama = namaMatch[1].replace(/\s{2,}/g, ' ').trim();
-                        }
+                        const namaMatch = upper.match(/\bNAMA(?: LENGKAP)?\s*[:\-]?\s*([A-Z\s.'\-]{3,})/);
+                        if (namaMatch && namaMatch[1]) nama = namaMatch[1].replace(/\s{2,}/g, ' ').trim();
 
                         if (target === 'camera') {
-                            if (nik) this.form.nik = this.form.nik || nik;
-                            if (dob) this.form.tanggal_lahir = this.form.tanggal_lahir || dob;
+                            if (nik && !this.form.nik) this.form.nik = nik;
+                            if (dob && !this.form.tanggal_lahir) this.form.tanggal_lahir = dob;
                             if (nama && !this.form.nama) this.form.nama = nama;
                         } else {
-                            // target upload: isi langsung ke input upload
-                            if (nik && !document.getElementById('nik_upload').value) {
-                                document.getElementById('nik_upload').value = nik;
-                            }
-                            if (dob && !document.getElementById('dob_upload').value) {
-                                document.getElementById('dob_upload').value = dob;
-                            }
-                            if (nama && !document.getElementById('nama_upload').value) {
-                                document.getElementById('nama_upload').value = nama;
-                            }
+                            if (nik && !document.getElementById('nik_upload').value) document.getElementById(
+                                'nik_upload').value = nik;
+                            if (dob && !document.getElementById('dob_upload').value) document.getElementById(
+                                'dob_upload').value = dob;
+                            if (nama && !document.getElementById('nama_upload').value) document.getElementById(
+                                'nama_upload').value = nama;
                         }
 
                         this.msgOCR = (nik || dob || nama) ?
@@ -524,7 +524,7 @@
                         alert('Ambil foto KTP atau isi NIK terlebih dahulu.');
                         return false;
                     }
-                    this.stopCamera(); // matikan kamera saat submit
+                    this.stopCamera();
                     return true;
                 }
             }
