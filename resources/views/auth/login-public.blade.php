@@ -88,10 +88,10 @@
                                 disabled>
                             <span>
                                 Saya menyetujui
-                                <a href="{{ route('kebijakan-privasi') }}" class="text-green-700 hover:underline">Kebijakan
+                                <a href="#" class="text-green-700 hover:underline">Kebijakan
                                     Privasi</a>
                                 dan
-                                <a href="{{ route('syarat-ketentuan') }}" class="text-green-700 hover:underline">Syarat &
+                                <a href="#" class="text-green-700 hover:underline">Syarat &
                                     Ketentuan</a>.
                             </span>
                         </div>
