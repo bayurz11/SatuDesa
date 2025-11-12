@@ -54,7 +54,7 @@
 
                     <div class="grid gap-4 sm:grid-cols-2">
                         {{-- Kartu layanan 1 --}}
-                        <a href="#"
+                        <a href="{{ route('public-login') }}"
                             class="group rounded-2xl bg-white shadow ring-1 ring-black/5 p-5 hover:shadow-md transition block">
                             <div class="flex items-start gap-3">
                                 <span

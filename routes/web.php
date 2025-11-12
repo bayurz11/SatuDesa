@@ -160,6 +160,13 @@ Route::get('/apbdesa', function () {
 
 
 
+//  <****USER PANEL****>
+Route::get('/public-login', function () {
+    return view('auth.login-public');
+})->name('public-login');
+
+
+
 //  <****ADMIN PANEL****>
 
 // Dashboard Route (redirect  /dashboard)
