@@ -104,7 +104,7 @@
                                         <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                             name="nik" id="nik" value="{{ old('nik') }}"
                                             class="block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="Masukkan 16 digit NIK" required aria-describedby="nik_help">
                                     </div>
                                     <p id="nik_help" class="mt-1 text-xs text-gray-600">
@@ -128,7 +128,7 @@
                                         <input type="date" name="tanggal_lahir" id="tanggal_lahir"
                                             value="{{ old('tanggal_lahir') }}"
                                             class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                     </div>
                                     @error('tanggal_lahir')
@@ -146,7 +146,7 @@
                                         </span>
                                         <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
                                             class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="08xxxxxxxxxx">
                                     </div>
                                     @error('phone')
@@ -158,7 +158,7 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree" name="agree" type="checkbox"
-                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-sm
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
                                            focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree">
@@ -209,7 +209,7 @@
                                     <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="16"
                                         name="nik" id="reg_nik" value="{{ old('nik') }}"
                                         class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                               placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="16 digit NIK" required>
                                     @error('nik')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -224,7 +224,7 @@
                                     </label>
                                     <input type="text" name="name" id="reg_name" value="{{ old('name') }}"
                                         class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="Sesuai KTP" required>
                                     @error('name')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -244,7 +244,7 @@
                                         <input type="date" name="tanggal_lahir" id="reg_tanggal_lahir"
                                             value="{{ old('tanggal_lahir') }}"
                                             class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                     </div>
                                     @error('tanggal_lahir')
@@ -262,7 +262,7 @@
                                         </span>
                                         <input type="tel" name="phone" id="reg_phone" value="{{ old('phone') }}"
                                             class="block w-full rounded-lg border border-transparent bg-white pl-10 pr-3 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="08xxxxxxxxxx" required>
                                     </div>
                                     @error('phone')
@@ -278,7 +278,7 @@
                                     </label>
                                     <input type="email" name="email" id="reg_email" value="{{ old('email') }}"
                                         class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2.5 text-[15px] text-gray-900
-                                               placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                               placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                         placeholder="nama@email.com" required>
                                     @error('email')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -295,7 +295,7 @@
                                         <input :type="showPwd ? 'text' : 'password'" x-model="pwd" name="password"
                                             id="reg_password"
                                             class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                   placeholder:text-gray-500 shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   placeholder:text-gray-500 shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             placeholder="Min. 8 karakter" required>
                                         <button type="button" @click="showPwd=!showPwd"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -335,7 +335,7 @@
                                         <input :type="$root.showPwd2 ? 'text' : 'password'" name="password_confirmation"
                                             id="reg_password_confirmation"
                                             class="block w-full rounded-lg border border-transparent bg-white pr-10 px-4 py-2.5 text-[15px] text-gray-900
-                                                   shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
+                                                   shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition"
                                             required>
                                         <button type="button" @click="$root.showPwd2=!$root.showPwd2"
                                             class="absolute inset-y-0 right-0 px-3 text-gray-500 hover:text-gray-700"
@@ -352,7 +352,7 @@
                                         (opsional)</label>
                                     <input type="file" name="ktp" id="ktp" accept="image/*,application/pdf"
                                         class="mt-1 block w-full rounded-lg border border-transparent bg-white px-4 py-2 text-[15px]
-                                               shadow-sm focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition">
+                                               shadow-md focus:border-green-500 focus:ring-2 focus:ring-green-300 focus:outline-none transition">
                                     <p class="mt-1 text-xs text-gray-600">jpg/png/pdf, maks. 2MB.</p>
                                     @error('ktp')
                                         <p class="mt-1 text-xs text-red-600">{{ $message }}</p>
@@ -363,7 +363,7 @@
                             {{-- Persetujuan --}}
                             <div class="flex items-start gap-3 text-sm text-gray-700">
                                 <input id="agree_warga" name="agree_warga" type="checkbox"
-                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-sm
+                                    class="mt-1 rounded border border-transparent bg-white text-green-600 shadow-md
                                            focus:ring-green-500 focus:ring-2 focus:outline-none"
                                     required>
                                 <label for="agree_warga">
