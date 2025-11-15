@@ -24,12 +24,6 @@ class ContentHub extends Component
     /** Bisa di-set dari luar; default true */
     public bool $showPagination = true;
 
-    protected $listeners = [
-        'sidebar-search-updated' => 'updateSidebarSearch',
-    ];
-
-
-
     /** 🔦 Khusus beranda: featured + 4 lainnya (tanpa paginasi) */
     public bool $homeSpotlight = false;
     public int $spotlightLimit = 5; // featured + 4
@@ -44,19 +38,6 @@ class ContentHub extends Component
     ];
 
     /** Reset page saat filter berubah */
-    public function updateSidebarSearch($payload = null)
-    {
-        // Kalau payload array dari JS event: { q: '...' }
-        if (is_array($payload)) {
-            $this->search = $payload['q'] ?? '';
-        } else {
-            // fallback: kalau dikirim string langsung atau null
-            $this->search = (string) ($payload ?? '');
-        }
-
-        $this->resetPage();
-    }
-
     public function updatingSearch()
     {
         $this->resetPage();

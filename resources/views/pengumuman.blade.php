@@ -35,7 +35,6 @@
             </article>
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
-
             <aside class="space-y-6 lg:sticky lg:top-20">
                 {{-- Pencarian tanpa form; real-time --}}
                 <div role="search" class="bg-white rounded-xl shadow p-4">
@@ -52,12 +51,11 @@
                             </svg>
                         </div>
 
-                        <input id="search-q" type="text"
-                            oninput="window.Livewire.dispatch('sidebar-search-updated', { q: this.value })"
+                        <input id="search-q" type="text" wire:model.live="search"
                             onkeydown="if (event.key === 'Enter') event.preventDefault();"
                             placeholder="Cari judul / ringkasan / tag / kategori…"
-                            class="block w-full pl-12 pr-24 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
-
+                            class="block w-full pl-12 pr-24 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500
+                   focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
 
                         @if (!empty($search))
                             <button type="button" wire:click="$set('search','')"
