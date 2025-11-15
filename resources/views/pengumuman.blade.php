@@ -52,11 +52,11 @@
                             </svg>
                         </div>
 
-                        <input id="search-q" type="text" wire:model.live="search"
-                            onkeydown="if (event.key === 'Enter') event.preventDefault();"
+                        <<input id="search-q" type="text"
+                            oninput="Livewire.dispatch('sidebar-search-updated', { q: this.value })"
                             placeholder="Cari judul / ringkasan / tag / kategori…"
-                            class="block w-full pl-12 pr-24 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500
-                   focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
+                            class="block w-full pl-12 pr-24 py-3 border border-gray-300 rounded-xl bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
+
 
                         @if (!empty($search))
                             <button type="button" wire:click="$set('search','')"
