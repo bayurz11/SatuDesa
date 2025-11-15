@@ -29,6 +29,7 @@ class ContentHub extends Component
     ];
 
 
+
     /** 🔦 Khusus beranda: featured + 4 lainnya (tanpa paginasi) */
     public bool $homeSpotlight = false;
     public int $spotlightLimit = 5; // featured + 4
