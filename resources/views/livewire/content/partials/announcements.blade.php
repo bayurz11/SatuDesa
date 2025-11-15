@@ -76,6 +76,12 @@
 
         </div>
     </div>
+
+@empty
+    <div class="rounded-xl border border-gray-200 bg-white p-6 text-gray-600">
+        Belum ada pengumuman.
+    </div>
+@else
     {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
     <aside class="space-y-6 lg:sticky lg:top-20">
         {{-- Pencarian tanpa form; real-time --}}
@@ -156,8 +162,4 @@
             </ul>
         </div>
     </aside>
-@empty
-    <div class="rounded-xl border border-gray-200 bg-white p-6 text-gray-600">
-        Belum ada pengumuman.
-    </div>
 @endforelse
