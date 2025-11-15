@@ -109,7 +109,7 @@
                                focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500 transition-all duration-200" />
 
                     @if (!empty($search))
-                        <button type="button" wire:click="$set('search','')"
+                        <button type="button" wire:click="$set('search', '')"
                             class="absolute inset-y-0 right-10 my-2 px-2 text-gray-500 hover:text-gray-700">
                             Bersihkan
                         </button>
@@ -125,42 +125,66 @@
                 </div>
             </div>
 
-            {{-- Filter --}}
+            {{-- Filter kategori pengumuman --}}
             <div class="bg-white rounded-xl shadow p-4">
                 <h3 class="font-semibold text-gray-900 mb-3">Filter</h3>
+
+                @php
+                    // Sesuaikan opsi dengan kategori yang kamu pakai
+                    $filterOptions = ['Semua', 'Umum', 'Kesehatan', 'Pendidikan', 'Agenda'];
+                @endphp
+
                 <div class="flex flex-wrap gap-2">
-                    <a href="#"
-                        class="px-3 py-1.5 rounded-lg text-sm border bg-green-600 border-green-600 text-white">Semua</a>
-                    <a href="#"
-                        class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Umum</a>
-                    <a href="#"
-                        class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Kesehatan</a>
-                    <a href="#"
-                        class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Pendidikan</a>
-                    <a href="#"
-                        class="px-3 py-1.5 rounded-lg text-sm border border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white transition">Agenda</a>
+                    @foreach ($filterOptions as $option)
+                        @php
+                            $isActive =
+                                ($option === 'Semua' && empty($announcementCategory)) ||
+                                $announcementCategory === $option;
+                        @endphp
+
+                        <button type="button"
+                            wire:click="setAnnouncementCategory('{{ $option === 'Semua' ? '' : $option }}')"
+                            class="px-3 py-1.5 rounded-lg text-sm border transition
+                                {{ $isActive
+                                    ? 'bg-green-600 border-green-600 text-white'
+                                    : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' }}">
+                            {{ $option }}
+                        </button>
+                    @endforeach
                 </div>
             </div>
 
             {{-- Agenda Terdekat --}}
             <div class="bg-white rounded-xl shadow p-4">
                 <h3 class="font-semibold text-gray-900 mb-3">Agenda Terdekat</h3>
-                <ul class="space-y-3 text-sm">
-                    <li class="flex items-start gap-3">
-                        <x-heroicon-o-calendar class="mt-0.5 size-5 text-green-700" />
-                        <div>
-                            <p class="font-medium text-gray-900">Musyawarah Desa</p>
-                            <p class="text-gray-500">25 September 2025 — Balai Desa</p>
-                        </div>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <x-heroicon-o-megaphone class="mt-0.5 size-5 text-green-700" />
-                        <div>
-                            <p class="font-medium text-gray-900">Sosialisasi Kesehatan</p>
-                            <p class="text-gray-500">27 September 2025 — Posyandu</p>
-                        </div>
-                    </li>
-                </ul>
+
+                @php
+                    $agendaList = $upcoming ?? collect();
+                @endphp
+
+                @if ($agendaList->isEmpty())
+                    <p class="text-sm text-gray-500">Belum ada agenda terjadwal.</p>
+                @else
+                    <ul class="space-y-3 text-sm">
+                        @foreach ($agendaList as $agenda)
+                            @php
+                                $agendaDate = optional($agenda->start_at)?->translatedFormat('d F Y • H:i');
+                            @endphp
+                            <li class="flex items-start gap-3">
+                                <x-heroicon-o-calendar class="mt-0.5 size-5 text-green-700" />
+                                <div>
+                                    <p class="font-medium text-gray-900">{{ $agenda->title }}</p>
+                                    <p class="text-gray-500">
+                                        {{ $agendaDate }}
+                                        @if ($agenda->location)
+                                            — {{ $agenda->location }}
+                                        @endif
+                                    </p>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                @endif
             </div>
 
         </aside>

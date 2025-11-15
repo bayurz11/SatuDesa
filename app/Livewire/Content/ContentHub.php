@@ -17,6 +17,10 @@ class ContentHub extends Component
     public string $search = '';
     public ?string $category = null;
     public ?string $potensiCategory = null; // ★ filter kategori potensi
+
+    // ★ filter kategori khusus pengumuman (Umum, Kesehatan, dll)
+    public ?string $announcementCategory = null;
+
     public int $perPage = 10;
     public string $sortField = 'published_at';
     public string $sortDirection = 'desc';
@@ -28,13 +32,17 @@ class ContentHub extends Component
     public bool $homeSpotlight = false;
     public int $spotlightLimit = 5; // featured + 4
 
+    /** ★ Agenda terdekat */
+    public $upcoming;
+
     protected $queryString = [
-        'search'        => ['except' => ''],
-        'category'      => ['except' => null],
-        'potensiCategory' => ['except' => null], // ★
-        'perPage'       => ['except' => 10],
-        'sortField'     => ['except' => 'published_at'],
-        'sortDirection' => ['except' => 'desc'],
+        'search'            => ['except' => ''],
+        'category'          => ['except' => null],
+        'potensiCategory'   => ['except' => null], // ★
+        'announcementCategory' => ['except' => null], // ★
+        'perPage'           => ['except' => 10],
+        'sortField'         => ['except' => 'published_at'],
+        'sortDirection'     => ['except' => 'desc'],
     ];
 
     /** Reset page saat filter berubah */
@@ -42,15 +50,23 @@ class ContentHub extends Component
     {
         $this->resetPage();
     }
+
     public function updatingCategory()
     {
         $this->resetPage();
     }
+
     public function updatingPerPage()
     {
         $this->resetPage();
     }
+
     public function updatingPotensiCategory()
+    {
+        $this->resetPage();
+    } // ★
+
+    public function updatingAnnouncementCategory()
     {
         $this->resetPage();
     } // ★
@@ -58,7 +74,9 @@ class ContentHub extends Component
     public function sortBy(string $field): void
     {
         $allowed = ['published_at', 'created_at', 'title'];
-        if (!in_array($field, $allowed, true)) return;
+        if (!in_array($field, $allowed, true)) {
+            return;
+        }
 
         if ($this->sortField === $field) {
             $this->sortDirection = $this->sortDirection === 'asc' ? 'desc' : 'asc';
@@ -72,6 +90,30 @@ class ContentHub extends Component
     public function paginationView()
     {
         return 'livewire.content.pagination.pagination';
+    }
+
+    /**
+     * ★ Set kategori pengumuman dari tombol filter (Umum, Kesehatan, dst.)
+     */
+    public function setAnnouncementCategory(?string $category = null): void
+    {
+        $this->announcementCategory = $category ?: null;
+        $this->resetPage();
+    }
+
+    /**
+     * ★ Load agenda terdekat (pengumuman mendatang)
+     */
+    protected function loadUpcoming(): void
+    {
+        $this->upcoming = Post::query()
+            ->where('status', 'published')
+            ->where('content_type', 'announcement') // sesuaikan jika tipe konten agenda beda
+            ->whereNotNull('start_at')
+            ->where('start_at', '>=', now())
+            ->orderBy('start_at')
+            ->limit(5)
+            ->get();
     }
 
     protected function baseQuery()
@@ -107,12 +149,18 @@ class ContentHub extends Component
                 }
             })
 
-            // kategori umum
+            // kategori umum (by category_id)
             ->when($this->category, fn($q) => $q->where('category_id', $this->category))
 
             // ★ filter kategori potensi spesifik
             ->when($this->mode === 'potensi' && $this->potensiCategory, function ($q) {
                 $q->where('potensi_category', $this->potensiCategory);
+            })
+
+            // ★ filter kategori khusus pengumuman (Umum, Kesehatan, dll)
+            ->when($this->mode === 'announcement' && $this->announcementCategory, function ($q) {
+                // GANTI 'announcement_category' JIKA NAMA KOLOM DI DB BERBEDA
+                $q->where('announcement_category', $this->announcementCategory);
             })
 
             ->whereNotNull('published_at')
@@ -139,6 +187,9 @@ class ContentHub extends Component
         $this->homeSpotlight = $isHome && $this->mode === 'news';
 
         $this->showPagination = $showPagination && ! $this->homeSpotlight;
+
+        // ★ selalu load agenda terdekat (bisa dipakai di sidebar)
+        $this->loadUpcoming();
     }
 
     public function render()
@@ -182,12 +233,14 @@ class ContentHub extends Component
         };
 
         return view('livewire.content.content-hub', [
-            'items'             => $items,
-            'spotlight'         => $spotlight,
-            'categories'        => $categories,
-            'potensiCategories' => $potensiCategories, // ★
-            'title'             => $title,
-            'subtitle'          => $subtitle,
+            'items'               => $items,
+            'spotlight'           => $spotlight,
+            'categories'          => $categories,
+            'potensiCategories'   => $potensiCategories, // ★
+            'title'               => $title,
+            'subtitle'            => $subtitle,
+            'announcementCategory' => $this->announcementCategory, // ★
+            'upcoming'            => $this->upcoming, // ★ agenda terdekat
         ])
             ->with('showPagination', $this->showPagination)
             ->with('homeSpotlight', $this->homeSpotlight)
