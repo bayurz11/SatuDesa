@@ -125,35 +125,6 @@
                 </div>
             </div>
 
-            {{-- Filter kategori pengumuman --}}
-            <div class="bg-white rounded-xl shadow p-4">
-                <h3 class="font-semibold text-gray-900 mb-3">Filter</h3>
-
-                @php
-                    // Sesuaikan opsi dengan kategori yang kamu pakai
-                    $filterOptions = ['Semua', 'Umum', 'Kesehatan', 'Pendidikan', 'Agenda'];
-                @endphp
-
-                <div class="flex flex-wrap gap-2">
-                    @foreach ($filterOptions as $option)
-                        @php
-                            $isActive =
-                                ($option === 'Semua' && empty($announcementCategory)) ||
-                                $announcementCategory === $option;
-                        @endphp
-
-                        <button type="button"
-                            wire:click="setAnnouncementCategory('{{ $option === 'Semua' ? '' : $option }}')"
-                            class="px-3 py-1.5 rounded-lg text-sm border transition
-                                {{ $isActive
-                                    ? 'bg-green-600 border-green-600 text-white'
-                                    : 'border-gray-300 text-gray-700 hover:bg-green-600 hover:text-white' }}">
-                            {{ $option }}
-                        </button>
-                    @endforeach
-                </div>
-            </div>
-
             {{-- Agenda Terdekat --}}
             <div class="bg-white rounded-xl shadow p-4">
                 <h3 class="font-semibold text-gray-900 mb-3">Agenda Terdekat</h3>
@@ -163,18 +134,27 @@
                 @endphp
 
                 @if ($agendaList->isEmpty())
-                    <p class="text-sm text-gray-500">Belum ada agenda terjadwal.</p>
+                    <p class="text-xs text-gray-500">Belum ada agenda terjadwal.</p>
                 @else
-                    <ul class="space-y-3 text-sm">
+                    <ul class="space-y-2.5">
                         @foreach ($agendaList as $agenda)
                             @php
                                 $agendaDate = optional($agenda->start_at)?->translatedFormat('d F Y • H:i');
                             @endphp
                             <li class="flex items-start gap-3">
-                                <x-heroicon-o-calendar class="mt-0.5 size-5 text-green-700" />
-                                <div>
-                                    <p class="font-medium text-gray-900">{{ $agenda->title }}</p>
-                                    <p class="text-gray-500">
+                                {{-- Icon kalender (konsisten & kecil) --}}
+                                <div class="mt-0.5 rounded-lg bg-green-50 p-1.5 border border-green-100">
+                                    <x-heroicon-o-calendar class="w-4 h-4 text-green-700" />
+                                </div>
+
+                                <div class="space-y-0.5">
+                                    {{-- Judul agenda: kecil & rapih --}}
+                                    <p class="text-xs font-semibold leading-snug text-gray-900 line-clamp-2">
+                                        {{ $agenda->title }}
+                                    </p>
+
+                                    {{-- Tanggal + lokasi: lebih kecil --}}
+                                    <p class="text-[11px] leading-snug text-gray-500">
                                         {{ $agendaDate }}
                                         @if ($agenda->location)
                                             — {{ $agenda->location }}
