@@ -104,7 +104,7 @@
     @endphp
 
 
-    <section class="mx-auto max-w-7xl px-3 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-10 md:py-14" data-aos="fade-up">
+    <section class="mx-auto max-w-7xl px-3 mt-6 sm:px-4 md:px-6 lg:px-8 py-8 sm:py-10 md:py-14" data-aos="fade-up">
         {{-- Breadcrumb --}}
         <nav class="mb-5 sm:mb-6 md:mb-8 text-xs sm:text-sm text-gray-500" aria-label="Breadcrumb">
             <ol class="flex flex-wrap items-center gap-1.5 sm:gap-2">
