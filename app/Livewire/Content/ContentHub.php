@@ -43,9 +43,16 @@ class ContentHub extends Component
     ];
 
     /** Reset page saat filter berubah */
-    public function updateSidebarSearch($payload)
+    public function updateSidebarSearch($payload = null)
     {
-        $this->search = $payload['q'] ?? '';
+        // Kalau payload array dari JS event: { q: '...' }
+        if (is_array($payload)) {
+            $this->search = $payload['q'] ?? '';
+        } else {
+            // fallback: kalau dikirim string langsung atau null
+            $this->search = (string) ($payload ?? '');
+        }
+
         $this->resetPage();
     }
 
