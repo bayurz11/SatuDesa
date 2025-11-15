@@ -2,7 +2,7 @@
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
 
     {{-- KOLOM UTAMA --}}
-    <article class="lg:col-span-8 space-y-4">
+    <article class="{{ request()->routeIs('beranda') ? 'lg:col-span-12' : 'lg:col-span-8' }} space-y-4">
         @forelse ($items as $item)
             @php
                 $dateRef = $item->start_at ?? $item->published_at;
@@ -84,8 +84,9 @@
             </div>
         @endforelse
     </article>
+
+    {{-- SIDEBAR: hanya tampil jika BUKAN di beranda --}}
     @if (!request()->routeIs('beranda'))
-        {{-- SIDEBAR --}}
         <aside class="lg:col-span-4 space-y-6 lg:sticky lg:top-20">
 
             {{-- Pencarian --}}
@@ -164,4 +165,5 @@
 
         </aside>
     @endif
+
 </div>
