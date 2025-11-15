@@ -141,26 +141,31 @@
                             @php
                                 $agendaDate = optional($agenda->start_at)?->translatedFormat('d F Y • H:i');
                             @endphp
-                            <li class="flex items-start gap-3">
-                                {{-- Icon kalender (konsisten & kecil) --}}
-                                <div class="mt-0.5 rounded-lg bg-green-50 p-1.5 border border-green-100">
-                                    <x-heroicon-o-calendar class="w-4 h-4 text-green-700" />
-                                </div>
+                            <li>
+                                <a href="{{ route('pengumuman.show', $agenda->slug) }}"
+                                    class="flex items-start gap-3 p-2 rounded-lg hover:bg-green-50 transition">
 
-                                <div class="space-y-0.5">
-                                    {{-- Judul agenda: kecil & rapih --}}
-                                    <p class="text-xs font-semibold leading-snug text-gray-900 line-clamp-2">
-                                        {{ $agenda->title }}
-                                    </p>
+                                    {{-- Icon kalender --}}
+                                    <div class="mt-0.5 rounded-lg bg-green-50 p-1.5 border border-green-100">
+                                        <x-heroicon-o-calendar class="w-4 h-4 text-green-700" />
+                                    </div>
 
-                                    {{-- Tanggal + lokasi: lebih kecil --}}
-                                    <p class="text-[11px] leading-snug text-gray-500">
-                                        {{ $agendaDate }}
-                                        @if ($agenda->location)
-                                            — {{ $agenda->location }}
-                                        @endif
-                                    </p>
-                                </div>
+                                    <div class="space-y-0.5">
+                                        {{-- Judul agenda --}}
+                                        <p class="text-xs font-semibold leading-snug text-gray-900 line-clamp-2">
+                                            {{ $agenda->title }}
+                                        </p>
+
+                                        {{-- Tanggal + lokasi --}}
+                                        <p class="text-[11px] leading-snug text-gray-500">
+                                            {{ $agendaDate }}
+                                            @if ($agenda->location)
+                                                — {{ $agenda->location }}
+                                            @endif
+                                        </p>
+                                    </div>
+
+                                </a>
                             </li>
                         @endforeach
                     </ul>
