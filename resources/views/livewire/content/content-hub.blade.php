@@ -35,9 +35,10 @@
                 @include('livewire.content.partials.news', ['items' => $items])
             @break
 
+            {{-- 
             @case('potensi')
-                @include('livewire.content.partials.potensi', ['items' => $items]) {{-- ★ --}}
-            @break
+                @include('livewire.content.partials.potensi', ['items' => $items])
+            @break --}}
 
             @default
                 <p class="text-gray-500 text-center py-8">Tidak ada konten untuk ditampilkan.</p>
