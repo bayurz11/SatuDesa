@@ -27,12 +27,11 @@
         </header>
         <div class="grid gap-8 lg:grid-cols-3 items-start">
             {{-- KOLOM UTAMA --}}
-            <article class="lg:col-span-2 space-y-4">
-
-                <livewire:content.content-hub mode="announcement" :show-pagination="true" />
 
 
-            </article>
+            <livewire:content.content-hub mode="announcement" :show-pagination="true" />
+
+
 
             {{-- SIDEBAR (opsional, selaras gaya contoh) --}}
 
