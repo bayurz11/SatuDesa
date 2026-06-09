@@ -3,9 +3,9 @@
 use App\Http\Controllers\StorageFileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/uploads/{path}', [StorageFileController::class, 'show'])
+Route::get('/storage/{path}', [StorageFileController::class, 'show'])
     ->where('path', '.*')
-    ->name('uploads.show');
+    ->name('storage.uploads.show');
 
 require __DIR__ . '/web/public.php';
 require __DIR__ . '/web/citizen.php';

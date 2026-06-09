@@ -20,13 +20,9 @@ class UploadStorage
         $normalizedPath = ltrim($path, '/');
 
         if (Storage::disk(static::disk())->exists($normalizedPath)) {
-            return route('uploads.show', ['path' => $normalizedPath]);
+            return url('/storage/' . $normalizedPath);
         }
 
-        if (Storage::disk('public')->exists($normalizedPath)) {
-            return Storage::disk('public')->url($normalizedPath);
-        }
-
-        return route('uploads.show', ['path' => $normalizedPath]);
+        return url('/storage/' . $normalizedPath);
     }
 }
