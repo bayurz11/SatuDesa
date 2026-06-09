@@ -15,8 +15,8 @@
     <meta name="publisher" content="Pemerintah Desa Mentuda">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" href="{{ asset('public/favicon-16x16.png') }}" sizes="any">
-    <link rel="apple-touch-icon" href="{{ asset('public/logo.png') }}">
+    <link rel="icon" href="{{ asset('favicon-16x16.png') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
@@ -721,160 +721,166 @@
                 <div class="mx-auto max-w-5xl space-y-4">
 
                     @forelse ($homeAnnouncements as $homeAnnouncement)
-                    <article
-                        class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200"
-                        data-aos="fade-up" data-aos-delay="{{ 60 + ($loop->index * 70) }}">
+                        <article
+                            class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200"
+                            data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
 
-                        <!-- Shine effect card -->
-                        <span
-                            class="pointer-events-none absolute -left-20 top-0 h-full w-14 rotate-12 bg-green-100/80 blur-xl transition-all duration-700 group-hover:left-[120%]">
-                        </span>
+                            <!-- Shine effect card -->
+                            <span
+                                class="pointer-events-none absolute -left-20 top-0 h-full w-14 rotate-12 bg-green-100/80 blur-xl transition-all duration-700 group-hover:left-[120%]">
+                            </span>
 
-                        <div class="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                            <div
+                                class="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-                            <!-- Left -->
-                            <div class="flex gap-4">
+                                <!-- Left -->
+                                <div class="flex gap-4">
 
-                                <!-- Date -->
-                                <div
-                                    class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
-                                    <span class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->announcement_date)->translatedFormat('M') }}</span>
-                                    <strong class="text-xl leading-none">{{ optional($homeAnnouncement->announcement_date)->format('d') }}</strong>
-                                    <span class="text-[10px] font-semibold">{{ optional($homeAnnouncement->announcement_date)->format('Y') }}</span>
-                                </div>
-
-                                <!-- Content -->
-                                <div class="min-w-0">
-
-                                    <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-
+                                    <!-- Date -->
+                                    <div
+                                        class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
                                         <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
-                                            </svg>
-                                            {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
-                                        </span>
-
+                                            class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->announcement_date)->translatedFormat('M') }}</span>
+                                        <strong
+                                            class="text-xl leading-none">{{ optional($homeAnnouncement->announcement_date)->format('d') }}</strong>
                                         <span
-                                            class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                            </svg>
-                                            {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
-                                        </span>
-
-                                        @if ($homeAnnouncement->is_featured)
-                                            <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200">
-                                                Prioritas
-                                            </span>
-                                        @endif
-
-                                        <span class="hidden">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                            </svg>
-                                            20 November 2025 • 00:17
-                                        </span>
-
+                                            class="text-[10px] font-semibold">{{ optional($homeAnnouncement->announcement_date)->format('Y') }}</span>
                                     </div>
 
-                                    <h3
-                                        class="mt-2 text-lg font-bold text-gray-900 transition-all duration-300 group-hover:text-green-700 group-hover:translate-x-1">
-                                        {{ $homeAnnouncement->title }}
-                                    </h3>
+                                    <!-- Content -->
+                                    <div class="min-w-0">
 
-                                    <p
-                                        class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
-                                        {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
-                                    </p>
+                                        <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
 
-                                    <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
+                                                </svg>
+                                                {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
+                                            </span>
 
-                                        <span
-                                            class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                            </svg>
-                                            {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
-                                        </span>
-
-                                        @if ($homeAnnouncement->event_location)
                                             <span
                                                 class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                                </svg>
+                                                {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
+                                            </span>
+
+                                            @if ($homeAnnouncement->is_featured)
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200">
+                                                    Prioritas
+                                                </span>
+                                            @endif
+
+                                            <span class="hidden">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                                </svg>
+                                                20 November 2025 • 00:17
+                                            </span>
+
+                                        </div>
+
+                                        <h3
+                                            class="mt-2 text-lg font-bold text-gray-900 transition-all duration-300 group-hover:text-green-700 group-hover:translate-x-1">
+                                            {{ $homeAnnouncement->title }}
+                                        </h3>
+
+                                        <p
+                                            class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
+                                            {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
+                                        </p>
+
+                                        <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">
+
+                                            <span
+                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                                 </svg>
-                                                {{ $homeAnnouncement->event_location }}
+                                                {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
                                             </span>
-                                        @endif
 
-                                        <span
-                                            class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
-                                            </svg>
-                                            {{ $homeAnnouncement->author?->name ?? 'Pemerintah Desa Mentuda' }}
-                                        </span>
+                                            @if ($homeAnnouncement->event_location)
+                                                <span
+                                                    class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                    </svg>
+                                                    {{ $homeAnnouncement->event_location }}
+                                                </span>
+                                            @endif
+
+                                            <span
+                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
+                                                </svg>
+                                                {{ $homeAnnouncement->author?->name ?? 'Pemerintah Desa Mentuda' }}
+                                            </span>
+
+                                        </div>
 
                                     </div>
-
                                 </div>
+
+                                <!-- Button -->
+                                <a href="{{ route('public.announcements.show', $homeAnnouncement->slug) }}"
+                                    class="group/btn relative overflow-hidden inline-flex shrink-0 items-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95">
+
+                                    <span
+                                        class="absolute -left-12 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
+                                    </span>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-12"
+                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                    </svg>
+
+                                    <span class="relative z-10">Baca Selengkapnya</span>
+                                </a>
+
                             </div>
-
-                            <!-- Button -->
-                            <a href="{{ route('public.announcements.show', $homeAnnouncement->slug) }}"
-                                class="group/btn relative overflow-hidden inline-flex shrink-0 items-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95">
-
-                                <span
-                                    class="absolute -left-12 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
-                                </span>
-
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-12"
-                                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                </svg>
-
-                                <span class="relative z-10">Baca Selengkapnya</span>
-                            </a>
-
-                        </div>
-                    </article>
+                        </article>
                     @empty
-                    <div class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
-                        Pengumuman resmi akan tampil di sini setelah admin mempublikasikannya.
-                    </div>
+                        <div
+                            class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
+                            Pengumuman resmi akan tampil di sini setelah admin mempublikasikannya.
+                        </div>
                     @endforelse
 
                 </div>
