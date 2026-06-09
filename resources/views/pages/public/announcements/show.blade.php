@@ -152,7 +152,7 @@
     {{-- Section --}}
     <section class="relative z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
         <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="grid -mt-48 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="grid -mt-60 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <main>
                     <article
                         class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60"
