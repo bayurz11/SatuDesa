@@ -69,7 +69,7 @@
         </div>
 
         <div class="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb">
+            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-up">
                 <ol class="flex flex-wrap items-center gap-2">
                     <li>
                         <a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a>
@@ -83,7 +83,7 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 max-w-4xl">
+            <div class="mt-8 max-w-4xl" data-aos="fade-up" data-aos-delay="100">
                 <div class="mb-5 flex flex-wrap items-center gap-3">
                     @if ($post->category)
                         <span
@@ -135,9 +135,11 @@
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <main>
                 <article
+                    data-aos="fade-up" data-aos-delay="140"
                     class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60">
 
-                    <div class="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
+                    <div class="relative overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200" data-aos="zoom-in"
+                        data-aos-delay="180">
                         @if ($post->cover_image_url)
                             <img src="{{ $post->cover_image_url }}" alt="{{ $post->cover_image_alt ?: $post->title }}"
                                 class="max-h-[560px] w-full object-cover">
@@ -158,12 +160,13 @@
                     </div>
 
                     @if ($post->cover_image_caption)
-                        <p class="border-b border-gray-100 bg-gray-50 px-6 py-3 text-center text-sm text-gray-500">
+                        <p class="border-b border-gray-100 bg-gray-50 px-6 py-3 text-center text-sm text-gray-500"
+                            data-aos="fade-up" data-aos-delay="120">
                             {{ $post->cover_image_caption }}
                         </p>
                     @endif
 
-                    <div class="p-6 sm:p-10">
+                    <div class="p-6 sm:p-10" data-aos="fade-up" data-aos-delay="200">
                         <div
                             class="article-content prose prose-lg max-w-none
                             prose-headings:font-bold
@@ -190,6 +193,7 @@
                     </div>
 
                     <div
+                        data-aos="fade-up" data-aos-delay="240"
                         class="border-t border-gray-100 bg-gradient-to-r from-emerald-50 via-white to-green-50 px-6 py-6 sm:px-10">
                         <div
                             class="flex flex-col gap-5 rounded-[24px] border border-emerald-100 bg-white/90 p-5 shadow-sm shadow-emerald-100/60 sm:p-6">
@@ -212,6 +216,7 @@
 
                             <div class="grid gap-3 md:grid-cols-3">
                                 <button type="button"
+                                    data-aos="fade-up" data-aos-delay="60"
                                     onclick="sharePost('{{ $shareUrl }}', '{{ e($shareTitle) }}', '{{ e($shareText) }}')"
                                     class="group inline-flex items-center justify-center gap-3 rounded-2xl bg-green-700 px-4 py-4 text-sm font-semibold text-white shadow-lg shadow-green-700/20 transition duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl hover:shadow-green-700/30">
                                     <span
@@ -229,6 +234,7 @@
                                 </button>
 
                                 <a href="https://wa.me/?text={{ urlencode($shareText) }}" target="_blank" rel="noopener noreferrer"
+                                    data-aos="fade-up" data-aos-delay="120"
                                     class="group inline-flex items-center justify-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-4 text-sm font-semibold text-green-700 transition duration-300 hover:-translate-y-1 hover:border-green-300 hover:bg-green-100 hover:shadow-lg hover:shadow-green-100">
                                     <span
                                         class="flex h-10 w-10 items-center justify-center rounded-full bg-green-100 transition group-hover:scale-110 group-hover:bg-green-200">
@@ -245,6 +251,7 @@
                                 </a>
 
                                 <button type="button" onclick="copyShareLink('{{ $shareUrl }}')"
+                                    data-aos="fade-up" data-aos-delay="180"
                                     class="group inline-flex items-center justify-center gap-3 rounded-2xl border border-gray-200 bg-white px-4 py-4 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-1 hover:border-gray-300 hover:bg-gray-50 hover:shadow-lg hover:shadow-gray-200/70">
                                     <span
                                         class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 transition group-hover:scale-110 group-hover:bg-gray-200">
@@ -273,7 +280,8 @@
             </main>
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
+                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
+                    data-aos="fade-left" data-aos-delay="160">
                     <h2 class="text-lg font-bold text-gray-900">Informasi Artikel</h2>
 
                     <dl class="mt-5 space-y-5 text-sm">
@@ -331,12 +339,14 @@
                 </div>
 
                 @if ($relatedPosts->isNotEmpty())
-                    <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
+                    <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
+                        data-aos="fade-left" data-aos-delay="220">
                         <h2 class="text-lg font-bold text-gray-900">Berita Terkait</h2>
 
                         <div class="mt-5 space-y-4">
                             @foreach ($relatedPosts as $relatedPost)
                                 <a href="{{ route('public.posts.show', $relatedPost->slug) }}"
+                                    data-aos="fade-left" data-aos-delay="{{ 60 + ($loop->index * 50) }}"
                                     class="group flex gap-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-green-200">
                                     <img src="{{ $relatedPost->cover_image_url ?: asset('img/bg.jpg') }}"
                                         alt="{{ $relatedPost->cover_image_alt ?: $relatedPost->title }}"
@@ -377,6 +387,7 @@
                 @endif
 
                 <div
+                    data-aos="fade-left" data-aos-delay="260"
                     class="rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
                     <h2 class="text-lg font-bold">Butuh informasi cepat?</h2>
                     <p class="mt-3 text-sm leading-6 text-white/85">

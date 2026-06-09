@@ -11,7 +11,7 @@
         </div>
 
         <div class="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb">
+            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-up">
                 <ol class="flex flex-wrap items-center gap-2">
                     <li><a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a></li>
                     <li>/</li>
@@ -21,7 +21,7 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 max-w-3xl">
+            <div class="mt-8 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
                 <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
                     Berita Desa Mentuda
                 </h1>
@@ -35,7 +35,8 @@
     </section>
 
     <section class="mx-auto -mt-10 max-w-7xl px-4 pb-14 sm:px-6 lg:px-8 z-10 relative">
-        <div class="rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6">
+        <div class="rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
+            data-aos="fade-up" data-aos-delay="150">
             <form method="GET" action="{{ route('public.posts.index') }}"
                 class="grid gap-4 lg:grid-cols-[1.6fr_0.8fr_auto]">
                 <label class="block">
@@ -80,6 +81,7 @@
             <main>
                 @if ($featuredPost)
                     <article
+                        data-aos="fade-up" data-aos-delay="80"
                         class="group relative overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8">
                         <a href="{{ route('public.posts.show', $featuredPost->slug) }}" class="relative block h-[360px] md:h-[520px]">
                             <img src="{{ $featuredPost->cover_image_url ?: asset('img/bg.jpg') }}"
@@ -126,6 +128,7 @@
                 <div class="mt-8 grid gap-6 md:grid-cols-2">
                     @forelse ($posts as $post)
                         <article
+                            data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
                             class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition hover:-translate-y-1 hover:shadow-xl">
                             <a href="{{ route('public.posts.show', $post->slug) }}" class="block">
                                 <div
@@ -167,7 +170,7 @@
                             </a>
                         </article>
                     @empty
-                        <div class="md:col-span-2">
+                        <div class="md:col-span-2" data-aos="fade-up">
                             <div class="rounded-[28px] border border-dashed border-gray-300 bg-white p-10 text-center">
                                 <h3 class="text-lg font-semibold text-gray-900">Belum ada berita ditemukan</h3>
                                 <p class="mt-2 text-sm text-gray-600">
@@ -179,14 +182,15 @@
                 </div>
 
                 @if ($posts->hasPages())
-                    <div class="mt-10">
+                    <div class="mt-10" data-aos="fade-up">
                         {{ $posts->links() }}
                     </div>
                 @endif
             </main>
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
+                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
+                    data-aos="fade-left" data-aos-delay="120">
                     <h2 class="text-lg font-bold text-gray-900">Kategori Berita</h2>
 
                     <div class="mt-5 flex flex-wrap gap-3">
@@ -204,12 +208,14 @@
                     </div>
                 </div>
 
-                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
+                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
+                    data-aos="fade-left" data-aos-delay="180">
                     <h2 class="text-lg font-bold text-gray-900">Berita Terbaru</h2>
 
                     <div class="mt-5 space-y-4">
                         @foreach ($latestPosts as $latestPost)
                             <a href="{{ route('public.posts.show', $latestPost->slug) }}"
+                                data-aos="fade-left" data-aos-delay="{{ 60 + ($loop->index * 50) }}"
                                 class="group flex gap-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-green-200">
                                 <img src="{{ $latestPost->cover_image_url ?: asset('img/bg.jpg') }}"
                                     alt="{{ $latestPost->cover_image_alt ?: $latestPost->title }}"
@@ -247,6 +253,7 @@
                 </div>
 
                 <div
+                    data-aos="fade-left" data-aos-delay="220"
                     class="rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
                     <h2 class="text-lg font-bold">Butuh informasi cepat?</h2>
                     <p class="mt-3 text-sm leading-6 text-white/85">
