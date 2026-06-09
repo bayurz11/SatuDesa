@@ -764,6 +764,20 @@
                                                 {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
                                             </span>
 
+                                            @if ($homeAnnouncement->is_featured)
+                                                <span
+                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200 transition-all duration-300 group-hover:bg-amber-700 group-hover:text-white group-hover:ring-amber-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
+                                                    </svg>
+                                                    Prioritas
+                                                </span>
+                                            @endif
+
                                             <span
                                                 class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
@@ -775,13 +789,6 @@
                                                 </svg>
                                                 {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
                                             </span>
-
-                                            @if ($homeAnnouncement->is_featured)
-                                                <span
-                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200">
-                                                    Prioritas
-                                                </span>
-                                            @endif
 
                                             <span class="hidden">
                                                 <svg xmlns="http://www.w3.org/2000/svg"
