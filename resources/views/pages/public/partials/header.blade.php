@@ -1,7 +1,7 @@
 <!-- Hero Section -->
 <section
     class="relative min-h-screen flex flex-col items-center justify-center text-center pt-24 bg-cover bg-center bg-no-repeat"
-    style="background-image: url('{{ asset('public/img/bg.jpg') }}');">
+    style="background-image: url('{{ asset('img/bg.jpg') }}');">
 
     <div class="absolute inset-0 bg-gradient-to-b from-white/70 via-white/100 to-transparent"></div>
     <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-white"></div>
