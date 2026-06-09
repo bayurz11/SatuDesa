@@ -15,8 +15,8 @@
     <meta name="publisher" content="Pemerintah Desa Mentuda">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <link rel="canonical" href="{{ url()->current() }}">
-    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
-    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
+    <link rel="icon" href="{{ asset('public/favicon-16x16.png') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('public/logo.png') }}">
 
     <meta property="og:type" content="website">
     <meta property="og:locale" content="id_ID">
