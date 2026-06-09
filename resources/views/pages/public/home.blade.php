@@ -766,7 +766,7 @@
 
                                             @if ($homeAnnouncement->is_featured)
                                                 <span
-                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200 transition-all duration-300 group-hover:bg-amber-700 group-hover:text-white group-hover:ring-amber-700">
+                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200 transition-all duration-300 group-hover:bg-amber-700 group-hover:text-black group-hover:ring-amber-700">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
