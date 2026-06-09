@@ -22,7 +22,7 @@
         <div class="absolute -left-20 top-20 h-72 w-72 rounded-full bg-emerald-300/10 blur-3xl"></div>
         <div class="absolute bottom-0 right-0 h-80 w-80 rounded-full bg-cyan-300/10 blur-3xl"></div>
 
-        <div class="relative mx-auto max-w-7xl px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+        <div class="relative mx-auto max-w-7xl px-4 pb-40 pt-8 sm:px-6 lg:px-8">
             <nav class="text-xs text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-up">
                 <ol class="flex flex-wrap items-center gap-2">
                     <li><a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a></li>
@@ -61,16 +61,20 @@
                         {{ $announcement->excerpt }}
                     </p>
                 @endif
-
                 @if ($announcement->event_at || $announcement->event_location || $announcement->author)
-                    <div class="mt-8 grid max-w-5xl gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    <div class="mt-10 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
+
                         @if ($announcement->event_at)
                             <div
-                                class="group min-h-[150px] rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-emerald-900/20">
-                                <div class="flex items-start gap-4">
+                                class="group relative overflow-hidden rounded-[28px] bg-white/10 p-6 shadow-lg shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-2xl hover:shadow-emerald-950/20">
+
+                                <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-300/10 blur-2xl">
+                                </div>
+
+                                <div class="relative flex items-start gap-5">
                                     <div
-                                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-300/20 transition duration-300 group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white shadow-inner shadow-white/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-emerald-300/20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                                 d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v11a2 2 0 002 2z" />
@@ -78,13 +82,15 @@
                                     </div>
 
                                     <div class="min-w-0">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.28em] text-emerald-100/80">
                                             Jadwal Pelaksanaan
                                         </p>
-                                        <p class="mt-2 text-sm font-semibold leading-6 text-white">
+
+                                        <p class="mt-3 text-base font-bold leading-6 text-white">
                                             {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y') }}
                                         </p>
-                                        <p class="text-sm text-emerald-100/80">
+
+                                        <p class="mt-1 text-sm font-medium text-emerald-100/80">
                                             {{ $announcement->event_at->translatedFormat('H:i') }} WIB
                                         </p>
                                     </div>
@@ -94,11 +100,15 @@
 
                         @if ($announcement->event_location)
                             <div
-                                class="group min-h-[150px] rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-cyan-900/20">
-                                <div class="flex items-start gap-4">
+                                class="group relative overflow-hidden rounded-[28px] bg-white/10 p-6 shadow-lg shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-2xl hover:shadow-cyan-950/20">
+
+                                <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-cyan-300/10 blur-2xl">
+                                </div>
+
+                                <div class="relative flex items-start gap-5">
                                     <div
-                                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-200 ring-1 ring-cyan-300/20 transition duration-300 group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white shadow-inner shadow-white/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-cyan-300/20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                                 d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0L6.343 16.657a8 8 0 1111.314 0z" />
@@ -108,10 +118,11 @@
                                     </div>
 
                                     <div class="min-w-0">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.28em] text-emerald-100/80">
                                             Lokasi
                                         </p>
-                                        <p class="mt-2 text-sm font-semibold leading-6 text-white">
+
+                                        <p class="mt-3 text-base font-bold leading-6 text-white">
                                             {{ $announcement->event_location }}
                                         </p>
                                     </div>
@@ -121,11 +132,15 @@
 
                         @if ($announcement->author)
                             <div
-                                class="group min-h-[150px] rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-violet-900/20">
-                                <div class="flex items-start gap-4">
+                                class="group relative overflow-hidden rounded-[28px] bg-white/10 p-6 shadow-lg shadow-black/10 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-2xl hover:shadow-violet-950/20">
+
+                                <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-violet-300/10 blur-2xl">
+                                </div>
+
+                                <div class="relative flex items-start gap-5">
                                     <div
-                                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-400/15 text-violet-200 ring-1 ring-violet-300/20 transition duration-300 group-hover:scale-110">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                        class="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white/15 text-white shadow-inner shadow-white/10 transition-all duration-300 group-hover:scale-110 group-hover:bg-violet-300/20">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
                                                 d="M5.121 17.804A9 9 0 1118.88 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -133,16 +148,18 @@
                                     </div>
 
                                     <div class="min-w-0">
-                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.28em] text-emerald-100/80">
                                             Penulis
                                         </p>
-                                        <p class="mt-2 text-sm font-semibold leading-6 text-white">
+
+                                        <p class="mt-3 text-base font-bold leading-6 text-white">
                                             {{ $announcement->author->name }}
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         @endif
+
                     </div>
                 @endif
             </div>
@@ -152,7 +169,7 @@
     {{-- Section --}}
     <section class="relative z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
         <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="grid -mt-60 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="grid -mt-72 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <main>
                     <article
                         class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60"
