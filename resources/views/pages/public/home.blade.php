@@ -772,8 +772,9 @@
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="1.8">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
+                                                            d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
                                                     </svg>
+
                                                     Prioritas
                                                 </span>
                                             @endif
@@ -822,10 +823,9 @@
                                                     fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                     stroke-width="1.8">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
+
                                                 {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
                                             </span>
 
@@ -921,7 +921,8 @@
     <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
         <!-- WhatsApp -->
-        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
+        <a href="https://wa.me/6281234567890" tooltip="Hubungi admin kami" target="_blank" rel="noopener noreferrer"
+            aria-label="WhatsApp"
             class="fab-action group relative flex h-12 w-12 items-center justify-center rounded-full
         bg-green-500 text-white shadow-xl shadow-green-600/30 transition-all duration-300
         hover:-translate-y-1 hover:scale-105 sm:h-14 sm:w-14">
