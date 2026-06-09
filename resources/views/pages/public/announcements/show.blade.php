@@ -124,7 +124,7 @@
                                 class="group min-h-[150px] rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-violet-900/20">
                                 <div class="flex items-start gap-4">
                                     <div
-                                        class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-violet-400/15 text-violet-200 ring-1 ring-violet-300/20 transition duration-300 group-hover:scale-110">
+                                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-400/15 text-violet-200 ring-1 ring-violet-300/20 transition duration-300 group-hover:scale-110">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
@@ -149,7 +149,7 @@
         </div>
     </section>
 
-    <section class="relative -mt-24 z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
+    <section class="relative -mt-30 z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
         <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
             <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <main>
