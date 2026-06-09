@@ -754,6 +754,32 @@
                             </a>
                         @endpermission
 
+                        @permission('announcements.view')
+                            <a href="{{ route('announcements.index') }}"
+                                class="group w-full flex items-center px-4 py-4 text-sm font-medium text-gray-700 bg-gradient-to-r from-amber-50 to-yellow-100 rounded-xl hover:from-amber-100 hover:to-yellow-200 transition-all duration-300 transform hover:scale-105 hover:shadow-lg">
+                                <div
+                                    class="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-500 rounded-lg flex items-center justify-center mr-4 group-hover:shadow-lg transition-shadow duration-300">
+                                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M10.34 3.94c.09-.54.56-.94 1.1-.94h1.12c.54 0 1.01.4 1.1.94l.23 1.39a2.25 2.25 0 001.66 1.79l1.35.34c.53.13.88.62.83 1.16l-.12 1.4a2.25 2.25 0 00.65 1.78l.98.98c.38.38.44.98.13 1.43l-.66.97a2.25 2.25 0 000 2.54l.66.97c.31.45.25 1.05-.13 1.43l-.98.98a2.25 2.25 0 00-.65 1.78l.12 1.4c.05.54-.3 1.03-.83 1.16l-1.35.34a2.25 2.25 0 00-1.66 1.79l-.23 1.39c-.09.54-.56.94-1.1.94h-1.12c-.54 0-1.01-.4-1.1-.94l-.23-1.39a2.25 2.25 0 00-1.66-1.79l-1.35-.34a1.125 1.125 0 01-.83-1.16l.12-1.4a2.25 2.25 0 00-.65-1.78l-.98-.98a1.125 1.125 0 01-.13-1.43l.66-.97a2.25 2.25 0 000-2.54l-.66-.97a1.125 1.125 0 01.13-1.43l.98-.98a2.25 2.25 0 00.65-1.78l-.12-1.4c-.05-.54.3-1.03.83-1.16l1.35-.34a2.25 2.25 0 001.66-1.79l.23-1.39Z">
+                                        </path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v3.75m0 3.75h.01"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-semibold text-gray-900 group-hover:text-amber-800">Pengumuman</p>
+                                    <p class="text-xs text-gray-500 group-hover:text-amber-700">Kelola pengumuman resmi desa</p>
+                                </div>
+                                <svg class="w-5 h-5 text-gray-400 group-hover:text-amber-600 transform group-hover:translate-x-1 transition-all duration-300"
+                                    fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7">
+                                    </path>
+                                </svg>
+                            </a>
+                        @endpermission
+
                         <!-- System Status -->
                         <div
                             class="group w-full flex items-center px-4 py-4 text-sm font-medium text-gray-700 bg-gradient-to-r from-purple-50 to-purple-100 rounded-xl">
