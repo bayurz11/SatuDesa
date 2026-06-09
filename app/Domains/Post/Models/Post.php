@@ -5,6 +5,7 @@ namespace App\Domains\Post\Models;
 use App\Domains\Analytics\Models\PostView;
 use App\Domains\User\Models\User;
 use App\Domains\Village\Models\Village;
+use App\Support\UploadStorage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -74,7 +75,7 @@ class Post extends Model
             return null;
         }
 
-        return '/storage/' . ltrim($this->cover_image_path, '/');
+        return Storage::disk(UploadStorage::disk())->url($this->cover_image_path);
     }
 
     public function village(): BelongsTo

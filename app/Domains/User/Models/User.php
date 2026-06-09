@@ -2,6 +2,7 @@
 
 namespace App\Domains\User\Models;
 
+use App\Support\UploadStorage;
 use App\Shared\Traits\HasRoles;
 use App\Shared\Traits\HasPermissions;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,6 @@ class User extends Authenticatable
             return null;
         }
 
-        return Storage::disk('public')->url($this->avatar_path);
+        return Storage::disk(UploadStorage::disk())->url($this->avatar_path);
     }
 }

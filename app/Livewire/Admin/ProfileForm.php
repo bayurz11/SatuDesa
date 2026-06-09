@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Support\UploadStorage;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -46,10 +47,10 @@ class ProfileForm extends Component
 
         if ($this->avatar) {
             if ($user->avatar_path) {
-                Storage::disk('public')->delete($user->avatar_path);
+                Storage::disk(UploadStorage::disk())->delete($user->avatar_path);
             }
 
-            $user->avatar_path = $this->avatar->store('avatars', 'public');
+            $user->avatar_path = $this->avatar->store('avatars', UploadStorage::disk());
         }
         
         $user->update([

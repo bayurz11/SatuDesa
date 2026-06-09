@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Potentials;
 use App\Domains\Potential\Models\Potential;
 use App\Domains\Potential\Models\PotentialCategory;
 use App\Domains\Village\Models\Village;
+use App\Support\UploadStorage;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Facades\Storage;
@@ -193,10 +194,10 @@ class PotentialForm extends Component
 
         if ($this->cover_image) {
             if ($coverImagePath) {
-                Storage::disk('public')->delete($coverImagePath);
+                Storage::disk(UploadStorage::disk())->delete($coverImagePath);
             }
 
-            $coverImagePath = $this->cover_image->store('potentials/covers', 'public');
+            $coverImagePath = $this->cover_image->store('potentials/covers', UploadStorage::disk());
         }
 
         $publishedAt = $this->status === 'published'

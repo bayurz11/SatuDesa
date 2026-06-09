@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Posts;
 use App\Domains\Post\Models\Post;
 use App\Domains\Post\Models\PostCategory;
 use App\Domains\Village\Models\Village;
+use App\Support\UploadStorage;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Support\Str;
@@ -260,10 +261,10 @@ class PostForm extends Component
 
         if ($this->cover_image) {
             if ($coverImagePath) {
-                Storage::disk('public')->delete($coverImagePath);
+                Storage::disk(UploadStorage::disk())->delete($coverImagePath);
             }
 
-            $coverImagePath = $this->cover_image->store('posts/covers', 'public');
+            $coverImagePath = $this->cover_image->store('posts/covers', UploadStorage::disk());
         }
 
         $publishedAt = $this->status === 'published'
