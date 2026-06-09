@@ -6,6 +6,11 @@
     $isHistory = request()->routeIs('public.history');
     $isPotentials = request()->routeIs('public.potentials.*');
     $isPosts = request()->routeIs('public.posts.*');
+    $isAnnouncements = request()->routeIs('public.announcements.*');
+    $isPopulation = request()->routeIs('public.population.*');
+    $isBudgets = request()->routeIs('public.budgets.*');
+    $isBusinesses = request()->routeIs('public.businesses.*');
+    $isServices = request()->routeIs('public.services.*');
 @endphp
 
 <footer class="bg-green-800 text-white" role="contentinfo">
@@ -73,8 +78,18 @@
                                 Beranda
                             </a>
                         </li>
-                        <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">UMKM</a></li>
-                        <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">Layanan</a></li>
+                        <li>
+                            <a href="{{ route('public.businesses.index') }}"
+                                class="{{ $isBusinesses ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
+                                UMKM
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('public.services.index') }}"
+                                class="{{ $isServices ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
+                                Layanan
+                            </a>
+                        </li>
                     </ul>
                 </div>
 
@@ -111,9 +126,18 @@
                 <div>
                     <h3 class="text-sm font-semibold uppercase tracking-wider text-white/90">Informasi</h3>
                     <ul class="mt-3 space-y-2 text-sm">
-                        <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">Data Penduduk</a>
+                        <li>
+                            <a href="{{ route('public.population.index') }}"
+                                class="{{ $isPopulation ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
+                                Data Penduduk
+                            </a>
                         </li>
-                        <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">APBDesa</a></li>
+                        <li>
+                            <a href="{{ route('public.budgets.index') }}"
+                                class="{{ $isBudgets ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
+                                APBDesa
+                            </a>
+                        </li>
                         <li>
                             <a href="{{ route('public.potentials.index') }}"
                                 class="{{ $isPotentials ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
@@ -126,7 +150,11 @@
                                 Berita
                             </a>
                         </li>
-                        <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">Pengumuman</a>
+                        <li>
+                            <a href="{{ route('public.announcements.index') }}"
+                                class="{{ $isAnnouncements ? 'text-yellow-300' : 'text-white/80 hover:text-yellow-300' }} rounded px-1 transition">
+                                Pengumuman
+                            </a>
                         </li>
                         <li><a href="#" class="text-white/80 hover:text-yellow-300 rounded px-1">Galeri</a></li>
                     </ul>

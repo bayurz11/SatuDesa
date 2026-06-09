@@ -111,7 +111,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                     'name' => 'announcements.index',
                     'title' => 'Pengumuman',
                     'description' => 'Manajemen pengumuman resmi desa.',
-                    'view' => 'pages.admin.section',
+                    'view' => 'pages.admin.announcements.index',
                 ],
                 'agenda' => [
                     'name' => 'agendas.index',

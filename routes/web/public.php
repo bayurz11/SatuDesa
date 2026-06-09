@@ -6,6 +6,7 @@ use App\Domains\Household\Models\Household;
 use App\Domains\Post\Models\Post;
 use App\Domains\Potential\Models\Potential;
 use App\Http\Controllers\PublicBudgetController;
+use App\Http\Controllers\PublicAnnouncementController;
 use App\Http\Controllers\PublicPopulationController;
 use App\Http\Controllers\PublicPotentialController;
 use App\Http\Controllers\PublicPostController;
@@ -14,22 +15,31 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('track.public')->group(function () {
 Route::get('/', function () {
     $homeFeaturedPost = Post::query()
+        ->news()
         ->with(['category:id,name,slug'])
-        ->where('status', 'published')
-        ->whereNotNull('published_at')
+        ->published()
         ->where('is_featured', true)
         ->orderByDesc('published_at')
         ->first();
 
     $homeNewsPosts = Post::query()
+        ->news()
         ->with(['category:id,name,slug'])
-        ->where('status', 'published')
-        ->whereNotNull('published_at')
+        ->published()
         ->when($homeFeaturedPost, function ($query) use ($homeFeaturedPost) {
             $query->where('id', '!=', $homeFeaturedPost->id);
         })
         ->orderByDesc('published_at')
         ->limit(4)
+        ->get();
+
+    $homeAnnouncements = Post::query()
+        ->announcements()
+        ->with(['category:id,name,slug'])
+        ->published()
+        ->orderByDesc('is_featured')
+        ->orderByDesc('published_at')
+        ->limit(3)
         ->get();
 
     $homeFeaturedPotential = Potential::query()
@@ -51,6 +61,7 @@ Route::get('/', function () {
         'homeFeaturedPost',
         'homeNewsPosts',
         'homeFeaturedPotential',
+        'homeAnnouncements',
         'totalCitizens',
         'totalHouseholds',
         'maleCitizens',
@@ -68,40 +79,11 @@ Route::get('/potensi-desa/{slug}', [PublicPotentialController::class, 'show'])->
 
 Route::get('/berita', [PublicPostController::class, 'index'])->name('public.posts.index');
 Route::get('/berita/{slug}', [PublicPostController::class, 'show'])->name('public.posts.show');
+Route::get('/pengumuman', [PublicAnnouncementController::class, 'index'])->name('public.announcements.index');
+Route::get('/pengumuman/{slug}', [PublicAnnouncementController::class, 'show'])->name('public.announcements.show');
 Route::get('/apbdesa', [PublicBudgetController::class, 'index'])->name('public.budgets.index');
 
 $staticPublicPages = [
-    '/pengumuman' => [
-        'name' => 'public.announcements.index',
-        'title' => 'Pengumuman',
-        'eyebrow' => 'Informasi Resmi',
-        'description' => 'Halaman pengumuman untuk menyampaikan info penting, perubahan layanan, jadwal kegiatan, dan pemberitahuan resmi dari pemerintah desa.',
-        'hero_badge' => 'Pusat Informasi Cepat',
-        'hero_note' => 'Struktur ini cocok untuk daftar pengumuman aktif, sorotan utama, dan arsip pemberitahuan.',
-        'metrics' => [
-            ['value' => '3', 'label' => 'Info Mendesak'],
-            ['value' => '12', 'label' => 'Pengumuman Aktif'],
-            ['value' => '24 Jam', 'label' => 'Respons Update'],
-        ],
-        'feature_title' => 'Sorotan pengumuman paling penting',
-        'feature_body' => 'Bagian hero ideal untuk satu pengumuman utama, sedangkan blok berikutnya menampilkan daftar pengumuman terbaru berdasarkan prioritas.',
-        'feature_points' => ['Info penting', 'Jadwal kegiatan', 'Pengumuman layanan'],
-        'cards' => [
-            ['eyebrow' => 'Prioritas', 'title' => 'Pengumuman utama', 'body' => 'Tempatkan pemberitahuan yang paling mendesak agar langsung terlihat saat halaman dibuka.'],
-            ['eyebrow' => 'Layanan', 'title' => 'Perubahan jadwal', 'body' => 'Cocok untuk penyesuaian jam layanan, cuti bersama, atau informasi administrasi.'],
-            ['eyebrow' => 'Arsip', 'title' => 'Daftar pengumuman', 'body' => 'Bisa dipakai untuk listing kronologis dengan label kategori atau status aktif.'],
-        ],
-        'content_title' => 'Susunan awal halaman pengumuman',
-        'content_body' => 'Di bagian utama, tampilkan pengumuman penting dalam kartu besar, lalu lanjutkan dengan daftar pengumuman terbaru dan arsip.',
-        'content_blocks' => [
-            ['title' => 'Sorotan utama', 'body' => 'Kartu besar untuk info mendesak atau pengumuman berdampak luas.'],
-            ['title' => 'Arsip cepat', 'body' => 'Daftar pengumuman sebelumnya dengan tanggal dan kategori.'],
-        ],
-        'sidebar_title' => 'Elemen yang disarankan',
-        'sidebar_items' => ['Label prioritas', 'Tanggal berlaku', 'Arsip pengumuman'],
-        'cta_title' => 'Siap menjadi pusat pengumuman resmi desa',
-        'cta_body' => 'Nanti bisa disambungkan ke sistem posting agar admin cukup publish tanpa edit manual.',
-    ],
     '/galeri-desa' => [
         'name' => 'public.galleries.index',
         'title' => 'Galeri Desa',

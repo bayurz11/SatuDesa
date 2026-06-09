@@ -24,6 +24,11 @@ class PermissionSeeder extends Seeder
             ['name' => 'post_categories.create', 'display_name' => 'Create Post Categories', 'description' => 'Can create new post categories', 'group' => 'posts'],
             ['name' => 'post_categories.edit', 'display_name' => 'Edit Post Categories', 'description' => 'Can edit post categories', 'group' => 'posts'],
             ['name' => 'post_categories.delete', 'display_name' => 'Delete Post Categories', 'description' => 'Can delete post categories', 'group' => 'posts'],
+            ['name' => 'announcements.view', 'display_name' => 'View Announcements', 'description' => 'Can view announcement list and details', 'group' => 'announcements'],
+            ['name' => 'announcements.create', 'display_name' => 'Create Announcements', 'description' => 'Can create new announcements', 'group' => 'announcements'],
+            ['name' => 'announcements.edit', 'display_name' => 'Edit Announcements', 'description' => 'Can edit existing announcements', 'group' => 'announcements'],
+            ['name' => 'announcements.delete', 'display_name' => 'Delete Announcements', 'description' => 'Can delete announcements', 'group' => 'announcements'],
+            ['name' => 'announcements.publish', 'display_name' => 'Publish Announcements', 'description' => 'Can publish and unpublish announcements', 'group' => 'announcements'],
 
             // User permissions
             ['name' => 'users.view', 'display_name' => 'View Users', 'description' => 'Can view user list and details', 'group' => 'users'],

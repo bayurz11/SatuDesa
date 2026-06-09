@@ -720,8 +720,10 @@
                 <!-- List Pengumuman -->
                 <div class="mx-auto max-w-5xl space-y-4">
 
+                    @forelse ($homeAnnouncements as $homeAnnouncement)
                     <article
-                        class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200">
+                        class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200"
+                        data-aos="fade-up" data-aos-delay="{{ 60 + ($loop->index * 70) }}">
 
                         <!-- Shine effect card -->
                         <span
@@ -736,9 +738,9 @@
                                 <!-- Date -->
                                 <div
                                     class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
-                                    <span class="text-[10px] font-semibold">Thu</span>
-                                    <strong class="text-xl leading-none">20</strong>
-                                    <span class="text-[10px] font-semibold">Nov</span>
+                                    <span class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->published_at)->translatedFormat('M') }}</span>
+                                    <strong class="text-xl leading-none">{{ optional($homeAnnouncement->published_at)->format('d') }}</strong>
+                                    <span class="text-[10px] font-semibold">{{ optional($homeAnnouncement->published_at)->format('Y') }}</span>
                                 </div>
 
                                 <!-- Content -->
@@ -755,11 +757,29 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
                                             </svg>
-                                            Pengumuman
+                                            {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
                                         </span>
 
                                         <span
                                             class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                            </svg>
+                                            {{ optional($homeAnnouncement->published_at)->translatedFormat('d F Y') }}
+                                        </span>
+
+                                        @if ($homeAnnouncement->is_featured)
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200">
+                                                Prioritas
+                                            </span>
+                                        @endif
+
+                                        <span class="hidden">
                                             <svg xmlns="http://www.w3.org/2000/svg"
                                                 class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
                                                 fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -774,13 +794,12 @@
 
                                     <h3
                                         class="mt-2 text-lg font-bold text-gray-900 transition-all duration-300 group-hover:text-green-700 group-hover:translate-x-1">
-                                        Undangan Musyawarah Desa Rencana Kerja Pemerintah Desa 2026
+                                        {{ $homeAnnouncement->title }}
                                     </h3>
 
                                     <p
                                         class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
-                                        Pemerintah Desa Mentuda mengundang seluruh warga dan tokoh
-                                        masyarakat untuk hadir dalam Musyawarah Desa.
+                                        {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
                                     </p>
 
                                     <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">
@@ -796,7 +815,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                             </svg>
-                                            Aula Balai Desa Mentuda
+                                            {{ optional($homeAnnouncement->published_at)->format('H:i') ?: 'Publikasi aktif' }}
                                         </span>
 
                                         <span
@@ -808,7 +827,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
                                             </svg>
-                                            Sekretariat Desa Mentuda
+                                            {{ $homeAnnouncement->author?->name ?? 'Pemerintah Desa Mentuda' }}
                                         </span>
 
                                     </div>
@@ -817,7 +836,7 @@
                             </div>
 
                             <!-- Button -->
-                            <a href="#"
+                            <a href="{{ route('public.announcements.show', $homeAnnouncement->slug) }}"
                                 class="group/btn relative overflow-hidden inline-flex shrink-0 items-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95">
 
                                 <span
@@ -838,12 +857,17 @@
 
                         </div>
                     </article>
+                    @empty
+                    <div class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
+                        Pengumuman resmi akan tampil di sini setelah admin mempublikasikannya.
+                    </div>
+                    @endforelse
 
                 </div>
 
                 <!-- Button Bottom -->
                 <div class="mt-10 text-center">
-                    <a href="#"
+                    <a href="{{ route('public.announcements.index') }}"
                         class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
 
                         <span

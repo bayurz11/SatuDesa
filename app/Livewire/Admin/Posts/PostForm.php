@@ -18,6 +18,10 @@ class PostForm extends Component
 {
     use WithAlerts, WithFileUploads;
 
+    public $type = Post::TYPE_NEWS;
+    public $permissionPrefix = 'posts';
+    public $contentLabel = 'Berita';
+    public $contentLabelPlural = 'Berita';
     public $postId;
     public $village_id = '';
     public $category_id = '';
@@ -69,9 +73,20 @@ class PostForm extends Component
         ];
     }
 
-    public function mount($postId = null)
+    public function mount(
+        string $type = Post::TYPE_NEWS,
+        string $permissionPrefix = 'posts',
+        string $contentLabel = 'Berita',
+        string $contentLabelPlural = 'Berita',
+        $postId = null
+    )
     {
+        $this->type = $type;
+        $this->permissionPrefix = $permissionPrefix;
+        $this->contentLabel = $contentLabel;
+        $this->contentLabelPlural = $contentLabelPlural;
         $this->village_id = (string) Village::orderBy('name')->value('id');
+        $this->category_id = $this->defaultCategoryId();
 
         if ($postId) {
             $this->loadPost($postId);
@@ -120,7 +135,7 @@ class PostForm extends Component
 
     public function loadPost($postId)
     {
-        $post = Post::findOrFail($postId);
+        $post = Post::query()->where('type', $this->type)->findOrFail($postId);
 
         $this->postId = $post->id;
         $this->village_id = (string) $post->village_id;
@@ -167,7 +182,7 @@ class PostForm extends Component
     {
         $this->postId = null;
         $this->village_id = (string) Village::orderBy('name')->value('id');
-        $this->category_id = '';
+        $this->category_id = $this->defaultCategoryId();
         $this->title = '';
         $this->slug = '';
         $this->excerpt = '';
@@ -227,11 +242,19 @@ class PostForm extends Component
 
     public function save()
     {
+        $permissionAction = $this->isEditing ? 'edit' : 'create';
+        if (! auth()->user()->hasPermission($this->permissionName($permissionAction))) {
+            $this->showErrorToast("Anda tidak memiliki izin untuk menyimpan {$this->contentLabelLower()}.");
+            return;
+        }
+
         $this->slug = Str::slug($this->slug ?: $this->title);
         $this->addTag();
         $this->validate();
 
-        $post = $this->isEditing ? Post::findOrFail($this->postId) : new Post();
+        $post = $this->isEditing
+            ? Post::query()->where('type', $this->type)->findOrFail($this->postId)
+            : new Post();
 
         $coverImagePath = $post->cover_image_path;
 
@@ -258,6 +281,7 @@ class PostForm extends Component
             'village_id' => (int) $this->village_id,
             'category_id' => (int) $this->category_id,
             'author_id' => auth()->id(),
+            'type' => $this->type,
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
@@ -285,7 +309,9 @@ class PostForm extends Component
             'is_featured' => (bool) $post->is_featured,
         ]);
 
-        $successMessage = $this->isEditing ? 'Berita berhasil diperbarui.' : 'Berita berhasil dibuat.';
+        $successMessage = $this->isEditing
+            ? ucfirst($this->contentLabelLower()) . ' berhasil diperbarui.'
+            : ucfirst($this->contentLabelLower()) . ' berhasil dibuat.';
 
         $this->showSuccessToast($successMessage);
 
@@ -299,5 +325,24 @@ class PostForm extends Component
         $categories = PostCategory::orderBy('name')->get(['id', 'name', 'description']);
 
         return view('livewire.admin.posts.post-form', compact('villages', 'categories'));
+    }
+
+    public function permissionName(string $action): string
+    {
+        return $this->permissionPrefix . '.' . $action;
+    }
+
+    public function contentLabelLower(): string
+    {
+        return strtolower($this->contentLabel);
+    }
+
+    protected function defaultCategoryId(): string
+    {
+        if ($this->type !== Post::TYPE_ANNOUNCEMENT) {
+            return '';
+        }
+
+        return (string) (PostCategory::query()->where('slug', 'pengumuman')->value('id') ?? '');
     }
 }

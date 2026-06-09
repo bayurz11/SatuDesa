@@ -14,6 +14,10 @@ class PostList extends Component
 {
     use WithPagination, WithAlerts;
 
+    public $type = Post::TYPE_NEWS;
+    public $permissionPrefix = 'posts';
+    public $contentLabel = 'Berita';
+    public $contentLabelPlural = 'Berita';
     public $search = '';
     public $status = '';
     public $categoryId = '';
@@ -31,6 +35,18 @@ class PostList extends Component
     public function refreshPosts(): void
     {
         $this->dispatch('$refresh');
+    }
+
+    public function mount(
+        string $type = Post::TYPE_NEWS,
+        string $permissionPrefix = 'posts',
+        string $contentLabel = 'Berita',
+        string $contentLabelPlural = 'Berita'
+    ): void {
+        $this->type = $type;
+        $this->permissionPrefix = $permissionPrefix;
+        $this->contentLabel = $contentLabel;
+        $this->contentLabelPlural = $contentLabelPlural;
     }
 
     public function updatingSearch()
@@ -72,12 +88,12 @@ class PostList extends Component
 
     public function publishPost($postId)
     {
-        if (!auth()->user()->hasPermission('posts.publish')) {
-            $this->showErrorToast('Anda tidak memiliki izin untuk publish berita.');
+        if (!auth()->user()->hasPermission($this->permissionName('publish'))) {
+            $this->showErrorToast("Anda tidak memiliki izin untuk publish {$this->contentLabelLower()}.");
             return;
         }
 
-        $post = Post::findOrFail($postId);
+        $post = Post::query()->where('type', $this->type)->findOrFail($postId);
         $post->update([
             'status' => 'published',
             'published_at' => now(),
@@ -87,18 +103,18 @@ class PostList extends Component
             'post_title' => $post->title,
         ]);
 
-        $this->showSuccessToast('Berita berhasil dipublish.');
+        $this->showSuccessToast(ucfirst($this->contentLabelLower()) . ' berhasil dipublish.');
         $this->dispatch('$refresh');
     }
 
     public function moveToDraft($postId)
     {
-        if (!auth()->user()->hasPermission('posts.edit')) {
-            $this->showErrorToast('Anda tidak memiliki izin untuk mengubah status berita.');
+        if (!auth()->user()->hasPermission($this->permissionName('edit'))) {
+            $this->showErrorToast("Anda tidak memiliki izin untuk mengubah status {$this->contentLabelLower()}.");
             return;
         }
 
-        $post = Post::findOrFail($postId);
+        $post = Post::query()->where('type', $this->type)->findOrFail($postId);
         $post->update([
             'status' => 'draft',
             'published_at' => null,
@@ -108,17 +124,17 @@ class PostList extends Component
             'post_title' => $post->title,
         ]);
 
-        $this->showSuccessToast('Berita dipindahkan ke draft.');
+        $this->showSuccessToast(ucfirst($this->contentLabelLower()) . ' dipindahkan ke draft.');
         $this->dispatch('$refresh');
     }
 
     public function confirmDeletePost($postId)
     {
-        $post = Post::findOrFail($postId);
+        $post = Post::query()->where('type', $this->type)->findOrFail($postId);
 
         $this->showConfirm(
-            'Hapus Berita',
-            "Hapus berita '{$post->title}'? Data dapat dipulihkan hanya dari database backup.",
+            'Hapus ' . $this->contentLabel,
+            "Hapus {$this->contentLabelLower()} '{$post->title}'? Data dapat dipulihkan hanya dari database backup.",
             'deletePost',
             ['postId' => $postId],
             'Ya, hapus',
@@ -128,13 +144,13 @@ class PostList extends Component
 
     public function deletePost($params)
     {
-        if (!auth()->user()->hasPermission('posts.delete')) {
-            $this->showErrorToast('Anda tidak memiliki izin untuk menghapus berita.');
+        if (!auth()->user()->hasPermission($this->permissionName('delete'))) {
+            $this->showErrorToast("Anda tidak memiliki izin untuk menghapus {$this->contentLabelLower()}.");
             return;
         }
 
         $postId = $params['postId'];
-        $post = Post::findOrFail($postId);
+        $post = Post::query()->where('type', $this->type)->findOrFail($postId);
 
         LoggerService::logUserAction('delete', 'Post', $postId, [
             'post_title' => $post->title,
@@ -143,13 +159,24 @@ class PostList extends Component
 
         $post->delete();
 
-        $this->showSuccessToast('Berita berhasil dihapus.');
+        $this->showSuccessToast(ucfirst($this->contentLabelLower()) . ' berhasil dihapus.');
         $this->dispatch('$refresh');
+    }
+
+    public function permissionName(string $action): string
+    {
+        return $this->permissionPrefix . '.' . $action;
+    }
+
+    public function contentLabelLower(): string
+    {
+        return strtolower($this->contentLabel);
     }
 
     public function render()
     {
         $baseQuery = Post::query()
+            ->where('type', $this->type)
             ->with([
                 'category:id,name',
                 'author:id,name',

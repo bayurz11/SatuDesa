@@ -156,7 +156,7 @@
 
                     editorInstance = new window.Quill(editor, {
                         theme: 'snow',
-                        placeholder: 'Tulis isi berita di sini...',
+                        placeholder: 'Tulis isi {{ strtolower($contentLabel) }} di sini...',
                         modules: {
                             toolbar: [
                                 [{ header: [2, 3, false] }],
@@ -253,6 +253,10 @@
 @endpush
 
 <div>
+    @php
+        $contentLabelLower = $this->contentLabelLower();
+    @endphp
+
     @if($showModal)
         <div class="app-modal-overlay" data-modal-overlay wire:click="closeModal">
             <div class="app-modal-shell">
@@ -260,7 +264,7 @@
                     <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 via-blue-50 to-indigo-50 px-6 py-5">
                         <div class="flex items-center justify-between">
                             <h3 class="text-lg font-semibold text-gray-900">
-                                {{ $isEditing ? 'Edit Berita' : 'Tambah Berita' }}
+                                {{ $isEditing ? 'Edit ' . $contentLabel : 'Tambah ' . $contentLabel }}
                             </h3>
                             <button wire:click="closeModal" class="text-gray-400 hover:text-gray-600">
                                 <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -269,7 +273,7 @@
                             </button>
                         </div>
                         <p class="mt-1 text-sm text-slate-500">
-                            {{ $isEditing ? 'Perbarui detail berita dan status publikasinya.' : 'Tambahkan berita baru untuk kanal informasi publik.' }}
+                            {{ $isEditing ? 'Perbarui detail ' . $contentLabelLower . ' dan status publikasinya.' : 'Tambahkan ' . $contentLabelLower . ' baru untuk kanal informasi publik.' }}
                         </p>
                     </div>
 
@@ -279,7 +283,7 @@
                                 <div class="flex flex-col gap-5 lg:flex-row lg:items-start">
                                     <div class="w-full max-w-xs">
                                         @if($cover_image)
-                                            <img src="{{ $cover_image->temporaryUrl() }}" alt="Preview cover berita" class="h-48 w-full rounded-2xl object-cover shadow-lg">
+                                            <img src="{{ $cover_image->temporaryUrl() }}" alt="Preview cover {{ $contentLabelLower }}" class="h-48 w-full rounded-2xl object-cover shadow-lg">
                                         @elseif($existing_cover_image_url)
                                             <img src="{{ $existing_cover_image_url }}" alt="{{ $cover_image_alt ?: $title }}" class="h-48 w-full rounded-2xl object-cover shadow-lg">
                                         @else
@@ -299,8 +303,8 @@
 
                                     <div class="flex-1 space-y-4">
                                         <div>
-                                            <h4 class="text-base font-semibold text-gray-900">Cover Berita</h4>
-                                            <p class="mt-1 text-sm text-gray-600">Unggah gambar utama agar artikel tampil lebih menarik saat dibuka atau dibagikan.</p>
+                                            <h4 class="text-base font-semibold text-gray-900">Cover {{ $contentLabel }}</h4>
+                                            <p class="mt-1 text-sm text-gray-600">Unggah gambar utama agar {{ $contentLabelLower }} tampil lebih menarik saat dibuka atau dibagikan.</p>
                                         </div>
 
                                         <div class="flex flex-wrap items-center gap-3">
@@ -335,7 +339,7 @@
 
                                         <label class="inline-flex items-center rounded-xl border border-amber-200 bg-amber-50 px-4 py-3">
                                             <input wire:model="is_featured" type="checkbox" class="rounded border-amber-300 text-amber-500 focus:ring-amber-500 focus:ring-offset-0">
-                                            <span class="ml-3 text-sm font-medium text-amber-800">Tandai sebagai berita unggulan</span>
+                                            <span class="ml-3 text-sm font-medium text-amber-800">Tandai sebagai {{ $contentLabelLower }} unggulan</span>
                                         </label>
                                     </div>
                                 </div>
@@ -344,7 +348,7 @@
                             <div class="rounded-2xl border border-slate-200 bg-white p-6">
                                 <div class="mb-4">
                                     <h4 class="text-base font-semibold text-gray-900">Informasi Utama</h4>
-                                    <p class="mt-1 text-sm text-gray-600">Isi data dasar berita terlebih dahulu agar sistem bisa membentuk struktur artikel dengan rapi.</p>
+                                    <p class="mt-1 text-sm text-gray-600">Isi data dasar {{ $contentLabelLower }} terlebih dahulu agar sistem bisa membentuk struktur konten dengan rapi.</p>
                                 </div>
 
                             <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -374,7 +378,7 @@
                                 <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2">
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Judul</label>
-                                        <input wire:model.live="title" type="text" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan judul berita">
+                                        <input wire:model.live="title" type="text" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Masukkan judul {{ $contentLabelLower }}">
                                         <p class="mt-1 text-xs text-slate-500">Gunakan judul yang jelas dan mudah dipahami warga.</p>
                                         @error('title') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
                                     </div>
@@ -382,16 +386,16 @@
                                     <div>
                                         <label class="block text-sm font-medium text-gray-700">Slug</label>
                                         <input wire:model.live="slug" type="text" readonly class="mt-2 block w-full rounded-xl border border-gray-300 bg-slate-50 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                        <p class="mt-1 text-xs text-slate-500">Slug dibuat otomatis mengikuti judul berita.</p>
+                                        <p class="mt-1 text-xs text-slate-500">Slug dibuat otomatis mengikuti judul {{ $contentLabelLower }}.</p>
                                         @error('slug') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
                                     </div>
                                 </div>
 
                                 <div class="mt-6">
                                     <label class="block text-sm font-medium text-gray-700">Ringkasan</label>
-                                    <textarea wire:model.live="excerpt" rows="4" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tulis ringkasan singkat isi berita"></textarea>
+                                    <textarea wire:model.live="excerpt" rows="4" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tulis ringkasan singkat isi {{ $contentLabelLower }}"></textarea>
                                     <div class="mt-1 flex items-center justify-between text-xs text-slate-500">
-                                        <span>Ringkasan ini juga dipakai sebagai deskripsi singkat berita.</span>
+                                        <span>Ringkasan ini juga dipakai sebagai deskripsi singkat {{ $contentLabelLower }}.</span>
                                         <span>{{ strlen($excerpt ?? '') }}/500</span>
                                     </div>
                                     @error('excerpt') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
@@ -400,8 +404,8 @@
 
                             <div class="rounded-2xl border border-slate-200 bg-white p-6">
                                 <div class="mb-4">
-                                    <h4 class="text-base font-semibold text-gray-900">Isi Berita</h4>
-                                    <p class="mt-1 text-sm text-gray-600">Tulis isi lengkap berita dan lengkapi tag agar artikel lebih mudah dicari.</p>
+                                    <h4 class="text-base font-semibold text-gray-900">Isi {{ $contentLabel }}</h4>
+                                    <p class="mt-1 text-sm text-gray-600">Tulis isi lengkap {{ $contentLabelLower }} dan lengkapi tag agar konten lebih mudah dicari.</p>
                                 </div>
 
                                 <div>
@@ -410,12 +414,12 @@
                                     <div wire:ignore class="mt-2 quill-wrapper">
                                         <div id="post-content-editor"></div>
                                     </div>
-                                    <p class="mt-1 text-xs text-slate-500">Editor mendukung heading, tebal, miring, daftar, kutipan, tautan, dan perataan paragraf agar penulisan berita lebih mudah.</p>
+                                    <p class="mt-1 text-xs text-slate-500">Editor mendukung heading, tebal, miring, daftar, kutipan, tautan, dan perataan paragraf agar penulisan {{ $contentLabelLower }} lebih mudah.</p>
                                     @error('content') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
                                 </div>
 
                                 <div class="mt-6">
-                                    <label class="block text-sm font-medium text-gray-700">Tag Berita</label>
+                                    <label class="block text-sm font-medium text-gray-700">Tag {{ $contentLabel }}</label>
                                     <div class="mt-2 tag-chip-wrap">
                                     @php
                                         $tagBadgeClasses = [
@@ -456,7 +460,7 @@
                             <div class="rounded-2xl border border-slate-200 bg-white p-6">
                                 <div class="mb-4">
                                     <h4 class="text-base font-semibold text-gray-900">Publikasi</h4>
-                                    <p class="mt-1 text-sm text-gray-600">Tentukan status artikel dan kapan berita akan diterbitkan.</p>
+                                    <p class="mt-1 text-sm text-gray-600">Tentukan status {{ $contentLabelLower }} dan kapan konten ini akan diterbitkan.</p>
                                 </div>
 
                                 <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -493,7 +497,7 @@
                                                 Gunakan Otomatis
                                             </button>
                                         </div>
-                                        <input wire:model.live="meta_title" type="text" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Otomatis mengikuti judul berita">
+                                        <input wire:model.live="meta_title" type="text" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Otomatis mengikuti judul {{ $contentLabelLower }}">
                                         <div class="mt-1 flex items-center justify-between text-xs text-slate-500">
                                             <span>{{ $metaTitleLocked ? 'Mode otomatis aktif.' : 'Mode manual aktif.' }}</span>
                                             <span>{{ strlen($meta_title ?? '') }}/255</span>
@@ -508,7 +512,7 @@
                                                 Gunakan Otomatis
                                             </button>
                                         </div>
-                                        <textarea wire:model.live="meta_description" rows="3" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Otomatis mengikuti ringkasan berita"></textarea>
+                                        <textarea wire:model.live="meta_description" rows="3" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Otomatis mengikuti ringkasan {{ $contentLabelLower }}"></textarea>
                                         <div class="mt-1 flex items-center justify-between text-xs text-slate-500">
                                             <span>{{ $metaDescriptionLocked ? 'Mode otomatis aktif.' : 'Mode manual aktif.' }}</span>
                                             <span>{{ strlen($meta_description ?? '') }}/320</span>
@@ -524,7 +528,7 @@
                                 Batal
                             </button>
                             <button type="submit" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                {{ $isEditing ? 'Update Berita' : 'Simpan Berita' }}
+                                {{ $isEditing ? 'Update ' . $contentLabel : 'Simpan ' . $contentLabel }}
                             </button>
                         </div>
                     </form>

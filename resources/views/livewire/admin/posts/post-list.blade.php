@@ -1,3 +1,11 @@
+@php
+    $createPermission = $this->permissionName('create');
+    $editPermission = $this->permissionName('edit');
+    $publishPermission = $this->permissionName('publish');
+    $deletePermission = $this->permissionName('delete');
+    $contentLabelLower = $this->contentLabelLower();
+@endphp
+
 <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
     <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
         <div class="flex justify-between items-center">
@@ -13,8 +21,8 @@
                 </div>
 
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">Manajemen Berita</h2>
-                    <p class="mt-1 text-sm text-gray-600">Kelola artikel, status publikasi, dan kategori berita desa</p>
+                    <h2 class="text-2xl font-bold text-gray-900">Manajemen {{ $contentLabelPlural }}</h2>
+                    <p class="mt-1 text-sm text-gray-600">Kelola {{ $contentLabelLower }}, status publikasi, dan kategorinya dari satu panel.</p>
                 </div>
             </div>
 
@@ -26,7 +34,7 @@
                     </button>
                 @endif
 
-                @permission('posts.create')
+                @permission($createPermission)
                     <button wire:click="$dispatch('openPostForm')"
                         class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
                         <svg class="w-5 h-5 mr-2 group-hover:rotate-90 transition-transform duration-300" fill="none"
@@ -34,7 +42,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                         </svg>
-                        Tulis Berita
+                        Tulis {{ $contentLabel }}
                     </button>
                 @endpermission
             </div>
@@ -214,7 +222,7 @@
                     </div>
 
                     <input wire:model.live="search" type="text"
-                        placeholder="Cari judul, slug, ringkasan, atau isi artikel..."
+                        placeholder="Cari judul, slug, ringkasan, atau isi {{ $contentLabelLower }}..."
                         class="block w-full pl-12 pr-4 py-3 border border-gray-300 rounded-xl leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200">
                 </div>
             </div>
@@ -362,7 +370,7 @@
 
                     <div class="mt-4 border-t border-gray-100 pt-4">
                         <div class="flex flex-wrap gap-2">
-                            @permission('posts.edit')
+                            @permission($editPermission)
                                 <button wire:click="$dispatch('openPostForm', { postId: {{ $post->id }} })"
                                     class="group/btn inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-600 transition-all duration-200 hover:bg-blue-100 hover:text-blue-700 hover:scale-105">
                                     <svg class="mr-1.5 h-4 w-4 transition-transform duration-200 group-hover/btn:rotate-12"
@@ -376,7 +384,7 @@
                             @endpermission
 
                             @if ($post->status !== 'published')
-                                @permission('posts.publish')
+                                @permission($publishPermission)
                                     <button wire:click="publishPost({{ $post->id }})"
                                         class="group/btn inline-flex items-center rounded-lg bg-green-50 px-3 py-2 text-xs font-semibold text-green-600 transition-all duration-200 hover:bg-green-100 hover:text-green-700 hover:scale-105">
                                         <svg class="mr-1.5 h-4 w-4 transition-transform duration-200 group-hover/btn:scale-110"
@@ -388,7 +396,7 @@
                                     </button>
                                 @endpermission
                             @else
-                                @permission('posts.edit')
+                                @permission($editPermission)
                                     <button wire:click="moveToDraft({{ $post->id }})"
                                         class="group/btn inline-flex items-center rounded-lg bg-yellow-50 px-3 py-2 text-xs font-semibold text-yellow-600 transition-all duration-200 hover:bg-yellow-100 hover:text-yellow-700 hover:scale-105">
                                         <svg class="mr-1.5 h-4 w-4 transition-transform duration-300 group-hover/btn:rotate-180"
@@ -402,7 +410,7 @@
                                 @endpermission
                             @endif
 
-                            @permission('posts.delete')
+                            @permission($deletePermission)
                                 <button wire:click="confirmDeletePost({{ $post->id }})"
                                     class="group/btn inline-flex items-center rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-all duration-200 hover:bg-red-100 hover:text-red-700 hover:scale-105">
                                     <svg class="mr-1.5 h-4 w-4 group-hover/btn:animate-bounce" fill="none"
@@ -433,25 +441,25 @@
                     </svg>
                 </div>
 
-                <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada artikel</h3>
+                <h3 class="text-xl font-semibold text-gray-900 mb-2">Belum ada {{ $contentLabelLower }}</h3>
 
                 <p class="text-gray-500 mb-6 max-w-sm text-center">
                     @if ($search || $status || $categoryId)
-                        Coba ubah kata kunci atau filter untuk menemukan artikel yang dicari.
+                        Coba ubah kata kunci atau filter untuk menemukan {{ $contentLabelLower }} yang dicari.
                     @else
-                        Mulai dengan membuat artikel pertama untuk kanal berita publik.
+                        Mulai dengan membuat {{ $contentLabelLower }} pertama untuk kanal informasi publik.
                     @endif
                 </p>
 
                 @if (!$search && !$status && !$categoryId)
-                    @permission('posts.create')
+                    @permission($createPermission)
                         <button wire:click="$dispatch('openPostForm')"
                             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-xl hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                             </svg>
-                            Buat Artikel Pertama
+                            Buat {{ $contentLabel }} Pertama
                         </button>
                     @endpermission
                 @else
@@ -469,7 +477,7 @@
             <div class="text-sm text-gray-600">
                 Menampilkan <span class="font-medium">{{ $posts->firstItem() ?? 0 }}</span> sampai <span
                     class="font-medium">{{ $posts->lastItem() ?? 0 }}</span> dari <span
-                    class="font-medium">{{ $posts->total() }}</span> artikel
+                    class="font-medium">{{ $posts->total() }}</span> {{ strtolower($contentLabelPlural) }}
             </div>
 
             <div class="flex-1 flex justify-center">

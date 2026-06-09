@@ -8,7 +8,7 @@ use App\Services\VisitTrackerService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 
-class PublicPostController extends Controller
+class PublicAnnouncementController extends Controller
 {
     public function index(Request $request): View
     {
@@ -16,7 +16,7 @@ class PublicPostController extends Controller
         $category = trim((string) $request->string('category'));
 
         $baseQuery = Post::query()
-            ->news()
+            ->announcements()
             ->with(['author:id,name', 'category:id,name,slug'])
             ->published()
             ->when($search !== '', function ($query) use ($search) {
@@ -32,40 +32,37 @@ class PublicPostController extends Controller
                     $categoryQuery->where('slug', $category);
                 });
             })
+            ->orderByDesc('is_featured')
             ->orderByDesc('published_at');
 
-        $featuredPost = (clone $baseQuery)
-            ->where('is_featured', true)
-            ->first();
+        $featuredAnnouncement = (clone $baseQuery)->first();
 
-        $posts = (clone $baseQuery)
-            ->when($featuredPost, function ($query) use ($featuredPost) {
-                $query->where('id', '!=', $featuredPost->id);
+        $announcements = (clone $baseQuery)
+            ->when($featuredAnnouncement, function ($query) use ($featuredAnnouncement) {
+                $query->where('id', '!=', $featuredAnnouncement->id);
             })
-            ->paginate(4)
+            ->paginate(6)
             ->withQueryString();
 
         $categories = PostCategory::query()
             ->whereHas('posts', function ($query) {
-                $query->news()->published();
+                $query->announcements()->published();
             })
             ->withCount([
                 'posts as published_posts_count' => function ($query) {
-                    $query->news()->published();
+                    $query->announcements()->published();
                 },
             ])
             ->orderBy('name')
             ->get(['id', 'name', 'slug']);
 
-        $latestPosts = (clone $baseQuery)
-            ->limit(3)
-            ->get();
+        $latestAnnouncements = (clone $baseQuery)->limit(4)->get();
 
-        return view('pages.public.posts.index', compact(
-            'posts',
+        return view('pages.public.announcements.index', compact(
+            'announcements',
             'categories',
-            'featuredPost',
-            'latestPosts',
+            'featuredAnnouncement',
+            'latestAnnouncements',
             'search',
             'category'
         ));
@@ -73,27 +70,28 @@ class PublicPostController extends Controller
 
     public function show(Request $request, string $slug): View
     {
-        $post = Post::query()
-            ->news()
+        $announcement = Post::query()
+            ->announcements()
             ->with(['author:id,name', 'category:id,name,slug'])
             ->published()
             ->where('slug', $slug)
             ->firstOrFail();
 
-        VisitTrackerService::trackPostView($request, $post);
+        VisitTrackerService::trackPostView($request, $announcement);
 
-        $relatedPosts = Post::query()
-            ->news()
+        $relatedAnnouncements = Post::query()
+            ->announcements()
             ->with(['category:id,name,slug'])
             ->published()
-            ->where('id', '!=', $post->id)
-            ->when($post->category_id, function ($query) use ($post) {
-                $query->where('category_id', $post->category_id);
+            ->where('id', '!=', $announcement->id)
+            ->when($announcement->category_id, function ($query) use ($announcement) {
+                $query->where('category_id', $announcement->category_id);
             })
+            ->orderByDesc('is_featured')
             ->orderByDesc('published_at')
             ->limit(3)
             ->get();
 
-        return view('pages.public.posts.show', compact('post', 'relatedPosts'));
+        return view('pages.public.announcements.show', compact('announcement', 'relatedAnnouncements'));
     }
 }

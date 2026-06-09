@@ -321,8 +321,10 @@
             $userAvatarUrl = $currentUser->avatar_url;
             $userInitials = strtoupper(substr($currentUser->name, 0, 2));
             $canViewPosts = $currentUser->hasPermission('posts.view');
+            $canViewAnnouncements = $currentUser->hasPermission('announcements.view');
             $canViewPostCategories = $currentUser->hasPermission('post_categories.view');
             $hasNewsAccess = $canViewPosts || $canViewPostCategories;
+            $hasAnnouncementAccess = $canViewAnnouncements;
             $canViewPotentials = $canViewPosts;
             $canViewBudgets = $currentUser->hasPermission('budgets.view');
             $budgetWorkflowSections = $canViewBudgets ? \App\Support\ApbdesWorkflow::sections() : [];
@@ -342,6 +344,7 @@
             $canViewAuditLogs = $currentUser->hasPermission('system.logs');
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs;
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
+            $announcementMenuOpen = request()->routeIs('announcements.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
             $populationMenuOpen =
                 request()->routeIs('citizens.*') ||
@@ -429,6 +432,19 @@
                                     </div>
                                 </div>
                             </div>
+                        @endif
+
+                        @if ($hasAnnouncementAccess)
+                            <a href="{{ route('announcements.index') }}"
+                                class="group flex items-center rounded-xl px-4 py-3 text-sm font-medium {{ $announcementMenuOpen ? 'bg-white/20 text-white shadow-lg shadow-black/10' : 'text-blue-100 hover:bg-white/10 hover:text-white hover:translate-x-1 hover:shadow-lg hover:shadow-black/10' }} transition-all duration-200">
+                                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M10.34 3.94c.09-.54.56-.94 1.1-.94h1.12c.54 0 1.01.4 1.1.94l.23 1.39a2.25 2.25 0 0 0 1.66 1.79l1.35.34c.53.13.88.62.83 1.16l-.12 1.4a2.25 2.25 0 0 0 .65 1.78l.98.98c.38.38.44.98.13 1.43l-.66.97a2.25 2.25 0 0 0 0 2.54l.66.97c.31.45.25 1.05-.13 1.43l-.98.98a2.25 2.25 0 0 0-.65 1.78l.12 1.4c.05.54-.3 1.03-.83 1.16l-1.35.34a2.25 2.25 0 0 0-1.66 1.79l-.23 1.39c-.09.54-.56.94-1.1.94h-1.12c-.54 0-1.01-.4-1.1-.94l-.23-1.39a2.25 2.25 0 0 0-1.66-1.79l-1.35-.34a1.125 1.125 0 0 1-.83-1.16l.12-1.4a2.25 2.25 0 0 0-.65-1.78l-.98-.98a1.125 1.125 0 0 1-.13-1.43l.66-.97a2.25 2.25 0 0 0 0-2.54l-.66-.97a1.125 1.125 0 0 1 .13-1.43l.98-.98a2.25 2.25 0 0 0 .65-1.78l-.12-1.4c-.05-.54.3-1.03.83-1.16l1.35-.34a2.25 2.25 0 0 0 1.66-1.79l.23-1.39Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m0 3.75h.008v.008H12v-.008Z" />
+                                </svg>
+                                Pengumuman
+                            </a>
                         @endif
 
                         @if ($canViewPotentials)

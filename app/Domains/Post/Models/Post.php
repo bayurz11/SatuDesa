@@ -16,10 +16,14 @@ class Post extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public const TYPE_NEWS = 'news';
+    public const TYPE_ANNOUNCEMENT = 'announcement';
+
     protected $fillable = [
         'village_id',
         'category_id',
         'author_id',
+        'type',
         'title',
         'slug',
         'excerpt',
@@ -42,6 +46,26 @@ class Post extends Model
             'is_featured' => 'boolean',
             'tags' => 'array',
         ];
+    }
+
+    public function scopeContentType($query, string $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    public function scopeNews($query)
+    {
+        return $query->where('type', self::TYPE_NEWS);
+    }
+
+    public function scopeAnnouncements($query)
+    {
+        return $query->where('type', self::TYPE_ANNOUNCEMENT);
+    }
+
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published')->whereNotNull('published_at');
     }
 
     public function getCoverImageUrlAttribute(): ?string

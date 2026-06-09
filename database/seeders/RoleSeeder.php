@@ -25,6 +25,7 @@ class RoleSeeder extends Seeder
                 'is_active' => true,
                 'permissions' => [
                     'posts.view', 'posts.publish',
+                    'announcements.view', 'announcements.publish',
                     'post_categories.view',
                     'budgets.view', 'budgets.approve', 'budgets.report',
                     'citizens.view',
@@ -47,6 +48,7 @@ class RoleSeeder extends Seeder
                 'is_active' => true,
                 'permissions' => [
                     'posts.view', 'posts.create', 'posts.edit', 'posts.publish',
+                    'announcements.view', 'announcements.create', 'announcements.edit', 'announcements.publish',
                     'post_categories.view', 'post_categories.create', 'post_categories.edit',
                     'budgets.view', 'budgets.create', 'budgets.edit', 'budgets.report',
                     'citizens.view', 'citizens.create', 'citizens.edit',
@@ -69,6 +71,7 @@ class RoleSeeder extends Seeder
                 'is_active' => true,
                 'permissions' => [
                     'posts.view',
+                    'announcements.view',
                     'post_categories.view',
                     'budgets.view',
                     'citizens.view', 'citizens.create', 'citizens.edit',
@@ -84,6 +87,7 @@ class RoleSeeder extends Seeder
                 'is_active' => true,
                 'permissions' => [
                     'posts.view', 'posts.create', 'posts.edit',
+                    'announcements.view', 'announcements.create', 'announcements.edit',
                     'post_categories.view',
                     'budgets.view', 'budgets.create', 'budgets.edit', 'budgets.report',
                     'citizens.view',
@@ -147,6 +151,7 @@ class RoleSeeder extends Seeder
                 'is_active' => true,
                 'permissions' => [
                     'posts.view', 'posts.create', 'posts.edit',
+                    'announcements.view', 'announcements.create', 'announcements.edit',
                     'post_categories.view',
                     'budgets.view',
                     'citizens.view', 'citizens.create', 'citizens.edit',
