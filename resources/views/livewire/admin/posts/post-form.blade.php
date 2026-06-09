@@ -400,6 +400,34 @@
                                     </div>
                                     @error('excerpt') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
                                 </div>
+
+                                @if ($type === \App\Domains\Post\Models\Post::TYPE_ANNOUNCEMENT)
+                                    <div class="mt-6 rounded-2xl border border-emerald-100 bg-emerald-50/60 p-5">
+                                        <div class="mb-4">
+                                            <h5 class="text-sm font-semibold text-emerald-900">Detail Pelaksanaan</h5>
+                                            <p class="mt-1 text-xs text-emerald-800/80">Hari akan mengikuti tanggal pelaksanaan yang dipilih.</p>
+                                        </div>
+
+                                        <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700">Hari</label>
+                                                <input type="text" value="{{ $this->eventDayLabel() }}" readonly class="mt-2 block w-full rounded-xl border border-emerald-200 bg-white px-4 py-3 text-gray-700 shadow-sm">
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700">Tanggal Pelaksanaan</label>
+                                                <input wire:model="event_at" type="datetime-local" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                                @error('event_at') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
+                                            </div>
+
+                                            <div>
+                                                <label class="block text-sm font-medium text-gray-700">Lokasi Pelaksanaan</label>
+                                                <input wire:model.live="event_location" type="text" class="mt-2 block w-full rounded-xl border border-gray-300 px-4 py-3 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Contoh: Balai Desa Mentuda">
+                                                @error('event_location') <span class="mt-1 block text-xs text-red-500">{{ $message }}</span> @enderror
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="rounded-2xl border border-slate-200 bg-white p-6">

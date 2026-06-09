@@ -67,6 +67,18 @@
                             <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Tanggal</dt>
                             <dd class="mt-2">{{ optional($announcement->published_at)->translatedFormat('d F Y, H:i') }}</dd>
                         </div>
+                        @if ($announcement->event_at)
+                            <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+                                <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Pelaksanaan</dt>
+                                <dd class="mt-2">{{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}</dd>
+                            </div>
+                        @endif
+                        @if ($announcement->event_location)
+                            <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
+                                <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Lokasi</dt>
+                                <dd class="mt-2">{{ $announcement->event_location }}</dd>
+                            </div>
+                        @endif
                         @if ($announcement->author)
                             <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
                                 <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Penulis</dt>
@@ -118,6 +130,23 @@
                         @endif
 
                         <div class="p-6 sm:p-10" data-aos="fade-up" data-aos-delay="120">
+                            @if ($announcement->event_at || $announcement->event_location)
+                                <div class="mb-8 grid gap-4 rounded-[24px] border border-emerald-100 bg-gradient-to-r from-emerald-50 to-white p-5 sm:grid-cols-2">
+                                    @if ($announcement->event_at)
+                                        <div>
+                                            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">Jadwal Pelaksanaan</p>
+                                            <p class="mt-2 text-base font-semibold text-gray-900">{{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}</p>
+                                        </div>
+                                    @endif
+                                    @if ($announcement->event_location)
+                                        <div>
+                                            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">Lokasi Pelaksanaan</p>
+                                            <p class="mt-2 text-base font-semibold text-gray-900">{{ $announcement->event_location }}</p>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
+
                             <div class="article-content prose prose-lg max-w-none
                                 prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-8 prose-p:text-gray-700
                                 prose-a:font-semibold prose-a:text-green-700 prose-strong:text-gray-900
@@ -145,7 +174,7 @@
                                             {{ $relatedAnnouncement->title }}
                                         </h3>
                                         <p class="mt-2 text-xs text-gray-500">
-                                            {{ optional($relatedAnnouncement->published_at)->translatedFormat('d F Y') }}
+                                            {{ optional($relatedAnnouncement->announcement_date)->translatedFormat('d F Y') }}
                                         </p>
                                     </a>
                                 @endforeach

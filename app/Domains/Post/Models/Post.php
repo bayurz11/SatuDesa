@@ -37,12 +37,15 @@ class Post extends Model
         'tags',
         'status',
         'published_at',
+        'event_at',
+        'event_location',
     ];
 
     protected function casts(): array
     {
         return [
             'published_at' => 'datetime',
+            'event_at' => 'datetime',
             'is_featured' => 'boolean',
             'tags' => 'array',
         ];
@@ -75,6 +78,11 @@ class Post extends Model
         }
 
         return UploadStorage::url($this->cover_image_path);
+    }
+
+    public function getAnnouncementDateAttribute()
+    {
+        return $this->event_at ?: $this->published_at;
     }
 
     public function village(): BelongsTo

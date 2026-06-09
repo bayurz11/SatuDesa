@@ -8,6 +8,7 @@ use App\Domains\Village\Models\Village;
 use App\Support\UploadStorage;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -43,6 +44,8 @@ class PostForm extends Component
     public $newTag = '';
     public $status = 'draft';
     public $published_at = '';
+    public $event_at = '';
+    public $event_location = '';
     public $showModal = false;
     public $isEditing = false;
 
@@ -71,6 +74,8 @@ class PostForm extends Component
             'newTag' => 'nullable|string|max:50',
             'status' => 'required|in:draft,review,published',
             'published_at' => 'nullable|date',
+            'event_at' => 'nullable|date',
+            'event_location' => 'nullable|string|max:255',
         ];
     }
 
@@ -158,6 +163,8 @@ class PostForm extends Component
         $this->newTag = '';
         $this->status = $post->status;
         $this->published_at = optional($post->published_at)?->format('Y-m-d\TH:i');
+        $this->event_at = optional($post->event_at)?->format('Y-m-d\TH:i');
+        $this->event_location = $post->event_location ?? '';
         $this->isEditing = true;
     }
 
@@ -201,6 +208,8 @@ class PostForm extends Component
         $this->newTag = '';
         $this->status = 'draft';
         $this->published_at = '';
+        $this->event_at = '';
+        $this->event_location = '';
         $this->isEditing = false;
         $this->resetErrorBag();
     }
@@ -296,6 +305,8 @@ class PostForm extends Component
             'tags' => $tagItems,
             'status' => $this->status,
             'published_at' => $publishedAt,
+            'event_at' => $this->type === Post::TYPE_ANNOUNCEMENT ? ($this->event_at ?: null) : null,
+            'event_location' => $this->type === Post::TYPE_ANNOUNCEMENT ? ($this->event_location ?: null) : null,
         ];
 
         if ($this->isEditing) {
@@ -336,6 +347,15 @@ class PostForm extends Component
     public function contentLabelLower(): string
     {
         return strtolower($this->contentLabel);
+    }
+
+    public function eventDayLabel(): string
+    {
+        if (blank($this->event_at)) {
+            return '-';
+        }
+
+        return Carbon::parse($this->event_at)->locale('id')->translatedFormat('l');
     }
 
     protected function defaultCategoryId(): string

@@ -185,7 +185,7 @@
                                             class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700 ring-1 ring-emerald-100">
                                             {{ $featuredAnnouncement->category?->name ?? 'Pengumuman Desa' }}
                                         </span>
-                                        <span>{{ optional($featuredAnnouncement->published_at)->translatedFormat('d F Y') }}</span>
+                                        <span>{{ optional($featuredAnnouncement->announcement_date)->translatedFormat('d F Y') }}</span>
                                     </div>
 
                                     <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-900">
@@ -195,6 +195,21 @@
                                     <p class="mt-4 text-sm leading-7 text-gray-600">
                                         {{ $featuredAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($featuredAnnouncement->content), 190) }}
                                     </p>
+
+                                    @if ($featuredAnnouncement->event_at || $featuredAnnouncement->event_location)
+                                        <div class="mt-4 flex flex-wrap gap-3 text-xs text-gray-600">
+                                            @if ($featuredAnnouncement->event_at)
+                                                <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1.5 font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                                    {{ $featuredAnnouncement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
+                                                </span>
+                                            @endif
+                                            @if ($featuredAnnouncement->event_location)
+                                                <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 font-medium text-slate-700">
+                                                    {{ $featuredAnnouncement->event_location }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                    @endif
 
                                     <div class="mt-6 flex flex-wrap gap-3">
                                         <a href="{{ route('public.announcements.show', $featuredAnnouncement->slug) }}"
@@ -220,9 +235,9 @@
                                     <div
                                         class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-700 ring-1 ring-emerald-100">
                                         <span
-                                            class="text-[10px] font-semibold uppercase">{{ optional($announcement->published_at)->translatedFormat('M') }}</span>
+                                            class="text-[10px] font-semibold uppercase">{{ optional($announcement->announcement_date)->translatedFormat('M') }}</span>
                                         <strong
-                                            class="text-2xl leading-none">{{ optional($announcement->published_at)->format('d') }}</strong>
+                                            class="text-2xl leading-none">{{ optional($announcement->announcement_date)->format('d') }}</strong>
                                     </div>
 
                                     <div class="min-w-0 flex-1">
@@ -247,6 +262,21 @@
                                         <p class="mt-3 text-sm leading-6 text-gray-600">
                                             {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 120) }}
                                         </p>
+
+                                        @if ($announcement->event_at || $announcement->event_location)
+                                            <div class="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
+                                                @if ($announcement->event_at)
+                                                    <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 font-medium text-emerald-700 ring-1 ring-emerald-100">
+                                                        {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
+                                                    </span>
+                                                @endif
+                                                @if ($announcement->event_location)
+                                                    <span class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">
+                                                        {{ $announcement->event_location }}
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        @endif
 
                                         <div class="mt-4">
                                             <a href="{{ route('public.announcements.show', $announcement->slug) }}"
@@ -312,7 +342,7 @@
                                                 {{ $latestAnnouncement->title }}
                                             </h3>
                                             <p class="mt-2 text-xs text-gray-500">
-                                                {{ optional($latestAnnouncement->published_at)->translatedFormat('d F Y') }}
+                                                {{ optional($latestAnnouncement->announcement_date)->translatedFormat('d F Y') }}
                                             </p>
                                         </div>
                                         <span

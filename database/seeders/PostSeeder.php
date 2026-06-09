@@ -49,6 +49,8 @@ class PostSeeder extends Seeder
                     'content' => "Pemerintah Desa Mentuda mengundang warga untuk menghadiri musyawarah desa pada jadwal yang telah ditetapkan.\n\nAgenda utama mencakup evaluasi pelayanan, prioritas kegiatan desa, dan ruang masukan dari masyarakat.",
                     'status' => 'published',
                     'published_at' => now(),
+                    'event_at' => now()->addDays(5)->setTime(9, 0),
+                    'event_location' => 'Balai Desa Mentuda',
                     'created_at' => now(),
                     'updated_at' => now(),
                     'deleted_at' => null,

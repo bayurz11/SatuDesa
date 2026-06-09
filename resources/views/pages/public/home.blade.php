@@ -738,9 +738,9 @@
                                 <!-- Date -->
                                 <div
                                     class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
-                                    <span class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->published_at)->translatedFormat('M') }}</span>
-                                    <strong class="text-xl leading-none">{{ optional($homeAnnouncement->published_at)->format('d') }}</strong>
-                                    <span class="text-[10px] font-semibold">{{ optional($homeAnnouncement->published_at)->format('Y') }}</span>
+                                    <span class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->announcement_date)->translatedFormat('M') }}</span>
+                                    <strong class="text-xl leading-none">{{ optional($homeAnnouncement->announcement_date)->format('d') }}</strong>
+                                    <span class="text-[10px] font-semibold">{{ optional($homeAnnouncement->announcement_date)->format('Y') }}</span>
                                 </div>
 
                                 <!-- Content -->
@@ -769,7 +769,7 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
                                             </svg>
-                                            {{ optional($homeAnnouncement->published_at)->translatedFormat('d F Y') }}
+                                            {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
                                         </span>
 
                                         @if ($homeAnnouncement->is_featured)
@@ -815,8 +815,22 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                             </svg>
-                                            {{ optional($homeAnnouncement->published_at)->format('H:i') ?: 'Publikasi aktif' }}
+                                            {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
                                         </span>
+
+                                        @if ($homeAnnouncement->event_location)
+                                            <span
+                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                </svg>
+                                                {{ $homeAnnouncement->event_location }}
+                                            </span>
+                                        @endif
 
                                         <span
                                             class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
