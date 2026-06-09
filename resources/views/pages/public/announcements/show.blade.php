@@ -1,6 +1,9 @@
 @php
     $metaTitle = $announcement->meta_title ?: $announcement->title;
-    $metaDescription = $announcement->meta_description ?: ($announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 160));
+    $metaDescription =
+        $announcement->meta_description ?:
+        ($announcement->excerpt ?:
+        \Illuminate\Support\Str::limit(strip_tags($announcement->content), 160));
 @endphp
 
 @extends('layouts.public')
@@ -24,7 +27,8 @@
                 <ol class="flex flex-wrap items-center gap-2">
                     <li><a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a></li>
                     <li>/</li>
-                    <li><a href="{{ route('public.announcements.index') }}" class="transition hover:text-white">Pengumuman</a></li>
+                    <li><a href="{{ route('public.announcements.index') }}"
+                            class="transition hover:text-white">Pengumuman</a></li>
                     <li>/</li>
                     <li class="line-clamp-1 font-semibold text-white">{{ $announcement->title }}</li>
                 </ol>
@@ -56,50 +60,112 @@
                     @endif
                 </div>
 
-                <aside class="rounded-[24px] border border-white/10 bg-white/10 p-5 shadow-xl shadow-teal-950/20 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15"
-                    data-aos="fade-left">
-                    <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100">
-                        Ringkasan
-                    </p>
+                @if ($announcement->event_at || $announcement->event_location || $announcement->author)
+                    <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 
-                    <dl class="mt-4 space-y-3 text-sm text-white/90">
-                        <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                            <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Tanggal</dt>
-                            <dd class="mt-2">{{ optional($announcement->published_at)->translatedFormat('d F Y, H:i') }}</dd>
-                        </div>
                         @if ($announcement->event_at)
-                            <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                                <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Pelaksanaan</dt>
-                                <dd class="mt-2">{{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}</dd>
+                            <div
+                                class="group rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-emerald-900/20">
+
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-400/15 text-emerald-200 ring-1 ring-emerald-300/20 transition duration-300 group-hover:scale-110">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M8 7V3m8 4V3m-9 8h10m-11 9h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v11a2 2 0 002 2z" />
+                                        </svg>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                            Jadwal Pelaksanaan
+                                        </p>
+
+                                        <p class="mt-2 text-sm font-semibold text-white leading-6">
+                                            {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y') }}
+                                        </p>
+
+                                        <p class="text-sm text-emerald-100/80">
+                                            {{ $announcement->event_at->translatedFormat('H:i') }} WIB
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         @endif
+
                         @if ($announcement->event_location)
-                            <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                                <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Lokasi</dt>
-                                <dd class="mt-2">{{ $announcement->event_location }}</dd>
+                            <div
+                                class="group rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-cyan-900/20">
+
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-400/15 text-cyan-200 ring-1 ring-cyan-300/20 transition duration-300 group-hover:scale-110">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0L6.343 16.657a8 8 0 1111.314 0z" />
+
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                            Lokasi
+                                        </p>
+
+                                        <p class="mt-2 text-sm font-semibold text-white leading-6">
+                                            {{ $announcement->event_location }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         @endif
+
                         @if ($announcement->author)
-                            <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                                <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Penulis</dt>
-                                <dd class="mt-2">{{ $announcement->author->name }}</dd>
+                            <div
+                                class="group rounded-[24px] border border-white/10 bg-white/10 p-5 backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl hover:shadow-violet-900/20">
+
+                                <div class="flex items-start gap-4">
+                                    <div
+                                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-400/15 text-violet-200 ring-1 ring-violet-300/20 transition duration-300 group-hover:scale-110">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                                d="M5.121 17.804A9 9 0 1118.88 17.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                    </div>
+
+                                    <div>
+                                        <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">
+                                            Penulis
+                                        </p>
+
+                                        <p class="mt-2 text-sm font-semibold text-white">
+                                            {{ $announcement->author->name }}
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         @endif
-                        <div class="rounded-2xl bg-white/5 px-4 py-3 ring-1 ring-white/10">
-                            <dt class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-100/80">Status</dt>
-                            <dd class="mt-2">{{ $announcement->is_featured ? 'Pengumuman prioritas' : 'Pengumuman publik' }}</dd>
-                        </div>
-                    </dl>
-                </aside>
+
+                    </div>
+                @endif
             </div>
         </div>
     </section>
 
-    <section class="relative z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
+    <section class="relative -mt-10 z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
         <div class="mx-auto mt-6 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-            <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="grid -mt-12 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <main>
-                    <article class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60"
+                    <article
+                        class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60"
                         data-aos="fade-up">
                         <div class="relative overflow-hidden bg-gradient-to-br from-emerald-100 via-white to-sky-100"
                             data-aos="zoom-in" data-aos-delay="100">
@@ -108,7 +174,8 @@
                                     alt="{{ $announcement->cover_image_alt ?: $announcement->title }}"
                                     class="max-h-[560px] w-full object-cover">
                             @else
-                                <div class="flex min-h-[320px] items-end bg-gradient-to-br from-emerald-800 via-green-700 to-cyan-700 p-8 text-white">
+                                <div
+                                    class="flex min-h-[320px] items-end bg-gradient-to-br from-emerald-800 via-green-700 to-cyan-700 p-8 text-white">
                                     <div>
                                         <span
                                             class="inline-flex rounded-full bg-white/15 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-white/90 ring-1 ring-white/20">
@@ -131,23 +198,32 @@
 
                         <div class="p-6 sm:p-10" data-aos="fade-up" data-aos-delay="120">
                             @if ($announcement->event_at || $announcement->event_location)
-                                <div class="mb-8 grid gap-4 rounded-[24px] border border-emerald-100 bg-gradient-to-r from-emerald-50 to-white p-5 sm:grid-cols-2">
+                                <div
+                                    class="mb-8 grid gap-4 rounded-[24px] border border-emerald-100 bg-gradient-to-r from-emerald-50 to-white p-5 sm:grid-cols-2">
                                     @if ($announcement->event_at)
                                         <div>
-                                            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">Jadwal Pelaksanaan</p>
-                                            <p class="mt-2 text-base font-semibold text-gray-900">{{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}</p>
+                                            <p
+                                                class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                                                Jadwal Pelaksanaan</p>
+                                            <p class="mt-2 text-base font-semibold text-gray-900">
+                                                {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
+                                            </p>
                                         </div>
                                     @endif
                                     @if ($announcement->event_location)
                                         <div>
-                                            <p class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">Lokasi Pelaksanaan</p>
-                                            <p class="mt-2 text-base font-semibold text-gray-900">{{ $announcement->event_location }}</p>
+                                            <p
+                                                class="text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                                                Lokasi Pelaksanaan</p>
+                                            <p class="mt-2 text-base font-semibold text-gray-900">
+                                                {{ $announcement->event_location }}</p>
                                         </div>
                                     @endif
                                 </div>
                             @endif
 
-                            <div class="article-content prose prose-lg max-w-none
+                            <div
+                                class="article-content prose prose-lg max-w-none
                                 prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-8 prose-p:text-gray-700
                                 prose-a:font-semibold prose-a:text-green-700 prose-strong:text-gray-900
                                 prose-ul:list-disc prose-ol:list-decimal prose-li:my-1 prose-li:marker:text-green-600
@@ -169,8 +245,9 @@
                                 @foreach ($relatedAnnouncements as $relatedAnnouncement)
                                     <a href="{{ route('public.announcements.show', $relatedAnnouncement->slug) }}"
                                         class="group block rounded-2xl bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-4 ring-1 ring-emerald-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
-                                        data-aos="fade-left" data-aos-delay="{{ 50 + ($loop->index * 50) }}">
-                                        <h3 class="text-sm font-bold leading-6 text-gray-900 transition group-hover:text-emerald-700">
+                                        data-aos="fade-left" data-aos-delay="{{ 50 + $loop->index * 50 }}">
+                                        <h3
+                                            class="text-sm font-bold leading-6 text-gray-900 transition group-hover:text-emerald-700">
                                             {{ $relatedAnnouncement->title }}
                                         </h3>
                                         <p class="mt-2 text-xs text-gray-500">
