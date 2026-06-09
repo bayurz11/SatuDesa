@@ -867,54 +867,86 @@
     </main>
 
     <!-- Floating Action Buttons -->
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+    <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
         <!-- WhatsApp -->
-        <a href="https://wa.me/6281234567890" target="_blank" aria-label="WhatsApp"
-            class="group relative rounded-full bg-green-600 text-white shadow-lg ring-1 ring-black/5
-           p-3 md:p-3.5 hover:bg-green-700 focus:outline-none
-           focus-visible:ring-2 focus-visible:ring-green-300
-           opacity-0 scale-90 pointer-events-none transition-all duration-300">
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer"
+            aria-label="Hubungi kami via WhatsApp"
+            class="fab-button group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full
+        bg-gradient-to-br from-green-500 to-emerald-700 text-white shadow-xl shadow-green-900/25
+        ring-1 ring-white/20 transition-all duration-300
+        hover:-translate-y-1 hover:scale-105 hover:shadow-2xl
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300
+        sm:h-14 sm:w-14 opacity-0 scale-90 pointer-events-none">
 
-            <!-- Ripple -->
+            <span class="absolute inset-0 animate-ping rounded-full bg-green-400/25"></span>
             <span
-                class="absolute inset-0 rounded-full bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
+                class="absolute inset-0 rounded-full bg-white/20 scale-0 transition-transform duration-500 group-hover:scale-100"></span>
 
-            <!-- Icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
-                class="relative z-10 h-6 w-6 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110"
+                class="relative z-10 h-6 w-6 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 sm:h-7 sm:w-7"
                 viewBox="0 0 24 24" fill="currentColor">
                 <path
                     d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.49 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.28-1.65a11.88 11.88 0 0 0 5.79 1.48h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.17-3.48-8.43ZM12.08 21.8h-.01a9.87 9.87 0 0 1-5.04-1.38l-.36-.21-3.72.98.99-3.63-.23-.37a9.86 9.86 0 0 1-1.51-5.27c0-5.45 4.43-9.88 9.88-9.88 2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.45-4.43 9.88-9.87 9.88Zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.48.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z" />
             </svg>
-            <!-- Tooltip -->
+
             <span
-                class="absolute right-14 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-gray-900 px-3 py-1.5 text-xs font-semibold text-white opacity-0 transition-all duration-300 group-hover:opacity-100 group-hover:right-16">
-                Hubungi kami untuk informasi lebih lanjut
+                class="pointer-events-none absolute right-14 hidden whitespace-nowrap rounded-xl bg-gray-950 px-4 py-2 text-xs font-semibold text-white shadow-lg
+        opacity-0 transition-all duration-300 group-hover:right-16 group-hover:opacity-100 sm:block">
+                Chat via WhatsApp
             </span>
         </a>
 
         <!-- Back To Top -->
         <button id="backToTop" type="button" aria-label="Kembali ke atas"
-            class="group relative rounded-full bg-green-600 text-white shadow-lg ring-1 ring-black/5
-           p-3 md:p-3.5 hover:bg-green-700 focus:outline-none
-           focus-visible:ring-2 focus-visible:ring-yellow-300
-           opacity-0 scale-90 pointer-events-none transition-all duration-300">
+            class="fab-button group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full
+        bg-white text-green-700 shadow-xl shadow-gray-900/15 ring-1 ring-green-100
+        transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:bg-green-600 hover:text-white
+        focus:outline-none focus-visible:ring-4 focus-visible:ring-green-300
+        sm:h-14 sm:w-14 opacity-0 scale-90 pointer-events-none">
 
-            <!-- Ripple -->
             <span
-                class="absolute inset-0 rounded-full bg-white/20 scale-0 group-hover:scale-100 transition-transform duration-500"></span>
+                class="absolute inset-0 rounded-full bg-green-100 scale-0 transition-transform duration-500 group-hover:scale-100"></span>
 
             <svg xmlns="http://www.w3.org/2000/svg"
-                class="relative z-10 h-5 w-5 md:h-6 md:w-6 transition-transform duration-300 group-hover:-translate-y-1"
+                class="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 sm:h-6 sm:w-6"
                 fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M12 19.5V4.5m0 0l-6 6m6-6l6 6" />
             </svg>
-
         </button>
-
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.fab-button');
+            const backToTop = document.getElementById('backToTop');
+
+            function toggleFab() {
+                if (window.scrollY > 250) {
+                    buttons.forEach((btn) => {
+                        btn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                        btn.classList.add('opacity-100', 'scale-100');
+                    });
+                } else {
+                    buttons.forEach((btn) => {
+                        btn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                        btn.classList.remove('opacity-100', 'scale-100');
+                    });
+                }
+            }
+
+            window.addEventListener('scroll', toggleFab);
+            toggleFab();
+
+            backToTop?.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 
     @include('pages.public.partials.footer')
 
