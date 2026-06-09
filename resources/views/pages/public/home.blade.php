@@ -327,8 +327,8 @@
                     class="group inline-flex items-center gap-2 rounded-full border border-green-200 bg-white px-5 py-3 text-sm font-semibold text-green-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-700 hover:bg-green-700 hover:text-white hover:shadow-lg">
                     <span>Lihat Statistik Penduduk Lengkap</span>
                     <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                        class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none"
+                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                     </svg>
@@ -372,7 +372,7 @@
 
                     <a href="{{ route('public.potentials.index') }}"
                         class="relative min-h-[320px] overflow-hidden lg:col-span-7 lg:min-h-[460px] block">
-                        <img src="{{ $homeFeaturedPotential?->cover_image_url ?: asset('img/bg.jpg') }}"
+                        <img src="{{ $homeFeaturedPotential?->cover_image_url ?: asset('public/img/bg.jpg') }}"
                             alt="{{ $homeFeaturedPotential?->cover_image_alt ?: ($homeFeaturedPotential?->title ?: 'Potensi Desa Mentuda') }}"
                             class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
 
@@ -397,13 +397,13 @@
 
                             </span>
 
-                                <h3
-                                    class="mt-4 text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
-                                    {{ $homeFeaturedPotential?->title ?: 'Potensi Lokal yang Siap Dikembangkan' }}
-                                </h3>
+                            <h3
+                                class="mt-4 text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
+                                {{ $homeFeaturedPotential?->title ?: 'Potensi Lokal yang Siap Dikembangkan' }}
+                            </h3>
 
                             <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->excerpt ?: 'Desa Mentuda memiliki kekayaan alam, budaya, ekonomi, dan lingkungan yang dapat menjadi daya tarik serta peluang pengembangan desa.'), 180) }}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->excerpt ?: 'Desa Mentuda memiliki kekayaan alam, budaya, ekonomi, dan lingkungan yang dapat menjadi daya tarik serta peluang pengembangan desa.'), 180) }}
                             </p>
                         </div>
                     </a>
@@ -505,180 +505,184 @@
 
         <!-- Berita Desa Section -->
         @if ($homeFeaturedPost || $homeNewsPosts->isNotEmpty())
-            <section class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white px-4 py-16 md:py-20"
+            <section
+                class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white px-4 py-16 md:py-20"
                 data-aos="fade-up">
                 <div class="mx-auto max-w-6xl">
 
-                <!-- Header -->
-                <header class="mx-auto mb-12 max-w-3xl text-center">
-                    <span
-                        class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
-                        </svg>
+                    <!-- Header -->
+                    <header class="mx-auto mb-12 max-w-3xl text-center">
+                        <span
+                            class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
+                            </svg>
 
-                        Informasi Terkini
-                    </span>
+                            Informasi Terkini
+                        </span>
 
-                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
-                        Berita
-                        <span class="text-green-700">Desa Mentuda</span>
-                    </h2>
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+                            Berita
+                            <span class="text-green-700">Desa Mentuda</span>
+                        </h2>
 
-                    <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
-                        Informasi terbaru seputar kegiatan desa, pembangunan, pelayanan masyarakat, UMKM,
-                        dan agenda resmi Pemerintah Desa Mentuda.
-                    </p>
-                </header>
+                        <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
+                            Informasi terbaru seputar kegiatan desa, pembangunan, pelayanan masyarakat, UMKM,
+                            dan agenda resmi Pemerintah Desa Mentuda.
+                        </p>
+                    </header>
 
-                <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
+                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
 
-                    <!-- Berita Utama -->
-                    @if ($homeFeaturedPost)
-                        <article
-                            class="group relative overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8">
-
-                            <!-- Shine Effect -->
-                            <span
-                                class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
-                            </span>
-
-                            <a href="{{ route('public.posts.show', $homeFeaturedPost->slug) }}"
-                                class="relative block h-[360px] overflow-hidden md:h-[520px]">
-
-                                <img src="{{ $homeFeaturedPost->cover_image_url ?: asset('img/bg.jpg') }}"
-                                    alt="{{ $homeFeaturedPost->cover_image_alt ?: $homeFeaturedPost->title }}"
-                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-
-                                <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 transition-all duration-500 group-hover:from-black/95 group-hover:via-black/50">
-                                </div>
-
-                                <div class="absolute left-6 right-6 bottom-6 text-white md:left-8 md:right-8 md:bottom-8">
-
-                                    <div class="mb-4 flex flex-wrap items-center gap-3">
-
-                                        <span
-                                            class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur ring-1 ring-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-green-600 group-hover:shadow-lg">
-
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="w-4 h-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182 0l4.318-4.318a2.25 2.25 0 0 0 0-3.182L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                                            </svg>
-
-                                            <span>{{ $homeFeaturedPost->category->name ?? 'Berita Desa' }}</span>
-
-                                        </span>
-
-                                        <span class="inline-flex items-center gap-1.5 text-sm text-white/90">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                            </svg>
-                                            {{ optional($homeFeaturedPost->published_at)->format('d-m-Y') }}
-                                        </span>
-
-                                    </div>
-
-                                    <h3
-                                        class="max-w-3xl text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
-                                        {{ $homeFeaturedPost->title }}
-                                    </h3>
-
-                                    <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
-                                        {{ $homeFeaturedPost->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPost->content), 180) }}
-                                    </p>
-
-                                </div>
-
-                            </a>
-
-                        </article>
-                    @endif
-
-                    <!-- Daftar Berita -->
-                    <div class="flex flex-col gap-4 {{ $homeFeaturedPost ? 'lg:col-span-4' : 'lg:col-span-12' }}">
-
-                        @foreach ($homeNewsPosts as $homeNewsPost)
-                            <a href="{{ route('public.posts.show', $homeNewsPost->slug) }}"
-                                class="group relative flex flex-1 gap-4 overflow-hidden rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 active:scale-[0.99]">
+                        <!-- Berita Utama -->
+                        @if ($homeFeaturedPost)
+                            <article
+                                class="group relative overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8">
 
                                 <!-- Shine Effect -->
                                 <span
-                                    class="pointer-events-none absolute -left-16 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
+                                    class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
                                 </span>
 
-                                <div class="relative shrink-0 overflow-hidden rounded-2xl">
-                                    <img src="{{ $homeNewsPost->cover_image_url ?: asset('img/bg.jpg') }}"
-                                        alt="{{ $homeNewsPost->cover_image_alt ?: $homeNewsPost->title }}"
-                                        class="h-24 w-28 object-cover transition-all duration-700 group-hover:scale-110">
+                                <a href="{{ route('public.posts.show', $homeFeaturedPost->slug) }}"
+                                    class="relative block h-[360px] overflow-hidden md:h-[520px]">
+
+                                    <img src="{{ $homeFeaturedPost->cover_image_url ?: asset('public/img/bg.jpg') }}"
+                                        alt="{{ $homeFeaturedPost->cover_image_alt ?: $homeFeaturedPost->title }}"
+                                        class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
 
                                     <div
-                                        class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-all duration-500 group-hover:from-black/50">
+                                        class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 transition-all duration-500 group-hover:from-black/95 group-hover:via-black/50">
                                     </div>
-
-                                </div>
-
-                                <div class="min-w-0 flex flex-col justify-center">
-                                    <h3
-                                        class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition-all duration-300 group-hover:translate-x-1 group-hover:text-green-700 md:text-base">
-                                        {{ $homeNewsPost->title }}
-                                    </h3>
 
                                     <div
-                                        class="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500 transition-all duration-300 group-hover:text-gray-700">
-                                        <span class="inline-flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg"
-                                                class="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-12"
-                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182 0l4.318-4.318a2.25 2.25 0 0 0 0-3.182L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
-                                            </svg>
-                                            {{ $homeNewsPost->category->name ?? 'Berita Desa' }}
-                                        </span>
+                                        class="absolute left-6 right-6 bottom-6 text-white md:left-8 md:right-8 md:bottom-8">
 
-                                        <span class="inline-flex items-center gap-1">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                            </svg>
-                                            {{ optional($homeNewsPost->published_at)->format('d-m-Y') }}
-                                        </span>
+                                        <div class="mb-4 flex flex-wrap items-center gap-3">
+
+                                            <span
+                                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur ring-1 ring-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-green-600 group-hover:shadow-lg">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="w-4 h-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182 0l4.318-4.318a2.25 2.25 0 0 0 0-3.182L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                                                </svg>
+
+                                                <span>{{ $homeFeaturedPost->category->name ?? 'Berita Desa' }}</span>
+
+                                            </span>
+
+                                            <span class="inline-flex items-center gap-1.5 text-sm text-white/90">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                                </svg>
+                                                {{ optional($homeFeaturedPost->published_at)->format('d-m-Y') }}
+                                            </span>
+
+                                        </div>
+
+                                        <h3
+                                            class="max-w-3xl text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
+                                            {{ $homeFeaturedPost->title }}
+                                        </h3>
+
+                                        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
+                                            {{ $homeFeaturedPost->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPost->content), 180) }}
+                                        </p>
+
                                     </div>
-                                </div>
-                            </a>
-                        @endforeach
 
+                                </a>
+
+                            </article>
+                        @endif
+
+                        <!-- Daftar Berita -->
+                        <div class="flex flex-col gap-4 {{ $homeFeaturedPost ? 'lg:col-span-4' : 'lg:col-span-12' }}">
+
+                            @foreach ($homeNewsPosts as $homeNewsPost)
+                                <a href="{{ route('public.posts.show', $homeNewsPost->slug) }}"
+                                    class="group relative flex flex-1 gap-4 overflow-hidden rounded-3xl bg-white p-4 shadow-lg ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 active:scale-[0.99]">
+
+                                    <!-- Shine Effect -->
+                                    <span
+                                        class="pointer-events-none absolute -left-16 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
+                                    </span>
+
+                                    <div class="relative shrink-0 overflow-hidden rounded-2xl">
+                                        <img src="{{ $homeNewsPost->cover_image_url ?: asset('public/img/bg.jpg') }}"
+                                            alt="{{ $homeNewsPost->cover_image_alt ?: $homeNewsPost->title }}"
+                                            class="h-24 w-28 object-cover transition-all duration-700 group-hover:scale-110">
+
+                                        <div
+                                            class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-all duration-500 group-hover:from-black/50">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="min-w-0 flex flex-col justify-center">
+                                        <h3
+                                            class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition-all duration-300 group-hover:translate-x-1 group-hover:text-green-700 md:text-base">
+                                            {{ $homeNewsPost->title }}
+                                        </h3>
+
+                                        <div
+                                            class="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500 transition-all duration-300 group-hover:text-gray-700">
+                                            <span class="inline-flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                    class="h-3.5 w-3.5 transition-transform duration-300 group-hover:rotate-12"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M9.568 3H5.25A2.25 2.25 0 0 0 3 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581a2.25 2.25 0 0 0 3.182 0l4.318-4.318a2.25 2.25 0 0 0 0-3.182L11.16 3.66A2.25 2.25 0 0 0 9.568 3Z" />
+                                                </svg>
+                                                {{ $homeNewsPost->category->name ?? 'Berita Desa' }}
+                                            </span>
+
+                                            <span class="inline-flex items-center gap-1">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                                </svg>
+                                                {{ optional($homeNewsPost->published_at)->format('d-m-Y') }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </a>
+                            @endforeach
+
+                        </div>
                     </div>
-                </div>
 
-                <!-- Button Bottom -->
-                <div class="mt-10 text-center">
-                    <a href="{{ route('public.posts.index') }}"
-                        class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
+                    <!-- Button Bottom -->
+                    <div class="mt-10 text-center">
+                        <a href="{{ route('public.posts.index') }}"
+                            class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
 
-                        <span
-                            class="absolute -left-16 top-0 h-full w-12 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
-                        </span>
+                            <span
+                                class="absolute -left-16 top-0 h-full w-12 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
+                            </span>
 
-                        <span class="relative z-10">Lihat Semua Berita</span>
+                            <span class="relative z-10">Lihat Semua Berita</span>
 
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                        </svg>
-                    </a>
-                </div>
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    </div>
 
                 </div>
             </section>
