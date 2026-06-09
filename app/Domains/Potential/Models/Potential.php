@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Storage;
 
 class Potential extends Model
 {
@@ -56,7 +55,7 @@ class Potential extends Model
             return null;
         }
 
-        return Storage::disk(UploadStorage::disk())->url($this->cover_image_path);
+        return UploadStorage::url($this->cover_image_path);
     }
 
     public function village(): BelongsTo
