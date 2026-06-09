@@ -149,8 +149,8 @@
         </div>
     </section>
 
-    <section class="relative -mt-10 z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
-        <div class="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+    <section class="relative z-10 bg-gradient-to-b from-emerald-50/60 via-white to-white">
+        <div class="mx-auto -mt-10 max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
             <div class="grid  gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
                 <main>
                     <article
