@@ -268,7 +268,7 @@
 
                                 <div class="relative mt-5 grid gap-5 sm:grid-cols-[120px_1fr] sm:items-start">
                                     <div
-                                        class="flex h-[120px] w-[95px] flex-col items-center justify-center rounded-[22px]
+                                        class="flex h-[150px] w-[95px] flex-col items-center justify-center rounded-[20px]
     bg-gradient-to-br from-emerald-50 to-green-100
     ring-1 ring-emerald-100 transition duration-300 group-hover:scale-105">
 
