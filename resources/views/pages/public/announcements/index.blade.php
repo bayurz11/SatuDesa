@@ -231,77 +231,124 @@
                     <section class="grid gap-5 md:grid-cols-2">
                         @forelse ($announcements as $announcement)
                             <article
-                                class="group rounded-[24px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/60 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl"
+                                class="group relative overflow-hidden rounded-[26px] border border-gray-200 bg-white p-6 shadow-lg shadow-gray-100/60 transition-all duration-300 hover:-translate-y-1.5 hover:border-emerald-200 hover:shadow-2xl"
                                 data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
-                                <div class="flex items-start gap-4">
-                                    <div
-                                        class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-700 ring-1 ring-emerald-100">
+
+                                {{-- Accent Hover --}}
+                                <div
+                                    class="absolute inset-x-0 top-0 h-1 rounded-t-[26px] bg-gradient-to-r from-emerald-500 via-green-500 to-teal-500 opacity-0 transition duration-300 group-hover:opacity-100">
+                                </div>
+
+                                {{-- Header --}}
+                                <div class="flex flex-wrap items-center justify-between gap-3">
+
+                                    <div class="flex flex-wrap items-center gap-2">
                                         <span
-                                            class="text-[10px] font-semibold uppercase">{{ optional($announcement->announcement_date)->translatedFormat('M') }}</span>
-                                        <strong
-                                            class="text-2xl leading-none">{{ optional($announcement->announcement_date)->format('d') }}</strong>
+                                            class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                            {{ $announcement->category?->name ?? 'Pengumuman' }}
+                                        </span>
+
+                                        @if ($announcement->is_featured)
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-100">
+                                                Prioritas
+                                            </span>
+                                        @endif
                                     </div>
 
-                                    <div class="min-w-0 flex-1">
-                                        <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+                                    <div
+                                        class="inline-flex items-center gap-2 rounded-full bg-slate-50 px-3 py-1 text-xs font-medium text-slate-500 ring-1 ring-slate-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M8 7V3m8 4V3M4 11h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
+                                        </svg>
+
+                                        {{ optional($announcement->announcement_date)->translatedFormat('d F Y') }}
+                                    </div>
+                                </div>
+
+                                {{-- Judul --}}
+                                <h3
+                                    class="mt-5 text-lg font-bold leading-snug text-gray-900 transition group-hover:text-emerald-700">
+                                    {{ $announcement->title }}
+                                </h3>
+
+                                {{-- Ringkasan --}}
+                                <p class="mt-3 line-clamp-2 text-sm leading-7 text-gray-600">
+                                    {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 100) }}
+                                </p>
+
+                                {{-- Event --}}
+                                @if ($announcement->event_at || $announcement->event_location)
+                                    <div class="mt-4 flex flex-wrap gap-2 text-xs">
+
+                                        @if ($announcement->event_at)
                                             <span
-                                                class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700 ring-1 ring-emerald-100">
-                                                {{ $announcement->category?->name ?? 'Pengumuman' }}
+                                                class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 font-medium text-emerald-700 ring-1 ring-emerald-100">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M12 6v6l4 2" />
+                                                </svg>
+
+                                                {{ $announcement->event_at->locale('id')->translatedFormat('d M Y • H:i') }}
                                             </span>
-                                            @if ($announcement->is_featured)
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-100">
-                                                    Prioritas
-                                                </span>
-                                            @endif
-                                        </div>
-
-                                        <h3
-                                            class="mt-3 text-lg font-bold leading-snug text-gray-900 transition group-hover:text-emerald-700">
-                                            {{ $announcement->title }}
-                                        </h3>
-
-                                        <p class="mt-3 text-sm leading-6 text-gray-600">
-                                            {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 120) }}
-                                        </p>
-
-                                        @if ($announcement->event_at || $announcement->event_location)
-                                            <div class="mt-3 flex flex-wrap gap-2 text-xs text-gray-500">
-                                                @if ($announcement->event_at)
-                                                    <span
-                                                        class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1 font-medium text-emerald-700 ring-1 ring-emerald-100">
-                                                        {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
-                                                    </span>
-                                                @endif
-                                                @if ($announcement->event_location)
-                                                    <span
-                                                        class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">
-                                                        {{ $announcement->event_location }}
-                                                    </span>
-                                                @endif
-                                            </div>
                                         @endif
 
-                                        <div class="mt-4">
-                                            <a href="{{ route('public.announcements.show', $announcement->slug) }}"
-                                                class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition group-hover:gap-3">
-                                                Lihat detail
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        @if ($announcement->event_location)
+                                            <span
+                                                class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 font-medium text-slate-700">
+
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                                        d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0L6.343 16.657A8 8 0 1117.657 16.657z" />
+
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                                 </svg>
-                                            </a>
-                                        </div>
+
+                                                {{ \Illuminate\Support\Str::limit($announcement->event_location, 25) }}
+                                            </span>
+                                        @endif
                                     </div>
+                                @endif
+
+                                {{-- Footer --}}
+                                <div class="mt-5 flex items-center justify-between border-t border-gray-100 pt-4">
+
+                                    <span class="text-xs text-gray-400">
+                                        Informasi resmi Desa Mentuda
+                                    </span>
+
+                                    <a href="{{ route('public.announcements.show', $announcement->slug) }}"
+                                        class="inline-flex items-center gap-2 text-sm font-semibold text-emerald-700 transition-all duration-300 group-hover:gap-3">
+
+                                        Lihat Detail
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                        </svg>
+                                    </a>
                                 </div>
                             </article>
                         @empty
                             <div class="md:col-span-2 rounded-[24px] border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
                                 data-aos="fade-up">
-                                <h3 class="text-lg font-semibold text-gray-900">Belum ada pengumuman ditemukan</h3>
-                                <p class="mt-2 text-sm text-gray-600">Coba ubah kata kunci pencarian atau pilih kategori
-                                    lain.</p>
+
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    Belum ada pengumuman ditemukan
+                                </h3>
+
+                                <p class="mt-2 text-sm text-gray-600">
+                                    Coba ubah kata kunci pencarian atau pilih kategori lain.
+                                </p>
                             </div>
                         @endforelse
                     </section>
