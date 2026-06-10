@@ -228,10 +228,10 @@
                         </article>
                     @endif
 
-                    <section class="grid gap-5 md:grid-cols-2 rounded-[28px] ">
+                    <section class="grid gap-5 md:grid-cols-2 rounded-[36px]">
                         @forelse ($announcements as $announcement)
                             <article
-                                class="group rounded-[26px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/60 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl"
+                                class="group overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/60 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
                                 data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
 
                                 <div class="flex items-center justify-between gap-3">
@@ -242,6 +242,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M11 5h2m-1 0v14m-7-7h14" />
                                         </svg>
+
                                         {{ $announcement->category?->name ?? 'Pengumuman' }}
                                     </span>
 
@@ -253,7 +254,7 @@
                                 </div>
 
                                 <div
-                                    class="mt-5 flex min-h-[126px] flex-col items-center justify-center rounded-[18px] bg-emerald-50 text-center">
+                                    class="mt-5 flex min-h-[126px] flex-col items-center justify-center rounded-[28px] bg-emerald-50 text-center">
                                     <span class="text-2xl font-black uppercase tracking-wide text-emerald-700">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                     </span>
@@ -285,22 +286,24 @@
                                     </span>
 
                                     <a href="{{ route('public.announcements.show', $announcement->slug) }}"
-                                        class="shrink-0 text-sm font-bold text-emerald-700 transition hover:text-emerald-800">
-                                        Lihat detail
+                                        class="shrink-0 rounded-full px-3 py-2 text-sm font-bold text-emerald-700 transition hover:bg-emerald-50 hover:text-emerald-800">
+                                        Lihat detail →
                                     </a>
                                 </div>
                             </article>
                         @empty
-                            <div class="md:col-span-2 rounded-[24px] border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
+                            <div class="md:col-span-2 rounded-[32px] border border-dashed border-gray-300 bg-white px-6 py-12 text-center"
                                 data-aos="fade-up">
-                                <h3 class="text-lg font-semibold text-gray-900">Belum ada pengumuman ditemukan</h3>
+                                <h3 class="text-lg font-semibold text-gray-900">
+                                    Belum ada pengumuman ditemukan
+                                </h3>
+
                                 <p class="mt-2 text-sm text-gray-600">
                                     Coba ubah kata kunci pencarian atau pilih kategori lain.
                                 </p>
                             </div>
                         @endforelse
                     </section>
-
                     @if ($announcements->hasPages())
                         <div data-aos="fade-up">
                             {{ $announcements->links() }}
