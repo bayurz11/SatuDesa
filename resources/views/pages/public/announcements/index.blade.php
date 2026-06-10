@@ -102,10 +102,15 @@
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
                 </label>
 
+
                 <label class="block">
-                    <span class="mb-2 block text-sm font-medium text-gray-700">Kategori</span>
+                    <span class="mb-2 block text-sm font-medium text-gray-700">
+                        Kategori
+                    </span>
+
                     <select name="category"
-                        class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
+                        class="peer w-full appearance-none rounded-2xl border border-gray-200 bg-gray-50 py-3 pl-4 pr-12 text-sm font-medium text-gray-700 outline-none transition-all duration-300 focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-100 hover:border-green-300">
+
                         <option value="">Semua kategori</option>
 
                         @foreach ($categories as $postCategory)
@@ -114,7 +119,19 @@
                             </option>
                         @endforeach
                     </select>
+
+                    <div
+                        class="pointer-events-none absolute right-4 top-[50px] text-gray-400 transition duration-300 peer-focus:text-green-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                        </svg>
+
+                    </div>
                 </label>
+
 
                 <div class="flex items-end gap-3">
                     <button type="submit"
@@ -270,7 +287,7 @@
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[160px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[180px] w-full flex-col items-center justify-center rounded-[18px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
 
                                     <span class="text-xl font-black uppercase tracking-[0.2em] text-emerald-700">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
