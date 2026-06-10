@@ -127,47 +127,76 @@
                         </summary>
 
                         <div
-                            class="relative z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-xl shadow-gray-200/60">
+                            class="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-xl shadow-gray-200/60">
+
+                            {{-- Hidden Input --}}
+                            <input type="hidden" name="category" id="selectedCategory" value="{{ $category }}">
 
                             {{-- Semua kategori --}}
-                            <label
-                                class="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-700 transition hover:bg-green-50 hover:text-green-700">
+                            <button type="submit" onclick="document.getElementById('selectedCategory').value=''"
+                                class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
+            {{ empty($category)
+                ? 'bg-green-50 font-semibold text-green-700'
+                : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
-                                <input type="radio" name="category" value="" onchange="this.form.submit()"
-                                    {{ empty($category) ? 'checked' : '' }}
-                                    class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+                                <span
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl
+            {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
 
-                                <span class="flex-1 font-medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
+                                    </svg>
+                                </span>
+
+                                <span class="flex-1">
                                     Semua kategori
                                 </span>
 
                                 @if (empty($category))
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                    </svg>
+                                    <span
+                                        class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    </span>
                                 @endif
-                            </label>
+                            </button>
 
                             @foreach ($categories as $postCategory)
-                                <label
-                                    class="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-700 transition hover:bg-green-50 hover:text-green-700">
+                                <button type="submit"
+                                    onclick="document.getElementById('selectedCategory').value='{{ $postCategory->slug }}'"
+                                    class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
+                {{ $category === $postCategory->slug
+                    ? 'bg-green-50 font-semibold text-green-700'
+                    : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
-                                    <input type="radio" name="category" value="{{ $postCategory->slug }}"
-                                        onchange="this.form.submit()" @checked($category === $postCategory->slug)
-                                        class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+                                    <span
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl
+                {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
 
-                                    <span class="flex-1 font-medium">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4 6h16M7 12h10M10 18h4" />
+                                        </svg>
+                                    </span>
+
+                                    <span class="flex-1">
                                         {{ $postCategory->name }}
                                     </span>
 
                                     @if ($category === $postCategory->slug)
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600"
-                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
+                                        <span
+                                            class="flex h-6 w-6 items-center justify-center rounded-full bg-green-100 text-green-600">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        </span>
                                     @endif
-                                </label>
+                                </button>
                             @endforeach
                         </div>
                     </details>
