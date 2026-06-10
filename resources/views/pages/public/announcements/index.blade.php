@@ -263,14 +263,14 @@
                                                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
 
-                                        {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
+                                        {{ $announcement->event_at->locale('id')->translatedFormat('l, H:i') }}
                                     </span>
                                 @endif
                             </div>
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[200px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition-all duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[200 px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition-all duration-300 group-hover:scale-[1.02]">
                                     <span class="text-xl font-bold uppercase tracking-[0.2em] text-emerald-600">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                     </span>
@@ -310,7 +310,7 @@
                                 </span>
 
                                 <a href="{{ route('public.announcements.show', $announcement->slug) }}"
-                                    class="group inline-flex shrink-0 items-center gap-2 rounded-full bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-md shadow-emerald-200 transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-700 hover:shadow-lg">
+                                    class="group inline-flex items-center gap-2 rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl">
                                     Lihat Detail
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
