@@ -266,29 +266,34 @@
                                     @endif
                                 </div>
 
-                                <div class="relative mt-5 grid gap-5 sm:grid-cols-[120px_1fr] sm:items-start">
+                                <div class="mt-5">
                                     <div
-                                        class="flex h-[150px] w-[95px] flex-col items-center justify-center rounded-[20px]
-    bg-gradient-to-br from-emerald-50 to-green-100
-    ring-1 ring-emerald-100 transition duration-300 group-hover:scale-105">
+                                        class="flex h-[160px] w-full flex-col items-center justify-center rounded-[28px]
+        bg-gradient-to-br from-emerald-50 to-green-100
+        ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
 
-                                        <span class="text-sm font-bold uppercase tracking-[0.25em] text-emerald-600">
+                                        <span class="text-4xl font-black uppercase tracking-[0.2em] text-emerald-700">
                                             {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                         </span>
 
-                                        <strong class="mt-1 text-6xl font-black leading-none text-emerald-700">
+                                        <strong class="mt-2 text-7xl font-black leading-none text-emerald-700">
                                             {{ optional($announcement->announcement_date)->format('d') }}
                                         </strong>
 
+                                        @if ($announcement->event_location)
+                                            <span class="mt-3 text-sm font-semibold text-emerald-600">
+                                                {{ \Illuminate\Support\Str::limit($announcement->event_location, 25) }}
+                                            </span>
+                                        @endif
                                     </div>
 
-                                    <div class="min-w-0">
+                                    <div class="mt-5">
                                         <h3
-                                            class="line-clamp-2 text-xl font-bold text-center leading-tight text-gray-950 transition group-hover:text-emerald-700">
+                                            class="line-clamp-2 text-2xl font-bold text-center leading-tight text-gray-950 transition group-hover:text-emerald-700">
                                             {{ $announcement->title }}
                                         </h3>
 
-                                        <p class="mt-3 line-clamp-4 text-sm leading-6 text-gray-700">
+                                        <p class="mt-4 line-clamp-4 text-sm leading-7 text-gray-700">
                                             {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 100) }}
                                         </p>
                                     </div>
