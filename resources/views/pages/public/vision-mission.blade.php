@@ -29,7 +29,7 @@
                     Profil Desa
                 </span>
 
-                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+                <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-3xl">
                     Visi &amp; Misi Desa Mentuda
                 </h1>
 
@@ -63,7 +63,7 @@
                             Visi Desa
                         </span>
 
-                        <h2 class="mt-3 text-3xl font-bold tracking-tight text-gray-900">
+                        <h2 class="mt-3 text-2xl font-bold tracking-tight text-gray-900">
                             Mewujudkan Desa Mentuda yang Maju, Mandiri, Sejahtera, dan Berdaya Saing
                         </h2>
 

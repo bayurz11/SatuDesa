@@ -29,7 +29,7 @@
                     Profil Desa
                 </span>
 
-                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+                <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-3xl">
                     Sejarah Desa Mentuda
                 </h1>
 
