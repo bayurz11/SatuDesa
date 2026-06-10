@@ -250,20 +250,7 @@
                                             {{ $announcement->category?->name ?? 'Pengumuman' }}
                                         </span>
 
-                                        @if ($announcement->event_location)
-                                            <span
-                                                class="inline-flex items-center gap-2 rounded-full bg-gray-50 px-4 py-1.5 text-xs font-bold text-gray-600 ring-1 ring-gray-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="h-3.5 w-3.5 text-emerald-600" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                                </svg>
-                                                {{ \Illuminate\Support\Str::limit($announcement->event_location, 28) }}
-                                            </span>
-                                        @endif
+
                                     </div>
 
                                     @if ($announcement->event_at)
@@ -291,7 +278,20 @@
                                         </strong>
 
                                         <span class="mt-2 text-xs font-bold text-emerald-600">
-                                            {{ optional($announcement->announcement_date)->translatedFormat('Y') }}
+                                            @if ($announcement->event_location)
+                                                <span
+                                                    class="inline-flex items-center gap-2 rounded-full bg-gray-50 px-4 py-1.5 text-xs font-bold text-gray-600 ring-1 ring-gray-100">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="h-3.5 w-3.5 text-emerald-600" fill="none"
+                                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                    </svg>
+                                                    {{ \Illuminate\Support\Str::limit($announcement->event_location, 28) }}
+                                                </span>
+                                            @endif
                                         </span>
                                     </div>
 
