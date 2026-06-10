@@ -268,14 +268,21 @@
 
                                 <div class="relative mt-5 grid gap-5 sm:grid-cols-[120px_1fr] sm:items-start">
                                     <div
-                                        class="flex min-h-[126px] flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 text-center ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.03]">
-                                        <span class="text-2xl font-black uppercase tracking-wide text-emerald-700">
+                                        class="flex h-[120px] w-[95px] flex-col items-center justify-center rounded-[22px]
+    bg-gradient-to-br from-emerald-50 to-green-100
+    ring-1 ring-emerald-100 transition duration-300 group-hover:scale-105">
+
+                                        <span class="text-sm font-bold uppercase tracking-[0.25em] text-emerald-600">
                                             {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                         </span>
 
-                                        <strong class="mt-1 text-5xl font-black leading-none text-emerald-700">
+                                        <strong class="mt-1 text-6xl font-black leading-none text-emerald-700">
                                             {{ optional($announcement->announcement_date)->format('d') }}
                                         </strong>
+
+                                        <span class="mt-1 text-xs font-semibold text-emerald-500">
+                                            {{ optional($announcement->announcement_date)->format('Y') }}
+                                        </span>
                                     </div>
 
                                     <div class="min-w-0">
