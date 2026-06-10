@@ -107,26 +107,70 @@
                         Kategori
                     </span>
 
-                    <div class="relative">
-                        <select name="category"
-                            class="h-[54px] w-full appearance-none rounded-2xl border border-gray-200 bg-gray-50 px-4 pr-12 text-sm font-medium text-gray-700 outline-none transition duration-200 hover:border-green-300 hover:bg-white focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-100">
+                    <details class="group relative">
+                        <summary
+                            class="flex w-full cursor-pointer list-none items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition duration-200 hover:border-green-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-100">
 
-                            <option value="">Semua kategori</option>
+                            <span class="truncate">
+                                @php
+                                    $selectedCategory = $categories->firstWhere('slug', $category);
+                                @endphp
 
-                            @foreach ($categories as $postCategory)
-                                <option value="{{ $postCategory->slug }}" @selected($category === $postCategory->slug)>
-                                    {{ $postCategory->name }}
-                                </option>
-                            @endforeach
-                        </select>
+                                {{ $selectedCategory?->name ?? 'Semua kategori' }}
+                            </span>
 
-                        <div class="pointer-events-none absolute inset-y-0 right-4 flex items-center text-gray-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="2">
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="h-5 w-5 text-gray-400 transition duration-300 group-open:rotate-180" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
                             </svg>
+                        </summary>
+
+                        <div
+                            class="relative z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-xl shadow-gray-200/60">
+
+                            {{-- Semua kategori --}}
+                            <label
+                                class="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-700 transition hover:bg-green-50 hover:text-green-700">
+
+                                <input type="radio" name="category" value="" onchange="this.form.submit()"
+                                    {{ empty($category) ? 'checked' : '' }}
+                                    class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+
+                                <span class="flex-1 font-medium">
+                                    Semua kategori
+                                </span>
+
+                                @if (empty($category))
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
+                                @endif
+                            </label>
+
+                            @foreach ($categories as $postCategory)
+                                <label
+                                    class="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-3 text-sm text-gray-700 transition hover:bg-green-50 hover:text-green-700">
+
+                                    <input type="radio" name="category" value="{{ $postCategory->slug }}"
+                                        onchange="this.form.submit()" @checked($category === $postCategory->slug)
+                                        class="h-4 w-4 border-gray-300 text-green-600 focus:ring-green-500">
+
+                                    <span class="flex-1 font-medium">
+                                        {{ $postCategory->name }}
+                                    </span>
+
+                                    @if ($category === $postCategory->slug)
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-600"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    @endif
+                                </label>
+                            @endforeach
                         </div>
-                    </div>
+                    </details>
                 </label>
 
                 <div class="flex items-end gap-3">
@@ -213,8 +257,9 @@
                                         @if ($featuredAnnouncement->event_at)
                                             <span
                                                 class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 font-semibold text-emerald-700 ring-1 ring-emerald-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
-                                                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5"
+                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                    stroke-width="1.8">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                                 </svg>
