@@ -64,12 +64,12 @@
                         Pusat Pengumuman Resmi Desa
                     </h1>
 
-                    <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90">
+                    <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
                         Warga dapat memantau pemberitahuan terbaru, perubahan jadwal layanan, agenda penting, dan
                         informasi operasional desa dari satu halaman yang mudah dipindai.
                     </p>
 
-                    <div class="mt-7 grid gap-4 sm:grid-cols-3">
+                    <div class="mt-7 grid gap-8 sm:grid-cols-4">
                         @foreach ($summaryCards as $card)
                             <div class="rounded-[22px] border border-white/10 bg-gradient-to-br {{ $card['tone'] }} p-5 shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl"
                                 data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
@@ -84,7 +84,6 @@
                         @endforeach
                     </div>
                 </div>
-
 
             </div>
         </div>
