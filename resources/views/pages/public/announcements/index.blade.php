@@ -256,7 +256,7 @@
 
                                 @if ($announcement->event_at)
                                     <span
-                                        class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-200">
+                                        class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-green-700  px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-200">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
@@ -270,7 +270,7 @@
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[160px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[160px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
 
                                     <span class="text-xl font-black uppercase tracking-[0.2em] text-emerald-700">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
