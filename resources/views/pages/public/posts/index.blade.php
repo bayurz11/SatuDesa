@@ -47,16 +47,32 @@
                 </label>
 
                 <label class="block">
-                    <span class="mb-2 block text-sm font-medium text-gray-700">Kategori</span>
+                    <span class="mb-2 block text-sm font-medium text-gray-700">
+                        Kategori
+                    </span>
+
                     <select name="category"
-                        class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
+                        class="peer w-full appearance-none rounded-2xl border border-gray-200 bg-gray-50 py-3 pl-4 pr-12 text-sm font-medium text-gray-700 outline-none transition-all duration-300 focus:border-green-500 focus:bg-white focus:ring-4 focus:ring-green-100 hover:border-green-300">
+
                         <option value="">Semua kategori</option>
+
                         @foreach ($categories as $postCategory)
                             <option value="{{ $postCategory->slug }}" @selected($category === $postCategory->slug)>
                                 {{ $postCategory->name }}
                             </option>
                         @endforeach
                     </select>
+
+                    <div
+                        class="pointer-events-none absolute right-4 top-[50px] text-gray-400 transition duration-300 peer-focus:text-green-600">
+
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+
+                            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
+                        </svg>
+
+                    </div>
                 </label>
 
                 <div class="flex items-end gap-3">
@@ -80,10 +96,10 @@
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
             <main>
                 @if ($featuredPost)
-                    <article
-                        data-aos="fade-up" data-aos-delay="80"
+                    <article data-aos="fade-up" data-aos-delay="80"
                         class="group relative overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8">
-                        <a href="{{ route('public.posts.show', $featuredPost->slug) }}" class="relative block h-[360px] md:h-[520px]">
+                        <a href="{{ route('public.posts.show', $featuredPost->slug) }}"
+                            class="relative block h-[360px] md:h-[520px]">
                             <img src="{{ $featuredPost->cover_image_url ?: asset('img/bg.jpg') }}"
                                 alt="{{ $featuredPost->cover_image_alt ?: $featuredPost->title }}"
                                 class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
@@ -127,8 +143,7 @@
 
                 <div class="mt-8 grid gap-6 md:grid-cols-2">
                     @forelse ($posts as $post)
-                        <article
-                            data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
+                        <article data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
                             class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition hover:-translate-y-1 hover:shadow-xl">
                             <a href="{{ route('public.posts.show', $post->slug) }}" class="block">
                                 <div
@@ -214,8 +229,8 @@
 
                     <div class="mt-5 space-y-4">
                         @foreach ($latestPosts as $latestPost)
-                            <a href="{{ route('public.posts.show', $latestPost->slug) }}"
-                                data-aos="fade-left" data-aos-delay="{{ 60 + ($loop->index * 50) }}"
+                            <a href="{{ route('public.posts.show', $latestPost->slug) }}" data-aos="fade-left"
+                                data-aos-delay="{{ 60 + $loop->index * 50 }}"
                                 class="group flex gap-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-green-200">
                                 <img src="{{ $latestPost->cover_image_url ?: asset('img/bg.jpg') }}"
                                     alt="{{ $latestPost->cover_image_alt ?: $latestPost->title }}"
@@ -252,8 +267,7 @@
                     </div>
                 </div>
 
-                <div
-                    data-aos="fade-left" data-aos-delay="220"
+                <div data-aos="fade-left" data-aos-delay="220"
                     class="rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
                     <h2 class="text-lg font-bold">Butuh informasi cepat?</h2>
                     <p class="mt-3 text-sm leading-6 text-white/85">

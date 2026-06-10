@@ -102,7 +102,6 @@
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
                 </label>
 
-
                 <label class="block">
                     <span class="mb-2 block text-sm font-medium text-gray-700">
                         Kategori
