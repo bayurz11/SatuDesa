@@ -268,23 +268,14 @@
 
                                 <div class="mt-5">
                                     <div
-                                        class="flex h-[160px] w-full flex-col items-center justify-center rounded-[28px]
-        bg-gradient-to-br from-emerald-50 to-green-100
-        ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
-
-                                        <span class="text-4xl font-black uppercase tracking-[0.2em] text-emerald-700">
+                                        class="flex h-[160px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                        <span class="text-2xl font-black uppercase text-emerald-700">
                                             {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                         </span>
 
-                                        <strong class="mt-2 text-7xl font-black leading-none text-emerald-700">
+                                        <strong class="mt-2 text-4xl font-black leading-none text-emerald-700">
                                             {{ optional($announcement->announcement_date)->format('d') }}
                                         </strong>
-
-                                        @if ($announcement->event_location)
-                                            <span class="mt-3 text-sm font-semibold text-emerald-600">
-                                                {{ \Illuminate\Support\Str::limit($announcement->event_location, 25) }}
-                                            </span>
-                                        @endif
                                     </div>
 
                                     <div class="mt-5">
