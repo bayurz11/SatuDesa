@@ -230,8 +230,9 @@
 
                                     <div class="mt-6 flex flex-wrap gap-3">
                                         <a href="{{ route('public.announcements.show', $featuredAnnouncement->slug) }}"
-                                            class="inline-flex items-center rounded-full bg-green-700 px-6 py-2.5 text-sm font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:shadow-lg"
-                                            Baca Detail </a>
+                                            class="inline-flex items-center rounded-full bg-green-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-green-800 hover:shadow-lg">
+                                            Baca Detail
+                                        </a>
 
                                     </div>
                                 </div>
