@@ -43,126 +43,213 @@
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <main class="space-y-8">
                 <section data-aos="fade-up" data-aos-delay="100"
-                    class="overflow-hidden rounded-[32px] border border-gray-200 bg-white p-6 shadow-lg shadow-gray-200/70 sm:p-8">
+                    class="overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70 sm:p-7">
 
                     <div class="text-center">
-                        <span class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
+                        <span
+                            class="inline-flex items-center rounded-full bg-green-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-green-700 ring-1 ring-green-100">
                             Bagan Organisasi
                         </span>
-                        <h2 class="mt-3 text-3xl font-bold text-gray-900">
-                            Susunan Pemerintahan Desa
+
+                        <h2 class="mt-4 text-2xl font-bold text-gray-900 sm:text-3xl">
+                            Struktur Organisasi Desa Mentuda
                         </h2>
+
                         <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                            Struktur ini menampilkan hubungan kerja antara Kepala Desa, Sekretariat Desa,
-                            Pelaksana Teknis, Pelaksana Kewilayahan, serta unsur mitra pemerintahan desa.
+                            Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan,
+                            dan tata kelola administrasi Desa Mentuda.
                         </p>
                     </div>
 
+                    @php
+                        $photoPlaceholder = asset('img/avatar-placeholder.png');
+
+                        $kaurItems = [
+                            [
+                                'label' => 'Kaur',
+                                'title' => 'Kaur Tata Usaha & Umum',
+                                'name' => 'Nama Kaur',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kaur',
+                                'title' => 'Kaur Keuangan',
+                                'name' => 'Nama Kaur',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kaur',
+                                'title' => 'Kaur Perencanaan',
+                                'name' => 'Nama Kaur',
+                                'photo' => $photoPlaceholder,
+                            ],
+                        ];
+
+                        $kasiItems = [
+                            [
+                                'label' => 'Kasi',
+                                'title' => 'Kasi Pemerintahan',
+                                'name' => 'Nama Kasi',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kasi',
+                                'title' => 'Kasi Kesejahteraan',
+                                'name' => 'Nama Kasi',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kasi',
+                                'title' => 'Kasi Pelayanan',
+                                'name' => 'Nama Kasi',
+                                'photo' => $photoPlaceholder,
+                            ],
+                        ];
+
+                        $dusunItems = [
+                            [
+                                'label' => 'Kadus',
+                                'title' => 'Kepala Dusun I',
+                                'name' => 'Nama Kadus',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kadus',
+                                'title' => 'Kepala Dusun II',
+                                'name' => 'Nama Kadus',
+                                'photo' => $photoPlaceholder,
+                            ],
+                            [
+                                'label' => 'Kadus',
+                                'title' => 'Kepala Dusun III',
+                                'name' => 'Nama Kadus',
+                                'photo' => $photoPlaceholder,
+                            ],
+                        ];
+                    @endphp
+
                     <div class="mt-10">
-                        <div class="grid gap-5 lg:grid-cols-[1fr_auto_1fr]">
+                        <div class="grid items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
                             <div></div>
 
                             <div data-aos="zoom-in" data-aos-delay="200"
-                                class="mx-auto w-full max-w-md rounded-[28px] bg-green-700 p-6 text-center text-white shadow-xl shadow-green-700/25">
-                                <div
-                                    class="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15 ring-1 ring-white/20">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z" />
-                                    </svg>
+                                class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[24px] border-t-4 border-green-700 bg-white p-4 shadow-lg shadow-gray-200/70 ring-1 ring-gray-100">
+                                <img src="{{ asset('img/avatar-placeholder.png') }}" alt="Kepala Desa"
+                                    class="h-14 w-14 rounded-full border-4 border-green-50 object-cover">
+
+                                <div class="min-w-0 text-left">
+                                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                        Kepala Desa
+                                    </p>
+                                    <h3 class="mt-1 truncate text-base font-bold text-gray-900">
+                                        Nama Kepala Desa
+                                    </h3>
+                                    <p class="mt-1 text-xs text-gray-500">Pimpinan Pemerintahan Desa</p>
                                 </div>
-                                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-100">
-                                    Kepala Desa
-                                </p>
-                                <h3 class="mt-2 text-2xl font-bold">Nama Kepala Desa</h3>
-                                <p class="mt-2 text-sm text-green-50/85">Pimpinan penyelenggaraan pemerintahan desa</p>
                             </div>
 
                             <div data-aos="fade-left" data-aos-delay="250"
-                                class="rounded-[24px] border border-green-100 bg-green-50 p-5 shadow-sm">
-                                <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
-                                    Mitra Desa
-                                </p>
-                                <h4 class="mt-2 text-lg font-bold text-gray-900">BPD</h4>
-                                <p class="mt-2 text-sm leading-6 text-gray-600">
-                                    Badan Permusyawaratan Desa sebagai mitra pemerintahan dan penyalur aspirasi masyarakat.
-                                </p>
+                                class="mx-auto flex w-full max-w-xs items-center gap-3 rounded-[20px] border border-green-100 bg-green-50 p-4 shadow-sm">
+                                <img src="{{ asset('img/avatar-placeholder.png') }}" alt="BPD"
+                                    class="h-12 w-12 rounded-full border-4 border-white object-cover">
+
+                                <div class="min-w-0">
+                                    <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                        Mitra Desa
+                                    </p>
+                                    <h4 class="mt-1 truncate text-sm font-bold text-gray-900">BPD</h4>
+                                    <p class="mt-1 text-xs text-gray-500">Badan Permusyawaratan Desa</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mx-auto my-6 h-10 w-px bg-green-200"></div>
+                        <div class="mx-auto my-5 h-8 w-px bg-green-200"></div>
 
                         <div data-aos="fade-up" data-aos-delay="300"
-                            class="mx-auto max-w-md rounded-[24px] border border-gray-200 bg-white p-5 text-center shadow-md shadow-gray-200/60">
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
-                                Sekretariat Desa
-                            </p>
-                            <h4 class="mt-2 text-xl font-bold text-gray-900">Sekretaris Desa</h4>
-                            <p class="mt-2 text-sm leading-6 text-gray-600">
-                                Mengkoordinasikan administrasi pemerintahan, keuangan, perencanaan, dan pelayanan umum.
-                            </p>
+                            class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-4 shadow-md shadow-gray-200/60">
+                            <img src="{{ asset('img/avatar-placeholder.png') }}" alt="Sekretaris Desa"
+                                class="h-13 w-13 rounded-full border-4 border-green-50 object-cover">
+
+                            <div class="min-w-0">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                    Sekretariat Desa
+                                </p>
+                                <h4 class="mt-1 truncate text-base font-bold text-gray-900">
+                                    Nama Sekretaris Desa
+                                </h4>
+                                <p class="mt-1 text-xs text-gray-500">Sekretaris Desa</p>
+                            </div>
                         </div>
 
-                        <div class="mx-auto my-6 h-10 w-px bg-green-200"></div>
+                        <div class="mx-auto my-5 h-8 w-px bg-green-200"></div>
 
-                        <div class="grid gap-5 md:grid-cols-3">
-                            @foreach ([['label' => 'Kaur', 'title' => 'Kaur Tata Usaha & Umum', 'desc' => 'Mengelola administrasi umum, surat menyurat, arsip, aset, dan pelayanan kantor desa.'], ['label' => 'Kaur', 'title' => 'Kaur Keuangan', 'desc' => 'Mengelola administrasi keuangan desa, pencatatan, pelaporan, dan dokumen pertanggungjawaban.'], ['label' => 'Kaur', 'title' => 'Kaur Perencanaan', 'desc' => 'Mendukung penyusunan rencana kerja, program pembangunan, dan evaluasi kegiatan desa.']] as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 350 + $index * 100 }}"
-                                    class="group rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-green-50/50 hover:shadow-lg hover:shadow-green-100/60">
-                                    <div
-                                        class="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 group-hover:bg-green-700 group-hover:text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M8 6h8M8 10h8M8 14h5M6 3h12a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2z" />
-                                        </svg>
+                        <div class="grid gap-4 md:grid-cols-3">
+                            @foreach ($kaurItems as $index => $item)
+                                <div data-aos="fade-up" data-aos-delay="{{ 350 + $index * 80 }}"
+                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
+                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+
+                                    <div class="min-w-0">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                            {{ $item['label'] }}
+                                        </p>
+                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                            {{ $item['title'] }}
+                                        </h4>
+                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
                                     </div>
-                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
-                                        {{ $item['label'] }}
-                                    </p>
-                                    <h4 class="mt-2 text-lg font-bold text-gray-900">{{ $item['title'] }}</h4>
-                                    <p class="mt-2 text-sm leading-6 text-gray-600">{{ $item['desc'] }}</p>
                                 </div>
                             @endforeach
                         </div>
 
-                        <div class="mx-auto my-8 h-px max-w-3xl bg-green-100"></div>
+                        <div class="mx-auto my-6 h-px max-w-3xl bg-green-100"></div>
 
-                        <div class="grid gap-5 md:grid-cols-3">
-                            @foreach ([['label' => 'Kasi', 'title' => 'Kasi Pemerintahan', 'desc' => 'Membantu urusan pemerintahan, kependudukan, ketertiban, dan administrasi wilayah.'], ['label' => 'Kasi', 'title' => 'Kasi Kesejahteraan', 'desc' => 'Mendukung kegiatan pembangunan, pemberdayaan, sosial, dan peningkatan kesejahteraan warga.'], ['label' => 'Kasi', 'title' => 'Kasi Pelayanan', 'desc' => 'Membantu pelayanan masyarakat, administrasi layanan publik, dan kebutuhan warga desa.']] as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 450 + $index * 100 }}"
-                                    class="group rounded-2xl border border-gray-200 bg-white p-5 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-green-50/50 hover:shadow-lg hover:shadow-green-100/60">
-                                    <div
-                                        class="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 group-hover:bg-green-700 group-hover:text-white">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z" />
-                                        </svg>
+                        <div class="grid gap-4 md:grid-cols-3">
+                            @foreach ($kasiItems as $index => $item)
+                                <div data-aos="fade-up" data-aos-delay="{{ 450 + $index * 80 }}"
+                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
+                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+
+                                    <div class="min-w-0">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                            {{ $item['label'] }}
+                                        </p>
+                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                            {{ $item['title'] }}
+                                        </h4>
+                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
                                     </div>
-                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
-                                        {{ $item['label'] }}
-                                    </p>
-                                    <h4 class="mt-2 text-lg font-bold text-gray-900">{{ $item['title'] }}</h4>
-                                    <p class="mt-2 text-sm leading-6 text-gray-600">{{ $item['desc'] }}</p>
                                 </div>
                             @endforeach
                         </div>
 
-                        <div class="mx-auto my-8 h-px max-w-3xl bg-green-100"></div>
+                        <div class="mx-auto my-6 h-px max-w-3xl bg-green-100"></div>
 
-                        <div class="grid gap-5 md:grid-cols-3">
-                            @foreach ([['title' => 'Kepala Dusun I', 'desc' => 'Pelaksana kewilayahan pada wilayah Dusun I.'], ['title' => 'Kepala Dusun II', 'desc' => 'Pelaksana kewilayahan pada wilayah Dusun II.'], ['title' => 'Kepala Dusun III', 'desc' => 'Pelaksana kewilayahan pada wilayah Dusun III.']] as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 550 + $index * 100 }}"
-                                    class="rounded-2xl border border-gray-200 bg-gray-50/70 p-5 text-center transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/60">
-                                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
-                                        Kewilayahan
-                                    </p>
-                                    <h4 class="mt-2 text-lg font-bold text-gray-900">{{ $item['title'] }}</h4>
-                                    <p class="mt-2 text-sm leading-6 text-gray-600">{{ $item['desc'] }}</p>
+                        <div class="grid gap-4 md:grid-cols-3">
+                            @foreach ($dusunItems as $index => $item)
+                                <div data-aos="fade-up" data-aos-delay="{{ 550 + $index * 80 }}"
+                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-gray-50/70 p-4 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/60">
+                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-white object-cover">
+
+                                    <div class="min-w-0">
+                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                            {{ $item['label'] }}
+                                        </p>
+                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                            {{ $item['title'] }}
+                                        </h4>
+                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
+                                    </div>
                                 </div>
                             @endforeach
+                        </div>
+
+                        <div
+                            class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
+                            Struktur organisasi dapat disesuaikan dengan data perangkat desa dan foto masing-masing pejabat.
                         </div>
                     </div>
                 </section>
