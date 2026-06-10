@@ -182,10 +182,20 @@
                                 <div class="p-6 sm:p-8">
                                     <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500">
                                         <span
-                                            class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                            class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                            </svg>
                                             {{ $featuredAnnouncement->category?->name ?? 'Pengumuman Desa' }}
                                         </span>
-                                        <span>{{ optional($featuredAnnouncement->announcement_date)->translatedFormat('d F Y') }}</span>
+                                        @if ($featuredAnnouncement->event_location)
+                                            <span
+                                                class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 font-medium text-slate-700">
+                                                {{ $featuredAnnouncement->event_location }}
+                                            </span>
+                                        @endif
                                     </div>
 
                                     <h2 class="mt-4 text-2xl font-bold tracking-tight text-gray-900">
@@ -204,12 +214,7 @@
                                                     {{ $featuredAnnouncement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
                                                 </span>
                                             @endif
-                                            @if ($featuredAnnouncement->event_location)
-                                                <span
-                                                    class="inline-flex items-center rounded-full bg-slate-100 px-3 py-1.5 font-medium text-slate-700">
-                                                    {{ $featuredAnnouncement->event_location }}
-                                                </span>
-                                            @endif
+
                                         </div>
                                     @endif
 
@@ -261,14 +266,14 @@
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                             </svg>
-                                            {{ $announcement->event_at->format('H:i') }}
+                                            {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
                                         </span>
                                     @endif
                                 </div>
 
                                 <div class="mt-5">
                                     <div
-                                        class="flex h-[160px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                        class="flex h-[160px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
                                         <span class="text-2xl font-black uppercase text-emerald-700">
                                             {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                         </span>
@@ -285,7 +290,7 @@
                                         </h3>
 
                                         <p class="mt-4 line-clamp-4 text-sm leading-7 text-gray-700">
-                                            {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 100) }}
+                                            {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 50) }}
                                         </p>
                                     </div>
                                 </div>
