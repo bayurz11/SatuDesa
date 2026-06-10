@@ -69,7 +69,7 @@
                         informasi operasional desa dari satu halaman yang mudah dipindai.
                     </p>
 
-                    <div class="mt-7 grid gap-8 sm:grid-cols-4">
+                    <div class="mt-7 grid gap-4 sm:grid-cols-3">
                         @foreach ($summaryCards as $card)
                             <div class="rounded-[22px] border border-white/10 bg-gradient-to-br {{ $card['tone'] }} p-5 shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl"
                                 data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
@@ -263,14 +263,14 @@
                                                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
 
-                                        {{ $announcement->event_at->translatedFormat('d M • H:i') }}
+                                        {{ $announcement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
                                     </span>
                                 @endif
                             </div>
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[140px] w-full flex-col items-center justify-center rounded-[24px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition-all duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[200px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition-all duration-300 group-hover:scale-[1.02]">
                                     <span class="text-xl font-bold uppercase tracking-[0.2em] text-emerald-600">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                     </span>
@@ -279,11 +279,6 @@
                                         {{ optional($announcement->announcement_date)->format('d') }}
                                     </strong>
 
-                                    @if ($announcement->event_location)
-                                        <span class="mt-2 px-4 text-center text-xs font-semibold text-emerald-600">
-                                            {{ \Illuminate\Support\Str::limit($announcement->event_location, 24) }}
-                                        </span>
-                                    @endif
                                 </div>
 
                                 <div class="mt-5">
