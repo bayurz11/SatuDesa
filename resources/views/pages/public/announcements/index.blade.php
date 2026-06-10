@@ -280,9 +280,6 @@
                                             {{ optional($announcement->announcement_date)->format('d') }}
                                         </strong>
 
-                                        <span class="mt-1 text-xs font-semibold text-emerald-500">
-                                            {{ optional($announcement->announcement_date)->format('Y') }}
-                                        </span>
                                     </div>
 
                                     <div class="min-w-0">
