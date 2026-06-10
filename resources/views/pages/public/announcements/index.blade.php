@@ -270,9 +270,7 @@
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[160px] w-full flex-col items-center justify-center rounded-[28px]
-        bg-gradient-to-br from-emerald-50 to-green-100
-        ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[160px] w-full flex-col items-center justify-center rounded-[15px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
 
                                     <span class="text-xl font-black uppercase tracking-[0.2em] text-emerald-700">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
