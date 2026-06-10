@@ -65,82 +65,142 @@
                     </div>
                 </article>
 
+                {{-- Card Sejarah --}}
                 <section class="grid gap-6 md:grid-cols-2">
-                    <article class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
-                        <span class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">Awal Mula</span>
-                        <h3 class="mt-3 text-xl font-bold text-gray-900">Asal-Usul Pemukiman</h3>
-                        <p class="mt-4 text-sm leading-7 text-gray-600">
-                            Kawasan Mentuda dipercaya mulai dihuni oleh kelompok masyarakat yang menetap
-                            di sekitar jalur pesisir dan memanfaatkan sumber daya alam secara turun-temurun.
-                        </p>
+                    <article data-aos="fade-up" data-aos-delay="100"
+                        class="group relative overflow-hidden rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60 transition-all duration-500 hover:-translate-y-2 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/70">
+
+                        <div
+                            class="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-green-100/70 transition duration-500 group-hover:scale-125">
+                        </div>
+
+                        <div class="relative">
+                            <div
+                                class="flex h-13 w-13 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 transition duration-500 group-hover:rotate-6 group-hover:scale-110 group-hover:bg-green-700 group-hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                                </svg>
+                            </div>
+
+                            <span
+                                class="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
+                                Awal Mula
+                            </span>
+
+                            <h3 class="mt-3 text-xl font-bold text-gray-900 transition group-hover:text-green-700">
+                                Asal-Usul Pemukiman
+                            </h3>
+
+                            <p class="mt-4 text-sm leading-7 text-gray-600">
+                                Kawasan Mentuda dipercaya mulai dihuni oleh kelompok masyarakat yang menetap
+                                di sekitar jalur pesisir dan memanfaatkan sumber daya alam secara turun-temurun.
+                            </p>
+                        </div>
                     </article>
 
-                    <article class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60">
-                        <span class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">Perkembangan</span>
-                        <h3 class="mt-3 text-xl font-bold text-gray-900">Pertumbuhan Sosial dan Ekonomi</h3>
-                        <p class="mt-4 text-sm leading-7 text-gray-600">
-                            Seiring waktu, aktivitas masyarakat meluas pada sektor perikanan, perdagangan lokal,
-                            dan usaha rumah tangga yang memperkuat fondasi ekonomi desa.
-                        </p>
+                    <article data-aos="fade-up" data-aos-delay="200"
+                        class="group relative overflow-hidden rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60 transition-all duration-500 hover:-translate-y-2 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/70">
+
+                        <div
+                            class="absolute -right-10 -top-10 h-28 w-28 rounded-full bg-emerald-100/70 transition duration-500 group-hover:scale-125">
+                        </div>
+
+                        <div class="relative">
+                            <div
+                                class="flex h-13 w-13 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 transition duration-500 group-hover:-rotate-6 group-hover:scale-110 group-hover:bg-green-700 group-hover:text-white">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6" />
+                                </svg>
+                            </div>
+
+                            <span
+                                class="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
+                                Perkembangan
+                            </span>
+
+                            <h3 class="mt-3 text-xl font-bold text-gray-900 transition group-hover:text-green-700">
+                                Pertumbuhan Sosial dan Ekonomi
+                            </h3>
+
+                            <p class="mt-4 text-sm leading-7 text-gray-600">
+                                Seiring waktu, aktivitas masyarakat meluas pada sektor perikanan, perdagangan lokal,
+                                dan usaha rumah tangga yang memperkuat fondasi ekonomi desa.
+                            </p>
+                        </div>
                     </article>
                 </section>
 
-                <section class="rounded-[32px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60 sm:p-8">
-                    <div class="max-w-3xl">
-                        <span class="text-xs font-semibold uppercase tracking-[0.24em] text-green-700">Linimasa</span>
-                        <h3 class="mt-3 text-2xl font-bold text-gray-900">Tonggak Sejarah Desa</h3>
-                    </div>
-
-                    <div class="mt-8 space-y-6">
-                        <div class="flex gap-4">
+                <div class="mt-8 space-y-6">
+                    @foreach ([
+            [
+                'no' => '1',
+                'label' => 'Periode Awal',
+                'title' => 'Pembentukan Komunitas Permukiman',
+                'desc' => 'Masyarakat mulai membentuk kawasan hunian tetap dan mengembangkan pola hidup berbasis kebersamaan.',
+                'icon' => 'home',
+            ],
+            [
+                'no' => '2',
+                'label' => 'Periode Penguatan',
+                'title' => 'Pengembangan Wilayah dan Kelembagaan',
+                'desc' => 'Infrastruktur dasar dan tata kelola desa berkembang untuk menjawab kebutuhan warga yang semakin beragam.',
+                'icon' => 'building',
+            ],
+            [
+                'no' => '3',
+                'label' => 'Periode Modern',
+                'title' => 'Transformasi Pelayanan dan Informasi Publik',
+                'desc' => 'Desa mulai beradaptasi dengan kebutuhan digital, transparansi informasi, dan peningkatan kualitas layanan publik.',
+                'icon' => 'spark',
+            ],
+        ] as $index => $item)
+                        <div class="group flex gap-4" data-aos="fade-up" data-aos-delay="{{ 100 + $index * 100 }}">
                             <div class="flex flex-col items-center">
                                 <span
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-green-700 text-sm font-bold text-white">1</span>
-                                <span class="mt-2 h-full w-px bg-green-100"></span>
-                            </div>
-                            <div class="pb-6">
-                                <p class="text-sm font-semibold text-green-700">Periode Awal</p>
-                                <h4 class="mt-1 text-lg font-bold text-gray-900">Pembentukan Komunitas Permukiman</h4>
-                                <p class="mt-2 text-sm leading-7 text-gray-600">
-                                    Masyarakat mulai membentuk kawasan hunian tetap dan mengembangkan pola hidup berbasis
-                                    kebersamaan.
-                                </p>
-                            </div>
-                        </div>
+                                    class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-700 text-white shadow-lg shadow-green-700/25 transition duration-500 group-hover:rotate-6 group-hover:scale-110 group-hover:bg-emerald-600">
+                                    @if ($item['icon'] === 'home')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
+                                        </svg>
+                                    @elseif ($item['icon'] === 'building')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M9 7h2M9 11h2M9 15h2M18 21v-8h2v8" />
+                                        </svg>
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
+                                        </svg>
+                                    @endif
+                                </span>
 
-                        <div class="flex gap-4">
-                            <div class="flex flex-col items-center">
-                                <span
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-green-700 text-sm font-bold text-white">2</span>
-                                <span class="mt-2 h-full w-px bg-green-100"></span>
+                                @if (!$loop->last)
+                                    <span class="mt-3 h-full w-px bg-green-100"></span>
+                                @endif
                             </div>
-                            <div class="pb-6">
-                                <p class="text-sm font-semibold text-green-700">Periode Penguatan</p>
-                                <h4 class="mt-1 text-lg font-bold text-gray-900">Pengembangan Wilayah dan Kelembagaan</h4>
-                                <p class="mt-2 text-sm leading-7 text-gray-600">
-                                    Infrastruktur dasar dan tata kelola desa berkembang untuk menjawab kebutuhan warga yang
-                                    semakin beragam.
-                                </p>
-                            </div>
-                        </div>
 
-                        <div class="flex gap-4">
-                            <div class="flex flex-col items-center">
-                                <span
-                                    class="flex h-10 w-10 items-center justify-center rounded-full bg-green-700 text-sm font-bold text-white">3</span>
-                            </div>
-                            <div>
-                                <p class="text-sm font-semibold text-green-700">Periode Modern</p>
-                                <h4 class="mt-1 text-lg font-bold text-gray-900">Transformasi Pelayanan dan Informasi Publik
+                            <div
+                                class="flex-1 rounded-[24px] border border-gray-100 bg-white p-5 shadow-sm shadow-gray-200/50 transition duration-500 group-hover:-translate-y-1 group-hover:border-green-200 group-hover:shadow-lg group-hover:shadow-green-100/60">
+                                <p class="text-sm font-semibold text-green-700">{{ $item['label'] }}</p>
+                                <h4 class="mt-1 text-lg font-bold text-gray-900 transition group-hover:text-green-700">
+                                    {{ $item['title'] }}
                                 </h4>
                                 <p class="mt-2 text-sm leading-7 text-gray-600">
-                                    Desa mulai beradaptasi dengan kebutuhan digital, transparansi informasi, dan peningkatan
-                                    kualitas layanan publik.
+                                    {{ $item['desc'] }}
                                 </p>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    @endforeach
+                </div>
             </main>
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
