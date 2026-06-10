@@ -233,7 +233,7 @@
                             <article
                                 class="group rounded-[24px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/60 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-xl"
                                 data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
-                                <div class="flex items-start gap-4">
+                                <div class="flex items-start rounded-b-sm gap-4">
                                     <div
                                         class="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-50 to-green-100 text-emerald-700 ring-1 ring-emerald-100">
                                         <span
