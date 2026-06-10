@@ -276,22 +276,16 @@
                                         <strong class="mt-1 text-5xl font-black leading-none text-emerald-700">
                                             {{ optional($announcement->announcement_date)->format('d') }}
                                         </strong>
-
-                                        <span class="mt-2 text-xs font-bold text-emerald-600">
-                                            @if ($announcement->event_location)
-                                                {{ \Illuminate\Support\Str::limit($announcement->event_location, 28) }}
-                                            @endif
-                                        </span>
                                     </div>
 
                                     <div class="min-w-0">
                                         <h3
-                                            class="line-clamp-2 text-xl font-black leading-tight text-gray-950 transition group-hover:text-emerald-700">
+                                            class="line-clamp-2 text-xl font-bold text-center leading-tight text-gray-950 transition group-hover:text-emerald-700">
                                             {{ $announcement->title }}
                                         </h3>
 
                                         <p class="mt-3 line-clamp-4 text-sm leading-6 text-gray-700">
-                                            {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 150) }}
+                                            {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 100) }}
                                         </p>
                                     </div>
                                 </div>
@@ -303,9 +297,15 @@
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M6.75 3v2.25M17.25 3v2.25M3.75 8.25h16.5M4.5 6.75h15A1.5 1.5 0 0 1 21 8.25v10.5A1.5 1.5 0 0 1 19.5 20.25h-15A1.5 1.5 0 0 1 3 18.75V8.25A1.5 1.5 0 0 1 4.5 6.75Z" />
+                                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                                         </svg>
-                                        {{ optional($announcement->announcement_date)->translatedFormat('l, d M Y') }}
+
+                                        @if ($announcement->event_location)
+                                            {{ \Illuminate\Support\Str::limit($announcement->event_location, 28) }}
+                                        @endif
+
                                     </span>
 
                                     <a href="{{ route('public.announcements.show', $announcement->slug) }}"
