@@ -1,8 +1,7 @@
 @php
     $metaTitle = 'Peta Desa';
-    $metaDescription = 'Informasi lokasi, fasilitas umum, batas wilayah, dan potensi Desa Mentuda.';
+    $metaDescription = 'Informasi koordinat lokasi desa, fasilitas umum, dan titik penting Desa Mentuda.';
     $mapMarkers = collect($profile->map_markers ?? [])->values()->all();
-    $boundaryGeoJson = $profile->map_boundary_geojson;
 @endphp
 
 @extends('layouts.public')
@@ -37,8 +36,8 @@
                 </h1>
 
                 <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90 sm:text-base">
-                    Informasi lokasi {{ $village->name }}, titik fasilitas umum, batas wilayah, dan potensi desa
-                    yang dapat membantu masyarakat mengenal wilayah desa secara lebih mudah.
+                    Informasi koordinat lokasi {{ $village->name }}, titik fasilitas umum, dan lokasi penting
+                    yang membantu masyarakat maupun pengunjung menemukan posisi desa dengan lebih mudah.
                 </p>
             </div>
         </div>
@@ -51,8 +50,8 @@
                 <div>
                     <h2 class="text-lg font-bold text-gray-900">Informasi</h2>
                     <p class="mt-2 text-sm leading-6 text-gray-600">
-                        Halaman ini menampilkan ringkasan informasi peta desa, titik fasilitas umum, batas wilayah,
-                        dan potensi desa dengan pola visual yang konsisten dengan halaman berita publik.
+                        Halaman ini menampilkan ringkasan koordinat peta desa, titik fasilitas umum,
+                        dan lokasi penting dengan pola visual yang konsisten dengan halaman berita publik.
                     </p>
                 </div>
 
@@ -110,9 +109,9 @@
 
                         <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:p-6">
                             <div class="rounded-2xl bg-green-50 px-4 py-4 text-sm leading-6 text-green-800 ring-1 ring-green-100 sm:px-5">
-                                Peta desa menampilkan titik utama {{ $village->name }}, marker fasilitas umum, batas
-                                wilayah, serta dukungan layer peta biasa dan satelit untuk membantu pembacaan lokasi
-                                secara lebih jelas.
+                                Peta desa menampilkan titik koordinat utama {{ $village->name }}, marker fasilitas
+                                umum, serta dukungan layer peta biasa dan satelit agar lokasi desa lebih mudah
+                                dikenali.
                             </div>
                         </div>
                     </div>
@@ -233,8 +232,8 @@
                         <h2 class="text-lg font-bold">Lokasi Desa</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            Peta desa membantu masyarakat dan pengunjung mengenal posisi wilayah,
-                            fasilitas umum, serta potensi yang ada di {{ $village->name }}.
+                            Peta desa membantu masyarakat dan pengunjung mengenal koordinat lokasi,
+                            fasilitas umum, serta titik penting yang ada di {{ $village->name }}.
                         </p>
                     </div>
                 </div>
@@ -250,7 +249,6 @@
             const villageLng = {{ (float) $profile->map_longitude }};
             const villageZoom = {{ (int) $profile->map_zoom }};
             const markers = @json($mapMarkers);
-            const boundaryGeoJson = @json($boundaryGeoJson);
             const mapNode = document.getElementById('villageMap');
 
             if (!mapNode || typeof L === 'undefined') {
@@ -279,23 +277,6 @@
                 collapsed: false,
             }).addTo(map);
 
-            let boundaryLayer = null;
-            if (boundaryGeoJson) {
-                try {
-                    boundaryLayer = L.geoJSON(boundaryGeoJson, {
-                        style: {
-                            color: '#15803d',
-                            weight: 2,
-                            opacity: 0.95,
-                            fillColor: '#22c55e',
-                            fillOpacity: 0.15,
-                        },
-                    }).addTo(map);
-                } catch (error) {
-                    boundaryLayer = null;
-                }
-            }
-
             const mainMarker = L.marker([villageLat, villageLng])
                 .addTo(map)
                 .bindPopup(`
@@ -322,25 +303,6 @@
                     `);
             });
 
-            if (boundaryLayer && boundaryLayer.getBounds().isValid()) {
-                map.fitBounds(boundaryLayer.getBounds(), {
-                    padding: [28, 28],
-                    maxZoom: villageZoom,
-                });
-            }
-
-            const restoreBestViewport = () => {
-                if (boundaryLayer && boundaryLayer.getBounds().isValid()) {
-                    map.fitBounds(boundaryLayer.getBounds(), {
-                        padding: [28, 28],
-                        maxZoom: villageZoom,
-                    });
-                    return;
-                }
-
-                map.setView([villageLat, villageLng], villageZoom);
-            };
-
             setTimeout(function() {
                 map.invalidateSize();
             }, 300);
@@ -348,7 +310,7 @@
             window.addEventListener('load', function() {
                 setTimeout(function() {
                     map.invalidateSize();
-                    restoreBestViewport();
+                    map.setView([villageLat, villageLng], villageZoom);
                     mainMarker.openPopup();
                 }, 450);
             });
@@ -356,7 +318,7 @@
             window.addEventListener('resize', function() {
                 setTimeout(function() {
                     map.invalidateSize();
-                    restoreBestViewport();
+                    map.setView([villageLat, villageLng], map.getZoom());
                 }, 150);
             });
         });

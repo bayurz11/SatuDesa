@@ -1,7 +1,6 @@
 @php
     $markerRows = old('markers', $markerRows ?? []);
     $publicMapUrl = route('public.village-map');
-    $boundaryGeoJson = $profile->map_boundary_geojson;
 @endphp
 
 @extends('layouts.app')
@@ -83,7 +82,7 @@
                                         Layer biasa dan satelit bisa diganti dari kontrol peta. Gunakan pencarian untuk menemukan lokasi, lalu klik titik yang diinginkan.
                                     </p>
                                     <p class="mt-2 text-sm leading-6 text-blue-800">
-                                        Area batas Desa Mentuda ditampilkan otomatis. Titik utama bisa dipilih langsung dengan klik pada peta atau geser marker utama.
+                                        Titik utama bisa dipilih langsung dengan klik pada peta atau geser marker utama.
                                     </p>
                                 </div>
 
@@ -185,7 +184,7 @@
                 <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
                     <div class="bg-gradient-to-r from-gray-50 to-slate-100 px-6 py-5 border-b border-gray-200">
                         <h2 class="text-xl font-semibold text-gray-900">Panel Informasi Publik</h2>
-                        <p class="mt-1 text-sm text-gray-600">Blok ini mengatur panel kanan pada halaman publik.</p>
+                        <p class="mt-1 text-sm text-gray-600">Blok ini mengatur informasi pendukung pada halaman publik.</p>
                     </div>
 
                     <div class="p-6 sm:p-8 grid gap-6">
@@ -196,25 +195,11 @@
                             @error('map_info_title')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
 
-                        <div class="grid gap-6 md:grid-cols-2">
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700">Judul Batas Wilayah</label>
-                                <input type="text" name="map_boundary_title" value="{{ old('map_boundary_title', $profile->map_boundary_title) }}"
-                                    class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
-                                @error('map_boundary_title')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
-                            </div>
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-700">Judul Fasilitas Umum</label>
-                                <input type="text" name="map_facility_title" value="{{ old('map_facility_title', $profile->map_facility_title) }}"
-                                    class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
-                                @error('map_facility_title')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
-                            </div>
-                        </div>
-
                         <div>
-                            <label class="block text-sm font-semibold text-gray-700">Deskripsi Batas Wilayah</label>
-                            <textarea name="map_boundary_description" rows="3" class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">{{ old('map_boundary_description', $profile->map_boundary_description) }}</textarea>
-                            @error('map_boundary_description')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                            <label class="block text-sm font-semibold text-gray-700">Judul Fasilitas Umum</label>
+                            <input type="text" name="map_facility_title" value="{{ old('map_facility_title', $profile->map_facility_title) }}"
+                                class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
+                            @error('map_facility_title')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
                         </div>
 
                         <div>
@@ -420,7 +405,6 @@
             const initialLat = parseFloat(latitudeInput?.value || '-0.1688817');
             const initialLng = parseFloat(longitudeInput?.value || '104.4712357');
             const initialZoom = parseInt(zoomInput?.value || '14', 10);
-            const boundaryGeoJson = @json($boundaryGeoJson);
 
             const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -477,48 +461,6 @@
             }).addTo(previewMap);
 
             const previewMainMarker = L.marker([initialLat, initialLng]).addTo(previewMap);
-            let editorBoundaryLayer = null;
-            let previewBoundaryLayer = null;
-
-            const createBoundaryLayer = (geoJson, options = {}) => {
-                if (!geoJson) {
-                    return null;
-                }
-
-                try {
-                    return L.geoJSON(geoJson, {
-                        style: {
-                            color: options.color || '#15803d',
-                            weight: options.weight || 2,
-                            opacity: 0.95,
-                            fillColor: options.fillColor || '#22c55e',
-                            fillOpacity: options.fillOpacity || 0.16,
-                        },
-                    });
-                } catch (error) {
-                    return null;
-                }
-            };
-
-            editorBoundaryLayer = createBoundaryLayer(boundaryGeoJson, {
-                color: '#166534',
-                fillColor: '#22c55e',
-                fillOpacity: 0.12,
-            });
-
-            if (editorBoundaryLayer) {
-                editorBoundaryLayer.addTo(editorMap);
-            }
-
-            previewBoundaryLayer = createBoundaryLayer(boundaryGeoJson, {
-                color: '#15803d',
-                fillColor: '#4ade80',
-                fillOpacity: 0.14,
-            });
-
-            if (previewBoundaryLayer) {
-                previewBoundaryLayer.addTo(previewMap);
-            }
 
             const setMainCoordinates = (lat, lng) => {
                 const normalizedLat = Number(lat);
@@ -767,20 +709,6 @@
             syncPreviewText();
             renderMarkerCards();
             setMainCoordinates(initialLat, initialLng);
-
-            if (editorBoundaryLayer && editorBoundaryLayer.getBounds().isValid()) {
-                editorMap.fitBounds(editorBoundaryLayer.getBounds(), {
-                    padding: [24, 24],
-                    maxZoom: initialZoom,
-                });
-            }
-
-            if (previewBoundaryLayer && previewBoundaryLayer.getBounds().isValid()) {
-                previewMap.fitBounds(previewBoundaryLayer.getBounds(), {
-                    padding: [16, 16],
-                    maxZoom: initialZoom,
-                });
-            }
 
             setTimeout(function() {
                 editorMap.invalidateSize();
