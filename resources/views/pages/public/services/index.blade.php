@@ -1,261 +1,362 @@
 @php
-    $metaTitle = 'Layanan Publik Desa Mentuda';
-    $metaDescription = 'Informasi layanan publik Desa Mentuda, syarat dokumen, alur pengajuan, dan kontak layanan warga.';
+    $metaTitle = 'Layanan Kantor Desa Mentuda';
+    $metaDescription =
+        'Informasi layanan yang tersedia di Kantor Desa Mentuda, meliputi administrasi kependudukan, surat keterangan, sosial, dan layanan umum warga.';
 
     $serviceCategories = [
         ['label' => 'Semua Layanan', 'count' => 15],
         ['label' => 'Administrasi', 'count' => 6],
-        ['label' => 'Keterangan', 'count' => 4],
-        ['label' => 'Sosial', 'count' => 3],
-        ['label' => 'Lainnya', 'count' => 2],
+        ['label' => 'Surat Keterangan', 'count' => 5],
+        ['label' => 'Sosial', 'count' => 2],
+        ['label' => 'Umum', 'count' => 2],
     ];
 
     $serviceStats = [
-        ['label' => 'Jenis Layanan', 'value' => '9'],
-        ['label' => 'Proses Umum', 'value' => '3 Langkah'],
-        ['label' => 'Jadwal', 'value' => 'Senin-Jumat'],
+        ['label' => 'Jenis Layanan', 'value' => '15'],
+        ['label' => 'Alur Proses', 'value' => '3 Langkah'],
+        ['label' => 'Jam Layanan', 'value' => 'Senin-Jumat'],
     ];
 
-    $serviceItems = [
+    $services = [
         [
-            'title' => 'Surat Domisili',
+            'title' => 'Surat Keterangan Domisili',
             'category' => 'Administrasi',
-            'meta' => 'KTP, KK, formulir pengantar',
-            'description' => 'Digunakan untuk kebutuhan pendidikan, pekerjaan, atau verifikasi alamat domisili warga.',
-            'image' => asset('img/bg.jpg'),
+            'requirements' => 'KTP, KK, pengantar RT/RW',
+            'description' =>
+                'Layanan surat keterangan tempat tinggal atau domisili warga untuk kebutuhan administrasi.',
+            'icon' => 'home',
         ],
         [
             'title' => 'Surat Keterangan Usaha',
-            'category' => 'Keterangan',
-            'meta' => 'KTP, KK, data usaha',
-            'description' => 'Mendukung pengajuan modal, kerja sama, atau kelengkapan dokumen administrasi UMKM.',
-            'image' => asset('img/bg.jpg'),
+            'category' => 'Surat Keterangan',
+            'requirements' => 'KTP, KK, data usaha',
+            'description' =>
+                'Surat keterangan untuk pelaku usaha atau UMKM sebagai pendukung pengajuan modal dan legalitas usaha.',
+            'icon' => 'briefcase',
         ],
         [
-            'title' => 'Pengantar Bantuan Sosial',
+            'title' => 'Surat Pengantar KTP',
+            'category' => 'Administrasi',
+            'requirements' => 'KK, akta lahir, foto bila diperlukan',
+            'description' => 'Layanan pengantar untuk pembuatan atau perubahan data KTP sesuai kebutuhan warga.',
+            'icon' => 'id-card',
+        ],
+        [
+            'title' => 'Surat Pengantar Kartu Keluarga',
+            'category' => 'Administrasi',
+            'requirements' => 'KTP, KK lama, dokumen pendukung',
+            'description' => 'Pengantar perubahan, penambahan, atau penerbitan Kartu Keluarga.',
+            'icon' => 'users',
+        ],
+        [
+            'title' => 'Surat Keterangan Tidak Mampu',
             'category' => 'Sosial',
-            'meta' => 'Verifikasi data keluarga',
-            'description' => 'Digunakan untuk proses administrasi yang berkaitan dengan bantuan sosial dan pendataan warga.',
-            'image' => asset('img/bg.jpg'),
+            'requirements' => 'KTP, KK, data keluarga',
+            'description' =>
+                'Surat keterangan untuk kebutuhan pendidikan, kesehatan, bantuan sosial, atau administrasi lainnya.',
+            'icon' => 'heart',
+        ],
+        [
+            'title' => 'Surat Pengantar Nikah',
+            'category' => 'Administrasi',
+            'requirements' => 'KTP, KK, akta lahir, pas foto',
+            'description' => 'Layanan pengantar administrasi pernikahan untuk diteruskan ke instansi terkait.',
+            'icon' => 'document',
+        ],
+        [
+            'title' => 'Surat Keterangan Kelahiran',
+            'category' => 'Surat Keterangan',
+            'requirements' => 'KTP orang tua, KK, surat bidan/rumah sakit',
+            'description' => 'Surat keterangan kelahiran sebagai dokumen pendukung pengurusan akta kelahiran.',
+            'icon' => 'sparkles',
+        ],
+        [
+            'title' => 'Surat Keterangan Kematian',
+            'category' => 'Surat Keterangan',
+            'requirements' => 'KTP/KK almarhum, data keluarga',
+            'description' => 'Surat keterangan kematian untuk kebutuhan pencatatan sipil dan administrasi keluarga.',
+            'icon' => 'archive',
         ],
         [
             'title' => 'Legalisasi Dokumen',
-            'category' => 'Lainnya',
-            'meta' => 'Dokumen asli dan salinan',
-            'description' => 'Layanan legalisasi atau pengesahan dokumen tertentu sesuai kebutuhan warga.',
-            'image' => asset('img/bg.jpg'),
+            'category' => 'Umum',
+            'requirements' => 'Dokumen asli dan fotokopi',
+            'description' => 'Pengesahan salinan dokumen tertentu sesuai kebutuhan administrasi warga.',
+            'icon' => 'check',
         ],
-    ];
-
-    $serviceInfos = [
-        ['title' => 'Jam Pelayanan Kantor Desa', 'category' => 'Informasi', 'date' => 'Senin-Jumat', 'image' => asset('img/bg.jpg')],
-        ['title' => 'Daftar Berkas Umum', 'category' => 'Panduan', 'date' => 'Siapkan sebelum datang', 'image' => asset('img/bg.jpg')],
-        ['title' => 'Kontak Operator Desa', 'category' => 'Bantuan', 'date' => 'Aktif jam kerja', 'image' => asset('img/bg.jpg')],
     ];
 @endphp
 
 @extends('layouts.public')
 
 @section('content')
-    <section class="relative overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 text-white mt-16">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_32%)]"></div>
+    <section class="relative mt-16 overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 text-white">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_32%)]">
+        </div>
 
         <div class="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
-            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-up">
+            <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-down">
                 <ol class="flex flex-wrap items-center gap-2">
                     <li><a href="{{ route('home') }}" class="transition hover:text-white">Beranda</a></li>
                     <li>/</li>
                     <li>Pelayanan Publik</li>
                     <li>/</li>
-                    <li class="font-semibold text-white">Layanan</li>
+                    <li class="font-semibold text-white">Layanan Kantor Desa</li>
                 </ol>
             </nav>
 
             <div class="max-w-4xl" data-aos="fade-up">
-                <span
-                    class="mt-5 inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-50 ring-1 ring-white/15">
-                    Panduan Warga
-                </span>
-
-                <h1 class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
-                    Layanan Publik Desa Mentuda
+                <h1
+                    class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
+                    Layanan Kantor Desa Mentuda
                 </h1>
 
                 <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90">
-                    Panduan layanan untuk membantu warga memahami jenis pelayanan, berkas yang diperlukan, serta alur
-                    pengajuan secara ringkas dan jelas.
+                    Informasi jenis layanan administrasi, surat keterangan, sosial, dan layanan umum
+                    yang dapat diajukan masyarakat melalui Kantor Desa Mentuda.
                 </p>
             </div>
         </div>
     </section>
 
-    <section class="mx-auto -mt-10 max-w-7xl px-4 pb-14 sm:px-6 lg:px-8 z-10 relative">
-        <div class="rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
-            data-aos="fade-up" data-aos-delay="150">
-            <div class="grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-                <div>
-                    <h2 class="text-lg font-bold text-gray-900">Arah Halaman Layanan</h2>
-                    <p class="mt-2 text-sm leading-6 text-gray-600">
-                        Modul ini ditata sebagai halaman panduan. Isi utamanya menonjolkan layanan prioritas, syarat
-                        dokumen, dan ringkasan proses agar warga lebih cepat memahami kebutuhan mereka.
-                    </p>
-                </div>
+    <section class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <main class="space-y-8">
+                <section data-aos="fade-up" data-aos-delay="100"
+                    class="overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70 sm:p-7">
 
-                <div class="grid gap-3 sm:grid-cols-3 lg:grid-cols-3">
-                    @foreach ($serviceStats as $stat)
-                        <div class="rounded-2xl bg-green-50 px-4 py-4">
-                            <p class="text-xl font-bold text-green-800">{{ $stat['value'] }}</p>
-                            <p class="mt-1 text-xs uppercase tracking-[0.2em] text-green-700">{{ $stat['label'] }}</p>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </section>
+                    <div class="text-center">
+                        <span
+                            class="inline-flex items-center rounded-full bg-green-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-green-700 ring-1 ring-green-100">
+                            Panduan Layanan
+                        </span>
 
-    <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
-            <main>
-                <article data-aos="fade-up" data-aos-delay="80"
-                    class="group relative overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200">
-                    <div class="relative block h-[360px] md:h-[520px]">
-                        <img src="{{ asset('img/bg.jpg') }}" alt="Layanan prioritas Desa Mentuda"
-                            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+                        <h2 class="mt-4 text-2xl font-bold text-gray-900 sm:text-3xl">
+                            Layanan yang Tersedia di Kantor Desa
+                        </h2>
 
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/35 to-black/10"></div>
+                        <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+                            Pilih layanan sesuai kebutuhan, siapkan berkas persyaratan, lalu ajukan ke petugas kantor desa.
+                        </p>
+                    </div>
 
-                        <div class="absolute left-5 right-5 bottom-5 text-white md:left-8 md:right-8 md:bottom-8">
-                            <div class="mb-4 flex flex-wrap items-center gap-3">
-                                <span
-                                    class="inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
-                                    Layanan Prioritas
-                                </span>
+                    <div class="mt-8 grid gap-4 sm:grid-cols-3">
+                        @foreach ($serviceStats as $stat)
+                            <div
+                                class="rounded-[22px] border border-green-100 bg-green-50 p-4 text-center shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-md hover:shadow-green-100/60">
+                                <p class="text-xl font-bold text-green-800">{{ $stat['value'] }}</p>
+                                <p class="mt-1 text-[11px] font-semibold uppercase tracking-[0.18em] text-green-700">
+                                    {{ $stat['label'] }}
+                                </p>
+                            </div>
+                        @endforeach
+                    </div>
 
-                                <span class="inline-flex items-center gap-1.5 text-sm text-white/90">
-                                    Administrasi Kependudukan
-                                </span>
-
-                                <span class="inline-flex items-center gap-1.5 text-sm text-white/90">
-                                    Layanan hari kerja
-                                </span>
+                    <div class="mt-8 rounded-[28px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60">
+                        <div class="grid gap-4 md:grid-cols-3">
+                            <div class="rounded-2xl bg-emerald-50 px-5 py-5">
+                                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">
+                                    1. Pilih Layanan
+                                </p>
+                                <p class="mt-2 text-sm leading-6 text-gray-700">
+                                    Tentukan jenis surat atau kebutuhan administrasi yang ingin diajukan.
+                                </p>
                             </div>
 
-                            <h2
-                                class="max-w-3xl text-2xl font-bold leading-tight text-white transition-all duration-300 group-hover:text-green-300 group-hover:drop-shadow-lg md:text-4xl">
-                                Surat Pengantar Administrasi Dasar
-                            </h2>
+                            <div class="rounded-2xl bg-amber-50 px-5 py-5">
+                                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">
+                                    2. Siapkan Berkas
+                                </p>
+                                <p class="mt-2 text-sm leading-6 text-gray-700">
+                                    Siapkan KTP, KK, dan dokumen pendukung sesuai jenis layanan.
+                                </p>
+                            </div>
 
-                            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 md:text-sm">
-                                Layanan prioritas ini mencakup surat domisili, pengantar KTP, pengantar KK, dan kebutuhan
-                                administrasi dasar lainnya dengan alur yang jelas untuk warga.
-                            </p>
+                            <div class="rounded-2xl bg-sky-50 px-5 py-5">
+                                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">
+                                    3. Datang ke Kantor
+                                </p>
+                                <p class="mt-2 text-sm leading-6 text-gray-700">
+                                    Petugas akan melakukan verifikasi dan memproses dokumen pengajuan.
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </article>
 
-                <div class="mt-8 rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60" data-aos="fade-up">
-                    <div class="grid gap-4 md:grid-cols-3">
-                        <div class="rounded-2xl bg-emerald-50 px-5 py-5">
-                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-emerald-700">1. Pilih layanan</p>
-                            <p class="mt-2 text-sm leading-6 text-gray-700">Warga memilih jenis surat atau kebutuhan administrasi yang ingin diajukan.</p>
-                        </div>
-                        <div class="rounded-2xl bg-amber-50 px-5 py-5">
-                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-amber-700">2. Siapkan berkas</p>
-                            <p class="mt-2 text-sm leading-6 text-gray-700">Siapkan KTP, KK, dan dokumen pendukung sesuai jenis layanan yang dipilih.</p>
-                        </div>
-                        <div class="rounded-2xl bg-sky-50 px-5 py-5">
-                            <p class="text-sm font-semibold uppercase tracking-[0.2em] text-sky-700">3. Ajukan ke kantor</p>
-                            <p class="mt-2 text-sm leading-6 text-gray-700">Petugas memverifikasi berkas, lalu memproses pengantar atau keterangan yang dibutuhkan.</p>
-                        </div>
-                    </div>
-                </div>
+                    <div class="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                        @foreach ($services as $service)
+                            <article data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 3) * 80, 160) }}"
+                                class="group relative overflow-hidden rounded-[28px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/60">
 
-                <div class="mt-8 grid gap-6 md:grid-cols-2">
-                    @foreach ($serviceItems as $service)
-                        <article data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
-                            class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition hover:-translate-y-1 hover:shadow-xl">
-                            <div class="block">
-                                <div class="relative aspect-[16/10] overflow-hidden bg-gradient-to-br from-gray-100 to-gray-200">
-                                    <img src="{{ $service['image'] }}" alt="{{ $service['title'] }}"
-                                        class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
-
-                                    <span
-                                        class="absolute left-4 top-4 inline-flex items-center gap-1.5 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
-                                        {{ $service['category'] }}
-                                    </span>
+                                <div
+                                    class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-green-50 transition duration-300 group-hover:scale-125">
                                 </div>
 
-                                <div class="p-5">
-                                    <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-                                        <span>{{ $service['meta'] }}</span>
+                                <div class="relative">
+                                    <div
+                                        class="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 transition duration-300 group-hover:bg-green-700 group-hover:text-white">
+                                        @if ($service['icon'] === 'home')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M3 10.5L12 3l9 7.5M5 10v10h14V10M9 20v-6h6v6" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'briefcase')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M10 6V5a2 2 0 012-2h0a2 2 0 012 2v1m-9 0h14a1 1 0 011 1v11a2 2 0 01-2 2H5a2 2 0 01-2-2V7a1 1 0 011-1z" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'id-card')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M4 5h16v14H4zM8 10h4M8 14h8M15.5 9.5h1" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'users')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M16 11a4 4 0 10-8 0 4 4 0 008 0zM4 21a8 8 0 0116 0M18 8a3 3 0 013 3M21 21a6 6 0 00-4-5.65" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'heart')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 21s-7-4.5-9-10a5.5 5.5 0 019-5.8A5.5 5.5 0 0121 11c-2 5.5-9 10-9 10z" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'document')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M7 3h7l5 5v13H7V3zM14 3v5h5M9 13h6M9 17h6" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'sparkles')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8L12 3zM19 15l.9 2.6L22 18.5l-2.1.9L19 22l-.9-2.6-2.1-.9 2.1-.9L19 15z" />
+                                            </svg>
+                                        @elseif ($service['icon'] === 'archive')
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M4 7h16M5 7l1 13h12l1-13M9 11h6" />
+                                            </svg>
+                                        @else
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                            </svg>
+                                        @endif
                                     </div>
 
-                                    <h3 class="mt-3 line-clamp-2 text-lg font-bold tracking-tight text-gray-900 transition group-hover:text-green-700">
+                                    <span
+                                        class="inline-flex rounded-full bg-green-50 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-green-700 ring-1 ring-green-100">
+                                        {{ $service['category'] }}
+                                    </span>
+
+                                    <h3
+                                        class="mt-4 line-clamp-2 text-lg font-bold text-gray-900 transition group-hover:text-green-700">
                                         {{ $service['title'] }}
                                     </h3>
 
-                                    <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
+                                    <p class="mt-3 text-sm leading-6 text-gray-600">
                                         {{ $service['description'] }}
                                     </p>
+
+                                    <div class="mt-5 rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
+                                        <p class="text-xs font-bold uppercase tracking-[0.18em] text-gray-500">
+                                            Syarat Umum
+                                        </p>
+                                        <p class="mt-2 text-sm leading-6 text-gray-700">
+                                            {{ $service['requirements'] }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                        </article>
-                    @endforeach
-                </div>
+                            </article>
+                        @endforeach
+                    </div>
+
+                    <div
+                        class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
+                        Data layanan dapat disesuaikan kembali dengan kebijakan Kantor Desa Mentuda dan peraturan
+                        administrasi yang berlaku.
+                    </div>
+                </section>
             </main>
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
-                    data-aos="fade-left" data-aos-delay="120">
-                    <h2 class="text-lg font-bold text-gray-900">Kelompok Layanan</h2>
+                <div data-aos="fade-left" data-aos-delay="200"
+                    class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60">
+                    <div class="mb-5 flex items-center gap-3">
+                        <div
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
+                            </svg>
+                        </div>
 
-                    <div class="mt-5 flex flex-wrap gap-3">
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
+                                Kategori
+                            </p>
+                            <h2 class="text-lg font-bold text-gray-900">Kelompok Layanan</h2>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
                         @foreach ($serviceCategories as $category)
-                            <span
-                                class="inline-flex items-center rounded-full border px-4 py-2 text-sm {{ $loop->first ? 'border-green-700 bg-green-700 text-white' : 'border-gray-200 text-gray-700 hover:border-green-200 hover:bg-green-50 hover:text-green-700' }}">
-                                {{ $category['label'] }}
-                                <span class="ml-2 text-xs {{ $loop->first ? 'text-white/80' : 'text-gray-400' }}">{{ $category['count'] }}</span>
-                            </span>
+                            <button type="button"
+                                class="group flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition duration-300
+                                {{ $loop->first
+                                    ? 'bg-green-700 text-white shadow-lg shadow-green-700/20 hover:bg-green-800'
+                                    : 'border border-gray-200 bg-white text-gray-700 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60' }}">
+                                <span>{{ $category['label'] }}</span>
+                                <span
+                                    class="{{ $loop->first ? 'text-white/80' : 'text-gray-400 group-hover:text-green-700' }}">
+                                    {{ $category['count'] }}
+                                </span>
+                            </button>
                         @endforeach
                     </div>
                 </div>
 
-                <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
-                    data-aos="fade-left" data-aos-delay="180">
-                    <h2 class="text-lg font-bold text-gray-900">Info Layanan Penting</h2>
+                <div data-aos="fade-left" data-aos-delay="300"
+                    class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
+                    <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
+                    <div class="absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-black/10"></div>
 
-                    <div class="mt-5 space-y-4">
-                        @foreach ($serviceInfos as $info)
-                            <div data-aos="fade-left" data-aos-delay="{{ 60 + $loop->index * 50 }}"
-                                class="group flex gap-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-green-200">
-                                <img src="{{ $info['image'] }}" alt="{{ $info['title'] }}"
-                                    class="h-20 w-24 shrink-0 rounded-xl object-cover transition-transform duration-300 group-hover:scale-105">
+                    <div class="relative">
+                        <div
+                            class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-white/15 text-white ring-1 ring-white/20">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M8 7h8M8 11h8M8 15h5M5 3h14a1 1 0 011 1v16l-4-3H5a1 1 0 01-1-1V4a1 1 0 011-1z" />
+                            </svg>
+                        </div>
 
-                                <div class="min-w-0">
-                                    <h3 class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition-colors duration-300 group-hover:text-green-700 md:text-base">
-                                        {{ $info['title'] }}
-                                    </h3>
+                        <h2 class="text-lg font-bold">Informasi Pelayanan</h2>
 
-                                    <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-500">
-                                        <span>{{ $info['category'] }}</span>
-                                        <span>{{ $info['date'] }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                        <p class="mt-3 text-sm leading-6 text-white/85">
+                            Untuk proses lebih cepat, warga disarankan membawa dokumen asli dan fotokopi sesuai kebutuhan
+                            layanan.
+                        </p>
+
+                        <div class="mt-5 rounded-2xl bg-white/10 p-4 ring-1 ring-white/15">
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                                Jam Pelayanan
+                            </p>
+                            <p class="mt-2 text-sm font-semibold text-white">
+                                Senin - Jumat
+                            </p>
+                            <p class="text-sm text-white/80">
+                                08.00 - 15.00 WIB
+                            </p>
+                        </div>
                     </div>
-                </div>
-
-                <div data-aos="fade-left" data-aos-delay="220"
-                    class="rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
-                    <h2 class="text-lg font-bold">Template layanan siap dihubungkan</h2>
-                    <p class="mt-3 text-sm leading-6 text-white/85">
-                        Berikutnya halaman ini bisa dikembangkan ke detail syarat per layanan, estimasi proses, dan formulir digital.
-                    </p>
-                    <a href="{{ route('home') }}"
-                        class="mt-6 inline-flex items-center rounded-full bg-white px-4 py-2 text-sm font-semibold text-green-800 transition hover:bg-emerald-50">
-                        Kembali ke Beranda
-                    </a>
                 </div>
             </aside>
         </div>
