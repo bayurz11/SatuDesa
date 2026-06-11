@@ -6,7 +6,7 @@
     $resolveTimelineIconUrl = function ($item) {
         $path = $item['icon_image_path'] ?? null;
 
-        if (! $path) {
+        if (!$path) {
             return null;
         }
 
@@ -23,7 +23,7 @@
     $resolveHistoryCardImageUrl = function ($card) {
         $path = $card['image_path'] ?? null;
 
-        if (! $path) {
+        if (!$path) {
             return null;
         }
 
@@ -38,7 +38,8 @@
         return \App\Support\UploadStorage::url($path);
     };
     $coverImage = filled($profile->history_cover_image_path)
-        ? (str_starts_with($profile->history_cover_image_path, 'http://') || str_starts_with($profile->history_cover_image_path, 'https://')
+        ? (str_starts_with($profile->history_cover_image_path, 'http://') ||
+        str_starts_with($profile->history_cover_image_path, 'https://')
             ? $profile->history_cover_image_path
             : (str_starts_with($profile->history_cover_image_path, 'img/')
                 ? asset($profile->history_cover_image_path)
@@ -50,7 +51,8 @@
 
 @section('content')
     <section class="relative mt-16 overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 text-white">
-        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_32%)]"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_32%)]">
+        </div>
 
         <div class="relative mx-auto max-w-7xl px-4 pb-20 pt-10 sm:px-6 lg:px-8">
             <nav class="text-sm text-emerald-100/80" aria-label="Breadcrumb" data-aos="fade-down">
@@ -85,8 +87,10 @@
             <main class="space-y-8">
                 <article data-aos="fade-up" data-aos-delay="100"
                     class="overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-lg shadow-gray-200/70">
-                    <div class="relative h-[320px] overflow-hidden bg-gradient-to-br from-green-800 via-green-700 to-emerald-600">
-                        <img src="{{ $coverImage }}" alt="{{ $profile->history_title }}" class="h-full w-full object-cover">
+                    <div
+                        class="relative h-[320px] overflow-hidden bg-gradient-to-br from-green-800 via-green-700 to-emerald-600">
+                        <img src="{{ $coverImage }}" alt="{{ $profile->history_title }}"
+                            class="h-full w-full object-cover">
                         <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent"></div>
 
                         <div class="absolute bottom-6 left-6 right-6 text-white">
@@ -122,25 +126,28 @@
                             class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
                             @if ($historyCardImageUrl)
                                 <div class="mb-5 overflow-hidden rounded-3xl border border-green-100 bg-green-50">
-                                    <img src="{{ $historyCardImageUrl }}" alt="{{ $card['title'] ?? 'Foto kartu sejarah' }}" class="h-48 w-full object-cover">
+                                    <img src="{{ $historyCardImageUrl }}"
+                                        alt="{{ $card['title'] ?? 'Foto kartu sejarah' }}"
+                                        class="h-48 w-full object-cover">
                                 </div>
                             @else
-                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
+                                <div
+                                    class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
                                     @if (($card['icon'] ?? 'home') === 'building')
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="1.8">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6" />
                                         </svg>
                                     @elseif (($card['icon'] ?? 'home') === 'spark')
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="1.8">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
                                         </svg>
                                     @else
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                            stroke="currentColor" stroke-width="1.8">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
                                         </svg>
@@ -148,7 +155,8 @@
                                 </div>
                             @endif
 
-                            <span class="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
+                            <span
+                                class="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
                                 {{ $card['badge'] ?? '-' }}
                             </span>
 
@@ -175,52 +183,50 @@
                         </h3>
                     </div>
 
-                    <div class="mt-8 space-y-5">
+                    <div class="mt-6 grid gap-5">
                         @foreach ($timelineItems as $index => $item)
                             @php
                                 $timelineIconUrl = $resolveTimelineIconUrl($item);
                             @endphp
-                            <div class="group grid grid-cols-[64px_minmax(0,1fr)] gap-4 sm:grid-cols-[76px_minmax(0,1fr)] sm:gap-5" data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}">
-                                <div class="relative flex justify-center">
-                                    @if (!$loop->last)
-                                        <span class="absolute left-1/2 top-16 h-[calc(100%-4rem)] w-px -translate-x-1/2 bg-green-100"></span>
-                                    @endif
 
-                                    <span
-                                        class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-700 text-white shadow-lg shadow-green-700/25 transition duration-300 group-hover:bg-emerald-600">
-                                        @if ($timelineIconUrl)
-                                            <img src="{{ $timelineIconUrl }}" alt="{{ $item['title'] ?? 'Ikon Linimasa' }}" class="h-14 w-14 rounded-2xl object-cover">
-                                        @elseif (($item['icon'] ?? 'home') === 'building')
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M9 7h2M9 11h2M9 15h2M18 21v-8h2v8" />
-                                            </svg>
-                                        @elseif (($item['icon'] ?? 'home') === 'spark')
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
-                                            </svg>
-                                        @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
-                                            </svg>
-                                        @endif
-                                    </span>
-                                </div>
+                            <div data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}"
+                                class="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm shadow-gray-200/50 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-green-50/50 hover:shadow-lg hover:shadow-green-100/60">
 
                                 <div
-                                    class="min-h-[136px] rounded-[24px] border border-gray-100 bg-gray-50/60 p-5 transition duration-300 group-hover:border-green-200 group-hover:bg-white group-hover:shadow-md group-hover:shadow-green-100/60 sm:p-6">
-                                    <p class="text-sm font-semibold text-green-700">
-                                        {{ $item['label'] ?? '-' }}
+                                    class="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100 transition duration-300 group-hover:bg-green-700 group-hover:text-white">
+
+                                    @if ($timelineIconUrl)
+                                        <img src="{{ $timelineIconUrl }}" alt="{{ $item['title'] ?? 'Ikon Linimasa' }}"
+                                            class="h-full w-full object-cover">
+                                    @elseif (($item['icon'] ?? 'home') === 'building')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M9 7h2M9 11h2M9 15h2M18 21v-8h2v8" />
+                                        </svg>
+                                    @elseif (($item['icon'] ?? 'home') === 'spark')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
+                                        </svg>
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
+                                        </svg>
+                                    @endif
+                                </div>
+
+                                <div class="min-w-0">
+                                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
+                                        {{ $item['label'] ?? 'Linimasa ' . ($index + 1) }}
                                     </p>
 
-                                    <h4 class="mt-1 text-lg font-bold text-gray-900">
+                                    <h3 class="mt-1 text-lg font-bold text-gray-900">
                                         {{ $item['title'] ?? '-' }}
-                                    </h4>
+                                    </h3>
 
                                     <p class="mt-2 text-sm leading-7 text-gray-600">
                                         {{ $item['desc'] ?? '-' }}
@@ -270,19 +276,22 @@
                         <a href="{{ route('public.vision-mission') }}"
                             class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
                             <span>Visi &amp; Misi</span>
-                            <span class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
+                            <span
+                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
                         </a>
 
                         <a href="{{ route('public.organization-structure') }}"
                             class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
                             <span>Struktur Organisasi</span>
-                            <span class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
+                            <span
+                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
                         </a>
 
                         <a href="{{ route('public.village-map') }}"
                             class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
                             <span>Peta Desa</span>
-                            <span class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
+                            <span
+                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
                         </a>
                     </div>
                 </div>
