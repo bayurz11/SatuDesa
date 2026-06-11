@@ -9,6 +9,7 @@ use App\Domains\Potential\Models\PotentialCategory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Village extends Model
 {
@@ -41,5 +42,10 @@ class Village extends Model
     public function potentialCategories(): HasMany
     {
         return $this->hasMany(PotentialCategory::class);
+    }
+
+    public function profile(): HasOne
+    {
+        return $this->hasOne(VillageProfile::class);
     }
 }

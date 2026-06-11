@@ -1,6 +1,7 @@
 @php
     $metaTitle = 'Peta Desa';
-    $metaDescription = 'Halaman peta Desa Mentuda versi statis untuk kebutuhan desain.';
+    $metaDescription = 'Informasi lokasi, fasilitas umum, batas wilayah, dan potensi Desa Mentuda.';
+    $mapMarkers = collect($profile->map_markers ?? [])->values();
 @endphp
 
 @extends('layouts.public')
@@ -30,7 +31,7 @@
                 </h1>
 
                 <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
-                    Informasi lokasi Desa Mentuda, titik fasilitas umum, batas wilayah, dan potensi desa
+                    Informasi lokasi {{ $village->name }}, titik fasilitas umum, batas wilayah, dan potensi desa
                     yang dapat membantu masyarakat mengenal wilayah desa secara lebih mudah.
                 </p>
             </div>
@@ -50,12 +51,11 @@
                         </span>
 
                         <h2 class="mt-4 text-2xl font-bold text-gray-900 sm:text-3xl">
-                            Lokasi Desa Mentuda
+                            {{ $profile->map_title }}
                         </h2>
 
                         <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                            Peta ini menampilkan lokasi Desa Mentuda beserta informasi pendukung seperti
-                            fasilitas umum, batas wilayah, dan potensi desa.
+                            {{ $profile->map_description }}
                         </p>
                     </div>
 
@@ -67,10 +67,10 @@
                                 <div
                                     class="pointer-events-none absolute left-4 top-4 z-[400] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
-                                        Desa Mentuda
+                                        {{ $village->name }}
                                     </p>
                                     <p class="mt-1 text-sm font-semibold text-gray-900">
-                                        Kec. Lingga, Kab. Lingga
+                                        Kec. {{ $village->district }}, Kab. {{ $village->regency }}
                                     </p>
                                 </div>
                             </div>
@@ -90,36 +90,36 @@
                                         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
                                             Informasi
                                         </p>
-                                        <h3 class="text-lg font-bold text-gray-900">Detail Peta</h3>
+                                        <h3 class="text-lg font-bold text-gray-900">{{ $profile->map_info_title }}</h3>
                                     </div>
                                 </div>
 
                                 <div class="space-y-4">
                                     <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">Batas Wilayah</p>
+                                        <p class="font-semibold text-gray-900">{{ $profile->map_boundary_title }}</p>
                                         <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            Area administratif desa, dusun, RT/RW, dan titik batas wilayah.
+                                            {{ $profile->map_boundary_description }}
                                         </p>
                                     </div>
 
                                     <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">Fasilitas Umum</p>
+                                        <p class="font-semibold text-gray-900">{{ $profile->map_facility_title }}</p>
                                         <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            Lokasi balai desa, sekolah, tempat ibadah, pelabuhan, dan layanan masyarakat.
+                                            {{ $profile->map_facility_description }}
                                         </p>
                                     </div>
 
                                     <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">Potensi Desa</p>
+                                        <p class="font-semibold text-gray-900">{{ $profile->map_potential_title }}</p>
                                         <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            Titik wisata, hasil laut, UMKM, pertanian, dan zona ekonomi warga.
+                                            {{ $profile->map_potential_description }}
                                         </p>
                                     </div>
                                 </div>
 
                                 <div
                                     class="mt-6 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                                    Titik koordinat bisa disesuaikan kembali berdasarkan data resmi pemerintah desa.
+                                    {{ $profile->map_note }}
                                 </div>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
                             Peta desa membantu masyarakat dan pengunjung mengenal posisi wilayah,
-                            fasilitas umum, serta potensi yang ada di Desa Mentuda.
+                            fasilitas umum, serta potensi yang ada di {{ $village->name }}.
                         </p>
                     </div>
                 </div>
@@ -211,12 +211,14 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const villageLat = -0.168881683534619;
-            const villageLng = 104.47123565275449;
+            const villageLat = {{ (float) $profile->map_latitude }};
+            const villageLng = {{ (float) $profile->map_longitude }};
+            const villageZoom = {{ (int) $profile->map_zoom }};
+            const markers = @json($mapMarkers);
 
             const map = L.map('villageMap', {
                 scrollWheelZoom: false,
-            }).setView([villageLat, villageLng], 14);
+            }).setView([villageLat, villageLng], villageZoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -227,12 +229,27 @@
                 .addTo(map)
                 .bindPopup(`
                     <div style="min-width:180px">
-                        <strong>Desa Mentuda</strong><br>
-                        Kec. Lingga, Kab. Lingga<br>
-                        Kepulauan Riau
+                        <strong>{{ e($profile->map_popup_title) }}</strong><br>
+                        {{ e($profile->map_popup_description) }}
                     </div>
                 `)
                 .openPopup();
+
+            markers.forEach((marker) => {
+                if (!marker.latitude || !marker.longitude || !marker.name) {
+                    return;
+                }
+
+                const popupDescription = marker.description ? `<br>${marker.description}` : '';
+
+                L.marker([marker.latitude, marker.longitude])
+                    .addTo(map)
+                    .bindPopup(`
+                        <div style="min-width:180px">
+                            <strong>${marker.name}</strong>${popupDescription}
+                        </div>
+                    `);
+            });
 
             setTimeout(function() {
                 map.invalidateSize();

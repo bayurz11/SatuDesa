@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CitizenExcelController;
+use App\Http\Controllers\Admin\VillageMapController;
 use App\Support\ApbdesWorkflow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->group(function () {
             Route::get('penduduk/export', [CitizenExcelController::class, 'export'])->name('citizens.export');
             Route::get('penduduk/template', [CitizenExcelController::class, 'template'])->name('citizens.template');
+            Route::get('profil-desa/peta-desa', [VillageMapController::class, 'index'])
+                ->middleware('permission:village_maps.view')
+                ->name('village-maps.index');
+            Route::put('profil-desa/peta-desa', [VillageMapController::class, 'update'])
+                ->middleware('permission:village_maps.edit')
+                ->name('village-maps.update');
             Route::prefix('apbdes')->name('budgets.')->group(function () {
                 $budgetPages = [
                     'overview' => [

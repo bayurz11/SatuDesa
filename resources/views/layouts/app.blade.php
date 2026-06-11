@@ -342,7 +342,9 @@
             $canViewUsers = $currentUser->hasPermission('users.view');
             $canViewRoles = $currentUser->hasAnyPermission(['roles.view', 'permissions.view']);
             $canViewAuditLogs = $currentUser->hasPermission('system.logs');
+            $canViewVillageProfile = $currentUser->hasPermission('village_maps.view');
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs;
+            $profileMenuOpen = request()->routeIs('village-maps.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
@@ -391,6 +393,42 @@
 
                             Dashboard
                         </a>
+
+                        @if ($canViewVillageProfile)
+                            <div class="rounded-2xl {{ $profileMenuOpen ? 'bg-white/10' : '' }}" data-sidebar-dropdown>
+                                <button type="button"
+                                    class="flex w-full items-center rounded-xl px-4 py-3 text-left text-sm font-medium transition-all duration-200 {{ $profileMenuOpen ? 'text-white shadow-lg shadow-black/10' : 'text-blue-100 hover:bg-white/10 hover:text-white hover:shadow-lg hover:shadow-black/10' }}"
+                                    data-sidebar-dropdown-trigger aria-expanded="{{ $profileMenuOpen ? 'true' : 'false' }}">
+                                    <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 21a8.966 8.966 0 0 1-5.002-1.516A8.966 8.966 0 0 1 3 12c0-2.487 1.01-4.738 2.64-6.36A8.966 8.966 0 0 1 12 3c2.487 0 4.738 1.01 6.36 2.64A8.966 8.966 0 0 1 21 12a8.966 8.966 0 0 1-1.516 5.002A8.966 8.966 0 0 1 12 21Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M12 8.25c-1.243 0-2.25 1.12-2.25 2.5s1.007 2.5 2.25 2.5 2.25-1.12 2.25-2.5-1.007-2.5-2.25-2.5Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M7.5 18c.785-1.63 2.467-2.75 4.5-2.75s3.715 1.12 4.5 2.75" />
+                                    </svg>
+                                    <span class="flex-1">Profil Desa</span>
+                                    <svg class="h-4 w-4 flex-shrink-0 transition-transform duration-200 {{ $profileMenuOpen ? 'rotate-180' : '' }}"
+                                        data-sidebar-dropdown-chevron fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </button>
+                                <div class="{{ $profileMenuOpen ? 'block' : 'hidden' }} px-2 pb-2"
+                                    data-sidebar-dropdown-panel>
+                                    <div class="space-y-1 border-l border-white/15 pl-4">
+                                        <a href="{{ route('village-maps.index') }}"
+                                            class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                            <span
+                                                class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                            Peta Desa
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
 
                         @if ($hasNewsAccess)
                             <div class="rounded-2xl {{ $newsMenuOpen ? 'bg-white/10' : '' }}" data-sidebar-dropdown>

@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicAnnouncementController;
 use App\Http\Controllers\PublicPopulationController;
 use App\Http\Controllers\PublicPotentialController;
 use App\Http\Controllers\PublicPostController;
+use App\Http\Controllers\PublicVillageMapController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('track.public')->group(function () {
@@ -73,7 +74,7 @@ Route::get('/', function () {
 Route::view('/sejarah-desa', 'pages.public.history')->name('public.history');
 Route::view('/visi-misi', 'pages.public.vision-mission')->name('public.vision-mission');
 Route::view('/struktur-organisasi', 'pages.public.organization-structure')->name('public.organization-structure');
-Route::view('/peta-desa', 'pages.public.village-map')->name('public.village-map');
+Route::get('/peta-desa', [PublicVillageMapController::class, 'index'])->name('public.village-map');
 Route::get('/potensi-desa', [PublicPotentialController::class, 'index'])->name('public.potentials.index');
 Route::get('/potensi-desa/{slug}', [PublicPotentialController::class, 'show'])->name('public.potentials.show');
 

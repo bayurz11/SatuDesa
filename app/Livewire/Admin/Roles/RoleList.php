@@ -157,7 +157,7 @@ class RoleList extends Component
             ->orderBy($this->sortField, $this->sortDirection)
             ->paginate($this->perPage);
 
-        $permissionGroups = ['posts', 'users', 'roles', 'permissions', 'system'];
+        $permissionGroups = ['posts', 'announcements', 'village_maps', 'citizens', 'budgets', 'users', 'roles', 'permissions', 'system'];
 
         return view('livewire.admin.roles.role-list', compact('roles', 'permissionGroups'));
     }

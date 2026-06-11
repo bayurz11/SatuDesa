@@ -30,6 +30,10 @@ class PermissionSeeder extends Seeder
             ['name' => 'announcements.delete', 'display_name' => 'Delete Announcements', 'description' => 'Can delete announcements', 'group' => 'announcements'],
             ['name' => 'announcements.publish', 'display_name' => 'Publish Announcements', 'description' => 'Can publish and unpublish announcements', 'group' => 'announcements'],
 
+            // Village profile permissions
+            ['name' => 'village_maps.view', 'display_name' => 'View Village Map', 'description' => 'Can view village map management page', 'group' => 'village_maps'],
+            ['name' => 'village_maps.edit', 'display_name' => 'Edit Village Map', 'description' => 'Can edit village map content and settings', 'group' => 'village_maps'],
+
             // User permissions
             ['name' => 'users.view', 'display_name' => 'View Users', 'description' => 'Can view user list and details', 'group' => 'users'],
             ['name' => 'users.create', 'display_name' => 'Create Users', 'description' => 'Can create new users', 'group' => 'users'],
