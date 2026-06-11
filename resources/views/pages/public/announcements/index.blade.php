@@ -89,12 +89,12 @@
         </div>
     </section>
 
-    <section class="mx-auto -mt-10 max-w-7xl px-4 pb-14 sm:px-6 lg:px-8 z-10 relative">
-        <div class="rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
+    <section class="relative z-[80] mx-auto -mt-10 max-w-7xl overflow-visible px-4 pb-14 sm:px-6 lg:px-8">
+        <div class="relative z-[90] overflow-visible rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
             data-aos="fade-up" data-aos-delay="150">
-            <form method="GET" action="{{ route('public.announcements.index') }}"
-                class="grid gap-4 lg:grid-cols-[1.6fr_0.8fr_auto]">
 
+            <form method="GET" action="{{ route('public.announcements.index') }}"
+                class="relative z-[100] grid overflow-visible gap-4 lg:grid-cols-[1.6fr_0.8fr_auto]">
                 <label class="block">
                     <span class="mb-2 block text-sm font-medium text-gray-700">Cari pengumuman</span>
                     <input type="text" name="q" value="{{ $search }}"
@@ -102,7 +102,7 @@
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
                 </label>
 
-                <label class="relative z-50 block">
+                <label class="relative z-[120] block overflow-visible">
                     <span class="mb-2 block text-sm font-medium text-gray-700">
                         Kategori
                     </span>
@@ -111,7 +111,7 @@
                         $selectedCategory = $categories->firstWhere('slug', $category);
                     @endphp
 
-                    <details class="relative z-50 overflow-visible">
+                    <details class="group relative z-[130] overflow-visible">
                         <summary
                             class="flex w-full cursor-pointer list-none items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition duration-200 hover:border-green-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-100">
 
@@ -128,18 +128,13 @@
 
                         <div
                             class="absolute left-0 top-full z-[9999] mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-2xl shadow-gray-300/70">
-
                             <input type="hidden" name="category" id="selectedCategory" value="{{ $category }}">
 
                             <button type="submit" onclick="document.getElementById('selectedCategory').value=''"
-                                class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-                {{ empty($category)
-                    ? 'bg-green-50 font-semibold text-green-700'
-                    : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                                class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200 {{ empty($category) ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
                                 <span
-                                    class="flex h-9 w-9 items-center justify-center rounded-xl
-                    {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
@@ -162,14 +157,10 @@
                             @foreach ($categories as $postCategory)
                                 <button type="submit"
                                     onclick="document.getElementById('selectedCategory').value='{{ $postCategory->slug }}'"
-                                    class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-                    {{ $category === $postCategory->slug
-                        ? 'bg-green-50 font-semibold text-green-700'
-                        : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                                    class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200  {{ $category === $postCategory->slug ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
                                     <span
-                                        class="flex h-9 w-9 items-center justify-center rounded-xl
-                        {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
+                                        class="flex h-9 w-9 items-center justify-center rounded-xl {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
