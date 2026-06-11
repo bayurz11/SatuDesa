@@ -41,7 +41,7 @@
     <section class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
         @if ($featuredPotential)
             <article
-                class="group relative mb-8 overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:grid lg:grid-cols-12"
+                class="group relative mb-8 overflow-hidden rounded-[2rem] bg-white shadow-xl transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:grid lg:grid-cols-12"
                 data-aos="fade-up" data-aos-duration="750">
 
                 <span
