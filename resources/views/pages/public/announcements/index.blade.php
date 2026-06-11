@@ -321,32 +321,30 @@
                 <section class="grid gap-5 md:grid-cols-2">
                     @forelse ($announcements as $announcement)
                         <article
-                            class="group relative overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
+                            class="group relative flex h-full flex-col overflow-hidden rounded-[30px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
                             data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
 
                             <div
                                 class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-100/50 blur-2xl transition group-hover:bg-emerald-200/70">
                             </div>
 
-                            <div class="relative flex items-start justify-between gap-4">
-                                <div class="space-y-2">
-                                    <span
-                                        class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
-                                        </svg>
+                            <div class="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                                <span
+                                    class="inline-flex w-fit items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                    </svg>
 
-                                        {{ $announcement->category?->name ?? 'Pengumuman' }}
-                                    </span>
-                                </div>
+                                    {{ $announcement->category?->name ?? 'Pengumuman' }}
+                                </span>
 
                                 @if ($announcement->event_at)
                                     <span
-                                        class="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-green-700  px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-200">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        class="inline-flex w-fit shrink-0 items-center gap-1.5 rounded-full bg-green-700 px-3 py-1.5 text-xs font-bold text-white shadow-lg shadow-emerald-200">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
                                                 d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
                                         </svg>
@@ -356,11 +354,12 @@
                                 @endif
                             </div>
 
-                            <div class="mt-5">
+                            <div class="relative mt-5 flex-1">
                                 <div
-                                    class="flex h-[180px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[150px] w-full flex-col items-center justify-center rounded-[19px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02] sm:h-[180px]">
 
-                                    <span class="text-xl font-black uppercase tracking-[0.2em] text-emerald-700">
+                                    <span
+                                        class="text-lg font-black uppercase tracking-[0.2em] text-emerald-700 sm:text-xl">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
                                     </span>
 
@@ -371,7 +370,7 @@
 
                                 <div class="mt-5">
                                     <h3
-                                        class="line-clamp-2 text-center text-xl font-black leading-tight text-gray-950 transition group-hover:text-emerald-700">
+                                        class="line-clamp-2 text-center text-lg font-black leading-tight text-gray-950 transition group-hover:text-emerald-700 sm:text-xl">
                                         {{ $announcement->title }}
                                     </h3>
 
@@ -381,9 +380,11 @@
                                 </div>
                             </div>
 
-                            <div class="mt-6 flex items-center justify-between gap-3 border-t border-gray-100 pt-4">
+                            <div
+                                class="relative mt-6 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+
                                 <span
-                                    class="inline-flex min-w-0 items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
+                                    class="inline-flex w-fit max-w-full min-w-0 items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -398,7 +399,7 @@
                                 </span>
 
                                 <a href="{{ route('public.announcements.show', $announcement->slug) }}"
-                                    class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/30 sm:w-auto sm:rounded-full sm:px-5 sm:py-3">
+                                    class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/30 active:scale-[0.98] sm:w-auto sm:rounded-full sm:px-5 sm:py-3">
 
                                     <span>Lihat Detail</span>
 
