@@ -10,46 +10,39 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
 
     <div class="space-y-8 animate-fadeInUp" id="village-map-admin-page" data-initial-markers='@json(array_values($markerRows))'>
-        <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-slate-700 via-slate-800 to-slate-900 shadow-2xl">
-            <div class="absolute inset-0 bg-white/5"></div>
-
-            <div class="relative p-8 text-white">
-                <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
-                    <div class="max-w-3xl">
-                        <span class="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-100 ring-1 ring-white/15">
-                            Profil Desa
-                        </span>
-                        <h1 class="mt-5 text-4xl font-bold">Peta Desa</h1>
-                        <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-200">
-                            Kelola koordinat utama, pencarian lokasi, marker fasilitas umum, dan preview hasil publik
-                            dalam satu halaman admin yang interaktif.
-                        </p>
+        <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-blue-50 shadow-lg shadow-slate-200/60">
+            <div class="p-8">
+                <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+                    <div class="flex max-w-3xl gap-5">
+                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3zM9 3v15M15 6v15" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
+                            <h1 class="mt-2 text-4xl font-bold text-slate-900">Manajemen Peta Desa</h1>
+                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                                Kelola koordinat utama, marker fasilitas umum, pencarian lokasi, dan tampilan publik dari satu panel yang lebih sederhana.
+                            </p>
+                        </div>
                     </div>
 
-                    <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-5 backdrop-blur">
-                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-200">Ringkasan</p>
-                        <div class="mt-4 space-y-3">
-                            <div class="rounded-xl bg-white/10 px-4 py-3">
-                                <p class="text-sm font-semibold text-white">Desa</p>
-                                <p class="mt-1 text-sm text-slate-200">{{ $village->name }}</p>
-                            </div>
-                            <div class="rounded-xl bg-white/10 px-4 py-3">
-                                <p class="text-sm font-semibold text-white">Preview Publik</p>
-                                <a href="{{ $publicMapUrl }}" target="_blank" rel="noopener noreferrer"
-                                    class="mt-1 inline-flex text-sm text-slate-100 underline underline-offset-4">
-                                    Buka halaman publik
-                                </a>
-                            </div>
-                            <div class="rounded-xl bg-white/10 px-4 py-3 text-sm text-slate-200">
-                                Klik peta untuk memindahkan titik utama. Saat modal marker terbuka, klik peta untuk mengisi koordinat marker.
-                            </div>
+                    <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
+                        <div class="rounded-2xl border border-white/80 bg-white/80 px-5 py-4 shadow-sm">
+                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Desa Aktif</p>
+                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $village->name }}</p>
                         </div>
+                        <a href="{{ $publicMapUrl }}" target="_blank" rel="noopener noreferrer"
+                            class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
+                            Buka Halaman Publik
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <form method="POST" action="{{ route('village-maps.update') }}" class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <form method="POST" action="{{ route('village-maps.update') }}" class="space-y-8">
             @csrf
             @method('PUT')
 
@@ -116,6 +109,22 @@
                                             class="module-neutral-btn inline-flex w-full items-center justify-center px-4 py-3 text-sm">
                                             Lihat Hasil di Publik
                                         </a>
+                                    </div>
+                                </div>
+
+                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                                    <div class="flex items-center justify-between gap-3">
+                                        <p class="text-sm font-semibold text-gray-900">Preview Peta</p>
+                                        <span class="rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">
+                                            <span data-preview-marker-count>{{ count($markerRows) }}</span> marker
+                                        </span>
+                                    </div>
+                                    <div class="mt-4 overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                                        <div id="adminVillageMapPreview" class="h-[220px] w-full"></div>
+                                    </div>
+                                    <div class="mt-4 space-y-2">
+                                        <p class="text-sm font-semibold text-gray-900" data-preview-title>{{ old('map_title', $profile->map_title) }}</p>
+                                        <p class="text-sm leading-6 text-gray-600" data-preview-description>{{ old('map_description', $profile->map_description) }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -251,46 +260,6 @@
                     </div>
                 </section>
             </main>
-
-            <aside class="space-y-8 lg:sticky lg:top-24 lg:self-start">
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="px-6 py-5 border-b border-gray-200 bg-gradient-to-r from-indigo-50 to-blue-50">
-                        <h2 class="text-xl font-semibold text-gray-900">Preview Admin</h2>
-                        <p class="mt-1 text-sm text-gray-600">Preview ini mengikuti hasil yang akan tampil di halaman publik.</p>
-                    </div>
-
-                    <div class="p-6">
-                        <div class="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50">
-                            <div id="adminVillageMapPreview" class="h-[300px] w-full"></div>
-                        </div>
-
-                        <div class="mt-5 space-y-4">
-                            <div>
-                                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">Judul Publik</p>
-                                <p class="mt-2 text-lg font-semibold text-gray-900" data-preview-title>{{ old('map_title', $profile->map_title) }}</p>
-                            </div>
-
-                            <div>
-                                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Deskripsi Publik</p>
-                                <p class="mt-2 text-sm leading-6 text-gray-600" data-preview-description>{{ old('map_description', $profile->map_description) }}</p>
-                            </div>
-
-                            <div class="rounded-2xl bg-blue-50 px-4 py-4 text-sm text-blue-800">
-                                Marker aktif di preview: <span class="font-semibold" data-preview-marker-count>{{ count($markerRows) }}</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 p-6">
-                    <h2 class="text-xl font-semibold text-gray-900">Kesesuaian Publik</h2>
-                    <div class="mt-4 space-y-3 text-sm text-gray-600">
-                        <div class="rounded-xl bg-gray-50 px-4 py-3">Koordinat utama yang dipilih di peta admin akan menjadi titik utama di halaman publik.</div>
-                        <div class="rounded-xl bg-gray-50 px-4 py-3">Marker yang ditambahkan lewat modal akan langsung dipakai oleh halaman publik setelah disimpan.</div>
-                        <div class="rounded-xl bg-gray-50 px-4 py-3">Judul dan deskripsi preview selalu mengikuti input form saat ini.</div>
-                    </div>
-                </section>
-            </aside>
         </form>
 
         <div class="app-modal-overlay hidden" data-marker-modal-overlay>

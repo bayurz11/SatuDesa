@@ -3,6 +3,40 @@
     $metaDescription = $profile->history_description ?: 'Menyusuri jejak perjalanan desa dari masa lampau hingga kini.';
     $historyCards = collect($profile->history_cards ?? [])->values();
     $timelineItems = collect($profile->history_timeline_items ?? [])->values();
+    $resolveTimelineIconUrl = function ($item) {
+        $path = $item['icon_image_path'] ?? null;
+
+        if (! $path) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'img/')) {
+            return asset($path);
+        }
+
+        return \App\Support\UploadStorage::url($path);
+    };
+    $resolveHistoryCardImageUrl = function ($card) {
+        $path = $card['image_path'] ?? null;
+
+        if (! $path) {
+            return null;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'img/')) {
+            return asset($path);
+        }
+
+        return \App\Support\UploadStorage::url($path);
+    };
     $coverImage = filled($profile->history_cover_image_path)
         ? (str_starts_with($profile->history_cover_image_path, 'http://') || str_starts_with($profile->history_cover_image_path, 'https://')
             ? $profile->history_cover_image_path
@@ -81,29 +115,38 @@
 
                 <section class="grid gap-6 md:grid-cols-2">
                     @foreach ($historyCards as $index => $card)
+                        @php
+                            $historyCardImageUrl = $resolveHistoryCardImageUrl($card);
+                        @endphp
                         <article data-aos="fade-up" data-aos-delay="{{ 150 + $index * 100 }}"
                             class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
-                            <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
-                                @if (($card['icon'] ?? 'home') === 'building')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6" />
-                                    </svg>
-                                @elseif (($card['icon'] ?? 'home') === 'spark')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
-                                    </svg>
-                                @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
-                                    </svg>
-                                @endif
-                            </div>
+                            @if ($historyCardImageUrl)
+                                <div class="mb-5 overflow-hidden rounded-3xl border border-green-100 bg-green-50">
+                                    <img src="{{ $historyCardImageUrl }}" alt="{{ $card['title'] ?? 'Foto kartu sejarah' }}" class="h-48 w-full object-cover">
+                                </div>
+                            @else
+                                <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
+                                    @if (($card['icon'] ?? 'home') === 'building')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6" />
+                                        </svg>
+                                    @elseif (($card['icon'] ?? 'home') === 'spark')
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
+                                        </svg>
+                                    @else
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                            stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
+                                        </svg>
+                                    @endif
+                                </div>
+                            @endif
 
                             <span class="mt-5 inline-block text-xs font-semibold uppercase tracking-[0.24em] text-green-700">
                                 {{ $card['badge'] ?? '-' }}
@@ -134,11 +177,16 @@
 
                     <div class="mt-8 space-y-6">
                         @foreach ($timelineItems as $index => $item)
+                            @php
+                                $timelineIconUrl = $resolveTimelineIconUrl($item);
+                            @endphp
                             <div class="group flex gap-4" data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}">
                                 <div class="flex flex-col items-center">
                                     <span
                                         class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-700 text-white shadow-lg shadow-green-700/25 transition duration-300 group-hover:bg-emerald-600">
-                                        @if (($item['icon'] ?? 'home') === 'building')
+                                        @if ($timelineIconUrl)
+                                            <img src="{{ $timelineIconUrl }}" alt="{{ $item['title'] ?? 'Ikon Linimasa' }}" class="h-12 w-12 rounded-2xl object-cover">
+                                        @elseif (($item['icon'] ?? 'home') === 'building')
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
