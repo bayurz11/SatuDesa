@@ -4,7 +4,7 @@
     $resolveOrganizationPhotoUrl = function ($item) {
         $path = $item['photo_path'] ?? null;
 
-        if (! $path) {
+        if (!$path) {
             return asset('img/avatar-placeholder.png');
         }
 
@@ -86,7 +86,8 @@
 
                             <div data-aos="zoom-in" data-aos-delay="200"
                                 class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[24px] border-t-4 border-green-700 bg-white p-4 shadow-lg shadow-gray-200/70 ring-1 ring-gray-100">
-                                <img src="{{ $resolveOrganizationPhotoUrl($organizationHead) }}" alt="{{ $organizationHead['label'] ?? 'Kepala Desa' }}"
+                                <img src="{{ $resolveOrganizationPhotoUrl($organizationHead) }}"
+                                    alt="{{ $organizationHead['label'] ?? 'Kepala Desa' }}"
                                     class="h-14 w-14 rounded-full border-4 border-green-50 object-cover">
 
                                 <div class="min-w-0 text-left">
@@ -102,14 +103,16 @@
 
                             <div data-aos="fade-left" data-aos-delay="250"
                                 class="mx-auto flex w-full max-w-xs items-center gap-3 rounded-[20px] border border-green-100 bg-green-50 p-4 shadow-sm">
-                                <img src="{{ $resolveOrganizationPhotoUrl($organizationPartner) }}" alt="{{ $organizationPartner['label'] ?? 'Mitra Desa' }}"
+                                <img src="{{ $resolveOrganizationPhotoUrl($organizationPartner) }}"
+                                    alt="{{ $organizationPartner['label'] ?? 'Mitra Desa' }}"
                                     class="h-12 w-12 rounded-full border-4 border-white object-cover">
 
                                 <div class="min-w-0">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
                                         {{ $organizationPartner['label'] ?? '-' }}
                                     </p>
-                                    <h4 class="mt-1 truncate text-sm font-bold text-gray-900">{{ $organizationPartner['title'] ?? '-' }}</h4>
+                                    <h4 class="mt-1 truncate text-sm font-bold text-gray-900">
+                                        {{ $organizationPartner['title'] ?? '-' }}</h4>
                                     <p class="mt-1 text-xs text-gray-500">{{ $organizationPartner['name'] ?? '-' }}</p>
                                 </div>
                             </div>
@@ -119,17 +122,23 @@
 
                         <div data-aos="fade-up" data-aos-delay="300"
                             class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-4 shadow-md shadow-gray-200/60">
-                            <img src="{{ $resolveOrganizationPhotoUrl($organizationSecretary) }}" alt="{{ $organizationSecretary['label'] ?? 'Sekretariat Desa' }}"
-                                class="h-13 w-13 rounded-full border-4 border-green-50 object-cover">
 
-                            <div class="min-w-0">
+                            <img src="{{ $resolveOrganizationPhotoUrl($organizationSecretary) }}"
+                                alt="{{ $organizationSecretary['label'] ?? 'Sekretariat Desa' }}"
+                                class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+
+                            <div class="min-w-0 text-left">
                                 <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
                                     {{ $organizationSecretary['label'] ?? '-' }}
                                 </p>
+
                                 <h4 class="mt-1 truncate text-base font-bold text-gray-900">
                                     {{ $organizationSecretary['title'] ?? '-' }}
                                 </h4>
-                                <p class="mt-1 text-xs text-gray-500">{{ $organizationSecretary['name'] ?? '-' }}</p>
+
+                                <p class="mt-1 truncate text-xs text-gray-500">
+                                    {{ $organizationSecretary['name'] ?? '-' }}
+                                </p>
                             </div>
                         </div>
 
