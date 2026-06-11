@@ -176,16 +176,15 @@
         @yield('content')
     </main>
 
-    <!-- Floating Action Buttons --><!-- Floating Action Buttons -->
+    <!-- Floating Action Buttons -->
     <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
         <!-- WhatsApp -->
-        <a href="https://wa.me/6281234567890" tooltip="Hubungi admin kami" target="_blank" rel="noopener noreferrer"
-            aria-label="WhatsApp"
+        <a href="https://wa.me/6281234567890" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"
             class="fab-action group relative flex h-12 w-12 items-center justify-center rounded-full
-        bg-green-500 text-white shadow-xl shadow-green-600/30 transition-all duration-300
-        hover:-translate-y-1 hover:scale-105 sm:h-14 sm:w-14
-        opacity-0 scale-90 pointer-events-none">
+        bg-green-500 text-white shadow-xl shadow-green-600/30 transition-all duration-500
+        hover:-translate-y-1 hover:scale-110 hover:rotate-3 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none overflow-visible">
 
             <!-- Radar Effect -->
             <span class="absolute inset-0 rounded-full bg-green-400/40 animate-[radar_1.8s_ease-out_infinite]"></span>
@@ -194,6 +193,18 @@
 
             <!-- Inner Glow -->
             <span class="absolute inset-0 rounded-full bg-gradient-to-br from-white/25 to-transparent"></span>
+
+            <!-- Shine Effect -->
+            <span class="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+                <span
+                    class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/40 blur-sm transition-all duration-700 group-hover:left-16"></span>
+            </span>
+
+            <!-- Floating Tooltip -->
+            <span
+                class="pointer-events-none absolute right-16 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full bg-green-700 px-4 py-2 text-xs font-semibold text-white opacity-0 shadow-lg transition-all duration-300 group-hover:right-20 group-hover:opacity-100 sm:block">
+                Hubungi Admin
+            </span>
 
             <!-- Icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
@@ -207,9 +218,9 @@
         <!-- Back To Top With Circular Progress -->
         <button id="backToTop" type="button" aria-label="Kembali ke atas"
             class="group relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600
-        shadow-xl shadow-green-900/10 ring-1 ring-green-100 transition-all duration-300
-        hover:-translate-y-1 hover:scale-105 hover:text-green-700 sm:h-14 sm:w-14
-        opacity-0 scale-90 pointer-events-none">
+        shadow-xl shadow-green-900/10 ring-1 ring-green-100 transition-all duration-500
+        hover:-translate-y-1 hover:scale-110 hover:rotate-3 hover:text-green-700 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none overflow-visible">
 
             <!-- Circular Progress -->
             <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 56 56">
@@ -219,6 +230,22 @@
                     stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="157"
                     stroke-dashoffset="157" />
             </svg>
+
+            <!-- Soft Pulse Background -->
+            <span
+                class="absolute inset-0 rounded-full bg-green-400/10 opacity-0 transition duration-500 group-hover:scale-125 group-hover:opacity-100"></span>
+
+            <!-- Shine Effect -->
+            <span class="pointer-events-none absolute inset-0 overflow-hidden rounded-full">
+                <span
+                    class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-green-200/60 blur-sm transition-all duration-700 group-hover:left-16"></span>
+            </span>
+
+            <!-- Floating Tooltip -->
+            <span
+                class="pointer-events-none absolute right-16 top-1/2 hidden -translate-y-1/2 whitespace-nowrap rounded-full bg-white px-4 py-2 text-xs font-semibold text-green-700 opacity-0 shadow-lg ring-1 ring-green-100 transition-all duration-300 group-hover:right-20 group-hover:opacity-100 sm:block">
+                Kembali ke Atas
+            </span>
 
             <!-- Icon -->
             <svg xmlns="http://www.w3.org/2000/svg"
