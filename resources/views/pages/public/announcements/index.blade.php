@@ -203,7 +203,7 @@
             </form>
         </div>
 
-        <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="relative z-0 mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <main class="space-y-6">
                 @if ($featuredAnnouncement)
                     <article
