@@ -5,6 +5,11 @@
         $historyCards = old('history_cards', $historyCards ?? []);
         $timelineItems = old('history_timeline_items', $timelineItems ?? []);
         $publicHistoryUrl = route('public.history');
+        $coverImageUrl = filled($profile->history_cover_image_path)
+            ? (str_starts_with($profile->history_cover_image_path, 'img/')
+                ? asset($profile->history_cover_image_path)
+                : \App\Support\UploadStorage::url($profile->history_cover_image_path))
+            : asset('img/bg.jpg');
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
@@ -47,7 +52,7 @@
             </div>
         </div>
 
-        <form method="POST" action="{{ route('village-histories.update') }}" class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
+        <form method="POST" action="{{ route('village-histories.update') }}" enctype="multipart/form-data" class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px]">
             @csrf
             @method('PUT')
 
@@ -65,7 +70,40 @@
                         </div>
                     </div>
 
-                    <div class="p-6 sm:p-8 grid gap-6 md:grid-cols-2">
+                    <div class="p-6 sm:p-8 space-y-6">
+                        <div class="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50 p-6">
+                            <div class="flex flex-col gap-5 lg:flex-row lg:items-start">
+                                <div class="w-full max-w-xs">
+                                    <img src="{{ $coverImageUrl }}" alt="{{ $profile->history_cover_title }}" class="h-48 w-full rounded-2xl object-cover shadow-lg">
+                                </div>
+
+                                <div class="flex-1 space-y-4">
+                                    <div>
+                                        <h4 class="text-base font-semibold text-gray-900">Foto Sampul Sejarah</h4>
+                                        <p class="mt-1 text-sm text-gray-600">Upload foto langsung seperti di modul berita. Foto baru akan menggantikan foto lama setelah data disimpan.</p>
+                                    </div>
+
+                                    <div class="flex flex-wrap items-center gap-3">
+                                        <label for="history-cover-image" class="cursor-pointer inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:bg-gray-50">
+                                            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                            </svg>
+                                            Upload / Ganti Foto
+                                        </label>
+                                        <input type="file" id="history-cover-image" name="history_cover_image" accept="image/*" class="hidden">
+                                        <span class="text-sm text-slate-500">Format gambar umum, maksimal 4MB.</span>
+                                    </div>
+                                    @error('history_cover_image')<span class="block text-xs text-red-500">{{ $message }}</span>@enderror
+
+                                    <div class="rounded-xl bg-white/80 px-4 py-3 text-sm text-slate-600 ring-1 ring-blue-100">
+                                        Saran:
+                                        pakai foto yang jelas, tidak terlalu gelap, dan tetap terbaca saat diberi teks judul di halaman publik.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid gap-6 md:grid-cols-2">
                         <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-gray-700">Judul Halaman</label>
                             <input type="text" name="history_title" value="{{ old('history_title', $profile->history_title) }}"
@@ -94,16 +132,10 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <label class="block text-sm font-semibold text-gray-700">Path Gambar Hero</label>
-                            <input type="text" name="history_cover_image_path" value="{{ old('history_cover_image_path', $profile->history_cover_image_path) }}"
-                                class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700" placeholder="contoh: img/bg.jpg">
-                            @error('history_cover_image_path')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
-                        </div>
-
-                        <div class="md:col-span-2">
                             <label class="block text-sm font-semibold text-gray-700">Narasi Pembuka</label>
                             <textarea name="history_intro_text" rows="5" class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">{{ old('history_intro_text', $profile->history_intro_text) }}</textarea>
                             @error('history_intro_text')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                        </div>
                         </div>
                     </div>
                 </section>

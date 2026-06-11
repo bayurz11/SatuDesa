@@ -6,7 +6,9 @@
     $coverImage = filled($profile->history_cover_image_path)
         ? (str_starts_with($profile->history_cover_image_path, 'http://') || str_starts_with($profile->history_cover_image_path, 'https://')
             ? $profile->history_cover_image_path
-            : asset($profile->history_cover_image_path))
+            : (str_starts_with($profile->history_cover_image_path, 'img/')
+                ? asset($profile->history_cover_image_path)
+                : \App\Support\UploadStorage::url($profile->history_cover_image_path)))
         : asset('img/bg.jpg');
 @endphp
 

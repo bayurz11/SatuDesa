@@ -73,7 +73,7 @@ class VillageProfile extends Model
             'map_description' => 'Peta ini menampilkan titik koordinat desa beserta marker fasilitas umum dan lokasi penting lainnya.',
             'map_latitude' => -0.1642816,
             'map_longitude' => 104.4830524,
-            'map_zoom' => 14,
+            'map_zoom' => 18,
             'map_popup_title' => 'Kantor Desa',
             'map_popup_description' => $village->name . ' - Kec. ' . $village->district . ', Kab. ' . $village->regency,
             'map_info_title' => 'Detail Peta',

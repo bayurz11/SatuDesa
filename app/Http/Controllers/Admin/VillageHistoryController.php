@@ -6,8 +6,10 @@ use App\Domains\Village\Models\Village;
 use App\Domains\Village\Models\VillageProfile;
 use App\Http\Controllers\Controller;
 use App\Services\LoggerService;
+use App\Support\UploadStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class VillageHistoryController extends Controller
@@ -46,7 +48,7 @@ class VillageHistoryController extends Controller
             'history_description' => ['required', 'string'],
             'history_cover_badge' => ['required', 'string', 'max:255'],
             'history_cover_title' => ['required', 'string', 'max:255'],
-            'history_cover_image_path' => ['nullable', 'string', 'max:255'],
+            'history_cover_image' => ['nullable', 'image', 'max:4096'],
             'history_intro_text' => ['required', 'string'],
             'history_cards' => ['required', 'array', 'size:2'],
             'history_cards.*.badge' => ['required', 'string', 'max:255'],
@@ -64,12 +66,22 @@ class VillageHistoryController extends Controller
             'history_sidebar_description' => ['required', 'string'],
         ]);
 
+        $coverImagePath = $profile->history_cover_image_path ?: 'img/bg.jpg';
+
+        if ($request->hasFile('history_cover_image')) {
+            if ($coverImagePath && ! str_starts_with($coverImagePath, 'img/')) {
+                Storage::disk(UploadStorage::disk())->delete($coverImagePath);
+            }
+
+            $coverImagePath = $request->file('history_cover_image')->store('village-histories/covers', UploadStorage::disk());
+        }
+
         $profile->fill([
             'history_title' => $validated['history_title'],
             'history_description' => $validated['history_description'],
             'history_cover_badge' => $validated['history_cover_badge'],
             'history_cover_title' => $validated['history_cover_title'],
-            'history_cover_image_path' => $validated['history_cover_image_path'] ?: 'img/bg.jpg',
+            'history_cover_image_path' => $coverImagePath,
             'history_intro_text' => $validated['history_intro_text'],
             'history_cards' => array_values($validated['history_cards']),
             'history_timeline_badge' => $validated['history_timeline_badge'],
