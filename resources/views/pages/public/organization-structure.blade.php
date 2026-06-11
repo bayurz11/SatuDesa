@@ -20,22 +20,20 @@
                     <li class="font-semibold text-white">Struktur Organisasi</li>
                 </ol>
             </nav>
+            <div class="max-w-4xl" data-aos="fade-up">
 
-            <div class="mt-8 max-w-4xl" data-aos="fade-up" data-aos-delay="100">
-                <span
-                    class="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-100 ring-1 ring-white/15">
-                    Profil Desa
-                </span>
 
-                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+                <h1
+                    class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
                     Struktur Organisasi Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-2xl text-sm leading-7 text-emerald-50/90 sm:text-base">
+                <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
                     Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan,
                     dan tata kelola administrasi Desa Mentuda.
                 </p>
             </div>
+
         </div>
     </section>
 
