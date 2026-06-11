@@ -102,20 +102,20 @@
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
                 </label>
 
-                <label class="block">
+                <label class="relative z-50 block">
                     <span class="mb-2 block text-sm font-medium text-gray-700">
                         Kategori
                     </span>
 
-                    <details class="group relative">
+                    @php
+                        $selectedCategory = $categories->firstWhere('slug', $category);
+                    @endphp
+
+                    <details class="group relative z-50">
                         <summary
                             class="flex w-full cursor-pointer list-none items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition duration-200 hover:border-green-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-100">
 
                             <span class="truncate">
-                                @php
-                                    $selectedCategory = $categories->firstWhere('slug', $category);
-                                @endphp
-
                                 {{ $selectedCategory?->name ?? 'Semua kategori' }}
                             </span>
 
@@ -127,31 +127,26 @@
                         </summary>
 
                         <div
-                            class="absolute z-20 mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-xl shadow-gray-200/60">
+                            class="absolute left-0 top-full z-[9999] mt-2 max-h-72 w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-2xl shadow-gray-300/70">
 
-                            {{-- Hidden Input --}}
                             <input type="hidden" name="category" id="selectedCategory" value="{{ $category }}">
 
-                            {{-- Semua kategori --}}
                             <button type="submit" onclick="document.getElementById('selectedCategory').value=''"
                                 class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-            {{ empty($category)
-                ? 'bg-green-50 font-semibold text-green-700'
-                : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                {{ empty($category)
+                    ? 'bg-green-50 font-semibold text-green-700'
+                    : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
                                 <span
                                     class="flex h-9 w-9 items-center justify-center rounded-xl
-            {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-
+                    {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
                                     </svg>
                                 </span>
 
-                                <span class="flex-1">
-                                    Semua kategori
-                                </span>
+                                <span class="flex-1">Semua kategori</span>
 
                                 @if (empty($category))
                                     <span
@@ -168,14 +163,13 @@
                                 <button type="submit"
                                     onclick="document.getElementById('selectedCategory').value='{{ $postCategory->slug }}'"
                                     class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-                {{ $category === $postCategory->slug
-                    ? 'bg-green-50 font-semibold text-green-700'
-                    : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                    {{ $category === $postCategory->slug
+                        ? 'bg-green-50 font-semibold text-green-700'
+                        : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
 
                                     <span
                                         class="flex h-9 w-9 items-center justify-center rounded-xl
-                {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-
+                        {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
