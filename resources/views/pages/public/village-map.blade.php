@@ -1,7 +1,7 @@
 @php
     $metaTitle = 'Peta Desa';
     $metaDescription = 'Informasi lokasi, fasilitas umum, batas wilayah, dan potensi Desa Mentuda.';
-    $mapMarkers = collect($profile->map_markers ?? [])->values();
+    $mapMarkers = collect($profile->map_markers ?? [])->values()->all();
 @endphp
 
 @extends('layouts.public')
@@ -30,7 +30,7 @@
                     Peta Desa Mentuda
                 </h1>
 
-                <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
+                <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90 sm:text-base">
                     Informasi lokasi {{ $village->name }}, titik fasilitas umum, batas wilayah, dan potensi desa
                     yang dapat membantu masyarakat mengenal wilayah desa secara lebih mudah.
                 </p>
@@ -42,7 +42,7 @@
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <main class="space-y-8">
                 <section data-aos="fade-up" data-aos-delay="100"
-                    class="overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70 sm:p-7">
+                    class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-4 shadow-lg shadow-gray-200/70 sm:rounded-[32px] sm:p-7">
 
                     <div class="text-center">
                         <span
@@ -54,28 +54,28 @@
                             {{ $profile->map_title }}
                         </h2>
 
-                        <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+                        <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600 sm:text-base">
                             {{ $profile->map_description }}
                         </p>
                     </div>
 
-                    <div class="mt-10 overflow-hidden rounded-[28px] border border-gray-200 bg-gray-50 shadow-sm">
+                    <div class="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-gray-50 shadow-sm sm:mt-10 sm:rounded-[28px]">
                         <div class="grid lg:grid-cols-[minmax(0,1fr)_320px]">
-                            <div class="relative min-h-[420px] overflow-hidden bg-green-50 lg:min-h-[520px]">
-                                <div id="villageMap" class="h-[420px] w-full lg:h-[520px]"></div>
+                            <div class="relative min-h-[320px] overflow-hidden bg-green-50 sm:min-h-[380px] lg:min-h-[520px]">
+                                <div id="villageMap" class="h-[320px] w-full sm:h-[380px] lg:h-[520px]"></div>
 
                                 <div
-                                    class="pointer-events-none absolute left-4 top-4 z-[400] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur">
+                                    class="pointer-events-none absolute left-3 top-3 z-[400] max-w-[calc(100%-1.5rem)] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur sm:left-4 sm:top-4">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
                                         {{ $village->name }}
                                     </p>
-                                    <p class="mt-1 text-sm font-semibold text-gray-900">
+                                    <p class="mt-1 text-sm font-semibold text-gray-900 sm:text-base">
                                         Kec. {{ $village->district }}, Kab. {{ $village->regency }}
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="border-t border-gray-200 bg-white p-5 lg:border-l lg:border-t-0">
+                            <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:border-l lg:border-t-0">
                                 <div class="mb-5 flex items-center gap-3">
                                     <div
                                         class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
@@ -90,7 +90,7 @@
                                         <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
                                             Informasi
                                         </p>
-                                        <h3 class="text-lg font-bold text-gray-900">{{ $profile->map_info_title }}</h3>
+                                        <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ $profile->map_info_title }}</h3>
                                     </div>
                                 </div>
 
@@ -129,7 +129,7 @@
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
                 <div data-aos="fade-left" data-aos-delay="200"
-                    class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60">
+                    class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-4 shadow-md shadow-gray-200/60 sm:p-5">
                     <div class="mb-5 flex items-center gap-3">
                         <div
                             class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
@@ -179,7 +179,7 @@
                 </div>
 
                 <div data-aos="fade-left" data-aos-delay="300"
-                    class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">
+                    class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-5 text-white shadow-lg shadow-green-900/20 sm:p-6">
                     <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
                     <div class="absolute -bottom-12 -left-12 h-36 w-36 rounded-full bg-black/10"></div>
 
@@ -215,8 +215,13 @@
             const villageLng = {{ (float) $profile->map_longitude }};
             const villageZoom = {{ (int) $profile->map_zoom }};
             const markers = @json($mapMarkers);
+            const mapNode = document.getElementById('villageMap');
 
-            const map = L.map('villageMap', {
+            if (!mapNode || typeof L === 'undefined') {
+                return;
+            }
+
+            const map = L.map(mapNode, {
                 scrollWheelZoom: false,
             }).setView([villageLat, villageLng], villageZoom);
 
@@ -225,7 +230,7 @@
                 attribution: '&copy; OpenStreetMap'
             }).addTo(map);
 
-            L.marker([villageLat, villageLng])
+            const mainMarker = L.marker([villageLat, villageLng])
                 .addTo(map)
                 .bindPopup(`
                     <div style="min-width:180px">
@@ -236,7 +241,7 @@
                 .openPopup();
 
             markers.forEach((marker) => {
-                if (!marker.latitude || !marker.longitude || !marker.name) {
+                if (marker.latitude === undefined || marker.longitude === undefined || !marker.name) {
                     return;
                 }
 
@@ -254,6 +259,20 @@
             setTimeout(function() {
                 map.invalidateSize();
             }, 300);
+
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    map.invalidateSize();
+                    map.setView([villageLat, villageLng], villageZoom);
+                    mainMarker.openPopup();
+                }, 450);
+            });
+
+            window.addEventListener('resize', function() {
+                setTimeout(function() {
+                    map.invalidateSize();
+                }, 150);
+            });
         });
     </script>
 @endsection

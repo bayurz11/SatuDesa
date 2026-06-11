@@ -136,6 +136,17 @@
             display: none !important;
         }
 
+        .leaflet-container {
+            z-index: 0;
+        }
+
+        .leaflet-container img,
+        .leaflet-container svg,
+        .leaflet-container canvas {
+            max-width: none !important;
+            max-height: none !important;
+        }
+
         @keyframes fadeUp {
             0% {
                 opacity: 0;

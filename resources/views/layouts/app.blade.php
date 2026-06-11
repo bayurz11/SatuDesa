@@ -306,6 +306,17 @@
             background: linear-gradient(90deg, #eff6ff 0%, #faf5ff 100%);
         }
 
+        .leaflet-container {
+            z-index: 0;
+        }
+
+        .leaflet-container img,
+        .leaflet-container svg,
+        .leaflet-container canvas {
+            max-width: none !important;
+            max-height: none !important;
+        }
+
         @media (min-width: 640px) {
             .app-modal-shell {
                 padding: 1.5rem;
