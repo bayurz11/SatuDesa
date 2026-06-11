@@ -2,6 +2,7 @@
     $metaTitle = 'Peta Desa';
     $metaDescription = 'Informasi lokasi, fasilitas umum, batas wilayah, dan potensi Desa Mentuda.';
     $mapMarkers = collect($profile->map_markers ?? [])->values()->all();
+    $boundaryGeoJson = $profile->map_boundary_geojson;
 @endphp
 
 @extends('layouts.public')
@@ -48,10 +49,10 @@
             data-aos="fade-up" data-aos-delay="120">
             <div class="grid gap-4 lg:grid-cols-[1.5fr_1fr] lg:items-center">
                 <div>
-                    <h2 class="text-lg font-bold text-gray-900">Peta Interaktif Wilayah Desa</h2>
+                    <h2 class="text-lg font-bold text-gray-900">Informasi</h2>
                     <p class="mt-2 text-sm leading-6 text-gray-600">
-                        Halaman ini menampilkan lokasi desa, titik fasilitas umum, serta ringkasan informasi wilayah
-                        dengan pola visual yang konsisten dengan halaman berita publik.
+                        Halaman ini menampilkan ringkasan informasi peta desa, titik fasilitas umum, batas wilayah,
+                        dan potensi desa dengan pola visual yang konsisten dengan halaman berita publik.
                     </p>
                 </div>
 
@@ -108,50 +109,10 @@
                         </div>
 
                         <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:p-6">
-                            <div class="mb-5 flex items-center gap-3">
-                                <div
-                                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                    </svg>
-                                </div>
-
-                                <div>
-                                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
-                                        Informasi
-                                    </p>
-                                    <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ $profile->map_info_title }}</h3>
-                                </div>
-                            </div>
-
-                            <div class="grid gap-4 lg:grid-cols-3">
-                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
-                                    <p class="font-semibold text-gray-900">{{ $profile->map_boundary_title }}</p>
-                                    <p class="mt-1 text-sm leading-6 text-gray-600">
-                                        {{ $profile->map_boundary_description }}
-                                    </p>
-                                </div>
-
-                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
-                                    <p class="font-semibold text-gray-900">{{ $profile->map_facility_title }}</p>
-                                    <p class="mt-1 text-sm leading-6 text-gray-600">
-                                        {{ $profile->map_facility_description }}
-                                    </p>
-                                </div>
-
-                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
-                                    <p class="font-semibold text-gray-900">{{ $profile->map_potential_title }}</p>
-                                    <p class="mt-1 text-sm leading-6 text-gray-600">
-                                        {{ $profile->map_potential_description }}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div
-                                class="mt-6 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                                {{ $profile->map_note }}
+                            <div class="rounded-2xl bg-green-50 px-4 py-4 text-sm leading-6 text-green-800 ring-1 ring-green-100 sm:px-5">
+                                Peta desa menampilkan titik utama {{ $village->name }}, marker fasilitas umum, batas
+                                wilayah, serta dukungan layer peta biasa dan satelit untuk membantu pembacaan lokasi
+                                secara lebih jelas.
                             </div>
                         </div>
                     </div>
@@ -289,6 +250,7 @@
             const villageLng = {{ (float) $profile->map_longitude }};
             const villageZoom = {{ (int) $profile->map_zoom }};
             const markers = @json($mapMarkers);
+            const boundaryGeoJson = @json($boundaryGeoJson);
             const mapNode = document.getElementById('villageMap');
 
             if (!mapNode || typeof L === 'undefined') {
@@ -317,6 +279,23 @@
                 collapsed: false,
             }).addTo(map);
 
+            let boundaryLayer = null;
+            if (boundaryGeoJson) {
+                try {
+                    boundaryLayer = L.geoJSON(boundaryGeoJson, {
+                        style: {
+                            color: '#15803d',
+                            weight: 2,
+                            opacity: 0.95,
+                            fillColor: '#22c55e',
+                            fillOpacity: 0.15,
+                        },
+                    }).addTo(map);
+                } catch (error) {
+                    boundaryLayer = null;
+                }
+            }
+
             const mainMarker = L.marker([villageLat, villageLng])
                 .addTo(map)
                 .bindPopup(`
@@ -343,6 +322,25 @@
                     `);
             });
 
+            if (boundaryLayer && boundaryLayer.getBounds().isValid()) {
+                map.fitBounds(boundaryLayer.getBounds(), {
+                    padding: [28, 28],
+                    maxZoom: villageZoom,
+                });
+            }
+
+            const restoreBestViewport = () => {
+                if (boundaryLayer && boundaryLayer.getBounds().isValid()) {
+                    map.fitBounds(boundaryLayer.getBounds(), {
+                        padding: [28, 28],
+                        maxZoom: villageZoom,
+                    });
+                    return;
+                }
+
+                map.setView([villageLat, villageLng], villageZoom);
+            };
+
             setTimeout(function() {
                 map.invalidateSize();
             }, 300);
@@ -350,7 +348,7 @@
             window.addEventListener('load', function() {
                 setTimeout(function() {
                     map.invalidateSize();
-                    map.setView([villageLat, villageLng], villageZoom);
+                    restoreBestViewport();
                     mainMarker.openPopup();
                 }, 450);
             });
@@ -358,6 +356,7 @@
             window.addEventListener('resize', function() {
                 setTimeout(function() {
                     map.invalidateSize();
+                    restoreBestViewport();
                 }, 150);
             });
         });

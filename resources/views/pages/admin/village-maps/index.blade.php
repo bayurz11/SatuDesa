@@ -1,6 +1,7 @@
 @php
     $markerRows = old('markers', $markerRows ?? []);
     $publicMapUrl = route('public.village-map');
+    $boundaryGeoJson = $profile->map_boundary_geojson;
 @endphp
 
 @extends('layouts.app')
@@ -80,6 +81,9 @@
                                     <p class="text-sm font-semibold text-blue-900">Mode Editor</p>
                                     <p class="mt-2 text-sm leading-6 text-blue-800">
                                         Layer biasa dan satelit bisa diganti dari kontrol peta. Gunakan pencarian untuk menemukan lokasi, lalu klik titik yang diinginkan.
+                                    </p>
+                                    <p class="mt-2 text-sm leading-6 text-blue-800">
+                                        Area batas Desa Mentuda ditampilkan otomatis. Titik utama bisa dipilih langsung dengan klik pada peta atau geser marker utama.
                                     </p>
                                 </div>
 
@@ -416,6 +420,7 @@
             const initialLat = parseFloat(latitudeInput?.value || '-0.1688817');
             const initialLng = parseFloat(longitudeInput?.value || '104.4712357');
             const initialZoom = parseInt(zoomInput?.value || '14', 10);
+            const boundaryGeoJson = @json($boundaryGeoJson);
 
             const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -472,6 +477,48 @@
             }).addTo(previewMap);
 
             const previewMainMarker = L.marker([initialLat, initialLng]).addTo(previewMap);
+            let editorBoundaryLayer = null;
+            let previewBoundaryLayer = null;
+
+            const createBoundaryLayer = (geoJson, options = {}) => {
+                if (!geoJson) {
+                    return null;
+                }
+
+                try {
+                    return L.geoJSON(geoJson, {
+                        style: {
+                            color: options.color || '#15803d',
+                            weight: options.weight || 2,
+                            opacity: 0.95,
+                            fillColor: options.fillColor || '#22c55e',
+                            fillOpacity: options.fillOpacity || 0.16,
+                        },
+                    });
+                } catch (error) {
+                    return null;
+                }
+            };
+
+            editorBoundaryLayer = createBoundaryLayer(boundaryGeoJson, {
+                color: '#166534',
+                fillColor: '#22c55e',
+                fillOpacity: 0.12,
+            });
+
+            if (editorBoundaryLayer) {
+                editorBoundaryLayer.addTo(editorMap);
+            }
+
+            previewBoundaryLayer = createBoundaryLayer(boundaryGeoJson, {
+                color: '#15803d',
+                fillColor: '#4ade80',
+                fillOpacity: 0.14,
+            });
+
+            if (previewBoundaryLayer) {
+                previewBoundaryLayer.addTo(previewMap);
+            }
 
             const setMainCoordinates = (lat, lng) => {
                 const normalizedLat = Number(lat);
@@ -720,6 +767,20 @@
             syncPreviewText();
             renderMarkerCards();
             setMainCoordinates(initialLat, initialLng);
+
+            if (editorBoundaryLayer && editorBoundaryLayer.getBounds().isValid()) {
+                editorMap.fitBounds(editorBoundaryLayer.getBounds(), {
+                    padding: [24, 24],
+                    maxZoom: initialZoom,
+                });
+            }
+
+            if (previewBoundaryLayer && previewBoundaryLayer.getBounds().isValid()) {
+                previewMap.fitBounds(previewBoundaryLayer.getBounds(), {
+                    padding: [16, 16],
+                    maxZoom: initialZoom,
+                });
+            }
 
             setTimeout(function() {
                 editorMap.invalidateSize();
