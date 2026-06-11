@@ -539,15 +539,14 @@
                         <!-- Berita Utama -->
                         @if ($homeFeaturedPost)
                             <article
-                                class="group relative overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8">
+                                class="group relative h-[360px] overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 md:h-[520px] lg:col-span-8">
 
-                                <!-- Shine Effect -->
                                 <span
                                     class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
                                 </span>
 
                                 <a href="{{ route('public.posts.show', $homeFeaturedPost->slug) }}"
-                                    class="relative block h-[360px] overflow-hidden md:h-[520px]">
+                                    class="relative block h-full w-full overflow-hidden">
 
                                     <img src="{{ $homeFeaturedPost->cover_image_url ?: asset('public/img/bg.jpg') }}"
                                         alt="{{ $homeFeaturedPost->cover_image_alt ?: $homeFeaturedPost->title }}"
@@ -558,7 +557,7 @@
                                     </div>
 
                                     <div
-                                        class="absolute left-6 right-6 bottom-6 text-white md:left-8 md:right-8 md:bottom-8">
+                                        class="absolute bottom-6 left-6 right-6 text-white md:bottom-8 md:left-8 md:right-8">
 
                                         <div class="mb-4 flex flex-wrap items-center gap-3">
 
