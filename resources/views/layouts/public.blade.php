@@ -65,6 +65,23 @@
             }
         }
 
+        @keyframes radar {
+            0% {
+                transform: scale(1);
+                opacity: .55;
+            }
+
+            70% {
+                transform: scale(1.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.9);
+                opacity: 0;
+            }
+        }
+
         .typing {
             overflow: hidden;
 
@@ -159,192 +176,368 @@
         @yield('content')
     </main>
 
+    <!-- Floating Action Buttons --><!-- Floating Action Buttons -->
+    <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
+        <!-- WhatsApp -->
+        <a href="https://wa.me/6281234567890" tooltip="Hubungi admin kami" target="_blank" rel="noopener noreferrer"
+            aria-label="WhatsApp"
+            class="fab-action group relative flex h-12 w-12 items-center justify-center rounded-full
+        bg-green-500 text-white shadow-xl shadow-green-600/30 transition-all duration-300
+        hover:-translate-y-1 hover:scale-105 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none">
+
+            <!-- Radar Effect -->
+            <span class="absolute inset-0 rounded-full bg-green-400/40 animate-[radar_1.8s_ease-out_infinite]"></span>
+            <span
+                class="absolute inset-0 rounded-full bg-green-400/30 animate-[radar_1.8s_ease-out_infinite_0.5s]"></span>
+
+            <!-- Inner Glow -->
+            <span class="absolute inset-0 rounded-full bg-gradient-to-br from-white/25 to-transparent"></span>
+
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="relative z-10 h-6 w-6 transition-transform duration-300 group-hover:rotate-12 group-hover:scale-110 sm:h-7 sm:w-7"
+                viewBox="0 0 24 24" fill="currentColor">
+                <path
+                    d="M20.52 3.48A11.86 11.86 0 0 0 12.07 0C5.49 0 .15 5.34.15 11.92c0 2.1.55 4.15 1.6 5.96L0 24l6.28-1.65a11.88 11.88 0 0 0 5.79 1.48h.01c6.58 0 11.92-5.34 11.92-11.92 0-3.18-1.24-6.17-3.48-8.43ZM12.08 21.8h-.01a9.87 9.87 0 0 1-5.04-1.38l-.36-.21-3.72.98.99-3.63-.23-.37a9.86 9.86 0 0 1-1.51-5.27c0-5.45 4.43-9.88 9.88-9.88 2.64 0 5.12 1.03 6.98 2.9a9.8 9.8 0 0 1 2.89 6.98c0 5.45-4.43 9.88-9.87 9.88Zm5.42-7.4c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.47-.89-.79-1.49-1.76-1.66-2.06-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.22 3.08c.15.2 2.1 3.2 5.08 4.48.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35Z" />
+            </svg>
+        </a>
+
+        <!-- Back To Top With Circular Progress -->
+        <button id="backToTop" type="button" aria-label="Kembali ke atas"
+            class="group relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600
+        shadow-xl shadow-green-900/10 ring-1 ring-green-100 transition-all duration-300
+        hover:-translate-y-1 hover:scale-105 hover:text-green-700 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none">
+
+            <!-- Circular Progress -->
+            <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 56 56">
+                <circle cx="28" cy="28" r="25" fill="none" stroke="rgba(34,197,94,0.15)"
+                    stroke-width="3" />
+                <circle id="scrollProgressCircle" cx="28" cy="28" r="25" fill="none"
+                    stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-dasharray="157"
+                    stroke-dashoffset="157" />
+            </svg>
+
+            <!-- Icon -->
+            <svg xmlns="http://www.w3.org/2000/svg"
+                class="relative z-10 h-5 w-5 transition-transform duration-300 group-hover:-translate-y-1 sm:h-6 sm:w-6"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 19.5V4.5m0 0l-6 6m6-6l6 6" />
+            </svg>
+        </button>
+    </div>
 
     @include('pages.public.partials.footer')
 
     <script>
-        const navbar = document.getElementById('navbar');
+        document.addEventListener('DOMContentLoaded', function() {
+            /*
+            |--------------------------------------------------------------------------
+            | Navbar Scroll
+            |--------------------------------------------------------------------------
+            */
+            const navbar = document.getElementById("navbar");
 
-        if (navbar) {
-            if (window.location.pathname === '/') {
-                window.addEventListener('scroll', () => {
-                    if (window.scrollY > 50) {
-                        navbar.classList.remove('-translate-y-full');
-                        navbar.classList.add('translate-y-0');
+            if (navbar) {
+                if (window.location.pathname === "/") {
+                    window.addEventListener("scroll", () => {
+                        const currentScroll = window.scrollY;
+
+                        if (currentScroll > 50) {
+                            navbar.classList.remove("-translate-y-full");
+                            navbar.classList.add("translate-y-0");
+                        } else {
+                            navbar.classList.add("-translate-y-full");
+                            navbar.classList.remove("translate-y-0");
+                        }
+                    }, {
+                        passive: true
+                    });
+                } else {
+                    navbar.classList.remove("-translate-y-full");
+                    navbar.classList.add("translate-y-0");
+                }
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Toggle Menu Mobile
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const menuBtn = document.getElementById('menu-btn');
+                const menuClose = document.getElementById('menu-close');
+                const overlay = document.getElementById('overlay');
+                const panel = document.getElementById('mobile-menu');
+                const accBtns = document.querySelectorAll('[data-acc-btn]');
+                const accPanels = document.querySelectorAll('[data-acc-panel]');
+                const chevIcons = document.querySelectorAll('[data-chev]');
+
+                if (!menuBtn || !overlay || !panel) return;
+
+                let lastFocused = null;
+
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const openDuration = prefersReduced ? 0 : 200;
+
+                const setAria = (expanded) => {
+                    menuBtn?.setAttribute('aria-expanded', String(expanded));
+                    panel?.setAttribute('aria-hidden', String(!expanded));
+                    overlay?.setAttribute('aria-hidden', String(!expanded));
+                };
+
+                const trapFocus = (e) => {
+                    if (!panel || panel.classList.contains('pointer-events-none')) return;
+
+                    const focusables = panel.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+                    if (!focusables.length) return;
+
+                    const first = focusables[0];
+                    const last = focusables[focusables.length - 1];
+
+                    if (e.key === 'Tab') {
+                        if (e.shiftKey && document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        } else if (!e.shiftKey && document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
+                    }
+                };
+
+                const openMenu = () => {
+                    lastFocused = document.activeElement;
+
+                    document.body.classList.add('overflow-hidden');
+                    panel.classList.remove('pointer-events-none', 'opacity-0');
+                    overlay.classList.remove('pointer-events-none', 'opacity-0');
+                    panel.style.transform = 'translateY(0)';
+
+                    setAria(true);
+
+                    const focusTarget = panel.querySelector('#menu-close') || panel.querySelector(
+                        'a,button');
+                    setTimeout(() => focusTarget?.focus(), 10);
+
+                    document.addEventListener('keydown', trapFocus);
+                };
+
+                const closeMenu = () => {
+                    document.body.classList.remove('overflow-hidden');
+
+                    panel.classList.add('opacity-0');
+                    overlay.classList.add('opacity-0');
+                    panel.style.transform = 'translateY(-12px)';
+
+                    setTimeout(() => {
+                        panel.classList.add('pointer-events-none');
+                        overlay.classList.add('pointer-events-none');
+                    }, openDuration);
+
+                    setAria(false);
+
+                    accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+                    accPanels.forEach((p) => p.style.maxHeight = 0);
+                    chevIcons.forEach((c) => c.dataset.open = 'false');
+
+                    document.removeEventListener('keydown', trapFocus);
+                    lastFocused?.focus();
+                };
+
+                menuBtn?.addEventListener('click', () => {
+                    const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+                    expanded ? closeMenu() : openMenu();
+                });
+
+                menuClose?.addEventListener('click', closeMenu);
+                overlay?.addEventListener('click', closeMenu);
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeMenu();
+                });
+
+                document.addEventListener('mousedown', (e) => {
+                    if (!panel || panel.classList.contains('pointer-events-none')) return;
+
+                    const within = panel.contains(e.target) || menuBtn.contains(e.target);
+
+                    if (!within) closeMenu();
+                });
+
+                accBtns.forEach((btn) => {
+                    const pid = btn.getAttribute('aria-controls');
+                    const pnl = document.getElementById(pid);
+                    const chev = btn.querySelector('[data-chev]');
+
+                    if (!pnl) return;
+
+                    btn.addEventListener('click', () => {
+                        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+                        accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+                        accPanels.forEach((p) => p.style.maxHeight = 0);
+                        chevIcons.forEach((c) => c.dataset.open = 'false');
+
+                        if (!isOpen) {
+                            btn.setAttribute('aria-expanded', 'true');
+                            pnl.style.maxHeight = pnl.scrollHeight + 'px';
+
+                            if (chev) chev.dataset.open = 'true';
+                        }
+                    });
+                });
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Count Up
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const counters = document.querySelectorAll(".counter");
+                const formatter = new Intl.NumberFormat("id-ID");
+
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute("data-target");
+
+                    const updateCount = () => {
+                        const current = +counter.innerText.replace(/\D/g, "");
+                        const increment = Math.ceil(target / 150);
+
+                        if (current < target) {
+                            const nextValue = current + increment > target ? target : current +
+                                increment;
+                            counter.innerText = formatter.format(nextValue);
+                            setTimeout(updateCount, 20);
+                        } else {
+                            counter.innerText = formatter.format(target);
+                        }
+                    };
+
+                    updateCount();
+                });
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Swiper
+            |--------------------------------------------------------------------------
+            */
+            if (typeof Swiper !== 'undefined' && document.querySelector(".mySwiper")) {
+                new Swiper(".mySwiper", {
+                    loop: true,
+                    autoHeight: true,
+                    autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    },
+                    grabCursor: true,
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    breakpoints: {
+                        600: {
+                            slidesPerView: 3
+                        },
+                        1024: {
+                            slidesPerView: 4
+                        },
+                    },
+                });
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Floating Action Buttons
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const backToTop = document.getElementById('backToTop');
+                const waBtn = document.querySelector('a[aria-label="WhatsApp"]');
+                const progressCircle = document.getElementById('scrollProgressCircle');
+
+                if (!backToTop || !waBtn || !progressCircle) return;
+
+                const radius = 25;
+                const circumference = 2 * Math.PI * radius;
+                const showAfter = 400;
+
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = circumference;
+
+                const showFab = () => {
+                    backToTop.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                    backToTop.classList.add('opacity-100', 'scale-100');
+
+                    waBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                    waBtn.classList.add('opacity-100', 'scale-100');
+                };
+
+                const hideFab = () => {
+                    backToTop.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                    backToTop.classList.remove('opacity-100', 'scale-100');
+
+                    waBtn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                    waBtn.classList.remove('opacity-100', 'scale-100');
+                };
+
+                const updateFab = () => {
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+                    const offset = circumference - progress * circumference;
+
+                    progressCircle.style.strokeDashoffset = offset;
+
+                    if (scrollTop > showAfter) {
+                        showFab();
                     } else {
-                        navbar.classList.add('-translate-y-full');
-                        navbar.classList.remove('translate-y-0');
+                        hideFab();
                     }
+                };
+
+                backToTop.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 });
-            } else {
-                navbar.classList.remove('-translate-y-full');
-                navbar.classList.add('translate-y-0');
+
+                window.addEventListener('scroll', updateFab, {
+                    passive: true
+                });
+                updateFab();
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Current Year
+            |--------------------------------------------------------------------------
+            */
+            const currentYear = document.getElementById('currentYear');
+
+            if (currentYear) {
+                currentYear.textContent = new Date().getFullYear();
             }
-        }
+        });
 
-        (() => {
-            const menuBtn = document.getElementById('menu-btn');
-            const menuClose = document.getElementById('menu-close');
-            const overlay = document.getElementById('overlay');
-            const panel = document.getElementById('mobile-menu');
-            const accBtns = document.querySelectorAll('[data-acc-btn]');
-            const accPanels = document.querySelectorAll('[data-acc-panel]');
-            const chevIcons = document.querySelectorAll('[data-chev]');
-            let lastFocused = null;
-
-            if (!menuBtn || !panel || !overlay) {
-                return;
-            }
-
-            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const openDuration = prefersReduced ? 0 : 200;
-
-            const setAria = (expanded) => {
-                menuBtn.setAttribute('aria-expanded', String(expanded));
-                panel.setAttribute('aria-hidden', String(!expanded));
-                overlay.setAttribute('aria-hidden', String(!expanded));
-            };
-
-            const trapFocus = (e) => {
-                if (panel.classList.contains('pointer-events-none')) return;
-                const focusables = panel.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
-                if (!focusables.length) return;
-
-                const first = focusables[0];
-                const last = focusables[focusables.length - 1];
-
-                if (e.key === 'Tab') {
-                    if (e.shiftKey && document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
-                    }
-                }
-            };
-
-            const openMenu = () => {
-                lastFocused = document.activeElement;
-                document.body.classList.add('overflow-hidden');
-                panel.classList.remove('pointer-events-none', 'opacity-0');
-                overlay.classList.remove('pointer-events-none', 'opacity-0');
-                panel.style.transform = 'translateY(0)';
-                setAria(true);
-
-                const focusTarget = panel.querySelector('#menu-close') || panel.querySelector('a,button');
-                setTimeout(() => focusTarget?.focus(), 10);
-                document.addEventListener('keydown', trapFocus);
-            };
-
-            const closeMenu = () => {
-                document.body.classList.remove('overflow-hidden');
-                panel.classList.add('opacity-0');
-                overlay.classList.add('opacity-0');
-                panel.style.transform = 'translateY(-12px)';
-
-                setTimeout(() => {
-                    panel.classList.add('pointer-events-none');
-                    overlay.classList.add('pointer-events-none');
-                }, openDuration);
-
-                setAria(false);
-                accBtns.forEach((button) => button.setAttribute('aria-expanded', 'false'));
-                accPanels.forEach((accPanel) => accPanel.style.maxHeight = 0);
-                chevIcons.forEach((icon) => icon.dataset.open = 'false');
-                document.removeEventListener('keydown', trapFocus);
-                lastFocused?.focus();
-            };
-
-            menuBtn.addEventListener('click', () => {
-                const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-                expanded ? closeMenu() : openMenu();
-            });
-
-            menuClose?.addEventListener('click', closeMenu);
-            overlay.addEventListener('click', closeMenu);
-
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeMenu();
-            });
-
-            document.addEventListener('mousedown', (e) => {
-                if (panel.classList.contains('pointer-events-none')) return;
-                const within = panel.contains(e.target) || menuBtn.contains(e.target);
-                if (!within) closeMenu();
-            });
-
-            accBtns.forEach((button) => {
-                const panelId = button.getAttribute('aria-controls');
-                const accPanel = document.getElementById(panelId);
-                button.addEventListener('click', () => {
-                    const isOpen = button.getAttribute('aria-expanded') === 'true';
-                    accBtns.forEach((item) => item.setAttribute('aria-expanded', 'false'));
-                    accPanels.forEach((item) => item.style.maxHeight = 0);
-                    chevIcons.forEach((item) => item.dataset.open = 'false');
-
-                    if (!isOpen && accPanel) {
-                        button.setAttribute('aria-expanded', 'true');
-                        accPanel.style.maxHeight = accPanel.scrollHeight + 'px';
-                    }
-                });
-            });
-        })();
-
-        (() => {
-            const btn = document.getElementById('backToTop');
-            const waBtn = document.querySelector('a[aria-label="WhatsApp"]');
-            if (!btn) return;
-
-            const showAfter = 400;
-            let visible = false;
-
-            const onScroll = () => {
-                if (window.scrollY > showAfter && !visible) {
-                    visible = true;
-                    btn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
-                    btn.classList.add('opacity-100', 'scale-100');
-                    waBtn?.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
-                    waBtn?.classList.add('opacity-100', 'scale-100');
-                } else if (window.scrollY <= showAfter && visible) {
-                    visible = false;
-                    btn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
-                    btn.classList.remove('opacity-100', 'scale-100');
-                    waBtn?.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
-                    waBtn?.classList.remove('opacity-100', 'scale-100');
-                }
-            };
-
-            window.addEventListener('scroll', onScroll, {
-                passive: true
-            });
-            onScroll();
-
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth',
-                });
-            });
-        })();
-
-        const currentYear = document.getElementById('currentYear');
-        if (currentYear) {
-            currentYear.textContent = new Date().getFullYear();
-        }
-
+        /*
+        |--------------------------------------------------------------------------
+        | AOS
+        |--------------------------------------------------------------------------
+        */
         window.addEventListener('load', () => {
-            if (typeof AOS === 'undefined') {
-                return;
-            }
+            if (typeof AOS === 'undefined') return;
 
             AOS.init({
-                duration: 700,
-                easing: 'ease-out-cubic',
+                duration: 800,
+                easing: 'ease-in-out',
                 once: true,
-                offset: 80,
             });
 
             AOS.refresh();

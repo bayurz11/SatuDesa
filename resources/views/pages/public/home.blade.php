@@ -51,6 +51,7 @@
 
 </script>
 
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @keyframes bounceHigh {
@@ -62,6 +63,23 @@
 
             50% {
                 transform: translateY(146%);
+            }
+        }
+
+        @keyframes radar {
+            0% {
+                transform: scale(1);
+                opacity: .55;
+            }
+
+            70% {
+                transform: scale(1.9);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1.9);
+                opacity: 0;
             }
         }
 
@@ -909,7 +927,7 @@
 
     </main>
 
-    <!-- Floating Action Buttons -->
+    <!-- Floating Action Buttons --><!-- Floating Action Buttons -->
     <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
 
         <!-- WhatsApp -->
@@ -917,7 +935,8 @@
             aria-label="WhatsApp"
             class="fab-action group relative flex h-12 w-12 items-center justify-center rounded-full
         bg-green-500 text-white shadow-xl shadow-green-600/30 transition-all duration-300
-        hover:-translate-y-1 hover:scale-105 sm:h-14 sm:w-14">
+        hover:-translate-y-1 hover:scale-105 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none">
 
             <!-- Radar Effect -->
             <span class="absolute inset-0 rounded-full bg-green-400/40 animate-[radar_1.8s_ease-out_infinite]"></span>
@@ -938,9 +957,10 @@
 
         <!-- Back To Top With Circular Progress -->
         <button id="backToTop" type="button" aria-label="Kembali ke atas"
-            class="relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600
+            class="group relative flex h-12 w-12 items-center justify-center rounded-full bg-white text-green-600
         shadow-xl shadow-green-900/10 ring-1 ring-green-100 transition-all duration-300
-        hover:-translate-y-1 hover:scale-105 hover:text-green-700 sm:h-14 sm:w-14">
+        hover:-translate-y-1 hover:scale-105 hover:text-green-700 sm:h-14 sm:w-14
+        opacity-0 scale-90 pointer-events-none">
 
             <!-- Circular Progress -->
             <svg class="absolute inset-0 h-full w-full -rotate-90" viewBox="0 0 56 56">
@@ -961,243 +981,310 @@
         </button>
     </div>
 
-    <style>
-        @keyframes radar {
-            0% {
-                transform: scale(1);
-                opacity: .55;
-            }
-
-            70% {
-                transform: scale(1.9);
-                opacity: 0;
-            }
-
-            100% {
-                transform: scale(1.9);
-                opacity: 0;
-            }
-        }
-    </style>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const backToTop = document.getElementById('backToTop');
-            const progressCircle = document.getElementById('scrollProgressCircle');
-            const radius = 25;
-            const circumference = 2 * Math.PI * radius;
-
-            progressCircle.style.strokeDasharray = circumference;
-            progressCircle.style.strokeDashoffset = circumference;
-
-            function updateScrollProgress() {
-                const scrollTop = window.scrollY;
-                const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-                const offset = circumference - progress * circumference;
-
-                progressCircle.style.strokeDashoffset = offset;
-            }
-
-            window.addEventListener('scroll', updateScrollProgress);
-            updateScrollProgress();
-
-            backToTop.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 
     @include('pages.public.partials.footer')
 
     <script>
-        const navbar = document.getElementById("navbar");
+        document.addEventListener('DOMContentLoaded', function() {
+            /*
+            |--------------------------------------------------------------------------
+            | Navbar Scroll
+            |--------------------------------------------------------------------------
+            */
+            const navbar = document.getElementById("navbar");
 
-        if (window.location.pathname === "/") {
+            if (navbar) {
+                if (window.location.pathname === "/") {
+                    window.addEventListener("scroll", () => {
+                        const currentScroll = window.scrollY;
 
-            let lastScroll = 0;
-
-            window.addEventListener("scroll", () => {
-                let currentScroll = window.scrollY;
-
-                if (currentScroll > 50) {
+                        if (currentScroll > 50) {
+                            navbar.classList.remove("-translate-y-full");
+                            navbar.classList.add("translate-y-0");
+                        } else {
+                            navbar.classList.add("-translate-y-full");
+                            navbar.classList.remove("translate-y-0");
+                        }
+                    }, {
+                        passive: true
+                    });
+                } else {
                     navbar.classList.remove("-translate-y-full");
                     navbar.classList.add("translate-y-0");
-                } else {
-                    navbar.classList.add("-translate-y-full");
-                    navbar.classList.remove("translate-y-0");
                 }
-                lastScroll = currentScroll;
-            });
-        } else {
-            // Halaman lain 
-            navbar.classList.remove("-translate-y-full");
-            navbar.classList.add("translate-y-0");
-        }
+            }
 
-        // Toggle Menu Mobile 
-        (() => {
-            const menuBtn = document.getElementById('menu-btn');
-            const menuClose = document.getElementById('menu-close');
-            const overlay = document.getElementById('overlay');
-            const panel = document.getElementById('mobile-menu');
-            const accBtns = document.querySelectorAll('[data-acc-btn]');
-            const accPanels = document.querySelectorAll('[data-acc-panel]');
-            const chevIcons = document.querySelectorAll('[data-chev]');
-            let lastFocused = null;
+            /*
+            |--------------------------------------------------------------------------
+            | Toggle Menu Mobile
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const menuBtn = document.getElementById('menu-btn');
+                const menuClose = document.getElementById('menu-close');
+                const overlay = document.getElementById('overlay');
+                const panel = document.getElementById('mobile-menu');
+                const accBtns = document.querySelectorAll('[data-acc-btn]');
+                const accPanels = document.querySelectorAll('[data-acc-panel]');
+                const chevIcons = document.querySelectorAll('[data-chev]');
 
-            const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-            const openDuration = prefersReduced ? 0 : 200;
+                if (!menuBtn || !overlay || !panel) return;
 
-            const setAria = (expanded) => {
-                menuBtn?.setAttribute('aria-expanded', String(expanded));
-                panel?.setAttribute('aria-hidden', String(!expanded));
-                overlay?.setAttribute('aria-hidden', String(!expanded));
-            };
+                let lastFocused = null;
 
-            const trapFocus = (e) => {
-                if (!panel || panel.classList.contains('pointer-events-none')) return;
-                const focusables = panel.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
-                if (!focusables.length) return;
-                const first = focusables[0];
-                const last = focusables[focusables.length - 1];
-                if (e.key === 'Tab') {
-                    if (e.shiftKey && document.activeElement === first) {
-                        e.preventDefault();
-                        last.focus();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        e.preventDefault();
-                        first.focus();
+                const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                const openDuration = prefersReduced ? 0 : 200;
+
+                const setAria = (expanded) => {
+                    menuBtn?.setAttribute('aria-expanded', String(expanded));
+                    panel?.setAttribute('aria-hidden', String(!expanded));
+                    overlay?.setAttribute('aria-hidden', String(!expanded));
+                };
+
+                const trapFocus = (e) => {
+                    if (!panel || panel.classList.contains('pointer-events-none')) return;
+
+                    const focusables = panel.querySelectorAll('a, button, [tabindex]:not([tabindex="-1"])');
+                    if (!focusables.length) return;
+
+                    const first = focusables[0];
+                    const last = focusables[focusables.length - 1];
+
+                    if (e.key === 'Tab') {
+                        if (e.shiftKey && document.activeElement === first) {
+                            e.preventDefault();
+                            last.focus();
+                        } else if (!e.shiftKey && document.activeElement === last) {
+                            e.preventDefault();
+                            first.focus();
+                        }
                     }
-                }
-            };
+                };
 
-            const openMenu = () => {
-                lastFocused = document.activeElement;
-                document.body.classList.add('overflow-hidden');
-                panel.classList.remove('pointer-events-none', 'opacity-0');
-                overlay.classList.remove('pointer-events-none', 'opacity-0');
-                panel.style.transform = 'translateY(0)';
-                setAria(true);
+                const openMenu = () => {
+                    lastFocused = document.activeElement;
 
-                // fokus ke tombol close atau link pertama
-                const focusTarget = panel.querySelector('#menu-close') || panel.querySelector('a,button');
-                setTimeout(() => focusTarget?.focus(), 10);
-                document.addEventListener('keydown', trapFocus);
-            };
+                    document.body.classList.add('overflow-hidden');
+                    panel.classList.remove('pointer-events-none', 'opacity-0');
+                    overlay.classList.remove('pointer-events-none', 'opacity-0');
+                    panel.style.transform = 'translateY(0)';
 
-            const closeMenu = () => {
-                document.body.classList.remove('overflow-hidden');
-                panel.classList.add('opacity-0');
-                overlay.classList.add('opacity-0');
-                panel.style.transform = 'translateY(-12px)';
-                setTimeout(() => {
-                    panel.classList.add('pointer-events-none');
-                    overlay.classList.add('pointer-events-none');
-                }, openDuration);
-                setAria(false);
+                    setAria(true);
 
-                // tutup semua accordion + reset ikon
-                accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
-                accPanels.forEach((p) => p.style.maxHeight = 0);
-                chevIcons.forEach((c) => c.dataset.open = 'false');
+                    const focusTarget = panel.querySelector('#menu-close') || panel.querySelector(
+                        'a,button');
+                    setTimeout(() => focusTarget?.focus(), 10);
 
-                document.removeEventListener('keydown', trapFocus);
-                // kembalikan fokus ke pemicu
-                lastFocused?.focus();
-            };
+                    document.addEventListener('keydown', trapFocus);
+                };
 
-            // Toggle
-            menuBtn?.addEventListener('click', () => {
-                const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
-                expanded ? closeMenu() : openMenu();
-            });
-            menuClose?.addEventListener('click', closeMenu);
-            overlay?.addEventListener('click', closeMenu);
+                const closeMenu = () => {
+                    document.body.classList.remove('overflow-hidden');
 
-            // ESC
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') closeMenu();
-            });
+                    panel.classList.add('opacity-0');
+                    overlay.classList.add('opacity-0');
+                    panel.style.transform = 'translateY(-12px)';
 
-            // Klik di luar panel (header kosong/area putih atas)
-            document.addEventListener('mousedown', (e) => {
-                if (!panel || panel.classList.contains('pointer-events-none')) return;
-                const within = panel.contains(e.target) || (menuBtn && menuBtn.contains(e.target));
-                if (!within) closeMenu();
-            });
+                    setTimeout(() => {
+                        panel.classList.add('pointer-events-none');
+                        overlay.classList.add('pointer-events-none');
+                    }, openDuration);
 
-            // Accordion (single open)
-            accBtns.forEach((btn) => {
-                const pid = btn.getAttribute('aria-controls');
-                const pnl = document.getElementById(pid);
-                const chev = btn.querySelector('[data-chev]');
-                btn.addEventListener('click', () => {
-                    const isOpen = btn.getAttribute('aria-expanded') === 'true';
-                    // tutup semua
+                    setAria(false);
+
                     accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
                     accPanels.forEach((p) => p.style.maxHeight = 0);
                     chevIcons.forEach((c) => c.dataset.open = 'false');
 
-                    if (!isOpen) {
-                        btn.setAttribute('aria-expanded', 'true');
-                        pnl.style.maxHeight = pnl.scrollHeight + 'px';
-                        if (chev) chev.dataset.open = 'true';
-                    }
+                    document.removeEventListener('keydown', trapFocus);
+                    lastFocused?.focus();
+                };
+
+                menuBtn?.addEventListener('click', () => {
+                    const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
+                    expanded ? closeMenu() : openMenu();
                 });
-            });
 
-        })();
+                menuClose?.addEventListener('click', closeMenu);
+                overlay?.addEventListener('click', closeMenu);
 
-        // Efek Count Up
-        document.addEventListener("DOMContentLoaded", () => {
-            const counters = document.querySelectorAll(".counter");
-            const formatter = new Intl.NumberFormat("id-ID");
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeMenu();
+                });
 
-            counters.forEach(counter => {
-                const target = +counter.getAttribute("data-target");
-                const updateCount = () => {
-                    const current = +counter.innerText.replace(/\D/g, "");
-                    const increment = Math.ceil(target / 150);
-                    if (current < target) {
-                        const nextValue = current + increment > target ? target : current + increment;
-                        counter.innerText = formatter.format(nextValue);
-                        setTimeout(updateCount, 20);
+                document.addEventListener('mousedown', (e) => {
+                    if (!panel || panel.classList.contains('pointer-events-none')) return;
+
+                    const within = panel.contains(e.target) || menuBtn.contains(e.target);
+
+                    if (!within) closeMenu();
+                });
+
+                accBtns.forEach((btn) => {
+                    const pid = btn.getAttribute('aria-controls');
+                    const pnl = document.getElementById(pid);
+                    const chev = btn.querySelector('[data-chev]');
+
+                    if (!pnl) return;
+
+                    btn.addEventListener('click', () => {
+                        const isOpen = btn.getAttribute('aria-expanded') === 'true';
+
+                        accBtns.forEach((b) => b.setAttribute('aria-expanded', 'false'));
+                        accPanels.forEach((p) => p.style.maxHeight = 0);
+                        chevIcons.forEach((c) => c.dataset.open = 'false');
+
+                        if (!isOpen) {
+                            btn.setAttribute('aria-expanded', 'true');
+                            pnl.style.maxHeight = pnl.scrollHeight + 'px';
+
+                            if (chev) chev.dataset.open = 'true';
+                        }
+                    });
+                });
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Count Up
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const counters = document.querySelectorAll(".counter");
+                const formatter = new Intl.NumberFormat("id-ID");
+
+                counters.forEach(counter => {
+                    const target = +counter.getAttribute("data-target");
+
+                    const updateCount = () => {
+                        const current = +counter.innerText.replace(/\D/g, "");
+                        const increment = Math.ceil(target / 150);
+
+                        if (current < target) {
+                            const nextValue = current + increment > target ? target : current +
+                                increment;
+                            counter.innerText = formatter.format(nextValue);
+                            setTimeout(updateCount, 20);
+                        } else {
+                            counter.innerText = formatter.format(target);
+                        }
+                    };
+
+                    updateCount();
+                });
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Swiper
+            |--------------------------------------------------------------------------
+            */
+            if (typeof Swiper !== 'undefined' && document.querySelector(".mySwiper")) {
+                new Swiper(".mySwiper", {
+                    loop: true,
+                    autoHeight: true,
+                    autoplay: {
+                        delay: 2500,
+                        disableOnInteraction: false,
+                    },
+                    grabCursor: true,
+                    slidesPerView: 1,
+                    spaceBetween: 20,
+                    breakpoints: {
+                        600: {
+                            slidesPerView: 3
+                        },
+                        1024: {
+                            slidesPerView: 4
+                        },
+                    },
+                });
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | Floating Action Buttons
+            |--------------------------------------------------------------------------
+            */
+            (() => {
+                const backToTop = document.getElementById('backToTop');
+                const waBtn = document.querySelector('a[aria-label="WhatsApp"]');
+                const progressCircle = document.getElementById('scrollProgressCircle');
+
+                if (!backToTop || !waBtn || !progressCircle) return;
+
+                const radius = 25;
+                const circumference = 2 * Math.PI * radius;
+                const showAfter = 400;
+
+                progressCircle.style.strokeDasharray = circumference;
+                progressCircle.style.strokeDashoffset = circumference;
+
+                const showFab = () => {
+                    backToTop.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                    backToTop.classList.add('opacity-100', 'scale-100');
+
+                    waBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
+                    waBtn.classList.add('opacity-100', 'scale-100');
+                };
+
+                const hideFab = () => {
+                    backToTop.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                    backToTop.classList.remove('opacity-100', 'scale-100');
+
+                    waBtn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
+                    waBtn.classList.remove('opacity-100', 'scale-100');
+                };
+
+                const updateFab = () => {
+                    const scrollTop = window.scrollY;
+                    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+                    const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+                    const offset = circumference - progress * circumference;
+
+                    progressCircle.style.strokeDashoffset = offset;
+
+                    if (scrollTop > showAfter) {
+                        showFab();
                     } else {
-                        counter.innerText = formatter.format(target);
+                        hideFab();
                     }
                 };
-                updateCount();
-            });
+
+                backToTop.addEventListener('click', function(e) {
+                    e.preventDefault();
+
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+
+                window.addEventListener('scroll', updateFab, {
+                    passive: true
+                });
+                updateFab();
+            })();
+
+            /*
+            |--------------------------------------------------------------------------
+            | Current Year
+            |--------------------------------------------------------------------------
+            */
+            const currentYear = document.getElementById('currentYear');
+
+            if (currentYear) {
+                currentYear.textContent = new Date().getFullYear();
+            }
         });
 
-        // Swiper.js Initialization
-        var swiper = new Swiper(".mySwiper", {
-            loop: true,
-            autoHeight: true,
-            autoplay: {
-                delay: 2500,
-                disableOnInteraction: false,
-            },
-            grabCursor: true,
-            slidesPerView: 1,
-            spaceBetween: 20,
-            breakpoints: {
-                600: {
-                    slidesPerView: 3
-                },
-                1024: {
-                    slidesPerView: 4
-                },
-            },
-        });
+        /*
+        |--------------------------------------------------------------------------
+        | AOS
+        |--------------------------------------------------------------------------
+        */
         window.addEventListener('load', () => {
-            if (typeof AOS === 'undefined') {
-                return;
-            }
+            if (typeof AOS === 'undefined') return;
 
             AOS.init({
                 duration: 800,
@@ -1207,79 +1294,6 @@
 
             AOS.refresh();
         });
-        // Back to Top Button
-        (() => {
-            const btn = document.getElementById('backToTop');
-            const waBtn = document.querySelector('a[aria-label="WhatsApp"]');
-            if (!btn) return;
-
-            const showAfter = 400;
-            let visible = false;
-
-            const onScroll = () => {
-                if (window.scrollY > showAfter && !visible) {
-                    visible = true;
-
-                    btn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
-                    btn.classList.add('opacity-100', 'scale-100');
-
-                    waBtn.classList.remove('opacity-0', 'scale-90', 'pointer-events-none');
-                    waBtn.classList.add('opacity-100', 'scale-100');
-
-                } else if (window.scrollY <= showAfter && visible) {
-                    visible = false;
-
-                    btn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
-                    btn.classList.remove('opacity-100', 'scale-100');
-
-                    waBtn.classList.add('opacity-0', 'scale-90', 'pointer-events-none');
-                    waBtn.classList.remove('opacity-100', 'scale-100');
-                }
-            };
-            window.addEventListener('scroll', onScroll, {
-                passive: true
-            });
-            onScroll();
-
-            const easeInOutCubic = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-
-            const scrollToTop = (duration = 600) => {
-
-                const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-                if (reduce) {
-                    window.scrollTo({
-                        top: 0
-                    });
-                    return;
-                }
-
-                const start = performance.now();
-                const from = window.scrollY;
-
-                const step = (now) => {
-                    const elapsed = now - start;
-                    const p = Math.min(1, elapsed / duration);
-                    const eased = easeInOutCubic(p);
-                    window.scrollTo(0, Math.floor(from * (1 - eased)));
-                    if (p < 1) requestAnimationFrame(step);
-                };
-                requestAnimationFrame(step);
-            };
-
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                scrollToTop(700);
-            });
-
-
-            window.addEventListener('keydown', (e) => {
-                if ((e.key === 'Home' || (e.key === 'ArrowUp' && (e.ctrlKey || e.metaKey)))) {
-                    e.preventDefault();
-                    scrollToTop(700);
-                }
-            });
-        })();
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
     </script>
     <!-- Alpine.js (CDN) -->
     <script src="https://unpkg.com/alpinejs" defer></script>
