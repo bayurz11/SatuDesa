@@ -519,7 +519,6 @@
                                 <path stroke-linecap="round" stroke-linejoin="round"
                                     d="M12 7.5h1.5m-1.5 3h1.5m-7.5 3h7.5m-7.5 3h7.5m3-9h3.375c.621 0 1.125.504 1.125 1.125V18a2.25 2.25 0 0 1-2.25 2.25M16.5 7.5V18a2.25 2.25 0 0 0 2.25 2.25M16.5 7.5V4.875c0-.621-.504-1.125-1.125-1.125H4.125C3.504 3.75 3 4.254 3 4.875V18a2.25 2.25 0 0 0 2.25 2.25h13.5M6 7.5h3v3H6v-3Z" />
                             </svg>
-
                             Informasi Terkini
                         </span>
 
@@ -539,14 +538,15 @@
                         <!-- Berita Utama -->
                         @if ($homeFeaturedPost)
                             <article
-                                class="group relative h-[360px] overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 md:h-[520px] lg:col-span-8">
+                                class="group relative min-h-[420px] overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:col-span-8 lg:h-full lg:min-h-0">
 
+                                <!-- Shine Effect -->
                                 <span
                                     class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
                                 </span>
 
                                 <a href="{{ route('public.posts.show', $homeFeaturedPost->slug) }}"
-                                    class="relative block h-full w-full overflow-hidden">
+                                    class="relative block h-full min-h-[420px] w-full overflow-hidden lg:min-h-0">
 
                                     <img src="{{ $homeFeaturedPost->cover_image_url ?: asset('public/img/bg.jpg') }}"
                                         alt="{{ $homeFeaturedPost->cover_image_alt ?: $homeFeaturedPost->title }}"
@@ -560,7 +560,6 @@
                                         class="absolute bottom-6 left-6 right-6 text-white md:bottom-8 md:left-8 md:right-8">
 
                                         <div class="mb-4 flex flex-wrap items-center gap-3">
-
                                             <span
                                                 class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur ring-1 ring-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-green-600 group-hover:shadow-lg">
 
@@ -573,7 +572,6 @@
                                                 </svg>
 
                                                 <span>{{ $homeFeaturedPost->category->name ?? 'Berita Desa' }}</span>
-
                                             </span>
 
                                             <span class="inline-flex items-center gap-1.5 text-sm text-white/90">
@@ -585,27 +583,24 @@
                                                 </svg>
                                                 {{ optional($homeFeaturedPost->published_at)->format('d-m-Y') }}
                                             </span>
-
                                         </div>
 
                                         <h3
-                                            class="max-w-3xl text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
+                                            class="max-w-3xl text-2xl font-bold leading-tight transition-all duration-300 group-hover:translate-x-1 md:text-4xl">
                                             {{ $homeFeaturedPost->title }}
                                         </h3>
 
                                         <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
                                             {{ $homeFeaturedPost->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPost->content), 180) }}
                                         </p>
-
                                     </div>
-
                                 </a>
-
                             </article>
                         @endif
 
                         <!-- Daftar Berita -->
-                        <div class="flex flex-col gap-4 {{ $homeFeaturedPost ? 'lg:col-span-4' : 'lg:col-span-12' }}">
+                        <div
+                            class="flex h-full flex-col gap-4 {{ $homeFeaturedPost ? 'lg:col-span-4' : 'lg:col-span-12' }}">
 
                             @foreach ($homeNewsPosts as $homeNewsPost)
                                 <a href="{{ route('public.posts.show', $homeNewsPost->slug) }}"
@@ -616,18 +611,17 @@
                                         class="pointer-events-none absolute -left-16 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
                                     </span>
 
-                                    <div class="relative shrink-0 overflow-hidden rounded-2xl">
+                                    <div class="relative h-24 w-28 shrink-0 overflow-hidden rounded-2xl">
                                         <img src="{{ $homeNewsPost->cover_image_url ?: asset('public/img/bg.jpg') }}"
                                             alt="{{ $homeNewsPost->cover_image_alt ?: $homeNewsPost->title }}"
-                                            class="h-24 w-28 object-cover transition-all duration-700 group-hover:scale-110">
+                                            class="h-full w-full object-cover transition-all duration-700 group-hover:scale-110">
 
                                         <div
                                             class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-70 transition-all duration-500 group-hover:from-black/50">
                                         </div>
-
                                     </div>
 
-                                    <div class="min-w-0 flex flex-col justify-center">
+                                    <div class="flex min-w-0 flex-col justify-center">
                                         <h3
                                             class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition-all duration-300 group-hover:translate-x-1 group-hover:text-green-700 md:text-base">
                                             {{ $homeNewsPost->title }}
@@ -659,14 +653,13 @@
                                     </div>
                                 </a>
                             @endforeach
-
                         </div>
                     </div>
 
                     <!-- Button Bottom -->
                     <div class="mt-10 text-center">
                         <a href="{{ route('public.posts.index') }}"
-                            class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
+                            class="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
 
                             <span
                                 class="absolute -left-16 top-0 h-full w-12 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
