@@ -49,6 +49,20 @@ class VillageProfile extends Model
         'history_timeline_items',
         'history_sidebar_title',
         'history_sidebar_description',
+        'organization_page_title',
+        'organization_page_description',
+        'organization_section_badge',
+        'organization_section_title',
+        'organization_section_description',
+        'organization_head',
+        'organization_partner',
+        'organization_secretary',
+        'organization_kaur_items',
+        'organization_kasi_items',
+        'organization_dusun_items',
+        'organization_note',
+        'organization_sidebar_title',
+        'organization_sidebar_description',
     ];
 
     protected $casts = [
@@ -59,6 +73,12 @@ class VillageProfile extends Model
         'map_markers' => 'array',
         'history_cards' => 'array',
         'history_timeline_items' => 'array',
+        'organization_head' => 'array',
+        'organization_partner' => 'array',
+        'organization_secretary' => 'array',
+        'organization_kaur_items' => 'array',
+        'organization_kasi_items' => 'array',
+        'organization_dusun_items' => 'array',
     ];
 
     public function village(): BelongsTo
@@ -198,6 +218,98 @@ class VillageProfile extends Model
             ],
             'history_sidebar_title' => 'Catatan Sejarah',
             'history_sidebar_description' => 'Bagian ini dapat digunakan untuk menampilkan narasi sejarah, foto arsip, linimasa desa, atau informasi penting sebelum dihubungkan ke data dinamis.',
+        ];
+    }
+
+    public static function defaultOrganizationAttributesForVillage(Village $village): array
+    {
+        return [
+            'organization_page_title' => 'Struktur Organisasi Desa ' . $village->name,
+            'organization_page_description' => 'Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan, dan tata kelola administrasi ' . $village->name . '.',
+            'organization_section_badge' => 'Bagan Organisasi',
+            'organization_section_title' => 'Struktur Organisasi Desa ' . $village->name,
+            'organization_section_description' => 'Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan, dan tata kelola administrasi ' . $village->name . '.',
+            'organization_head' => [
+                'label' => 'Kepala Desa',
+                'title' => 'Nama Kepala Desa',
+                'name' => 'Pimpinan Pemerintahan Desa',
+                'photo_path' => 'img/avatar-placeholder.png',
+            ],
+            'organization_partner' => [
+                'label' => 'Mitra Desa',
+                'title' => 'BPD',
+                'name' => 'Badan Permusyawaratan Desa',
+                'photo_path' => 'img/avatar-placeholder.png',
+            ],
+            'organization_secretary' => [
+                'label' => 'Sekretariat Desa',
+                'title' => 'Nama Sekretaris Desa',
+                'name' => 'Sekretaris Desa',
+                'photo_path' => 'img/avatar-placeholder.png',
+            ],
+            'organization_kaur_items' => [
+                [
+                    'label' => 'Kaur',
+                    'title' => 'Kaur Tata Usaha & Umum',
+                    'name' => 'Nama Kaur',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kaur',
+                    'title' => 'Kaur Keuangan',
+                    'name' => 'Nama Kaur',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kaur',
+                    'title' => 'Kaur Perencanaan',
+                    'name' => 'Nama Kaur',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+            ],
+            'organization_kasi_items' => [
+                [
+                    'label' => 'Kasi',
+                    'title' => 'Kasi Pemerintahan',
+                    'name' => 'Nama Kasi',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kasi',
+                    'title' => 'Kasi Kesejahteraan',
+                    'name' => 'Nama Kasi',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kasi',
+                    'title' => 'Kasi Pelayanan',
+                    'name' => 'Nama Kasi',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+            ],
+            'organization_dusun_items' => [
+                [
+                    'label' => 'Kadus',
+                    'title' => 'Kepala Dusun I',
+                    'name' => 'Nama Kadus',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kadus',
+                    'title' => 'Kepala Dusun II',
+                    'name' => 'Nama Kadus',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+                [
+                    'label' => 'Kadus',
+                    'title' => 'Kepala Dusun III',
+                    'name' => 'Nama Kadus',
+                    'photo_path' => 'img/avatar-placeholder.png',
+                ],
+            ],
+            'organization_note' => 'Struktur organisasi dapat disesuaikan dengan data perangkat desa dan foto masing-masing pejabat.',
+            'organization_sidebar_title' => 'Tata Kelola Desa',
+            'organization_sidebar_description' => 'Struktur organisasi membantu masyarakat memahami pembagian tugas, alur koordinasi, dan perangkat desa yang menjalankan pelayanan publik.',
         ];
     }
 

@@ -175,45 +175,45 @@
                         </h3>
                     </div>
 
-                    <div class="mt-8 space-y-6">
+                    <div class="mt-8 space-y-5">
                         @foreach ($timelineItems as $index => $item)
                             @php
                                 $timelineIconUrl = $resolveTimelineIconUrl($item);
                             @endphp
-                            <div class="group flex gap-4" data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}">
-                                <div class="flex flex-col items-center">
+                            <div class="group grid grid-cols-[64px_minmax(0,1fr)] gap-4 sm:grid-cols-[76px_minmax(0,1fr)] sm:gap-5" data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}">
+                                <div class="relative flex justify-center">
+                                    @if (!$loop->last)
+                                        <span class="absolute left-1/2 top-16 h-[calc(100%-4rem)] w-px -translate-x-1/2 bg-green-100"></span>
+                                    @endif
+
                                     <span
-                                        class="flex h-12 w-12 items-center justify-center rounded-2xl bg-green-700 text-white shadow-lg shadow-green-700/25 transition duration-300 group-hover:bg-emerald-600">
+                                        class="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-green-700 text-white shadow-lg shadow-green-700/25 transition duration-300 group-hover:bg-emerald-600">
                                         @if ($timelineIconUrl)
-                                            <img src="{{ $timelineIconUrl }}" alt="{{ $item['title'] ?? 'Ikon Linimasa' }}" class="h-12 w-12 rounded-2xl object-cover">
+                                            <img src="{{ $timelineIconUrl }}" alt="{{ $item['title'] ?? 'Ikon Linimasa' }}" class="h-14 w-14 rounded-2xl object-cover">
                                         @elseif (($item['icon'] ?? 'home') === 'building')
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M4 21V5a2 2 0 012-2h8a2 2 0 012 2v16M9 7h2M9 11h2M9 15h2M18 21v-8h2v8" />
                                             </svg>
                                         @elseif (($item['icon'] ?? 'home') === 'spark')
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M12 3l1.8 5.4L19 10l-5.2 1.6L12 17l-1.8-5.4L5 10l5.2-1.6L12 3z" />
                                             </svg>
                                         @else
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 shrink-0" fill="none"
                                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                                 <path stroke-linecap="round" stroke-linejoin="round"
                                                     d="M3 11l9-7 9 7M5 10v10h14V10M9 20v-6h6v6" />
                                             </svg>
                                         @endif
                                     </span>
-
-                                    @if (!$loop->last)
-                                        <span class="mt-3 h-full w-px bg-green-100"></span>
-                                    @endif
                                 </div>
 
                                 <div
-                                    class="flex-1 rounded-[24px] border border-gray-100 bg-gray-50/60 p-5 transition duration-300 group-hover:border-green-200 group-hover:bg-white group-hover:shadow-md group-hover:shadow-green-100/60">
+                                    class="min-h-[136px] rounded-[24px] border border-gray-100 bg-gray-50/60 p-5 transition duration-300 group-hover:border-green-200 group-hover:bg-white group-hover:shadow-md group-hover:shadow-green-100/60 sm:p-6">
                                     <p class="text-sm font-semibold text-green-700">
                                         {{ $item['label'] ?? '-' }}
                                     </p>

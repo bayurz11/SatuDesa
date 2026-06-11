@@ -35,6 +35,8 @@ class PermissionSeeder extends Seeder
             ['name' => 'village_maps.edit', 'display_name' => 'Edit Village Map', 'description' => 'Can edit village map content and settings', 'group' => 'village_maps'],
             ['name' => 'village_histories.view', 'display_name' => 'View Village History', 'description' => 'Can view village history management page', 'group' => 'village_histories'],
             ['name' => 'village_histories.edit', 'display_name' => 'Edit Village History', 'description' => 'Can edit village history content and settings', 'group' => 'village_histories'],
+            ['name' => 'village_organizations.view', 'display_name' => 'View Village Organization', 'description' => 'Can view village organization management page', 'group' => 'village_organizations'],
+            ['name' => 'village_organizations.edit', 'display_name' => 'Edit Village Organization', 'description' => 'Can edit village organization content and personnel photos', 'group' => 'village_organizations'],
 
             // User permissions
             ['name' => 'users.view', 'display_name' => 'View Users', 'description' => 'Can view user list and details', 'group' => 'users'],

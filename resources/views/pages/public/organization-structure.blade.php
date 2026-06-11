@@ -1,6 +1,29 @@
 @php
-    $metaTitle = 'Struktur Organisasi Desa';
-    $metaDescription = 'Halaman struktur organisasi Desa Mentuda versi statis untuk kebutuhan desain.';
+    $metaTitle = $profile->organization_page_title ?: 'Struktur Organisasi Desa';
+    $metaDescription = $profile->organization_page_description ?: 'Susunan pemerintahan desa.';
+    $resolveOrganizationPhotoUrl = function ($item) {
+        $path = $item['photo_path'] ?? null;
+
+        if (! $path) {
+            return asset('img/avatar-placeholder.png');
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return $path;
+        }
+
+        if (str_starts_with($path, 'img/')) {
+            return asset($path);
+        }
+
+        return \App\Support\UploadStorage::url($path);
+    };
+    $organizationHead = $profile->organization_head ?? [];
+    $organizationPartner = $profile->organization_partner ?? [];
+    $organizationSecretary = $profile->organization_secretary ?? [];
+    $kaurItems = collect($profile->organization_kaur_items ?? [])->values();
+    $kasiItems = collect($profile->organization_kasi_items ?? [])->values();
+    $dusunItems = collect($profile->organization_dusun_items ?? [])->values();
 @endphp
 
 @extends('layouts.public')
@@ -25,12 +48,11 @@
 
                 <h1
                     class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
-                    Struktur Organisasi Desa Mentuda
+                    {{ $profile->organization_page_title }}
                 </h1>
 
                 <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
-                    Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan,
-                    dan tata kelola administrasi Desa Mentuda.
+                    {{ $profile->organization_page_description }}
                 </p>
             </div>
 
@@ -46,85 +68,17 @@
                     <div class="text-center">
                         <span
                             class="inline-flex items-center rounded-full bg-green-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-green-700 ring-1 ring-green-100">
-                            Bagan Organisasi
+                            {{ $profile->organization_section_badge }}
                         </span>
 
                         <h2 class="mt-4 text-2xl font-bold text-gray-900 sm:text-3xl">
-                            Struktur Organisasi Desa Mentuda
+                            {{ $profile->organization_section_title }}
                         </h2>
 
                         <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                            Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan,
-                            dan tata kelola administrasi Desa Mentuda.
+                            {{ $profile->organization_section_description }}
                         </p>
                     </div>
-
-                    @php
-                        $photoPlaceholder = asset('img/avatar-placeholder.png');
-
-                        $kaurItems = [
-                            [
-                                'label' => 'Kaur',
-                                'title' => 'Kaur Tata Usaha & Umum',
-                                'name' => 'Nama Kaur',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kaur',
-                                'title' => 'Kaur Keuangan',
-                                'name' => 'Nama Kaur',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kaur',
-                                'title' => 'Kaur Perencanaan',
-                                'name' => 'Nama Kaur',
-                                'photo' => $photoPlaceholder,
-                            ],
-                        ];
-
-                        $kasiItems = [
-                            [
-                                'label' => 'Kasi',
-                                'title' => 'Kasi Pemerintahan',
-                                'name' => 'Nama Kasi',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kasi',
-                                'title' => 'Kasi Kesejahteraan',
-                                'name' => 'Nama Kasi',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kasi',
-                                'title' => 'Kasi Pelayanan',
-                                'name' => 'Nama Kasi',
-                                'photo' => $photoPlaceholder,
-                            ],
-                        ];
-
-                        $dusunItems = [
-                            [
-                                'label' => 'Kadus',
-                                'title' => 'Kepala Dusun I',
-                                'name' => 'Nama Kadus',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kadus',
-                                'title' => 'Kepala Dusun II',
-                                'name' => 'Nama Kadus',
-                                'photo' => $photoPlaceholder,
-                            ],
-                            [
-                                'label' => 'Kadus',
-                                'title' => 'Kepala Dusun III',
-                                'name' => 'Nama Kadus',
-                                'photo' => $photoPlaceholder,
-                            ],
-                        ];
-                    @endphp
 
                     <div class="mt-10">
                         <div class="grid items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
@@ -132,31 +86,31 @@
 
                             <div data-aos="zoom-in" data-aos-delay="200"
                                 class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[24px] border-t-4 border-green-700 bg-white p-4 shadow-lg shadow-gray-200/70 ring-1 ring-gray-100">
-                                <img src="{{ asset('img/avatar-placeholder.png') }}" alt="Kepala Desa"
+                                <img src="{{ $resolveOrganizationPhotoUrl($organizationHead) }}" alt="{{ $organizationHead['label'] ?? 'Kepala Desa' }}"
                                     class="h-14 w-14 rounded-full border-4 border-green-50 object-cover">
 
                                 <div class="min-w-0 text-left">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                        Kepala Desa
+                                        {{ $organizationHead['label'] ?? '-' }}
                                     </p>
                                     <h3 class="mt-1 truncate text-base font-bold text-gray-900">
-                                        Nama Kepala Desa
+                                        {{ $organizationHead['title'] ?? '-' }}
                                     </h3>
-                                    <p class="mt-1 text-xs text-gray-500">Pimpinan Pemerintahan Desa</p>
+                                    <p class="mt-1 text-xs text-gray-500">{{ $organizationHead['name'] ?? '-' }}</p>
                                 </div>
                             </div>
 
                             <div data-aos="fade-left" data-aos-delay="250"
                                 class="mx-auto flex w-full max-w-xs items-center gap-3 rounded-[20px] border border-green-100 bg-green-50 p-4 shadow-sm">
-                                <img src="{{ asset('img/avatar-placeholder.png') }}" alt="BPD"
+                                <img src="{{ $resolveOrganizationPhotoUrl($organizationPartner) }}" alt="{{ $organizationPartner['label'] ?? 'Mitra Desa' }}"
                                     class="h-12 w-12 rounded-full border-4 border-white object-cover">
 
                                 <div class="min-w-0">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                        Mitra Desa
+                                        {{ $organizationPartner['label'] ?? '-' }}
                                     </p>
-                                    <h4 class="mt-1 truncate text-sm font-bold text-gray-900">BPD</h4>
-                                    <p class="mt-1 text-xs text-gray-500">Badan Permusyawaratan Desa</p>
+                                    <h4 class="mt-1 truncate text-sm font-bold text-gray-900">{{ $organizationPartner['title'] ?? '-' }}</h4>
+                                    <p class="mt-1 text-xs text-gray-500">{{ $organizationPartner['name'] ?? '-' }}</p>
                                 </div>
                             </div>
                         </div>
@@ -165,17 +119,17 @@
 
                         <div data-aos="fade-up" data-aos-delay="300"
                             class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-4 shadow-md shadow-gray-200/60">
-                            <img src="{{ asset('img/avatar-placeholder.png') }}" alt="Sekretaris Desa"
+                            <img src="{{ $resolveOrganizationPhotoUrl($organizationSecretary) }}" alt="{{ $organizationSecretary['label'] ?? 'Sekretariat Desa' }}"
                                 class="h-13 w-13 rounded-full border-4 border-green-50 object-cover">
 
                             <div class="min-w-0">
                                 <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                    Sekretariat Desa
+                                    {{ $organizationSecretary['label'] ?? '-' }}
                                 </p>
                                 <h4 class="mt-1 truncate text-base font-bold text-gray-900">
-                                    Nama Sekretaris Desa
+                                    {{ $organizationSecretary['title'] ?? '-' }}
                                 </h4>
-                                <p class="mt-1 text-xs text-gray-500">Sekretaris Desa</p>
+                                <p class="mt-1 text-xs text-gray-500">{{ $organizationSecretary['name'] ?? '-' }}</p>
                             </div>
                         </div>
 
@@ -185,7 +139,7 @@
                             @foreach ($kaurItems as $index => $item)
                                 <div data-aos="fade-up" data-aos-delay="{{ 350 + $index * 80 }}"
                                     class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
-                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
                                         class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
 
                                     <div class="min-w-0">
@@ -207,7 +161,7 @@
                             @foreach ($kasiItems as $index => $item)
                                 <div data-aos="fade-up" data-aos-delay="{{ 450 + $index * 80 }}"
                                     class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
-                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
                                         class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
 
                                     <div class="min-w-0">
@@ -229,7 +183,7 @@
                             @foreach ($dusunItems as $index => $item)
                                 <div data-aos="fade-up" data-aos-delay="{{ 550 + $index * 80 }}"
                                     class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-gray-50/70 p-4 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/60">
-                                    <img src="{{ $item['photo'] }}" alt="{{ $item['title'] }}"
+                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
                                         class="h-12 w-12 shrink-0 rounded-full border-4 border-white object-cover">
 
                                     <div class="min-w-0">
@@ -247,7 +201,7 @@
 
                         <div
                             class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                            Struktur organisasi dapat disesuaikan dengan data perangkat desa dan foto masing-masing pejabat.
+                            {{ $profile->organization_note }}
                         </div>
                     </div>
                 </section>
@@ -319,11 +273,10 @@
                             </svg>
                         </div>
 
-                        <h2 class="text-lg font-bold">Tata Kelola Desa</h2>
+                        <h2 class="text-lg font-bold">{{ $profile->organization_sidebar_title }}</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            Struktur organisasi membantu masyarakat memahami pembagian tugas,
-                            alur koordinasi, dan perangkat desa yang menjalankan pelayanan publik.
+                            {{ $profile->organization_sidebar_description }}
                         </p>
                     </div>
                 </div>

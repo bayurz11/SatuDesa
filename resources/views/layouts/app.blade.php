@@ -355,9 +355,10 @@
             $canViewAuditLogs = $currentUser->hasPermission('system.logs');
             $canViewVillageMap = $currentUser->hasPermission('village_maps.view');
             $canViewVillageHistory = $currentUser->hasPermission('village_histories.view');
-            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory;
+            $canViewVillageOrganization = $currentUser->hasPermission('village_organizations.view');
+            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory || $canViewVillageOrganization;
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs;
-            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*');
+            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-organizations.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
@@ -446,6 +447,14 @@
                                                 <span
                                                     class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
                                                 Peta Desa
+                                            </a>
+                                        @endif
+                                        @if ($canViewVillageOrganization)
+                                            <a href="{{ route('village-organizations.index') }}"
+                                                class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-organizations.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                                <span
+                                                    class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-organizations.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                                Struktur Organisasi
                                             </a>
                                         @endif
                                     </div>
