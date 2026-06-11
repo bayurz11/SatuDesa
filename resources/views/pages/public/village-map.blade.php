@@ -9,7 +9,7 @@
 @section('content')
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 
-    <section class="relative mt-16 overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 text-white">
+    <section class="relative overflow-hidden bg-gradient-to-br from-green-950 via-green-900 to-emerald-800 text-white mt-16">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.16),_transparent_32%)]">
         </div>
 
@@ -25,6 +25,11 @@
             </nav>
 
             <div class="max-w-4xl" data-aos="fade-up">
+                <span
+                    class="mt-5 inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-50 ring-1 ring-white/15">
+                    Profil Desa
+                </span>
+
                 <h1
                     class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
                     Peta Desa Mentuda
@@ -39,6 +44,34 @@
     </section>
 
     <section class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div class="mb-8 rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
+            data-aos="fade-up" data-aos-delay="120">
+            <div class="grid gap-4 lg:grid-cols-[1.5fr_1fr] lg:items-center">
+                <div>
+                    <h2 class="text-lg font-bold text-gray-900">Peta Interaktif Wilayah Desa</h2>
+                    <p class="mt-2 text-sm leading-6 text-gray-600">
+                        Halaman ini menampilkan lokasi desa, titik fasilitas umum, serta ringkasan informasi wilayah
+                        dengan pola visual yang konsisten dengan halaman berita publik.
+                    </p>
+                </div>
+
+                <div class="grid gap-3 sm:grid-cols-3">
+                    <div class="rounded-2xl bg-green-50 px-4 py-4">
+                        <p class="text-xl font-bold text-green-800">{{ count($mapMarkers) }}</p>
+                        <p class="mt-1 text-xs uppercase tracking-[0.2em] text-green-700">Marker Aktif</p>
+                    </div>
+                    <div class="rounded-2xl bg-emerald-50 px-4 py-4">
+                        <p class="text-xl font-bold text-emerald-800">{{ (int) $profile->map_zoom }}</p>
+                        <p class="mt-1 text-xs uppercase tracking-[0.2em] text-emerald-700">Zoom Default</p>
+                    </div>
+                    <div class="rounded-2xl bg-lime-50 px-4 py-4">
+                        <p class="text-xl font-bold text-lime-800">Publik</p>
+                        <p class="mt-1 text-xs uppercase tracking-[0.2em] text-lime-700">Mode Tampil</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
             <main class="space-y-8">
                 <section data-aos="fade-up" data-aos-delay="100"
@@ -60,67 +93,65 @@
                     </div>
 
                     <div class="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-gray-50 shadow-sm sm:mt-10 sm:rounded-[28px]">
-                        <div class="grid lg:grid-cols-[minmax(0,1fr)_320px]">
-                            <div class="relative min-h-[320px] overflow-hidden bg-green-50 sm:min-h-[380px] lg:min-h-[520px]">
-                                <div id="villageMap" class="h-[320px] w-full sm:h-[380px] lg:h-[520px]"></div>
+                        <div class="relative min-h-[360px] overflow-hidden bg-green-50 sm:min-h-[460px] lg:min-h-[640px]">
+                            <div id="villageMap" class="h-[360px] w-full sm:h-[460px] lg:h-[640px]"></div>
 
+                            <div
+                                class="pointer-events-none absolute left-3 top-3 z-[400] max-w-[calc(100%-1.5rem)] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur sm:left-4 sm:top-4">
+                                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
+                                    {{ $village->name }}
+                                </p>
+                                <p class="mt-1 text-sm font-semibold text-gray-900 sm:text-base">
+                                    Kec. {{ $village->district }}, Kab. {{ $village->regency }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:p-6">
+                            <div class="mb-5 flex items-center gap-3">
                                 <div
-                                    class="pointer-events-none absolute left-3 top-3 z-[400] max-w-[calc(100%-1.5rem)] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur sm:left-4 sm:top-4">
-                                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
-                                        {{ $village->name }}
+                                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                                    </svg>
+                                </div>
+
+                                <div>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
+                                        Informasi
                                     </p>
-                                    <p class="mt-1 text-sm font-semibold text-gray-900 sm:text-base">
-                                        Kec. {{ $village->district }}, Kab. {{ $village->regency }}
+                                    <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ $profile->map_info_title }}</h3>
+                                </div>
+                            </div>
+
+                            <div class="grid gap-4 lg:grid-cols-3">
+                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
+                                    <p class="font-semibold text-gray-900">{{ $profile->map_boundary_title }}</p>
+                                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                                        {{ $profile->map_boundary_description }}
+                                    </p>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
+                                    <p class="font-semibold text-gray-900">{{ $profile->map_facility_title }}</p>
+                                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                                        {{ $profile->map_facility_description }}
+                                    </p>
+                                </div>
+
+                                <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100 transition hover:ring-green-200">
+                                    <p class="font-semibold text-gray-900">{{ $profile->map_potential_title }}</p>
+                                    <p class="mt-1 text-sm leading-6 text-gray-600">
+                                        {{ $profile->map_potential_description }}
                                     </p>
                                 </div>
                             </div>
 
-                            <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:border-l lg:border-t-0">
-                                <div class="mb-5 flex items-center gap-3">
-                                    <div
-                                        class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                                        </svg>
-                                    </div>
-
-                                    <div>
-                                        <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">
-                                            Informasi
-                                        </p>
-                                        <h3 class="text-lg font-bold text-gray-900 sm:text-xl">{{ $profile->map_info_title }}</h3>
-                                    </div>
-                                </div>
-
-                                <div class="space-y-4">
-                                    <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">{{ $profile->map_boundary_title }}</p>
-                                        <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            {{ $profile->map_boundary_description }}
-                                        </p>
-                                    </div>
-
-                                    <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">{{ $profile->map_facility_title }}</p>
-                                        <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            {{ $profile->map_facility_description }}
-                                        </p>
-                                    </div>
-
-                                    <div class="rounded-2xl bg-gray-50 p-4 ring-1 ring-gray-100">
-                                        <p class="font-semibold text-gray-900">{{ $profile->map_potential_title }}</p>
-                                        <p class="mt-1 text-sm leading-6 text-gray-600">
-                                            {{ $profile->map_potential_description }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="mt-6 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                                    {{ $profile->map_note }}
-                                </div>
+                            <div
+                                class="mt-6 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
+                                {{ $profile->map_note }}
                             </div>
                         </div>
                     </div>
@@ -178,6 +209,49 @@
                     </div>
                 </div>
 
+                @if (!empty($mapMarkers))
+                    <div class="rounded-[28px] border border-gray-200 bg-white p-6 shadow-md shadow-gray-200/60"
+                        data-aos="fade-left" data-aos-delay="250">
+                        <h2 class="text-lg font-bold text-gray-900">Titik Penting</h2>
+
+                        <div class="mt-5 space-y-4">
+                            @foreach (collect($mapMarkers)->take(3) as $marker)
+                                <div
+                                    class="group flex gap-4 rounded-2xl bg-white p-3 shadow-sm ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:ring-green-200">
+                                    <div
+                                        class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 21s7-4.438 7-11a7 7 0 10-14 0c0 6.562 7 11 7 11z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                                        </svg>
+                                    </div>
+
+                                    <div class="min-w-0">
+                                        <h3
+                                            class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition-colors duration-300 group-hover:text-green-700 md:text-base">
+                                            {{ $marker['name'] ?? 'Titik Lokasi' }}
+                                        </h3>
+
+                                        <div class="mt-2 flex flex-wrap items-center gap-3 text-xs text-gray-500">
+                                            <span>{{ $marker['category'] ?? 'Lokasi' }}</span>
+                                            <span>{{ $marker['latitude'] ?? '-' }}, {{ $marker['longitude'] ?? '-' }}</span>
+                                        </div>
+
+                                        @if (!empty($marker['description']))
+                                            <p class="mt-2 text-sm leading-6 text-gray-600">
+                                                {{ $marker['description'] }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                @endif
+
                 <div data-aos="fade-left" data-aos-delay="300"
                     class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-5 text-white shadow-lg shadow-green-900/20 sm:p-6">
                     <div class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/10"></div>
@@ -221,13 +295,26 @@
                 return;
             }
 
-            const map = L.map(mapNode, {
-                scrollWheelZoom: false,
-            }).setView([villageLat, villageLng], villageZoom);
-
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 attribution: '&copy; OpenStreetMap'
+            });
+
+            const satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                maxZoom: 19,
+                attribution: 'Tiles &copy; Esri'
+            });
+
+            const map = L.map(mapNode, {
+                scrollWheelZoom: false,
+                layers: [streetLayer],
+            }).setView([villageLat, villageLng], villageZoom);
+
+            L.control.layers({
+                'Peta Biasa': streetLayer,
+                'Satelit': satelliteLayer,
+            }, {}, {
+                collapsed: false,
             }).addTo(map);
 
             const mainMarker = L.marker([villageLat, villageLng])
