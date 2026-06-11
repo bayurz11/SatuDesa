@@ -81,47 +81,62 @@
                     </div>
 
                     <div class="mt-10">
-                        <div class="grid items-center gap-4 lg:grid-cols-[1fr_auto_1fr]">
+
+                        {{-- Kepala Desa & BPD --}}
+                        <div class="grid items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
                             <div></div>
 
                             <div data-aos="zoom-in" data-aos-delay="200"
-                                class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[24px] border-t-4 border-green-700 bg-white p-4 shadow-lg shadow-gray-200/70 ring-1 ring-gray-100">
+                                class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[24px] border-t-4 border-green-700 bg-white p-5 shadow-lg shadow-gray-200/70 ring-1 ring-gray-100">
+
                                 <img src="{{ $resolveOrganizationPhotoUrl($organizationHead) }}"
                                     alt="{{ $organizationHead['label'] ?? 'Kepala Desa' }}"
-                                    class="h-14 w-14 rounded-full border-4 border-green-50 object-cover">
+                                    class="h-14 w-14 shrink-0 rounded-full border-4 border-green-50 object-cover">
 
                                 <div class="min-w-0 text-left">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
                                         {{ $organizationHead['label'] ?? '-' }}
                                     </p>
+
                                     <h3 class="mt-1 truncate text-base font-bold text-gray-900">
                                         {{ $organizationHead['title'] ?? '-' }}
                                     </h3>
-                                    <p class="mt-1 text-xs text-gray-500">{{ $organizationHead['name'] ?? '-' }}</p>
+
+                                    <p class="mt-1 truncate text-xs text-gray-500">
+                                        {{ $organizationHead['name'] ?? '-' }}
+                                    </p>
                                 </div>
                             </div>
 
                             <div data-aos="fade-left" data-aos-delay="250"
                                 class="mx-auto flex w-full max-w-xs items-center gap-3 rounded-[20px] border border-green-100 bg-green-50 p-4 shadow-sm">
+
                                 <img src="{{ $resolveOrganizationPhotoUrl($organizationPartner) }}"
                                     alt="{{ $organizationPartner['label'] ?? 'Mitra Desa' }}"
-                                    class="h-12 w-12 rounded-full border-4 border-white object-cover">
+                                    class="h-12 w-12 shrink-0 rounded-full border-4 border-white object-cover">
 
                                 <div class="min-w-0">
                                     <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
                                         {{ $organizationPartner['label'] ?? '-' }}
                                     </p>
+
                                     <h4 class="mt-1 truncate text-sm font-bold text-gray-900">
-                                        {{ $organizationPartner['title'] ?? '-' }}</h4>
-                                    <p class="mt-1 text-xs text-gray-500">{{ $organizationPartner['name'] ?? '-' }}</p>
+                                        {{ $organizationPartner['title'] ?? '-' }}
+                                    </h4>
+
+                                    <p class="mt-1 truncate text-xs text-gray-500">
+                                        {{ $organizationPartner['name'] ?? '-' }}
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="mx-auto my-5 h-8 w-px bg-green-200"></div>
+                        {{-- Connector --}}
+                        <div class="mx-auto my-6 h-10 w-px bg-green-200"></div>
 
+                        {{-- Sekretaris Desa --}}
                         <div data-aos="fade-up" data-aos-delay="300"
-                            class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-4 shadow-md shadow-gray-200/60">
+                            class="mx-auto flex w-full max-w-sm items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
 
                             <img src="{{ $resolveOrganizationPhotoUrl($organizationSecretary) }}"
                                 alt="{{ $organizationSecretary['label'] ?? 'Sekretariat Desa' }}"
@@ -142,76 +157,106 @@
                             </div>
                         </div>
 
-                        <div class="mx-auto my-5 h-8 w-px bg-green-200"></div>
+                        {{-- Connector --}}
+                        <div class="mx-auto my-6 h-10 w-px bg-green-200"></div>
 
-                        <div class="grid gap-4 md:grid-cols-3">
-                            @foreach ($kaurItems as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 350 + $index * 80 }}"
-                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
-                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
-                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+                        {{-- KAUR / KASI / KADUS --}}
+                        <div class="space-y-10">
 
-                                    <div class="min-w-0">
-                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                            {{ $item['label'] }}
-                                        </p>
-                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
-                                            {{ $item['title'] }}
-                                        </h4>
-                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
+                            {{-- KAUR --}}
+                            <div class="grid gap-5 md:grid-cols-3">
+                                @foreach ($kaurItems as $index => $item)
+                                    <div data-aos="fade-up" data-aos-delay="{{ 350 + $index * 80 }}"
+                                        class="group flex min-h-[112px] items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
+
+                                        <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
+                                            class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+
+                                        <div class="min-w-0 text-left">
+                                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                                {{ $item['label'] }}
+                                            </p>
+
+                                            <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                                {{ $item['title'] }}
+                                            </h4>
+
+                                            <p class="mt-1 truncate text-xs text-gray-500">
+                                                {{ $item['name'] }}
+                                            </p>
+                                        </div>
                                     </div>
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
+
+                            <div
+                                class="mx-auto h-px max-w-3xl bg-gradient-to-r from-transparent via-green-200 to-transparent">
+                            </div>
+
+                            {{-- KASI --}}
+                            <div class="grid gap-5 md:grid-cols-3">
+                                @foreach ($kasiItems as $index => $item)
+                                    <div data-aos="fade-up" data-aos-delay="{{ 450 + $index * 80 }}"
+                                        class="group flex min-h-[112px] items-center gap-4 rounded-[22px] border border-gray-200 bg-white p-5 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
+
+                                        <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
+                                            class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
+
+                                        <div class="min-w-0 text-left">
+                                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                                {{ $item['label'] }}
+                                            </p>
+
+                                            <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                                {{ $item['title'] }}
+                                            </h4>
+
+                                            <p class="mt-1 truncate text-xs text-gray-500">
+                                                {{ $item['name'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div
+                                class="mx-auto h-px max-w-3xl bg-gradient-to-r from-transparent via-green-200 to-transparent">
+                            </div>
+
+                            {{-- KADUS --}}
+                            <div class="grid gap-5 md:grid-cols-3">
+                                @foreach ($dusunItems as $index => $item)
+                                    <div data-aos="fade-up" data-aos-delay="{{ 550 + $index * 80 }}"
+                                        class="group flex min-h-[112px] items-center gap-4 rounded-[22px] border border-gray-200 bg-gray-50/70 p-5 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/60">
+
+                                        <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
+                                            class="h-12 w-12 shrink-0 rounded-full border-4 border-white object-cover">
+
+                                        <div class="min-w-0 text-left">
+                                            <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
+                                                {{ $item['label'] }}
+                                            </p>
+
+                                            <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
+                                                {{ $item['title'] }}
+                                            </h4>
+
+                                            <p class="mt-1 truncate text-xs text-gray-500">
+                                                {{ $item['name'] }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
                         </div>
 
-                        <div class="mx-auto my-6 h-px max-w-3xl bg-green-100"></div>
-
-                        <div class="grid gap-4 md:grid-cols-3">
-                            @foreach ($kasiItems as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 450 + $index * 80 }}"
-                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-white p-4 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-lg hover:shadow-green-100/60">
-                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
-                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-green-50 object-cover">
-
-                                    <div class="min-w-0">
-                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                            {{ $item['label'] }}
-                                        </p>
-                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
-                                            {{ $item['title'] }}
-                                        </h4>
-                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
-                        <div class="mx-auto my-6 h-px max-w-3xl bg-green-100"></div>
-
-                        <div class="grid gap-4 md:grid-cols-3">
-                            @foreach ($dusunItems as $index => $item)
-                                <div data-aos="fade-up" data-aos-delay="{{ 550 + $index * 80 }}"
-                                    class="group flex items-center gap-3 rounded-[22px] border border-gray-200 bg-gray-50/70 p-4 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-white hover:shadow-md hover:shadow-green-100/60">
-                                    <img src="{{ $resolveOrganizationPhotoUrl($item) }}" alt="{{ $item['title'] }}"
-                                        class="h-12 w-12 shrink-0 rounded-full border-4 border-white object-cover">
-
-                                    <div class="min-w-0">
-                                        <p class="text-[11px] font-bold uppercase tracking-[0.18em] text-green-700">
-                                            {{ $item['label'] }}
-                                        </p>
-                                        <h4 class="mt-1 text-sm font-bold leading-snug text-gray-900">
-                                            {{ $item['title'] }}
-                                        </h4>
-                                        <p class="mt-1 text-xs text-gray-500">{{ $item['name'] }}</p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-
+                        {{-- Catatan --}}
                         <div
-                            class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
+                            class="mt-10 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
                             {{ $profile->organization_note }}
                         </div>
+
                     </div>
                 </section>
             </main>
