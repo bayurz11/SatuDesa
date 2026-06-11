@@ -111,7 +111,7 @@
                         $selectedCategory = $categories->firstWhere('slug', $category);
                     @endphp
 
-                    <details class="group relative z-50">
+                    <details class="relative z-50 overflow-visible">
                         <summary
                             class="flex w-full cursor-pointer list-none items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition duration-200 hover:border-green-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-100">
 
