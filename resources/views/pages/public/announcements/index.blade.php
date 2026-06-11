@@ -321,7 +321,7 @@
                 <section class="grid gap-5 md:grid-cols-2">
                     @forelse ($announcements as $announcement)
                         <article
-                            class="group relative flex h-full flex-col overflow-hidden rounded-[30px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
+                            class="group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
                             data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
 
                             <div
@@ -356,7 +356,7 @@
 
                             <div class="relative mt-5 flex-1">
                                 <div
-                                    class="flex h-[150px] w-full flex-col items-center justify-center rounded-[19px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02] sm:h-[180px]">
+                                    class="flex h-[150px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02] sm:h-[180px]">
 
                                     <span
                                         class="text-lg font-black uppercase tracking-[0.2em] text-emerald-700 sm:text-xl">
