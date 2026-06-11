@@ -299,9 +299,9 @@
                                     </div>
                                 @endif
 
-                                <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+                                <div class="mt-8">
                                     <a href="{{ route('public.announcements.show', $featuredAnnouncement->slug) }}"
-                                        class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-700 px-6 py-3.5 text-sm font-bold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl sm:w-auto">
+                                        class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/40 sm:w-auto sm:rounded-full sm:px-6 sm:py-3.5">
 
                                         <span>Baca Detail</span>
 
@@ -381,8 +381,7 @@
                                 </div>
                             </div>
 
-                            <div
-                                class="mt-6 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                            <div class="mt-6 flex items-center justify-between gap-3 border-t border-gray-100 pt-4">
                                 <span
                                     class="inline-flex min-w-0 items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none"
@@ -400,6 +399,7 @@
 
                                 <a href="{{ route('public.announcements.show', $announcement->slug) }}"
                                     class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl sm:w-auto">
+
                                     Lihat Detail
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
