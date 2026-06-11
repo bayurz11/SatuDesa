@@ -174,7 +174,7 @@
                 <span class="hidden md:inline-block">&bull;</span>
                 <span>
                     Developed by
-                    <a href="#"
+                    <a href="https://bayurez.com/" target="_blank"
                         class="text-yellow-300 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-300 rounded">
                         Bayu Rez
                     </a>
