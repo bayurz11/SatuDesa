@@ -102,7 +102,7 @@
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
                 </label>
 
-                <label class="relative z-[1000] block min-w-0 overflow-visible">
+                <label class="block">
                     <span class="mb-2 block text-sm font-medium text-gray-700">
                         Kategori
                     </span>
@@ -111,11 +111,11 @@
                         $selectedCategory = $categories->firstWhere('slug', $category);
                     @endphp
 
-                    <details class="group relative z-[1000] overflow-visible">
+                    <details class="group relative">
                         <summary
                             class="flex w-full cursor-pointer list-none items-center justify-between rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 transition duration-200 hover:border-green-300 hover:bg-white focus:outline-none focus:ring-2 focus:ring-green-100">
 
-                            <span class="truncate">
+                            <span class="truncate font-medium">
                                 {{ $selectedCategory?->name ?? 'Semua kategori' }}
                             </span>
 
@@ -127,68 +127,35 @@
                         </summary>
 
                         <div
-                            class="absolute left-0 top-full z-[99999] mt-2 max-h-72 w-full min-w-full overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-2xl shadow-gray-300/70">
+                            class="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-gray-200/60">
 
-                            <input type="hidden" name="category" id="selectedCategory" value="{{ $category }}">
+                            {{-- Semua kategori --}}
+                            <button type="submit" name="category" value=""
+                                class="flex w-full items-center justify-between px-4 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ empty($category) ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
 
-                            <button type="submit" onclick="document.getElementById('selectedCategory').value=''"
-                                class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-                                {{ empty($category)
-                                    ? 'bg-green-50 font-semibold text-green-700'
-                                    : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
-
-                                <span
-                                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
-                                    {{ empty($category) ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M3 7h18M3 12h18M3 17h18" />
-                                    </svg>
-                                </span>
-
-                                <span class="flex-1 truncate">Semua kategori</span>
+                                <span>Semua kategori</span>
 
                                 @if (empty($category))
-                                    <span
-                                        class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                        </svg>
-                                    </span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                    </svg>
                                 @endif
                             </button>
 
                             @foreach ($categories as $postCategory)
-                                <button type="submit"
-                                    onclick="document.getElementById('selectedCategory').value='{{ $postCategory->slug }}'"
-                                    class="flex w-full items-center gap-3 rounded-xl px-3 py-3 text-left text-sm transition duration-200
-                                    {{ $category === $postCategory->slug
-                                        ? 'bg-green-50 font-semibold text-green-700'
-                                        : 'text-gray-700 hover:bg-green-50 hover:text-green-700' }}">
+                                <button type="submit" name="category" value="{{ $postCategory->slug }}"
+                                    class="flex w-full items-center justify-between border-t border-gray-100 px-4 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ $category === $postCategory->slug ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
 
-                                    <span
-                                        class="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl
-                                        {{ $category === $postCategory->slug ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500' }}">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
-                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M4 6h16M7 12h10M10 18h4" />
-                                        </svg>
-                                    </span>
-
-                                    <span class="flex-1 truncate">
+                                    <span class="truncate">
                                         {{ $postCategory->name }}
                                     </span>
 
                                     @if ($category === $postCategory->slug)
-                                        <span
-                                            class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                                            </svg>
-                                        </span>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                                        </svg>
                                     @endif
                                 </button>
                             @endforeach
