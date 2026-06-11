@@ -20,13 +20,16 @@
             'tone' => 'from-amber-500/20 to-orange-600/10',
         ],
     ];
+
+    $selectedCategory = $categories->firstWhere('slug', $category);
 @endphp
 
 @extends('layouts.public')
 
 @section('content')
+    {{-- HERO --}}
     <section
-        class="relative mt-16 overflow-x-hidden bg-[linear-gradient(135deg,_#052e16_0%,_#14532d_45%,_#166534_100%)] text-white">
+        class="relative mt-16 overflow-hidden bg-[linear-gradient(135deg,_#052e16_0%,_#14532d_45%,_#166534_100%)] text-white">
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(255,255,255,0.18),_transparent_30%)]">
         </div>
         <div class="absolute -left-20 top-20 h-72 w-72 rounded-full bg-emerald-300/10 blur-3xl"></div>
@@ -41,12 +44,14 @@
                         </a>
                     </li>
                     <li>/</li>
-                    <li class="font-semibold text-white">Pengumuman</li>
+                    <li class="font-semibold text-white">
+                        Pengumuman
+                    </li>
                 </ol>
             </nav>
 
-            <div class="mt-6 grid min-w-0 gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
-                <div class="min-w-0" data-aos="fade-up">
+            <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+                <div data-aos="fade-up">
                     <div class="flex flex-wrap items-center gap-3">
                         <span
                             class="inline-flex rounded-full bg-white/10 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.2em] text-emerald-50 ring-1 ring-white/15">
@@ -65,11 +70,11 @@
                     </h1>
 
                     <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
-                        Warga dapat memantau pemberitahuan terbaru, perubahan jadwal layanan, agenda penting, dan
-                        informasi operasional desa dari satu halaman yang mudah dipindai.
+                        Warga dapat memantau pemberitahuan terbaru, perubahan jadwal layanan, agenda penting,
+                        dan informasi operasional desa dari satu halaman yang mudah dipindai.
                     </p>
 
-                    <div class="mt-7 grid min-w-0 gap-4 sm:grid-cols-3">
+                    <div class="mt-7 grid gap-4 sm:grid-cols-3">
                         @foreach ($summaryCards as $card)
                             <div class="rounded-[22px] border border-white/10 bg-gradient-to-br {{ $card['tone'] }} p-5 shadow-lg shadow-black/5 backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-white/15 hover:shadow-xl"
                                 data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
@@ -84,19 +89,23 @@
                         @endforeach
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section class="relative z-[999] mx-auto -mt-10 max-w-7xl overflow-visible px-4 pb-14 sm:px-6 lg:px-8">
-        <div class="relative z-[999] overflow-visible rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
+    {{-- FILTER --}}
+    <section class="mx-auto -mt-10 max-w-7xl px-4 pb-14 sm:px-6 lg:px-8 z-10 relative">
+        <div class="rounded-[28px] border border-gray-200 bg-white p-5 shadow-xl shadow-gray-200/60 sm:p-6"
             data-aos="fade-up" data-aos-delay="150">
-            <form method="GET" action="{{ route('public.announcements.index') }}"
-                class="relative z-[999] grid min-w-0 overflow-visible gap-4 lg:grid-cols-[1.6fr_0.8fr_auto]">
 
-                <label class="block min-w-0">
-                    <span class="mb-2 block text-sm font-medium text-gray-700">Cari pengumuman</span>
+            <form method="GET" action="{{ route('public.announcements.index') }}"
+                class="grid gap-4 lg:grid-cols-[1.6fr_0.8fr_auto]">
+
+                <label class="block">
+                    <span class="mb-2 block text-sm font-medium text-gray-700">
+                        Cari pengumuman
+                    </span>
+
                     <input type="text" name="q" value="{{ $search }}"
                         placeholder="Cari judul, ringkasan, atau isi pengumuman..."
                         class="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-3 text-sm text-gray-700 outline-none transition focus:border-green-500 focus:bg-white focus:ring-2 focus:ring-green-100">
@@ -106,10 +115,6 @@
                     <span class="mb-2 block text-sm font-medium text-gray-700">
                         Kategori
                     </span>
-
-                    @php
-                        $selectedCategory = $categories->firstWhere('slug', $category);
-                    @endphp
 
                     <details class="group relative">
                         <summary
@@ -127,13 +132,13 @@
                         </summary>
 
                         <div
-                            class="absolute left-0 right-0 z-50 mt-2 overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-xl shadow-gray-200/60">
+                            class="absolute left-0 right-0 z-50 mt-2 max-h-72 overflow-y-auto rounded-2xl border border-gray-200 bg-white p-2 shadow-xl shadow-gray-200/60">
 
-                            {{-- Semua kategori --}}
                             <button type="submit" name="category" value=""
-                                class="flex w-full items-center justify-between px-4 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ empty($category) ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
-
-                                <span>Semua kategori</span>
+                                class="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ empty($category) ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
+                                <span>
+                                    Semua kategori
+                                </span>
 
                                 @if (empty($category))
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
@@ -145,8 +150,7 @@
 
                             @foreach ($categories as $postCategory)
                                 <button type="submit" name="category" value="{{ $postCategory->slug }}"
-                                    class="flex w-full items-center justify-between border-t border-gray-100 px-4 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ $category === $postCategory->slug ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
-
+                                    class="flex w-full items-center justify-between rounded-xl px-3 py-3 text-left text-sm transition hover:bg-green-50 hover:text-green-700 {{ $category === $postCategory->slug ? 'bg-green-50 font-semibold text-green-700' : 'text-gray-700' }}">
                                     <span class="truncate">
                                         {{ $postCategory->name }}
                                     </span>
@@ -163,7 +167,7 @@
                     </details>
                 </label>
 
-                <div class="flex min-w-0 items-end gap-3">
+                <div class="flex items-end gap-3">
                     <button type="submit"
                         class="inline-flex w-full items-center justify-center rounded-2xl bg-green-700 px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-green-800 hover:shadow-lg lg:w-auto">
                         Tampilkan
@@ -178,14 +182,20 @@
                 </div>
             </form>
         </div>
+    </section>
 
-        <div class="relative z-0 mt-8 grid min-w-0 gap-8 overflow-visible lg:grid-cols-[minmax(0,1fr)_320px]">
-            <main class="min-w-0 space-y-6">
+    {{-- CONTENT --}}
+    <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
+        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+
+            {{-- MAIN --}}
+            <main class="space-y-6">
                 @if ($featuredAnnouncement)
                     <article
                         class="overflow-hidden rounded-[28px] border border-emerald-100 bg-white shadow-xl shadow-emerald-100/60"
                         data-aos="fade-up">
-                        <div class="grid min-w-0 gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+
+                        <div class="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
                             <div
                                 class="relative min-h-[280px] overflow-hidden bg-gradient-to-br from-emerald-100 via-white to-sky-100">
                                 @if ($featuredAnnouncement->cover_image_url)
@@ -202,8 +212,8 @@
                                     </div>
                                 @endif
 
-                                <div class="absolute left-6 top-6 right-6">
-                                    @if ($featuredAnnouncement->event_location)
+                                @if ($featuredAnnouncement->event_location)
+                                    <div class="absolute left-6 right-6 top-6">
                                         <span
                                             class="inline-flex max-w-full items-center gap-2 rounded-full bg-white/90 px-4 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-emerald-700 ring-1 ring-white/70">
                                             <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0"
@@ -219,11 +229,11 @@
                                                 {{ $featuredAnnouncement->event_location }}
                                             </span>
                                         </span>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
                             </div>
 
-                            <div class="min-w-0 p-6 sm:p-8">
+                            <div class="p-6 sm:p-8">
                                 <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500">
                                     <span
                                         class="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-100">
@@ -245,31 +255,30 @@
                                     {{ $featuredAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($featuredAnnouncement->content), 190) }}
                                 </p>
 
-                                @if ($featuredAnnouncement->event_at || $featuredAnnouncement->event_location)
-                                    <div class="mt-4 flex flex-wrap gap-3 text-xs text-gray-600">
-                                        @if ($featuredAnnouncement->event_at)
-                                            <span
-                                                class="inline-flex max-w-full items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 font-semibold text-emerald-700 ring-1 ring-emerald-100">
-                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
+                                @if ($featuredAnnouncement->event_at)
+                                    <div class="mt-4">
+                                        <span
+                                            class="inline-flex max-w-full items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0"
+                                                fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                stroke-width="1.8">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                            </svg>
 
-                                                <span class="truncate">
-                                                    {{ $featuredAnnouncement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
-                                                </span>
+                                            <span class="truncate">
+                                                {{ $featuredAnnouncement->event_at->locale('id')->translatedFormat('l, d F Y H:i') }}
                                             </span>
-                                        @endif
+                                        </span>
                                     </div>
                                 @endif
 
                                 <div class="mt-8">
                                     <a href="{{ route('public.announcements.show', $featuredAnnouncement->slug) }}"
                                         class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/40 sm:w-auto sm:rounded-full sm:px-6 sm:py-3.5">
-
-                                        <span>Baca Detail</span>
+                                        <span>
+                                            Baca Detail
+                                        </span>
 
                                         <svg xmlns="http://www.w3.org/2000/svg"
                                             class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
@@ -284,18 +293,17 @@
                     </article>
                 @endif
 
-                <section class="grid min-w-0 gap-5 md:grid-cols-2">
+                <section class="grid gap-5 md:grid-cols-2">
                     @forelse ($announcements as $announcement)
                         <article
-                            class="group relative flex h-full min-w-0 flex-col overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
+                            class="group relative flex h-full flex-col overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-100/70 transition-all duration-300 hover:-translate-y-1 hover:border-emerald-200 hover:shadow-2xl"
                             data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}">
 
                             <div
                                 class="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-emerald-100/50 blur-2xl transition group-hover:bg-emerald-200/70">
                             </div>
 
-                            <div
-                                class="relative flex min-w-0 flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <div class="relative flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                                 <span
                                     class="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-emerald-50 px-4 py-1.5 text-xs font-bold text-emerald-700 ring-1 ring-emerald-100">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none"
@@ -325,10 +333,9 @@
                                 @endif
                             </div>
 
-                            <div class="relative mt-5 min-w-0 flex-1">
+                            <div class="relative mt-5 flex-1">
                                 <div
                                     class="flex h-[150px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02] sm:h-[180px]">
-
                                     <span
                                         class="text-lg font-black uppercase tracking-[0.2em] text-emerald-700 sm:text-xl">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
@@ -339,7 +346,7 @@
                                     </strong>
                                 </div>
 
-                                <div class="mt-5 min-w-0">
+                                <div class="mt-5">
                                     <h3
                                         class="line-clamp-2 text-center text-lg font-black leading-tight text-gray-950 transition group-hover:text-emerald-700 sm:text-xl">
                                         {{ $announcement->title }}
@@ -352,10 +359,10 @@
                             </div>
 
                             <div
-                                class="relative mt-6 flex min-w-0 flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                                class="relative mt-6 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
 
                                 <span
-                                    class="inline-flex w-fit max-w-full min-w-0 items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
+                                    class="inline-flex w-fit max-w-full items-center gap-2 rounded-full bg-emerald-50 px-3 py-1.5 text-xs font-bold text-emerald-700">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 shrink-0" fill="none"
                                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -371,8 +378,9 @@
 
                                 <a href="{{ route('public.announcements.show', $announcement->slug) }}"
                                     class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/30 active:scale-[0.98] sm:w-auto sm:rounded-full sm:px-5 sm:py-3">
-
-                                    <span>Lihat Detail</span>
+                                    <span>
+                                        Lihat Detail
+                                    </span>
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
@@ -404,7 +412,8 @@
                 @endif
             </main>
 
-            <aside class="min-w-0 space-y-6 lg:sticky lg:top-24 lg:self-start">
+            {{-- SIDEBAR --}}
+            <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
                 <div class="rounded-[24px] border border-gray-200 bg-white p-6 shadow-lg shadow-gray-100/60"
                     data-aos="fade-left">
                     <h2 class="text-lg font-bold text-gray-900">
@@ -437,7 +446,7 @@
                             <a href="{{ route('public.announcements.show', $latestAnnouncement->slug) }}"
                                 class="group block rounded-2xl bg-gradient-to-br from-emerald-50 via-white to-sky-50 p-4 ring-1 ring-emerald-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                                 data-aos="fade-left" data-aos-delay="{{ 50 + $loop->index * 50 }}">
-                                <div class="flex min-w-0 items-start justify-between gap-3">
+                                <div class="flex items-start justify-between gap-3">
                                     <div class="min-w-0">
                                         <h3
                                             class="text-sm font-bold leading-6 text-gray-900 transition group-hover:text-emerald-700">
@@ -450,7 +459,7 @@
                                     </div>
 
                                     <span
-                                        class="inline-flex shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-100">
+                                        class="inline-flex shrink-0 items-center gap-1 rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-emerald-700 ring-1 ring-emerald-100">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none"
                                             viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                             <path stroke-linecap="round" stroke-linejoin="round"
