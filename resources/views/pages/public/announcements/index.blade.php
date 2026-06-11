@@ -358,7 +358,7 @@
 
                             <div class="mt-5">
                                 <div
-                                    class="flex h-[180px] w-full flex-col items-center justify-center rounded-[18px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
+                                    class="flex h-[180px] w-full flex-col items-center justify-center rounded-[20px] bg-gradient-to-br from-emerald-50 to-green-100 ring-1 ring-emerald-100 transition duration-300 group-hover:scale-[1.02]">
 
                                     <span class="text-xl font-black uppercase tracking-[0.2em] text-emerald-700">
                                         {{ optional($announcement->announcement_date)->translatedFormat('M') }}
@@ -398,12 +398,12 @@
                                 </span>
 
                                 <a href="{{ route('public.announcements.show', $announcement->slug) }}"
-                                    class="group inline-flex w-full items-center justify-center gap-2 rounded-full bg-green-700 px-6 py-3 text-sm font-bold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl sm:w-auto">
+                                    class="group inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-green-700 px-6 py-4 text-sm font-semibold text-white shadow-lg shadow-green-200 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl hover:shadow-green-300/30 sm:w-auto sm:rounded-full sm:px-5 sm:py-3">
 
-                                    Lihat Detail
+                                    <span>Lihat Detail</span>
 
                                     <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
+                                        class="h-4 w-4 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                                         fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                                         <path stroke-linecap="round" stroke-linejoin="round"
                                             d="M17.25 8.25L21 12m0 0-3.75 3.75M21 12H3" />
