@@ -304,7 +304,7 @@
             </aside>
         </form>
 
-        <div class="app-modal-overlay hidden" data-marker-modal-overlay data-modal-overlay>
+        <div class="app-modal-overlay hidden" data-marker-modal-overlay>
             <div class="app-modal-shell">
                 <div class="app-modal-panel max-w-2xl">
                     <div class="module-panel-header px-6 py-5">
@@ -464,10 +464,6 @@
 
             const previewMap = L.map('adminVillageMapPreview', {
                 scrollWheelZoom: false,
-                layers: [streetLayer.clone ? streetLayer.clone() : L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 19,
-                    attribution: '&copy; OpenStreetMap',
-                })],
             }).setView([initialLat, initialLng], initialZoom);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -478,14 +474,21 @@
             const previewMainMarker = L.marker([initialLat, initialLng]).addTo(previewMap);
 
             const setMainCoordinates = (lat, lng) => {
-                latitudeInput.value = Number(lat).toFixed(7);
-                longitudeInput.value = Number(lng).toFixed(7);
+                const normalizedLat = Number(lat);
+                const normalizedLng = Number(lng);
+
+                if (Number.isNaN(normalizedLat) || Number.isNaN(normalizedLng)) {
+                    return;
+                }
+
+                latitudeInput.value = normalizedLat.toFixed(7);
+                longitudeInput.value = normalizedLng.toFixed(7);
                 currentLatitude.textContent = latitudeInput.value;
                 currentLongitude.textContent = longitudeInput.value;
 
-                editorMainMarker.setLatLng([lat, lng]);
-                previewMainMarker.setLatLng([lat, lng]);
-                previewMap.setView([lat, lng], parseInt(zoomInput.value || '14', 10));
+                editorMainMarker.setLatLng([normalizedLat, normalizedLng]);
+                previewMainMarker.setLatLng([normalizedLat, normalizedLng]);
+                previewMap.setView([normalizedLat, normalizedLng], parseInt(zoomInput.value || '14', 10));
             };
 
             const syncPreviewText = () => {
