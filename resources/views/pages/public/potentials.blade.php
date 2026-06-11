@@ -23,11 +23,11 @@
             </nav>
 
             <div class="mt-8 max-w-4xl" data-aos="fade-up" data-aos-duration="700">
-                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+                <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-5xl">
                     Potensi Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-3xl text-sm leading-7 text-emerald-50/90 sm:text-sm">
+                <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-sm">
                     Temukan potensi alam, budaya, UMKM, pertanian, perikanan, dan lingkungan yang menjadi kekuatan
                     Desa Mentuda untuk mendukung kesejahteraan masyarakat.
                 </p>
@@ -67,7 +67,7 @@
                                     d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                             </svg>
 
-                            <span>{{ $featuredPotential->location_name ?: ($featuredPotential->village?->name ?? 'Desa Mentuda') }}</span>
+                            <span>{{ $featuredPotential->location_name ?: $featuredPotential->village?->name ?? 'Desa Mentuda' }}</span>
                         </span>
 
                         <h3
@@ -99,9 +99,10 @@
                         @forelse ($categories->take(4) as $category)
                             <a href="{{ route('public.potentials.index', ['category' => $category->slug]) }}"
                                 class="group/item rounded-2xl {{ $selectedCategory === $category->slug ? 'bg-green-700 text-white' : 'bg-green-50 text-gray-900' }} p-4 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:bg-green-700 hover:text-white hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-green-300"
-                                data-aos="zoom-in" data-aos-duration="600" data-aos-delay="{{ 60 + ($loop->index * 70) }}">
+                                data-aos="zoom-in" data-aos-duration="600" data-aos-delay="{{ 60 + $loop->index * 70 }}">
                                 <p class="text-sm font-bold">{{ $category->name }}</p>
-                                <p class="mt-1 text-xs {{ $selectedCategory === $category->slug ? 'text-white/80' : 'text-gray-500' }} group-hover/item:text-white/80">
+                                <p
+                                    class="mt-1 text-xs {{ $selectedCategory === $category->slug ? 'text-white/80' : 'text-gray-500' }} group-hover/item:text-white/80">
                                     {{ $category->published_potentials_count }} potensi tersedia
                                 </p>
                             </a>
@@ -123,7 +124,8 @@
                             <svg xmlns="http://www.w3.org/2000/svg"
                                 class="relative z-10 h-4 w-4 transition-transform duration-300 group-hover/btn:translate-x-1"
                                 fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                             </svg>
                         </a>
 
@@ -170,7 +172,8 @@
             </header>
 
             @if ($categories->isNotEmpty())
-                <div class="flex flex-wrap justify-center gap-3" data-aos="fade-up" data-aos-duration="700" data-aos-delay="120">
+                <div class="flex flex-wrap justify-center gap-3" data-aos="fade-up" data-aos-duration="700"
+                    data-aos-delay="120">
                     <a href="{{ route('public.potentials.index') }}"
                         class="{{ $selectedCategory === '' ? 'bg-green-700 text-white' : 'bg-white text-gray-700' }} inline-flex items-center rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300">
                         Semua Kategori
@@ -179,7 +182,8 @@
                         <a href="{{ route('public.potentials.index', ['category' => $category->slug]) }}"
                             class="{{ $selectedCategory === $category->slug ? 'bg-green-700 text-white' : 'bg-white text-gray-700' }} inline-flex items-center rounded-full border border-gray-200 px-4 py-2 text-sm font-semibold shadow-sm transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-green-300">
                             {{ $category->name }}
-                            <span class="ml-2 rounded-full bg-black/5 px-2 py-0.5 text-xs {{ $selectedCategory === $category->slug ? 'text-white/90' : 'text-gray-500' }}">
+                            <span
+                                class="ml-2 rounded-full bg-black/5 px-2 py-0.5 text-xs {{ $selectedCategory === $category->slug ? 'text-white/90' : 'text-gray-500' }}">
                                 {{ $category->published_potentials_count }}
                             </span>
                         </a>
@@ -192,12 +196,14 @@
                     @foreach ($potentials as $potential)
                         <a href="{{ route('public.potentials.show', $potential->slug) }}"
                             class="group block overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.01] hover:shadow-xl hover:shadow-green-100/70 focus:outline-none focus:ring-2 focus:ring-green-300"
-                            data-aos="fade-up" data-aos-duration="650" data-aos-delay="{{ 70 + (($loop->index % 3) * 80) }}">
+                            data-aos="fade-up" data-aos-duration="650"
+                            data-aos-delay="{{ 70 + ($loop->index % 3) * 80 }}">
                             <div class="relative h-56 overflow-hidden">
                                 <img src="{{ $potential->cover_image_url ?: asset('img/bg.jpg') }}"
                                     alt="{{ $potential->cover_image_alt ?: $potential->title }}"
                                     class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
-                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent">
+                                </div>
                                 <span
                                     class="absolute left-4 top-4 inline-flex rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 transition duration-300 group-hover:bg-green-700 group-hover:text-white">
                                     {{ $potential->category?->name ?? ($potential->potential_type ?: 'Potensi Desa') }}
@@ -205,22 +211,29 @@
                             </div>
                             <div class="p-6">
                                 <div class="flex items-center justify-between gap-3">
-                                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700 transition duration-300 group-hover:text-green-800">
-                                        {{ $potential->location_name ?: ($potential->village?->name ?? 'Desa Mentuda') }}
+                                    <p
+                                        class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700 transition duration-300 group-hover:text-green-800">
+                                        {{ $potential->location_name ?: $potential->village?->name ?? 'Desa Mentuda' }}
                                     </p>
                                     @if ($potential->is_featured)
-                                        <span class="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 transition duration-300 group-hover:bg-amber-100">Unggulan</span>
+                                        <span
+                                            class="rounded-full bg-amber-50 px-2.5 py-1 text-[11px] font-semibold text-amber-700 transition duration-300 group-hover:bg-amber-100">Unggulan</span>
                                     @endif
                                 </div>
-                                <h3 class="mt-3 text-lg font-bold text-gray-900 transition duration-300 group-hover:text-green-800">{{ $potential->title }}</h3>
-                                <p class="mt-3 text-sm leading-6 text-gray-600 transition duration-300 group-hover:text-gray-700">
+                                <h3
+                                    class="mt-3 text-lg font-bold text-gray-900 transition duration-300 group-hover:text-green-800">
+                                    {{ $potential->title }}</h3>
+                                <p
+                                    class="mt-3 text-sm leading-6 text-gray-600 transition duration-300 group-hover:text-gray-700">
                                     {{ \Illuminate\Support\Str::limit(strip_tags($potential->excerpt ?: $potential->content), 120) }}
                                 </p>
-                                <div class="mt-5 flex items-center gap-2 text-sm font-semibold text-green-700 transition duration-300 group-hover:translate-x-1">
+                                <div
+                                    class="mt-5 flex items-center gap-2 text-sm font-semibold text-green-700 transition duration-300 group-hover:translate-x-1">
                                     <span>Lihat detail</span>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
                                     </svg>
                                 </div>
                             </div>

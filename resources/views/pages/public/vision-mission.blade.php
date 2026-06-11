@@ -33,7 +33,7 @@
                     Visi &amp; Misi Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-2xl text-sm leading-7 text-emerald-50/90 sm:text-base">
+                <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-base">
                     Halaman ini disiapkan sebagai ruang desain untuk menampilkan arah pembangunan desa,
                     cita-cita jangka panjang, dan nilai-nilai pelayanan masyarakat.
                 </p>

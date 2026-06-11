@@ -51,7 +51,7 @@
                         Gambaran Penduduk Desa
                     </h1>
 
-                    <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90">
+                    <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
                         Warga dapat melihat ringkasan jumlah penduduk, sebaran keluarga, komposisi wilayah, pendidikan,
                         agama, dan kondisi kependudukan dalam tampilan yang lebih mudah dipahami.
                     </p>

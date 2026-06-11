@@ -21,12 +21,12 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
+            <div class="mt-8 max-w-2xl" data-aos="fade-up" data-aos-delay="100">
                 <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
                     Berita Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-2xl text-sm leading-7 text-emerald-50/90 sm:text-base">
+                <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-base">
                     Informasi terbaru seputar kegiatan desa, pembangunan, pelayanan publik,
                     UMKM, dan agenda resmi Pemerintah Desa Mentuda.
                 </p>
