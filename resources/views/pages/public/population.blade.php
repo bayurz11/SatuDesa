@@ -35,16 +35,7 @@
 
             <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
                 <div class="max-w-4xl" data-aos="fade-up">
-                    <div class="flex flex-wrap items-center gap-3">
-                        <span
-                            class="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.24em] text-emerald-50 ring-1 ring-white/15">
-                            Data Warga Desa
-                        </span>
-                        <span
-                            class="inline-flex items-center rounded-full bg-emerald-300/15 px-4 py-1 text-xs font-semibold text-emerald-50 ring-1 ring-emerald-200/20">
-                            Ringkasan Terbuka
-                        </span>
-                    </div>
+
 
                     <h1
                         class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">

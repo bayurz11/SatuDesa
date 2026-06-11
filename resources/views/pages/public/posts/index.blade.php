@@ -20,17 +20,20 @@
                     <li class="font-semibold text-white">Berita</li>
                 </ol>
             </nav>
+            <div class="max-w-4xl" data-aos="fade-up">
 
-            <div class="mt-8 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-                <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-5xl">
+
+                <h1
+                    class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
                     Berita Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-base">
+                <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
                     Informasi terbaru seputar kegiatan desa, pembangunan, pelayanan publik,
                     UMKM, dan agenda resmi Pemerintah Desa Mentuda.
                 </p>
             </div>
+
         </div>
     </section>
 
