@@ -508,7 +508,7 @@
             <section
                 class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white px-4 py-16 md:py-20"
                 data-aos="fade-up">
-                <div class="mx-auto max-w-6xl">
+                <div class="mx-auto max-w-8xl">
 
                     <!-- Header -->
                     <header class="mx-auto mb-12 max-w-3xl text-center">
@@ -533,7 +533,7 @@
                         </p>
                     </header>
 
-                    <div class="grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch">
+                    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-stretch">
 
                         <!-- Berita Utama -->
                         @if ($homeFeaturedPost)
