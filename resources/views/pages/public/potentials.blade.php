@@ -21,17 +21,20 @@
                     <li class="font-semibold text-white">Potensi Desa</li>
                 </ol>
             </nav>
+            <div class="max-w-4xl" data-aos="fade-up">
 
-            <div class="mt-8 max-w-2xl" data-aos="fade-up" data-aos-duration="700">
-                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
+
+                <h1
+                    class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
                     Potensi Desa Mentuda
                 </h1>
 
-                <p class="mt-4 max-w-xl text-sm leading-7 text-emerald-50/90 sm:text-sm">
-                    Temukan potensi alam, budaya, UMKM, pertanian, perikanan, dan lingkungan yang menjadi kekuatan
-                    Desa Mentuda untuk mendukung kesejahteraan masyarakat.
+                <p class="mt-3 max-w-xl text-sm leading-7 text-emerald-50/90">
+                    Jelajahi potensi unggulan Desa Mentuda mulai dari wisata alam, UMKM, perikanan, budaya, hingga hasil
+                    pertanian lokal.
                 </p>
             </div>
+
         </div>
     </section>
 
