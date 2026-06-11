@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CitizenExcelController;
+use App\Http\Controllers\Admin\VillageHistoryController;
 use App\Http\Controllers\Admin\VillageMapController;
 use App\Support\ApbdesWorkflow;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('profil-desa/peta-desa', [VillageMapController::class, 'update'])
                 ->middleware('permission:village_maps.edit')
                 ->name('village-maps.update');
+            Route::get('profil-desa/sejarah-desa', [VillageHistoryController::class, 'index'])
+                ->middleware('permission:village_histories.view')
+                ->name('village-histories.index');
+            Route::put('profil-desa/sejarah-desa', [VillageHistoryController::class, 'update'])
+                ->middleware('permission:village_histories.edit')
+                ->name('village-histories.update');
             Route::prefix('apbdes')->name('budgets.')->group(function () {
                 $budgetPages = [
                     'overview' => [

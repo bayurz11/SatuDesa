@@ -353,9 +353,11 @@
             $canViewUsers = $currentUser->hasPermission('users.view');
             $canViewRoles = $currentUser->hasAnyPermission(['roles.view', 'permissions.view']);
             $canViewAuditLogs = $currentUser->hasPermission('system.logs');
-            $canViewVillageProfile = $currentUser->hasPermission('village_maps.view');
+            $canViewVillageMap = $currentUser->hasPermission('village_maps.view');
+            $canViewVillageHistory = $currentUser->hasPermission('village_histories.view');
+            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory;
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs;
-            $profileMenuOpen = request()->routeIs('village-maps.*');
+            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
@@ -430,12 +432,22 @@
                                 <div class="{{ $profileMenuOpen ? 'block' : 'hidden' }} px-2 pb-2"
                                     data-sidebar-dropdown-panel>
                                     <div class="space-y-1 border-l border-white/15 pl-4">
-                                        <a href="{{ route('village-maps.index') }}"
-                                            class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
-                                            <span
-                                                class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
-                                            Peta Desa
-                                        </a>
+                                        @if ($canViewVillageHistory)
+                                            <a href="{{ route('village-histories.index') }}"
+                                                class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-histories.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                                <span
+                                                    class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-histories.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                                Sejarah Desa
+                                            </a>
+                                        @endif
+                                        @if ($canViewVillageMap)
+                                            <a href="{{ route('village-maps.index') }}"
+                                                class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                                <span
+                                                    class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-maps.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                                Peta Desa
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

@@ -267,7 +267,7 @@
 
             const map = L.map(mapNode, {
                 scrollWheelZoom: false,
-                layers: [streetLayer],
+                layers: [satelliteLayer],
             }).setView([villageLat, villageLng], villageZoom);
 
             L.control.layers({

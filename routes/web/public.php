@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicAnnouncementController;
 use App\Http\Controllers\PublicPopulationController;
 use App\Http\Controllers\PublicPotentialController;
 use App\Http\Controllers\PublicPostController;
+use App\Http\Controllers\PublicVillageHistoryController;
 use App\Http\Controllers\PublicVillageMapController;
 use Illuminate\Support\Facades\Route;
 
@@ -71,7 +72,7 @@ Route::get('/', function () {
         'activeCitizens',
     ));
 })->name('home');
-Route::view('/sejarah-desa', 'pages.public.history')->name('public.history');
+Route::get('/sejarah-desa', [PublicVillageHistoryController::class, 'index'])->name('public.history');
 Route::view('/visi-misi', 'pages.public.vision-mission')->name('public.vision-mission');
 Route::view('/struktur-organisasi', 'pages.public.organization-structure')->name('public.organization-structure');
 Route::get('/peta-desa', [PublicVillageMapController::class, 'index'])->name('public.village-map');
