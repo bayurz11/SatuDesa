@@ -22,8 +22,8 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 max-w-4xl" data-aos="fade-up" data-aos-duration="700">
-                <h1 class="mt-6 text-2xl font-bold tracking-tight sm:text-5xl">
+            <div class="mt-8 max-w-2xl" data-aos="fade-up" data-aos-duration="700">
+                <h1 class="mt-6 text-4xl font-bold tracking-tight sm:text-5xl">
                     Potensi Desa Mentuda
                 </h1>
 
