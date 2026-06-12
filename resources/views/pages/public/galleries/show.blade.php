@@ -192,15 +192,20 @@
         </div>
     </section>
 
-    <dialog id="galleryLightbox" class="m-0 h-screen w-screen max-h-none max-w-none border-0 bg-black/90 p-0 text-left backdrop:bg-black/90">
-        <div class="mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-6 sm:px-6">
-            <div class="mb-4 flex items-center justify-between gap-4 text-white">
-                <div>
-                    <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Preview Foto</p>
-                    <p id="galleryLightboxCaption" class="mt-1 text-sm font-medium text-white/90"></p>
+    <dialog id="galleryLightbox" class="m-0 h-screen w-screen max-h-none max-w-none border-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_28%),rgba(3,7,18,0.96)] p-0 text-left backdrop:bg-black/90">
+        <div class="mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-5 sm:px-6 lg:px-8">
+            <div class="mb-4 flex items-start justify-between gap-4 text-white">
+                <div class="rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+                    <div class="flex flex-wrap items-center gap-3">
+                        <span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80 ring-1 ring-white/10">
+                            Preview Foto
+                        </span>
+                        <span id="galleryLightboxCounter" class="inline-flex rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200 ring-1 ring-emerald-300/20"></span>
+                    </div>
+                    <p id="galleryLightboxCaption" class="mt-3 text-sm font-medium leading-6 text-white/90"></p>
                 </div>
                 <button type="button" id="galleryLightboxClose"
-                    class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/10 text-white transition hover:bg-white/20">
+                    class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-lg shadow-black/20 transition hover:scale-105 hover:bg-white/20">
                     <span class="sr-only">Tutup</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -208,22 +213,35 @@
                 </button>
             </div>
 
-            <div class="relative overflow-hidden rounded-[28px] bg-white/5 ring-1 ring-white/10">
-                <img id="galleryLightboxImage" src="" alt="" class="max-h-[78vh] w-full object-contain bg-black/20">
+            <div class="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] shadow-2xl shadow-black/40 ring-1 ring-white/5 backdrop-blur">
+                <div class="absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/25 to-transparent"></div>
+                <div class="absolute inset-x-0 bottom-0 z-10 h-28 bg-gradient-to-t from-black/30 to-transparent"></div>
+                <img id="galleryLightboxImage" src="" alt="" class="max-h-[76vh] w-full object-contain bg-[linear-gradient(135deg,rgba(15,23,42,0.86),rgba(17,24,39,0.96))]">
                 <button type="button" id="galleryLightboxPrev"
-                    class="absolute left-3 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/35 text-white transition hover:bg-black/55">
+                    class="absolute left-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg shadow-black/30 transition hover:scale-105 hover:bg-black/55 sm:left-6">
                     <span class="sr-only">Foto sebelumnya</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </button>
                 <button type="button" id="galleryLightboxNext"
-                    class="absolute right-3 top-1/2 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/35 text-white transition hover:bg-black/55">
+                    class="absolute right-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg shadow-black/30 transition hover:scale-105 hover:bg-black/55 sm:right-6">
                     <span class="sr-only">Foto berikutnya</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5 15.75 12l-7.5 7.5" />
                     </svg>
                 </button>
+                <div class="absolute inset-x-0 bottom-0 z-20 p-4 sm:p-6">
+                    <div class="rounded-[24px] border border-white/10 bg-black/25 px-4 py-3 backdrop-blur-md">
+                        <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+                            <div>
+                                <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/65">Album {{ $gallery->title }}</p>
+                                <p id="galleryLightboxFooterCaption" class="mt-1 text-sm font-medium leading-6 text-white/90"></p>
+                            </div>
+                            <p class="text-xs text-white/60">Gunakan panah kiri/kanan untuk navigasi</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </dialog>
@@ -236,6 +254,8 @@
             const lightbox = document.getElementById('galleryLightbox');
             const image = document.getElementById('galleryLightboxImage');
             const caption = document.getElementById('galleryLightboxCaption');
+            const footerCaption = document.getElementById('galleryLightboxFooterCaption');
+            const counter = document.getElementById('galleryLightboxCounter');
             const closeButton = document.getElementById('galleryLightboxClose');
             const prevButton = document.getElementById('galleryLightboxPrev');
             const nextButton = document.getElementById('galleryLightboxNext');
@@ -258,6 +278,12 @@
                 image.src = item.src;
                 image.alt = item.alt;
                 caption.textContent = item.caption;
+                if (footerCaption) {
+                    footerCaption.textContent = item.caption;
+                }
+                if (counter) {
+                    counter.textContent = `${activeIndex + 1} / ${items.length}`;
+                }
             };
 
             const open = (index) => {

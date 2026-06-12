@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Domains\Gallery\Models\Gallery;
 use App\Domains\Village\Models\Village;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class PublicGalleryController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $village = Village::query()->orderBy('id')->firstOrFail();
         $this->syncDefaults($village);
@@ -21,32 +23,54 @@ class PublicGalleryController extends Controller
             ->orderBy('sort_order')
             ->orderByDesc('gallery_date');
 
-        $publishedGalleries = $publishedQuery->get();
-        $featuredGallery = $publishedGalleries->firstWhere('is_featured', true) ?? $publishedGalleries->first();
-        $galleryAlbums = $publishedGalleries
+        $publishedGalleries = $publishedQuery->get()->values();
+
+        $selectedCategorySlug = trim((string) $request->query('kategori', ''));
+        $selectedCategory = null;
+
+        $categoryMap = $publishedGalleries
+            ->groupBy(fn (Gallery $gallery) => $gallery->category ?: 'Tanpa Kategori')
+            ->mapWithKeys(fn ($items, $category) => [Str::slug($category) => $category]);
+
+        if ($selectedCategorySlug !== '' && $categoryMap->has($selectedCategorySlug)) {
+            $selectedCategory = $categoryMap->get($selectedCategorySlug);
+        }
+
+        $filteredGalleries = $selectedCategory
+            ? $publishedGalleries->filter(fn (Gallery $gallery) => ($gallery->category ?: 'Tanpa Kategori') === $selectedCategory)->values()
+            : $publishedGalleries;
+
+        $featuredGallery = $filteredGalleries->firstWhere('is_featured', true) ?? $filteredGalleries->first();
+        $galleryAlbums = $filteredGalleries
             ->when($featuredGallery, fn ($collection) => $collection->where('id', '!=', $featuredGallery->id))
             ->take(4)
             ->values();
-        $recentAlbums = $publishedGalleries
+        $recentAlbums = $filteredGalleries
             ->sortByDesc(fn (Gallery $gallery) => optional($gallery->gallery_date)->timestamp ?? 0)
             ->take(3)
             ->values();
 
         $galleryHighlights = [
-            ['label' => 'Foto Pilihan', 'value' => $publishedGalleries->sum(fn (Gallery $gallery) => $gallery->resolved_photo_count)],
-            ['label' => 'Album Aktif', 'value' => $publishedGalleries->count()],
-            ['label' => 'Lokasi Dokumentasi', 'value' => $publishedGalleries->pluck('location_name')->filter()->unique()->count()],
+            ['label' => 'Foto Pilihan', 'value' => $filteredGalleries->sum(fn (Gallery $gallery) => $gallery->resolved_photo_count)],
+            ['label' => 'Album Aktif', 'value' => $filteredGalleries->count()],
+            ['label' => 'Lokasi Dokumentasi', 'value' => $filteredGalleries->pluck('location_name')->filter()->unique()->count()],
         ];
 
         $albumCategories = collect([[
             'label' => 'Semua Album',
             'count' => $publishedGalleries->count(),
+            'slug' => '',
+            'is_active' => $selectedCategory === null,
+            'url' => route('public.galleries.index'),
         ]])->concat(
             $publishedGalleries
                 ->groupBy(fn (Gallery $gallery) => $gallery->category ?: 'Tanpa Kategori')
                 ->map(fn ($items, $category) => [
                     'label' => $category,
                     'count' => $items->count(),
+                    'slug' => Str::slug($category),
+                    'is_active' => $selectedCategory === $category,
+                    'url' => route('public.galleries.index', ['kategori' => Str::slug($category)]),
                 ])
                 ->values()
         )->values();
@@ -58,6 +82,7 @@ class PublicGalleryController extends Controller
             'featuredGallery',
             'galleryAlbums',
             'recentAlbums',
+            'selectedCategory',
         ));
     }
 

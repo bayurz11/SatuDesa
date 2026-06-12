@@ -3,6 +3,7 @@
     $metaDescription =
         'Galeri publik ' . $village->name . ' yang menampilkan kegiatan warga, pembangunan desa, dan suasana kawasan.';
     $hasGalleryContent = filled($featuredGallery) || $galleryAlbums->isNotEmpty();
+    $filterLabel = $selectedCategory ?: 'Semua Album';
 @endphp
 
 @extends('layouts.public')
@@ -56,6 +57,15 @@
                         <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
                             Dokumentasi kegiatan warga, pembangunan, pelayanan publik, dan potensi wilayah {{ $village->name }}.
                         </p>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap items-center justify-center gap-3">
+                        <span class="inline-flex rounded-full bg-gray-100 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">
+                            Filter Aktif
+                        </span>
+                        <span class="inline-flex rounded-full bg-green-50 px-4 py-2 text-sm font-semibold text-green-800 ring-1 ring-green-100">
+                            {{ $filterLabel }}
+                        </span>
                     </div>
 
                     <div class="mt-8 grid gap-4 sm:grid-cols-3">
@@ -166,9 +176,11 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M3 16l4-4a2 2 0 012.828 0L13 15.172l2-2A2 2 0 0117.828 13L21 16M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z" />
                                 </svg>
                             </div>
-                            <h3 class="mt-5 text-xl font-bold text-gray-900">Galeri Belum Tersedia</h3>
+                            <h3 class="mt-5 text-xl font-bold text-gray-900">{{ $selectedCategory ? 'Belum Ada Album pada Kategori Ini' : 'Galeri Belum Tersedia' }}</h3>
                             <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                                Album dokumentasi untuk {{ $village->name }} masih dalam proses penyiapan. Setelah admin menambahkan foto kegiatan, halaman ini akan otomatis menampilkan album publik.
+                                {{ $selectedCategory
+                                    ? 'Belum ada album publik pada kategori ' . $selectedCategory . '. Coba pilih kategori lain untuk melihat dokumentasi yang tersedia.'
+                                    : 'Album dokumentasi untuk ' . $village->name . ' masih dalam proses penyiapan. Setelah admin menambahkan foto kegiatan, halaman ini akan otomatis menampilkan album publik.' }}
                             </p>
                         </div>
                     @endif
@@ -177,7 +189,9 @@
                         class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
                         {{ $hasGalleryContent
                             ? 'Galeri ini kini tersambung langsung dengan dashboard admin sehingga album yang dipublikasikan akan tampil otomatis di halaman publik.'
-                            : 'Saat ini belum ada album publik yang ditampilkan. Begitu data galeri diisi dari admin, kontennya akan langsung muncul di halaman ini.' }}
+                            : ($selectedCategory
+                                ? 'Kategori ' . $selectedCategory . ' belum memiliki album yang tampil. Pilih kategori lain atau kembali ke semua album.'
+                                : 'Saat ini belum ada album publik yang ditampilkan. Begitu data galeri diisi dari admin, kontennya akan langsung muncul di halaman ini.') }}
                     </div>
                 </section>
             </main>
@@ -204,17 +218,17 @@
 
                     <div class="space-y-3">
                         @foreach ($albumCategories as $category)
-                            <button type="button"
+                            <a href="{{ $category['url'] }}"
                                 class="group flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-semibold transition duration-300
-                                {{ $loop->first
+                                {{ $category['is_active']
                                     ? 'bg-green-700 text-white shadow-lg shadow-green-700/20 hover:bg-green-800'
                                     : 'border border-gray-200 bg-white text-gray-700 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60' }}">
                                 <span>{{ $category['label'] }}</span>
                                 <span
-                                    class="{{ $loop->first ? 'text-white/80' : 'text-gray-400 group-hover:text-green-700' }}">
+                                    class="{{ $category['is_active'] ? 'text-white/80' : 'text-gray-400 group-hover:text-green-700' }}">
                                     {{ $category['count'] }}
                                 </span>
-                            </button>
+                            </a>
                         @endforeach
                     </div>
                 </div>
