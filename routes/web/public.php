@@ -13,6 +13,7 @@ use App\Http\Controllers\PublicPostController;
 use App\Http\Controllers\PublicVillageHistoryController;
 use App\Http\Controllers\PublicVillageMapController;
 use App\Http\Controllers\PublicVillageOrganizationController;
+use App\Http\Controllers\PublicVillageVisionMissionController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('track.public')->group(function () {
@@ -74,7 +75,7 @@ Route::get('/', function () {
     ));
 })->name('home');
 Route::get('/sejarah-desa', [PublicVillageHistoryController::class, 'index'])->name('public.history');
-Route::view('/visi-misi', 'pages.public.vision-mission')->name('public.vision-mission');
+Route::get('/visi-misi', [PublicVillageVisionMissionController::class, 'index'])->name('public.vision-mission');
 Route::get('/struktur-organisasi', [PublicVillageOrganizationController::class, 'index'])->name('public.organization-structure');
 Route::get('/peta-desa', [PublicVillageMapController::class, 'index'])->name('public.village-map');
 Route::get('/potensi-desa', [PublicPotentialController::class, 'index'])->name('public.potentials.index');

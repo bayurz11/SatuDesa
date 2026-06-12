@@ -447,10 +447,11 @@
             $canViewAuditLogs = $currentUser->hasPermission('system.logs');
             $canViewVillageMap = $currentUser->hasPermission('village_maps.view');
             $canViewVillageHistory = $currentUser->hasPermission('village_histories.view');
+            $canViewVillageVisionMission = $currentUser->hasPermission('village_vision_missions.view');
             $canViewVillageOrganization = $currentUser->hasPermission('village_organizations.view');
-            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory || $canViewVillageOrganization;
+            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory || $canViewVillageVisionMission || $canViewVillageOrganization;
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs || $canViewVillageOrganization;
-            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-organizations.*');
+            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-vision-missions.*') || request()->routeIs('village-organizations.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
@@ -531,6 +532,14 @@
                                                 <span
                                                     class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-histories.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
                                                 Sejarah Desa
+                                            </a>
+                                        @endif
+                                        @if ($canViewVillageVisionMission)
+                                            <a href="{{ route('village-vision-missions.index') }}"
+                                                class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('village-vision-missions.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                                <span
+                                                    class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('village-vision-missions.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                                Visi &amp; Misi
                                             </a>
                                         @endif
                                         @if ($canViewVillageMap)

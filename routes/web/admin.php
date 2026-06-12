@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\CitizenExcelController;
 use App\Http\Controllers\Admin\VillageHistoryController;
 use App\Http\Controllers\Admin\VillageMapController;
 use App\Http\Controllers\Admin\VillageOrganizationController;
+use App\Http\Controllers\Admin\VillageVisionMissionController;
 use App\Support\ApbdesWorkflow;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('profil-desa/sejarah-desa', [VillageHistoryController::class, 'update'])
                 ->middleware('permission:village_histories.edit')
                 ->name('village-histories.update');
+            Route::get('profil-desa/visi-misi', [VillageVisionMissionController::class, 'index'])
+                ->middleware('permission:village_vision_missions.view')
+                ->name('village-vision-missions.index');
+            Route::put('profil-desa/visi-misi', [VillageVisionMissionController::class, 'update'])
+                ->middleware('permission:village_vision_missions.edit')
+                ->name('village-vision-missions.update');
             Route::get('profil-desa/struktur-organisasi', [VillageOrganizationController::class, 'index'])
                 ->middleware('permission:village_organizations.view')
                 ->name('village-organizations.index');

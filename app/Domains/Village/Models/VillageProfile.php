@@ -49,6 +49,17 @@ class VillageProfile extends Model
         'history_timeline_items',
         'history_sidebar_title',
         'history_sidebar_description',
+        'vision_mission_title',
+        'vision_mission_description',
+        'vision_mission_hero_badge',
+        'vision_mission_vision_badge',
+        'vision_mission_vision_title',
+        'vision_mission_vision_description',
+        'vision_mission_mission_badge',
+        'vision_mission_mission_title',
+        'vision_mission_mission_items',
+        'vision_mission_sidebar_title',
+        'vision_mission_sidebar_description',
         'organization_page_title',
         'organization_page_description',
         'organization_section_badge',
@@ -76,6 +87,7 @@ class VillageProfile extends Model
         'map_markers' => 'array',
         'history_cards' => 'array',
         'history_timeline_items' => 'array',
+        'vision_mission_mission_items' => 'array',
         'organization_head' => 'array',
         'organization_partner' => 'array',
         'organization_secretary' => 'array',
@@ -319,6 +331,51 @@ class VillageProfile extends Model
             'organization_identity' => self::defaultOrganizationIdentityForVillage($village),
             'organization_position_options' => self::defaultOrganizationPositionOptions(),
             'organization_members' => self::defaultOrganizationMembers(),
+        ];
+    }
+
+    public static function defaultVisionMissionAttributesForVillage(Village $village): array
+    {
+        return [
+            'vision_mission_title' => 'Visi & Misi Desa ' . $village->name,
+            'vision_mission_description' => 'Halaman ini menampilkan arah pembangunan desa, cita-cita jangka panjang, dan langkah strategis pelayanan masyarakat.',
+            'vision_mission_hero_badge' => 'Profil Desa',
+            'vision' => 'Mewujudkan Desa ' . $village->name . ' yang maju, mandiri, sejahtera, dan berdaya saing.',
+            'vision_mission_vision_badge' => 'Visi Desa',
+            'vision_mission_vision_title' => 'Arah Besar Pembangunan Desa',
+            'vision_mission_vision_description' => 'Visi ini menjadi landasan besar dalam penyusunan kebijakan, pelayanan publik, penguatan ekonomi lokal, dan pembangunan sosial budaya masyarakat desa.',
+            'mission' => 'Meningkatkan kualitas pelayanan publik',
+            'vision_mission_mission_badge' => 'Misi Desa',
+            'vision_mission_mission_title' => 'Langkah Strategis Pembangunan Desa',
+            'vision_mission_mission_items' => self::defaultVisionMissionMissionItems(),
+            'vision_mission_sidebar_title' => 'Arah Pembangunan',
+            'vision_mission_sidebar_description' => 'Visi dan misi menjadi pedoman utama dalam pelayanan, pembangunan, pemberdayaan masyarakat, dan tata kelola desa yang transparan.',
+        ];
+    }
+
+    public static function defaultVisionMissionMissionItems(): array
+    {
+        return [
+            [
+                'title' => 'Meningkatkan kualitas pelayanan publik',
+                'desc' => 'Menghadirkan pelayanan yang cepat, terbuka, ramah, dan berbasis kebutuhan masyarakat.',
+                'icon' => 'service',
+            ],
+            [
+                'title' => 'Mengembangkan ekonomi masyarakat desa',
+                'desc' => 'Mendorong pertumbuhan UMKM, pemanfaatan potensi lokal, dan peluang usaha berbasis desa.',
+                'icon' => 'chart',
+            ],
+            [
+                'title' => 'Memperkuat pembangunan sosial dan budaya',
+                'desc' => 'Menjaga nilai gotong royong, harmoni sosial, serta identitas budaya masyarakat desa.',
+                'icon' => 'users',
+            ],
+            [
+                'title' => 'Mendorong tata kelola pemerintahan yang transparan',
+                'desc' => 'Memastikan informasi publik mudah diakses dan pembangunan desa berjalan akuntabel.',
+                'icon' => 'document',
+            ],
         ];
     }
 
