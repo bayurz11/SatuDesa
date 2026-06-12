@@ -101,6 +101,118 @@ class VillageMapController extends Controller
             ->with('message', 'Data peta desa berhasil diperbarui.');
     }
 
+    public function updateEditor(Request $request): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'map_latitude' => ['required', 'numeric', 'between:-90,90'],
+            'map_longitude' => ['required', 'numeric', 'between:-180,180'],
+            'map_zoom' => ['required', 'integer', 'between:1,18'],
+        ]);
+
+        $profile->fill([
+            'map_latitude' => $validated['map_latitude'],
+            'map_longitude' => $validated['map_longitude'],
+            'map_zoom' => $validated['map_zoom'],
+        ])->save();
+
+        LoggerService::logUserAction('update', 'VillageMapEditor', $profile->id, [
+            'village_id' => $village->id,
+        ]);
+
+        return redirect()->route('village-maps.index')->with('message', 'Editor peta admin berhasil diperbarui.');
+    }
+
+    public function updateContent(Request $request): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'map_title' => ['required', 'string', 'max:255'],
+            'map_description' => ['required', 'string'],
+            'map_popup_title' => ['required', 'string', 'max:255'],
+            'map_popup_description' => ['required', 'string'],
+        ]);
+
+        $profile->fill($validated)->save();
+
+        LoggerService::logUserAction('update', 'VillageMapContent', $profile->id, [
+            'village_id' => $village->id,
+        ]);
+
+        return redirect()->route('village-maps.index')->with('message', 'Konten publik utama peta berhasil diperbarui.');
+    }
+
+    public function updatePanels(Request $request): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'map_info_title' => ['required', 'string', 'max:255'],
+            'map_facility_title' => ['required', 'string', 'max:255'],
+            'map_facility_description' => ['required', 'string'],
+            'map_potential_title' => ['required', 'string', 'max:255'],
+            'map_potential_description' => ['required', 'string'],
+            'map_note' => ['nullable', 'string'],
+        ]);
+
+        $profile->fill($validated)->save();
+
+        LoggerService::logUserAction('update', 'VillageMapPanels', $profile->id, [
+            'village_id' => $village->id,
+        ]);
+
+        return redirect()->route('village-maps.index')->with('message', 'Panel informasi publik berhasil diperbarui.');
+    }
+
+    public function updateMarkers(Request $request): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'markers' => ['nullable', 'array'],
+            'markers.*.name' => ['nullable', 'string', 'max:255'],
+            'markers.*.category' => ['nullable', 'string', 'max:255'],
+            'markers.*.latitude' => ['nullable', 'numeric', 'between:-90,90'],
+            'markers.*.longitude' => ['nullable', 'numeric', 'between:-180,180'],
+            'markers.*.description' => ['nullable', 'string'],
+        ]);
+
+        $markers = collect($validated['markers'] ?? [])
+            ->map(function (array $marker) {
+                $name = trim((string) ($marker['name'] ?? ''));
+                $latitude = $marker['latitude'] ?? null;
+                $longitude = $marker['longitude'] ?? null;
+
+                if ($name === '' || $latitude === null || $longitude === null) {
+                    return null;
+                }
+
+                return [
+                    'name' => $name,
+                    'category' => trim((string) ($marker['category'] ?? 'Lokasi')),
+                    'latitude' => (float) $latitude,
+                    'longitude' => (float) $longitude,
+                    'description' => trim((string) ($marker['description'] ?? '')),
+                ];
+            })
+            ->filter()
+            ->values()
+            ->all();
+
+        $profile->fill([
+            'map_markers' => $markers,
+        ])->save();
+
+        LoggerService::logUserAction('update', 'VillageMapMarkers', $profile->id, [
+            'village_id' => $village->id,
+            'marker_count' => count($markers),
+        ]);
+
+        return redirect()->route('village-maps.index')->with('message', 'Marker peta berhasil diperbarui.');
+    }
+
     /**
      * @return array{0: Village, 1: VillageProfile}
      */

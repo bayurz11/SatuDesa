@@ -10,6 +10,7 @@ use App\Support\UploadStorage;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class VillageOrganizationController extends Controller
@@ -18,224 +19,299 @@ class VillageOrganizationController extends Controller
     {
         [$village, $profile] = $this->resolveVillageProfile();
 
+        $identity = $this->organizationIdentity($profile, $village);
+        $positionOptions = collect($this->organizationPositionOptions($profile))
+            ->sortBy(['sort_order', 'title'])
+            ->values()
+            ->all();
+        $members = collect($this->organizationMembers($profile))
+            ->map(fn (array $member) => $this->decorateMember($member, $positionOptions))
+            ->sortBy(['group_sort', 'sort_order', 'position_title'])
+            ->values()
+            ->all();
+
         return view('pages.admin.village-organizations.index', [
             'title' => 'Struktur Organisasi',
             'description' => 'Pengelolaan struktur organisasi desa untuk halaman publik.',
             'routeName' => 'village-organizations.index',
             'village' => $village,
             'profile' => $profile,
-            'organizationHead' => $profile->organization_head ?? [],
-            'organizationPartner' => $profile->organization_partner ?? [],
-            'organizationSecretary' => $profile->organization_secretary ?? [],
-            'organizationKaurItems' => collect($profile->organization_kaur_items ?? [])->values()->pad(3, [
-                'label' => 'Kaur',
-                'title' => '',
-                'name' => '',
-                'photo_path' => 'img/avatar-placeholder.png',
-            ])->take(3)->all(),
-            'organizationKasiItems' => collect($profile->organization_kasi_items ?? [])->values()->pad(3, [
-                'label' => 'Kasi',
-                'title' => '',
-                'name' => '',
-                'photo_path' => 'img/avatar-placeholder.png',
-            ])->take(3)->all(),
-            'organizationDusunItems' => collect($profile->organization_dusun_items ?? [])->values()->pad(3, [
-                'label' => 'Kadus',
-                'title' => '',
-                'name' => '',
-                'photo_path' => 'img/avatar-placeholder.png',
-            ])->take(3)->all(),
+            'organizationIdentity' => $identity,
+            'organizationPositionOptions' => $positionOptions,
+            'organizationMembers' => $members,
+            'organizationGroups' => $this->groupOptions(),
         ]);
     }
 
-    public function update(Request $request): RedirectResponse
+    public function updateIdentity(Request $request): RedirectResponse
     {
         [$village, $profile] = $this->resolveVillageProfile();
 
         $validated = $request->validate([
-            'organization_page_title' => ['required', 'string', 'max:255'],
-            'organization_page_description' => ['required', 'string'],
-            'organization_section_badge' => ['required', 'string', 'max:255'],
-            'organization_section_title' => ['required', 'string', 'max:255'],
-            'organization_section_description' => ['required', 'string'],
-            'organization_note' => ['required', 'string'],
-            'organization_sidebar_title' => ['required', 'string', 'max:255'],
-            'organization_sidebar_description' => ['required', 'string'],
-
-            'organization_head' => ['required', 'array'],
-            'organization_head.label' => ['required', 'string', 'max:255'],
-            'organization_head.title' => ['required', 'string', 'max:255'],
-            'organization_head.name' => ['required', 'string', 'max:255'],
-            'organization_head.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_head_photo' => ['nullable', 'image', 'max:4096'],
-
-            'organization_partner' => ['required', 'array'],
-            'organization_partner.label' => ['required', 'string', 'max:255'],
-            'organization_partner.title' => ['required', 'string', 'max:255'],
-            'organization_partner.name' => ['required', 'string', 'max:255'],
-            'organization_partner.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_partner_photo' => ['nullable', 'image', 'max:4096'],
-
-            'organization_secretary' => ['required', 'array'],
-            'organization_secretary.label' => ['required', 'string', 'max:255'],
-            'organization_secretary.title' => ['required', 'string', 'max:255'],
-            'organization_secretary.name' => ['required', 'string', 'max:255'],
-            'organization_secretary.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_secretary_photo' => ['nullable', 'image', 'max:4096'],
-
-            'organization_kaur_items' => ['required', 'array', 'size:3'],
-            'organization_kaur_items.*.label' => ['required', 'string', 'max:255'],
-            'organization_kaur_items.*.title' => ['required', 'string', 'max:255'],
-            'organization_kaur_items.*.name' => ['required', 'string', 'max:255'],
-            'organization_kaur_items.*.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_kaur_photos' => ['nullable', 'array'],
-            'organization_kaur_photos.*' => ['nullable', 'image', 'max:4096'],
-
-            'organization_kasi_items' => ['required', 'array', 'size:3'],
-            'organization_kasi_items.*.label' => ['required', 'string', 'max:255'],
-            'organization_kasi_items.*.title' => ['required', 'string', 'max:255'],
-            'organization_kasi_items.*.name' => ['required', 'string', 'max:255'],
-            'organization_kasi_items.*.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_kasi_photos' => ['nullable', 'array'],
-            'organization_kasi_photos.*' => ['nullable', 'image', 'max:4096'],
-
-            'organization_dusun_items' => ['required', 'array', 'size:3'],
-            'organization_dusun_items.*.label' => ['required', 'string', 'max:255'],
-            'organization_dusun_items.*.title' => ['required', 'string', 'max:255'],
-            'organization_dusun_items.*.name' => ['required', 'string', 'max:255'],
-            'organization_dusun_items.*.photo_path' => ['nullable', 'string', 'max:255'],
-            'organization_dusun_photos' => ['nullable', 'array'],
-            'organization_dusun_photos.*' => ['nullable', 'image', 'max:4096'],
+            'page_title' => ['required', 'string', 'max:255'],
+            'page_description' => ['required', 'string'],
+            'section_badge' => ['required', 'string', 'max:255'],
+            'section_title' => ['required', 'string', 'max:255'],
+            'section_description' => ['required', 'string'],
+            'note' => ['required', 'string'],
+            'sidebar_title' => ['required', 'string', 'max:255'],
+            'sidebar_description' => ['required', 'string'],
         ]);
 
-        $existingPaths = collect([
-            data_get($profile->organization_head, 'photo_path'),
-            data_get($profile->organization_partner, 'photo_path'),
-            data_get($profile->organization_secretary, 'photo_path'),
-            ...collect($profile->organization_kaur_items ?? [])->pluck('photo_path')->all(),
-            ...collect($profile->organization_kasi_items ?? [])->pluck('photo_path')->all(),
-            ...collect($profile->organization_dusun_items ?? [])->pluck('photo_path')->all(),
-        ])->filter(fn ($path) => filled($path) && ! str_starts_with($path, 'img/'))->values();
-
-        $organizationHead = $this->prepareSinglePosition(
-            $validated['organization_head'],
-            $request->file('organization_head_photo'),
-            'village-organizations/head'
-        );
-
-        $organizationPartner = $this->prepareSinglePosition(
-            $validated['organization_partner'],
-            $request->file('organization_partner_photo'),
-            'village-organizations/partner'
-        );
-
-        $organizationSecretary = $this->prepareSinglePosition(
-            $validated['organization_secretary'],
-            $request->file('organization_secretary_photo'),
-            'village-organizations/secretary'
-        );
-
-        $organizationKaurItems = $this->prepareRepeaterItems(
-            $validated['organization_kaur_items'],
-            $request->file('organization_kaur_photos', []),
-            'village-organizations/kaur'
-        );
-
-        $organizationKasiItems = $this->prepareRepeaterItems(
-            $validated['organization_kasi_items'],
-            $request->file('organization_kasi_photos', []),
-            'village-organizations/kasi'
-        );
-
-        $organizationDusunItems = $this->prepareRepeaterItems(
-            $validated['organization_dusun_items'],
-            $request->file('organization_dusun_photos', []),
-            'village-organizations/dusun'
-        );
-
-        $profile->fill([
-            'organization_page_title' => $validated['organization_page_title'],
-            'organization_page_description' => $validated['organization_page_description'],
-            'organization_section_badge' => $validated['organization_section_badge'],
-            'organization_section_title' => $validated['organization_section_title'],
-            'organization_section_description' => $validated['organization_section_description'],
-            'organization_head' => $organizationHead,
-            'organization_partner' => $organizationPartner,
-            'organization_secretary' => $organizationSecretary,
-            'organization_kaur_items' => $organizationKaurItems,
-            'organization_kasi_items' => $organizationKasiItems,
-            'organization_dusun_items' => $organizationDusunItems,
-            'organization_note' => $validated['organization_note'],
-            'organization_sidebar_title' => $validated['organization_sidebar_title'],
-            'organization_sidebar_description' => $validated['organization_sidebar_description'],
+        $profile->forceFill([
+            'organization_identity' => $validated,
         ])->save();
 
-        $activePaths = collect([
-            data_get($organizationHead, 'photo_path'),
-            data_get($organizationPartner, 'photo_path'),
-            data_get($organizationSecretary, 'photo_path'),
-            ...collect($organizationKaurItems)->pluck('photo_path')->all(),
-            ...collect($organizationKasiItems)->pluck('photo_path')->all(),
-            ...collect($organizationDusunItems)->pluck('photo_path')->all(),
-        ])->filter(fn ($path) => filled($path) && ! str_starts_with($path, 'img/'))->values();
-
-        $existingPaths
-            ->diff($activePaths)
-            ->each(fn ($path) => Storage::disk(UploadStorage::disk())->delete($path));
-
-        LoggerService::logUserAction('update', 'VillageOrganization', $profile->id, [
+        LoggerService::logUserAction('update', 'VillageOrganizationIdentity', $profile->id, [
             'village_id' => $village->id,
         ]);
 
-        return redirect()
-            ->route('village-organizations.index')
-            ->with('message', 'Struktur organisasi desa berhasil diperbarui.');
+        return redirect()->route('village-organizations.index')->with('message', 'Identitas halaman publik diperbarui.');
     }
 
-    protected function prepareSinglePosition(array $item, $uploadedFile, string $directory): array
+    public function resetIdentity(): RedirectResponse
     {
-        $photoPath = $item['photo_path'] ?? 'img/avatar-placeholder.png';
+        [$village, $profile] = $this->resolveVillageProfile();
 
-        if ($uploadedFile) {
+        $profile->forceFill([
+            'organization_identity' => VillageProfile::defaultOrganizationIdentityForVillage($village),
+        ])->save();
+
+        LoggerService::logUserAction('delete', 'VillageOrganizationIdentity', $profile->id, [
+            'village_id' => $village->id,
+            'action' => 'reset_to_default',
+        ]);
+
+        return redirect()->route('village-organizations.index')->with('message', 'Identitas halaman publik dikembalikan ke data awal.');
+    }
+
+    public function storePositionOption(Request $request): RedirectResponse
+    {
+        return $this->persistPositionOption($request);
+    }
+
+    public function updatePositionOption(Request $request, string $optionId): RedirectResponse
+    {
+        return $this->persistPositionOption($request, $optionId);
+    }
+
+    public function destroyPositionOption(string $optionId): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $options = collect($this->organizationPositionOptions($profile));
+        $option = $options->firstWhere('id', $optionId);
+
+        if (! $option) {
+            return redirect()->route('village-organizations.index')->with('error', 'Data jabatan tidak ditemukan.');
+        }
+
+        $profile->forceFill([
+            'organization_position_options' => $options
+                ->reject(fn (array $item) => $item['id'] === $optionId)
+                ->values()
+                ->all(),
+            'organization_members' => collect($this->organizationMembers($profile))
+                ->reject(fn (array $member) => ($member['position_option_id'] ?? null) === $optionId)
+                ->values()
+                ->all(),
+        ])->save();
+
+        LoggerService::logUserAction('delete', 'VillageOrganizationPositionOption', $profile->id, [
+            'village_id' => $village->id,
+            'position_option_id' => $optionId,
+        ]);
+
+        return redirect()->route('village-organizations.index')->with('message', 'Data jabatan dihapus.');
+    }
+
+    public function storeMember(Request $request): RedirectResponse
+    {
+        return $this->persistMember($request);
+    }
+
+    public function updateMember(Request $request, string $memberId): RedirectResponse
+    {
+        return $this->persistMember($request, $memberId);
+    }
+
+    public function destroyMember(string $memberId): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $members = collect($this->organizationMembers($profile));
+        $member = $members->firstWhere('id', $memberId);
+
+        if (! $member) {
+            return redirect()->route('village-organizations.index')->with('error', 'Data struktur tidak ditemukan.');
+        }
+
+        $photoPath = $member['photo_path'] ?? null;
+        if ($photoPath && ! str_starts_with($photoPath, 'img/')) {
+            Storage::disk(UploadStorage::disk())->delete($photoPath);
+        }
+
+        $profile->forceFill([
+            'organization_members' => $members
+                ->reject(fn (array $item) => $item['id'] === $memberId)
+                ->values()
+                ->all(),
+        ])->save();
+
+        LoggerService::logUserAction('delete', 'VillageOrganizationMember', $profile->id, [
+            'village_id' => $village->id,
+            'member_id' => $memberId,
+        ]);
+
+        return redirect()->route('village-organizations.index')->with('message', 'Data struktur dihapus.');
+    }
+
+    protected function persistPositionOption(Request $request, ?string $optionId = null): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'label' => ['required', 'string', 'max:255'],
+            'title' => ['required', 'string', 'max:255'],
+            'group' => ['required', 'string', 'in:' . implode(',', array_keys($this->groupOptions()))],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+        ]);
+
+        $options = collect($this->organizationPositionOptions($profile));
+        $optionId = $optionId ?: Str::uuid()->toString();
+
+        $payload = [
+            'id' => $optionId,
+            'label' => $validated['label'],
+            'title' => $validated['title'],
+            'group' => $validated['group'],
+            'sort_order' => $validated['sort_order'] ?? ($options->max('sort_order') + 10),
+        ];
+
+        $updated = $options
+            ->reject(fn (array $item) => $item['id'] === $optionId)
+            ->push($payload)
+            ->sortBy(['sort_order', 'title'])
+            ->values()
+            ->all();
+
+        $profile->forceFill([
+            'organization_position_options' => $updated,
+        ])->save();
+
+        LoggerService::logUserAction($request->routeIs('*.store') ? 'create' : 'update', 'VillageOrganizationPositionOption', $profile->id, [
+            'village_id' => $village->id,
+            'position_option_id' => $optionId,
+        ]);
+
+        return redirect()->route('village-organizations.index')->with('message', 'Data jabatan berhasil disimpan.');
+    }
+
+    protected function persistMember(Request $request, ?string $memberId = null): RedirectResponse
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $validated = $request->validate([
+            'position_option_id' => ['required', 'string'],
+            'name' => ['required', 'string', 'max:255'],
+            'sort_order' => ['nullable', 'integer', 'min:0'],
+            'photo_path' => ['nullable', 'string', 'max:255'],
+            'photo' => ['nullable', 'image', 'max:4096'],
+        ]);
+
+        $option = collect($this->organizationPositionOptions($profile))->firstWhere('id', $validated['position_option_id']);
+        if (! $option) {
+            return redirect()->route('village-organizations.index')->with('error', 'Jabatan yang dipilih tidak tersedia.');
+        }
+
+        $members = collect($this->organizationMembers($profile));
+        $existing = $memberId ? $members->firstWhere('id', $memberId) : null;
+        $photoPath = $validated['photo_path'] ?: ($existing['photo_path'] ?? 'img/avatar-placeholder.png');
+
+        if ($request->hasFile('photo')) {
             if ($photoPath && ! str_starts_with($photoPath, 'img/')) {
                 Storage::disk(UploadStorage::disk())->delete($photoPath);
             }
 
-            $photoPath = $uploadedFile->store($directory, UploadStorage::disk());
+            $photoPath = $request->file('photo')->store('village-organizations/members', UploadStorage::disk());
         }
 
-        return [
-            'label' => $item['label'],
-            'title' => $item['title'],
-            'name' => $item['name'],
+        $memberId = $memberId ?: Str::uuid()->toString();
+        $payload = [
+            'id' => $memberId,
+            'position_option_id' => $validated['position_option_id'],
+            'name' => $validated['name'],
             'photo_path' => $photoPath,
+            'sort_order' => $validated['sort_order'] ?? (($option['sort_order'] ?? 0) + 1),
         ];
+
+        $updated = $members
+            ->reject(fn (array $item) => $item['id'] === $memberId)
+            ->push($payload)
+            ->values()
+            ->all();
+
+        $profile->forceFill([
+            'organization_members' => $updated,
+        ])->save();
+
+        LoggerService::logUserAction($request->routeIs('*.store') ? 'create' : 'update', 'VillageOrganizationMember', $profile->id, [
+            'village_id' => $village->id,
+            'member_id' => $memberId,
+            'position_option_id' => $validated['position_option_id'],
+        ]);
+
+        return redirect()->route('village-organizations.index')->with('message', 'Data struktur berhasil disimpan.');
     }
 
-    protected function prepareRepeaterItems(array $items, array $uploadedFiles, string $directory): array
+    protected function organizationIdentity(VillageProfile $profile, Village $village): array
     {
-        return collect($items)
+        return array_replace(
+            VillageProfile::defaultOrganizationIdentityForVillage($village),
+            $profile->organization_identity ?? []
+        );
+    }
+
+    protected function organizationPositionOptions(VillageProfile $profile): array
+    {
+        return collect($profile->organization_position_options ?? VillageProfile::defaultOrganizationPositionOptions())
+            ->filter(fn ($item) => is_array($item) && filled($item['id'] ?? null))
             ->values()
-            ->map(function (array $item, int $index) use ($uploadedFiles, $directory) {
-                $photoPath = $item['photo_path'] ?? 'img/avatar-placeholder.png';
-                $uploadedFile = $uploadedFiles[$index] ?? null;
-
-                if ($uploadedFile) {
-                    if ($photoPath && ! str_starts_with($photoPath, 'img/')) {
-                        Storage::disk(UploadStorage::disk())->delete($photoPath);
-                    }
-
-                    $photoPath = $uploadedFile->store($directory, UploadStorage::disk());
-                }
-
-                return [
-                    'label' => $item['label'],
-                    'title' => $item['title'],
-                    'name' => $item['name'],
-                    'photo_path' => $photoPath,
-                ];
-            })
             ->all();
+    }
+
+    protected function organizationMembers(VillageProfile $profile): array
+    {
+        return collect($profile->organization_members ?? VillageProfile::defaultOrganizationMembers())
+            ->filter(fn ($item) => is_array($item) && filled($item['id'] ?? null))
+            ->values()
+            ->all();
+    }
+
+    protected function decorateMember(array $member, array $positionOptions): array
+    {
+        $option = collect($positionOptions)->firstWhere('id', $member['position_option_id'] ?? null);
+        $group = $option['group'] ?? 'other';
+
+        return array_merge($member, [
+            'position_label' => $option['label'] ?? '-',
+            'position_title' => $option['title'] ?? '-',
+            'group' => $group,
+            'group_label' => $this->groupOptions()[$group] ?? 'Lainnya',
+            'group_sort' => array_search($group, array_keys($this->groupOptions()), true) ?: 999,
+        ]);
+    }
+
+    protected function groupOptions(): array
+    {
+        return [
+            'pimpinan' => 'Pimpinan',
+            'mitra' => 'Mitra Desa',
+            'sekretariat' => 'Sekretariat',
+            'kaur' => 'Kaur',
+            'kasi' => 'Kasi',
+            'kadus' => 'Kepala Dusun',
+        ];
     }
 
     /**
@@ -259,6 +335,24 @@ class VillageOrganizationController extends Controller
 
         if ($missingDefaults !== []) {
             $profile->fill($missingDefaults)->save();
+        }
+
+        if (blank($profile->organization_identity)) {
+            $profile->forceFill([
+                'organization_identity' => VillageProfile::defaultOrganizationIdentityForVillage($village),
+            ])->save();
+        }
+
+        if (blank($profile->organization_position_options)) {
+            $profile->forceFill([
+                'organization_position_options' => VillageProfile::defaultOrganizationPositionOptions(),
+            ])->save();
+        }
+
+        if (blank($profile->organization_members)) {
+            $profile->forceFill([
+                'organization_members' => VillageProfile::defaultOrganizationMembers(),
+            ])->save();
         }
 
         return [$village, $profile];

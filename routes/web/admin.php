@@ -26,6 +26,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::put('profil-desa/peta-desa', [VillageMapController::class, 'update'])
                 ->middleware('permission:village_maps.edit')
                 ->name('village-maps.update');
+            Route::put('profil-desa/peta-desa/editor', [VillageMapController::class, 'updateEditor'])
+                ->middleware('permission:village_maps.edit')
+                ->name('village-maps.editor.update');
+            Route::put('profil-desa/peta-desa/konten', [VillageMapController::class, 'updateContent'])
+                ->middleware('permission:village_maps.edit')
+                ->name('village-maps.content.update');
+            Route::put('profil-desa/peta-desa/panel', [VillageMapController::class, 'updatePanels'])
+                ->middleware('permission:village_maps.edit')
+                ->name('village-maps.panels.update');
+            Route::put('profil-desa/peta-desa/markers', [VillageMapController::class, 'updateMarkers'])
+                ->middleware('permission:village_maps.edit')
+                ->name('village-maps.markers.update');
             Route::get('profil-desa/sejarah-desa', [VillageHistoryController::class, 'index'])
                 ->middleware('permission:village_histories.view')
                 ->name('village-histories.index');
@@ -35,9 +47,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('profil-desa/struktur-organisasi', [VillageOrganizationController::class, 'index'])
                 ->middleware('permission:village_organizations.view')
                 ->name('village-organizations.index');
-            Route::put('profil-desa/struktur-organisasi', [VillageOrganizationController::class, 'update'])
+            Route::put('profil-desa/struktur-organisasi/identitas', [VillageOrganizationController::class, 'updateIdentity'])
                 ->middleware('permission:village_organizations.edit')
-                ->name('village-organizations.update');
+                ->name('village-organizations.identity.update');
+            Route::delete('profil-desa/struktur-organisasi/identitas', [VillageOrganizationController::class, 'resetIdentity'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.identity.reset');
+            Route::post('profil-desa/struktur-organisasi/jabatan', [VillageOrganizationController::class, 'storePositionOption'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.positions.store');
+            Route::put('profil-desa/struktur-organisasi/jabatan/{optionId}', [VillageOrganizationController::class, 'updatePositionOption'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.positions.update');
+            Route::delete('profil-desa/struktur-organisasi/jabatan/{optionId}', [VillageOrganizationController::class, 'destroyPositionOption'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.positions.destroy');
+            Route::post('profil-desa/struktur-organisasi/anggota', [VillageOrganizationController::class, 'storeMember'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.members.store');
+            Route::post('profil-desa/struktur-organisasi/anggota/{memberId}', [VillageOrganizationController::class, 'updateMember'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.members.update');
+            Route::delete('profil-desa/struktur-organisasi/anggota/{memberId}', [VillageOrganizationController::class, 'destroyMember'])
+                ->middleware('permission:village_organizations.edit')
+                ->name('village-organizations.members.destroy');
             Route::prefix('apbdes')->name('budgets.')->group(function () {
                 $budgetPages = [
                     'overview' => [

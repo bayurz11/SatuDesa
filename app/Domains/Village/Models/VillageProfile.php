@@ -63,6 +63,9 @@ class VillageProfile extends Model
         'organization_note',
         'organization_sidebar_title',
         'organization_sidebar_description',
+        'organization_identity',
+        'organization_position_options',
+        'organization_members',
     ];
 
     protected $casts = [
@@ -79,6 +82,9 @@ class VillageProfile extends Model
         'organization_kaur_items' => 'array',
         'organization_kasi_items' => 'array',
         'organization_dusun_items' => 'array',
+        'organization_identity' => 'array',
+        'organization_position_options' => 'array',
+        'organization_members' => 'array',
     ];
 
     public function village(): BelongsTo
@@ -310,6 +316,59 @@ class VillageProfile extends Model
             'organization_note' => 'Struktur organisasi dapat disesuaikan dengan data perangkat desa dan foto masing-masing pejabat.',
             'organization_sidebar_title' => 'Tata Kelola Desa',
             'organization_sidebar_description' => 'Struktur organisasi membantu masyarakat memahami pembagian tugas, alur koordinasi, dan perangkat desa yang menjalankan pelayanan publik.',
+            'organization_identity' => self::defaultOrganizationIdentityForVillage($village),
+            'organization_position_options' => self::defaultOrganizationPositionOptions(),
+            'organization_members' => self::defaultOrganizationMembers(),
+        ];
+    }
+
+    public static function defaultOrganizationIdentityForVillage(Village $village): array
+    {
+        return [
+            'page_title' => 'Struktur Organisasi Desa ' . $village->name,
+            'page_description' => 'Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan, dan tata kelola administrasi ' . $village->name . '.',
+            'section_badge' => 'Bagan Organisasi',
+            'section_title' => 'Struktur Organisasi Desa ' . $village->name,
+            'section_description' => 'Susunan pemerintahan desa yang menggambarkan pembagian tugas, fungsi pelayanan, dan tata kelola administrasi ' . $village->name . '.',
+            'note' => 'Struktur organisasi dapat disesuaikan dengan data perangkat desa dan foto masing-masing pejabat.',
+            'sidebar_title' => 'Tata Kelola Desa',
+            'sidebar_description' => 'Struktur organisasi membantu masyarakat memahami pembagian tugas, alur koordinasi, dan perangkat desa yang menjalankan pelayanan publik.',
+        ];
+    }
+
+    public static function defaultOrganizationPositionOptions(): array
+    {
+        return [
+            ['id' => 'head', 'label' => 'Kepala Desa', 'title' => 'Kepala Desa', 'group' => 'pimpinan', 'sort_order' => 10],
+            ['id' => 'partner', 'label' => 'Mitra Desa', 'title' => 'BPD', 'group' => 'mitra', 'sort_order' => 20],
+            ['id' => 'secretary', 'label' => 'Sekretariat Desa', 'title' => 'Sekretaris Desa', 'group' => 'sekretariat', 'sort_order' => 30],
+            ['id' => 'kaur-umum', 'label' => 'Kaur', 'title' => 'Kaur Tata Usaha & Umum', 'group' => 'kaur', 'sort_order' => 40],
+            ['id' => 'kaur-keuangan', 'label' => 'Kaur', 'title' => 'Kaur Keuangan', 'group' => 'kaur', 'sort_order' => 50],
+            ['id' => 'kaur-perencanaan', 'label' => 'Kaur', 'title' => 'Kaur Perencanaan', 'group' => 'kaur', 'sort_order' => 60],
+            ['id' => 'kasi-pemerintahan', 'label' => 'Kasi', 'title' => 'Kasi Pemerintahan', 'group' => 'kasi', 'sort_order' => 70],
+            ['id' => 'kasi-kesejahteraan', 'label' => 'Kasi', 'title' => 'Kasi Kesejahteraan', 'group' => 'kasi', 'sort_order' => 80],
+            ['id' => 'kasi-pelayanan', 'label' => 'Kasi', 'title' => 'Kasi Pelayanan', 'group' => 'kasi', 'sort_order' => 90],
+            ['id' => 'kadus-1', 'label' => 'Kadus', 'title' => 'Kepala Dusun I', 'group' => 'kadus', 'sort_order' => 100],
+            ['id' => 'kadus-2', 'label' => 'Kadus', 'title' => 'Kepala Dusun II', 'group' => 'kadus', 'sort_order' => 110],
+            ['id' => 'kadus-3', 'label' => 'Kadus', 'title' => 'Kepala Dusun III', 'group' => 'kadus', 'sort_order' => 120],
+        ];
+    }
+
+    public static function defaultOrganizationMembers(): array
+    {
+        return [
+            ['id' => 'member-head', 'position_option_id' => 'head', 'name' => 'Nama Kepala Desa', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 10],
+            ['id' => 'member-partner', 'position_option_id' => 'partner', 'name' => 'Badan Permusyawaratan Desa', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 20],
+            ['id' => 'member-secretary', 'position_option_id' => 'secretary', 'name' => 'Nama Sekretaris Desa', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 30],
+            ['id' => 'member-kaur-umum', 'position_option_id' => 'kaur-umum', 'name' => 'Nama Kaur', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 40],
+            ['id' => 'member-kaur-keuangan', 'position_option_id' => 'kaur-keuangan', 'name' => 'Nama Kaur', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 50],
+            ['id' => 'member-kaur-perencanaan', 'position_option_id' => 'kaur-perencanaan', 'name' => 'Nama Kaur', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 60],
+            ['id' => 'member-kasi-pemerintahan', 'position_option_id' => 'kasi-pemerintahan', 'name' => 'Nama Kasi', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 70],
+            ['id' => 'member-kasi-kesejahteraan', 'position_option_id' => 'kasi-kesejahteraan', 'name' => 'Nama Kasi', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 80],
+            ['id' => 'member-kasi-pelayanan', 'position_option_id' => 'kasi-pelayanan', 'name' => 'Nama Kasi', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 90],
+            ['id' => 'member-kadus-1', 'position_option_id' => 'kadus-1', 'name' => 'Nama Kadus', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 100],
+            ['id' => 'member-kadus-2', 'position_option_id' => 'kadus-2', 'name' => 'Nama Kadus', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 110],
+            ['id' => 'member-kadus-3', 'position_option_id' => 'kadus-3', 'name' => 'Nama Kadus', 'photo_path' => 'img/avatar-placeholder.png', 'sort_order' => 120],
         ];
     }
 
