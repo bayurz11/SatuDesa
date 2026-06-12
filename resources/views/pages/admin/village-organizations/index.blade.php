@@ -24,125 +24,105 @@
         $members = collect($organizationMembers ?? [])->values();
     @endphp
 
-    <div class="space-y-8 animate-fadeInUp">
-        <div class="profile-module-hero">
-            <div class="p-8">
-                <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="flex max-w-3xl gap-5">
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75v10.5M12 9v8.25M6.75 11.25v6M4.5 19.5h15" />
+    <div class="space-y-6 animate-fadeInUp">
+        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+                <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 6.75v10.5M12 9v8.25M6.75 11.25v6M4.5 19.5h15" />
                             </svg>
                         </div>
                         <div>
-                            <p class="profile-module-kicker">Profil Desa</p>
-                            <h1 class="profile-module-heading">Manajemen Struktur Organisasi</h1>
-                            <p class="profile-module-copy">
-                                Kelola identitas halaman, master jabatan, dan data struktur organisasi publik lewat tabel ringkas dan modal input.
-                            </p>
+                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
+                            <h2 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Struktur Organisasi</h2>
+                            <p class="text-sm text-gray-600 mt-1">Kelola identitas halaman, master jabatan, dan data struktur organisasi publik.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
-                        <div class="profile-module-stat">
-                            <p class="profile-module-stat-label">Desa Aktif</p>
-                            <p class="text-lg font-semibold text-slate-900 mt-2">{{ $village->name }}</p>
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                            <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
+                            <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
                         <a href="{{ $publicOrganizationUrl }}" target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
+                            class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300">
                             Buka Halaman Publik
                         </a>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <section class="module-panel overflow-hidden">
-            <div class="module-panel-header px-8 py-8">
-                <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="flex max-w-3xl gap-5">
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-violet-500 to-fuchsia-600 text-white shadow-lg shadow-violet-500/25">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 7.5h18M3 12h18M3 16.5h12" />
-                            </svg>
-                        </div>
-                        <div>
-                            <h2 class="profile-module-heading">Struktur Organisasi Desa</h2>
-                            <p class="profile-module-copy">
-                                Semua data di bawah ini langsung membentuk tampilan halaman publik. Gunakan master jabatan untuk isi dropdown, lalu tambahkan anggota struktur sesuai kebutuhan.
-                            </p>
-                        </div>
+            <div class="px-6 py-6 bg-white">
+                <div class="grid gap-4 md:grid-cols-3">
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                        <p class="text-sm text-gray-500">Identitas Publik</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
+                        <p class="text-sm font-semibold text-blue-600 mt-3">Satu set aktif</p>
                     </div>
-
-                    <div class="grid gap-4 sm:grid-cols-3">
-                        <div class="profile-module-stat">
-                            <p class="profile-module-stat-label">Identitas Publik</p>
-                            <p class="profile-module-stat-value">1</p>
-                            <p class="profile-module-stat-note text-blue-600">Satu set aktif</p>
-                        </div>
-                        <div class="profile-module-stat">
-                            <p class="profile-module-stat-label">Master Jabatan</p>
-                            <p class="profile-module-stat-value">{{ $positionOptions->count() }}</p>
-                            <p class="profile-module-stat-note text-emerald-600">Dropdown siap pakai</p>
-                        </div>
-                        <div class="profile-module-stat">
-                            <p class="profile-module-stat-label">Data Struktur</p>
-                            <p class="profile-module-stat-value">{{ $members->count() }}</p>
-                            <p class="profile-module-stat-note text-amber-600">Tampil ke publik</p>
-                        </div>
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                        <p class="text-sm text-gray-500">Master Jabatan</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $positionOptions->count() }}</p>
+                        <p class="text-sm font-semibold text-emerald-600 mt-3">Dropdown siap pakai</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
+                        <p class="text-sm text-gray-500">Data Struktur</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $members->count() }}</p>
+                        <p class="text-sm font-semibold text-amber-600 mt-3">Tampil ke publik</p>
                     </div>
                 </div>
             </div>
 
-            <div class="border-t border-slate-200 bg-slate-50/70 px-8 py-6">
-                <div class="grid gap-8">
-                    <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
-                        <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+            <div class="border-t border-gray-200 bg-white">
+                <div class="grid gap-6 p-6">
+                    <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-4 border-b border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="profile-module-section-title">Identitas Halaman Publik</h3>
-                                <p class="profile-module-section-copy">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
+                                <h3 class="text-lg font-bold text-gray-900">Identitas Halaman Publik</h3>
+                                <p class="text-sm text-gray-600 mt-1">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
                             </div>
                             @permission('village_organizations.edit')
-                                <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="identity-modal">
+                                <button type="button" class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300" data-open-modal="identity-modal">
                                     Atur Identitas Halaman
                                 </button>
                             @endpermission
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
-                                <thead class="bg-slate-50">
-                                    <tr class="text-left">
-                                        <th class="px-6 py-4">Judul Halaman</th>
-                                        <th class="px-6 py-4">Badge</th>
-                                        <th class="px-6 py-4">Judul Bagan</th>
-                                        <th class="px-6 py-4">Panel Samping</th>
-                                        <th class="px-6 py-4 text-right">Aksi</th>
+                            <table class="min-w-full">
+                                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Judul Halaman</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Badge</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Judul Bagan</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Panel Samping</th>
+                                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-100 bg-white">
-                                    <tr class="align-top text-sm text-slate-700">
+                                <tbody class="bg-white divide-y divide-gray-100">
+                                    <tr class="align-top text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300">
                                         <td class="px-6 py-5">
-                                            <p class="font-semibold text-slate-900">{{ $identity['page_title'] ?? '-' }}</p>
-                                            <p class="mt-1 max-w-md text-slate-500 line-clamp-2">{{ $identity['page_description'] ?? '-' }}</p>
+                                            <p class="font-semibold text-gray-900">{{ $identity['page_title'] ?? '-' }}</p>
+                                            <p class="mt-1 max-w-md text-gray-500 line-clamp-2">{{ $identity['page_description'] ?? '-' }}</p>
                                         </td>
                                         <td class="px-6 py-5">{{ $identity['section_badge'] ?? '-' }}</td>
                                         <td class="px-6 py-5">
-                                            <p class="font-medium text-slate-900">{{ $identity['section_title'] ?? '-' }}</p>
-                                            <p class="mt-1 max-w-md text-slate-500 line-clamp-2">{{ $identity['section_description'] ?? '-' }}</p>
+                                            <p class="font-medium text-gray-900">{{ $identity['section_title'] ?? '-' }}</p>
+                                            <p class="mt-1 max-w-md text-gray-500 line-clamp-2">{{ $identity['section_description'] ?? '-' }}</p>
                                         </td>
                                         <td class="px-6 py-5">
-                                            <p class="font-medium text-slate-900">{{ $identity['sidebar_title'] ?? '-' }}</p>
-                                            <p class="mt-1 max-w-sm text-slate-500 line-clamp-2">{{ $identity['sidebar_description'] ?? '-' }}</p>
+                                            <p class="font-medium text-gray-900">{{ $identity['sidebar_title'] ?? '-' }}</p>
+                                            <p class="mt-1 max-w-sm text-gray-500 line-clamp-2">{{ $identity['sidebar_description'] ?? '-' }}</p>
                                         </td>
                                         <td class="px-6 py-5">
                                             <div class="flex justify-end gap-2">
                                                 @permission('village_organizations.edit')
-                                                    <button type="button" class="module-edit-btn" data-open-modal="identity-modal">Edit</button>
+                                                    <button type="button" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-600 transition-all duration-200 hover:scale-105 hover:bg-blue-100 hover:text-blue-700" data-open-modal="identity-modal">Edit</button>
                                                     <form method="POST" action="{{ route('village-organizations.identity.reset') }}" onsubmit="return confirm('Reset identitas halaman ke data awal?')">
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="module-danger-btn">Hapus</button>
+                                                        <button type="submit" class="inline-flex items-center rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-all duration-200 hover:scale-105 hover:bg-red-100 hover:text-red-700">Hapus</button>
                                                     </form>
                                                 @endpermission
                                             </div>
@@ -153,48 +133,48 @@
                         </div>
                     </section>
 
-                    <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
-                        <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-4 border-b border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="profile-module-section-title">Master Jabatan</h3>
-                                <p class="profile-module-section-copy">Data di sini menjadi sumber dropdown untuk input struktur organisasi.</p>
+                                <h3 class="text-lg font-bold text-gray-900">Master Jabatan</h3>
+                                <p class="text-sm text-gray-600 mt-1">Data di sini menjadi sumber dropdown untuk input struktur organisasi.</p>
                             </div>
                             @permission('village_organizations.edit')
-                                <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="position-modal" data-position-action="create">
+                                <button type="button" class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300" data-open-modal="position-modal" data-position-action="create">
                                     Tambah Jabatan
                                 </button>
                             @endpermission
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
-                                <thead class="bg-slate-50">
-                                    <tr class="text-left">
-                                        <th class="px-6 py-4">Label</th>
-                                        <th class="px-6 py-4">Judul Jabatan</th>
-                                        <th class="px-6 py-4">Kelompok</th>
-                                        <th class="px-6 py-4">Urutan</th>
-                                        <th class="px-6 py-4 text-right">Aksi</th>
+                            <table class="min-w-full">
+                                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Label</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Judul Jabatan</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Kelompok</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Urutan</th>
+                                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-100 bg-white">
+                                <tbody class="bg-white divide-y divide-gray-100">
                                     @forelse ($positionOptions as $option)
-                                        <tr class="text-sm text-slate-700">
-                                            <td class="px-6 py-5 font-semibold text-slate-900">{{ $option['label'] }}</td>
+                                        <tr class="text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300">
+                                            <td class="px-6 py-5 font-semibold text-gray-900">{{ $option['label'] }}</td>
                                             <td class="px-6 py-5">{{ $option['title'] }}</td>
                                             <td class="px-6 py-5">{{ $organizationGroups[$option['group']] ?? $option['group'] }}</td>
                                             <td class="px-6 py-5">{{ $option['sort_order'] ?? 0 }}</td>
                                             <td class="px-6 py-5">
                                                 <div class="flex justify-end gap-2">
                                                     @permission('village_organizations.edit')
-                                                        <button type="button" class="module-edit-btn"
+                                                        <button type="button" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-600 transition-all duration-200 hover:scale-105 hover:bg-blue-100 hover:text-blue-700"
                                                             data-open-modal="position-modal"
                                                             data-position-action="edit"
                                                             data-position='@json($option)'>Edit</button>
                                                         <form method="POST" action="{{ route('village-organizations.positions.destroy', $option['id']) }}" onsubmit="return confirm('Hapus jabatan ini? Anggota yang memakai jabatan ini juga akan ikut terhapus.')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="module-danger-btn">Hapus</button>
+                                                            <button type="submit" class="inline-flex items-center rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-all duration-200 hover:scale-105 hover:bg-red-100 hover:text-red-700">Hapus</button>
                                                         </form>
                                                     @endpermission
                                                 </div>
@@ -202,7 +182,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="5" class="px-6 py-8 text-center text-sm text-slate-500">Belum ada data jabatan.</td>
+                                            <td colspan="5" class="px-6 py-8 text-center text-sm text-gray-500">Belum ada data jabatan.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -210,40 +190,40 @@
                         </div>
                     </section>
 
-                    <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
-                        <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-4 border-b border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="profile-module-section-title">Data Struktur Organisasi</h3>
-                                <p class="profile-module-section-copy">Data ini yang langsung ditampilkan pada halaman publik sesuai jabatan yang dipilih dari dropdown.</p>
+                                <h3 class="text-lg font-bold text-gray-900">Data Struktur Organisasi</h3>
+                                <p class="text-sm text-gray-600 mt-1">Data ini yang langsung ditampilkan pada halaman publik sesuai jabatan yang dipilih dari dropdown.</p>
                             </div>
                             @permission('village_organizations.edit')
-                                <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="member-modal" data-member-action="create">
+                                <button type="button" class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300" data-open-modal="member-modal" data-member-action="create">
                                     Tambah Data Struktur
                                 </button>
                             @endpermission
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
-                                <thead class="bg-slate-50">
-                                    <tr class="text-left">
-                                        <th class="px-6 py-4">Foto</th>
-                                        <th class="px-6 py-4">Jabatan</th>
-                                        <th class="px-6 py-4">Kelompok</th>
-                                        <th class="px-6 py-4">Nama / Keterangan</th>
-                                        <th class="px-6 py-4">Urutan</th>
-                                        <th class="px-6 py-4 text-right">Aksi</th>
+                            <table class="min-w-full">
+                                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                    <tr>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Foto</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Jabatan</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Kelompok</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Nama / Keterangan</th>
+                                        <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Urutan</th>
+                                        <th class="px-6 py-4 text-right text-xs font-semibold uppercase tracking-wider text-gray-600">Aksi</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-slate-100 bg-white">
+                                <tbody class="bg-white divide-y divide-gray-100">
                                     @forelse ($members as $member)
-                                        <tr class="text-sm text-slate-700">
+                                        <tr class="text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300">
                                             <td class="px-6 py-5">
-                                                <img src="{{ $resolvePhotoUrl($member['photo_path'] ?? null) }}" alt="{{ $member['position_title'] }}" class="h-12 w-12 rounded-full border border-slate-200 object-cover">
+                                                <img src="{{ $resolvePhotoUrl($member['photo_path'] ?? null) }}" alt="{{ $member['position_title'] }}" class="h-12 w-12 rounded-xl border border-gray-200 object-cover shadow-sm">
                                             </td>
                                             <td class="px-6 py-5">
-                                                <p class="font-semibold text-slate-900">{{ $member['position_title'] }}</p>
-                                                <p class="mt-1 text-slate-500">{{ $member['position_label'] }}</p>
+                                                <p class="font-semibold text-gray-900">{{ $member['position_title'] }}</p>
+                                                <p class="mt-1 text-gray-500">{{ $member['position_label'] }}</p>
                                             </td>
                                             <td class="px-6 py-5">{{ $member['group_label'] }}</td>
                                             <td class="px-6 py-5">{{ $member['name'] }}</td>
@@ -251,14 +231,14 @@
                                             <td class="px-6 py-5">
                                                 <div class="flex justify-end gap-2">
                                                     @permission('village_organizations.edit')
-                                                        <button type="button" class="module-edit-btn"
+                                                        <button type="button" class="inline-flex items-center rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-600 transition-all duration-200 hover:scale-105 hover:bg-blue-100 hover:text-blue-700"
                                                             data-open-modal="member-modal"
                                                             data-member-action="edit"
                                                             data-member='@json($member)'>Edit</button>
                                                         <form method="POST" action="{{ route('village-organizations.members.destroy', $member['id']) }}" onsubmit="return confirm('Hapus data struktur ini?')">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="module-danger-btn">Hapus</button>
+                                                            <button type="submit" class="inline-flex items-center rounded-lg bg-red-50 px-3 py-2 text-xs font-semibold text-red-600 transition-all duration-200 hover:scale-105 hover:bg-red-100 hover:text-red-700">Hapus</button>
                                                         </form>
                                                     @endpermission
                                                 </div>
@@ -266,7 +246,7 @@
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="6" class="px-6 py-8 text-center text-sm text-slate-500">Belum ada data struktur organisasi.</td>
+                                            <td colspan="6" class="px-6 py-8 text-center text-sm text-gray-500">Belum ada data struktur organisasi.</td>
                                         </tr>
                                     @endforelse
                                 </tbody>
@@ -275,7 +255,7 @@
                     </section>
                 </div>
             </div>
-        </section>
+        </div>
     </div>
 
     @permission('village_organizations.edit')
