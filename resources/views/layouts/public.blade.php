@@ -52,6 +52,7 @@
 
 </script>
 
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         @keyframes bounceHigh {
@@ -137,17 +138,6 @@
             display: none !important;
         }
 
-        .leaflet-container {
-            z-index: 0;
-        }
-
-        .leaflet-container img,
-        .leaflet-container svg,
-        .leaflet-container canvas {
-            max-width: none !important;
-            max-height: none !important;
-        }
-
         @keyframes fadeUp {
             0% {
                 opacity: 0;
@@ -187,6 +177,7 @@
         <div class="absolute bottom-0 right-0 w-40 h-40 bg-yellow-100 rounded-full blur-2xl opacity-40"></div>
         @yield('content')
     </main>
+
 
     <!-- Floating Action Buttons -->
     <div class="fixed bottom-5 right-4 z-50 flex flex-col items-end gap-3 sm:bottom-6 sm:right-6">
@@ -582,12 +573,16 @@
             AOS.refresh();
         });
     </script>
-
+    <!-- Alpine.js (CDN) -->
     <script src="https://unpkg.com/alpinejs" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+
+    <!-- Swiper.js CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     @stack('scripts')
 </body>
 

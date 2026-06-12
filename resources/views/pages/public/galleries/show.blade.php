@@ -192,20 +192,20 @@
         </div>
     </section>
 
-    <dialog id="galleryLightbox" class="m-0 h-screen w-screen max-h-none max-w-none border-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.12),_transparent_28%),rgba(3,7,18,0.96)] p-0 text-left backdrop:bg-black/90">
-        <div class="mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-5 sm:px-6 lg:px-8">
+    <dialog id="galleryLightbox" class="m-0 h-screen w-screen max-h-none max-w-none border-0 bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.14),_transparent_26%),rgba(2,6,23,0.98)] p-0 text-left backdrop:bg-black/95">
+        <div class="mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-4 sm:px-6 lg:px-8">
             <div class="mb-4 flex items-start justify-between gap-4 text-white">
-                <div class="rounded-[24px] border border-white/10 bg-white/5 px-4 py-3 backdrop-blur">
+                <div class="rounded-[24px] border border-white/15 bg-slate-950/65 px-4 py-3 shadow-xl shadow-black/25 backdrop-blur-md">
                     <div class="flex flex-wrap items-center gap-3">
-                        <span class="inline-flex rounded-full bg-white/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white/80 ring-1 ring-white/10">
+                        <span class="inline-flex rounded-full bg-white/12 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-white ring-1 ring-white/15">
                             Preview Foto
                         </span>
-                        <span id="galleryLightboxCounter" class="inline-flex rounded-full bg-emerald-400/15 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-200 ring-1 ring-emerald-300/20"></span>
+                        <span id="galleryLightboxCounter" class="inline-flex rounded-full bg-emerald-400/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.24em] text-emerald-100 ring-1 ring-emerald-300/25"></span>
                     </div>
-                    <p id="galleryLightboxCaption" class="mt-3 text-sm font-medium leading-6 text-white/90"></p>
+                    <p id="galleryLightboxCaption" class="mt-3 text-sm font-semibold leading-6 text-white"></p>
                 </div>
                 <button type="button" id="galleryLightboxClose"
-                    class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-lg shadow-black/20 transition hover:scale-105 hover:bg-white/20">
+                    class="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/20 bg-slate-950/75 text-white shadow-xl shadow-black/30 transition hover:scale-105 hover:bg-slate-900">
                     <span class="sr-only">Tutup</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -213,32 +213,32 @@
                 </button>
             </div>
 
-            <div class="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] shadow-2xl shadow-black/40 ring-1 ring-white/5 backdrop-blur">
+            <div class="relative mx-auto flex w-full items-center justify-center overflow-hidden rounded-[32px] border border-white/12 bg-slate-950/50 shadow-2xl shadow-black/50 ring-1 ring-white/8 backdrop-blur">
                 <div class="absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-black/25 to-transparent"></div>
-                <div class="absolute inset-x-0 bottom-0 z-10 h-28 bg-gradient-to-t from-black/30 to-transparent"></div>
-                <img id="galleryLightboxImage" src="" alt="" class="max-h-[76vh] w-full object-contain bg-[linear-gradient(135deg,rgba(15,23,42,0.86),rgba(17,24,39,0.96))]">
+                <div class="absolute inset-x-0 bottom-0 z-10 h-32 bg-gradient-to-t from-black/55 via-black/15 to-transparent"></div>
+                <img id="galleryLightboxImage" src="" alt="" class="mx-auto block max-h-[72vh] w-auto max-w-full object-contain bg-[linear-gradient(135deg,rgba(15,23,42,0.94),rgba(17,24,39,0.98))]">
                 <button type="button" id="galleryLightboxPrev"
-                    class="absolute left-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg shadow-black/30 transition hover:scale-105 hover:bg-black/55 sm:left-6">
+                    class="absolute left-4 top-1/2 z-20 inline-flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-slate-950/78 text-white shadow-xl shadow-black/35 transition hover:scale-105 hover:bg-slate-900 sm:left-6">
                     <span class="sr-only">Foto sebelumnya</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
                     </svg>
                 </button>
                 <button type="button" id="galleryLightboxNext"
-                    class="absolute right-4 top-1/2 z-20 inline-flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-white/15 bg-black/35 text-white shadow-lg shadow-black/30 transition hover:scale-105 hover:bg-black/55 sm:right-6">
+                    class="absolute right-4 top-1/2 z-20 inline-flex h-14 w-14 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-slate-950/78 text-white shadow-xl shadow-black/35 transition hover:scale-105 hover:bg-slate-900 sm:right-6">
                     <span class="sr-only">Foto berikutnya</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5 15.75 12l-7.5 7.5" />
                     </svg>
                 </button>
                 <div class="absolute inset-x-0 bottom-0 z-20 p-4 sm:p-6">
-                    <div class="rounded-[24px] border border-white/10 bg-black/25 px-4 py-3 backdrop-blur-md">
+                    <div class="rounded-[24px] border border-white/15 bg-slate-950/72 px-4 py-3 shadow-xl shadow-black/25 backdrop-blur-md">
                         <div class="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
                             <div>
-                                <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/65">Album {{ $gallery->title }}</p>
-                                <p id="galleryLightboxFooterCaption" class="mt-1 text-sm font-medium leading-6 text-white/90"></p>
+                                <p class="text-[11px] font-semibold uppercase tracking-[0.24em] text-white/75">Album {{ $gallery->title }}</p>
+                                <p id="galleryLightboxFooterCaption" class="mt-1 text-sm font-semibold leading-6 text-white"></p>
                             </div>
-                            <p class="text-xs text-white/60">Gunakan panah kiri/kanan untuk navigasi</p>
+                            <p class="text-xs text-white/75">Gunakan panah kiri/kanan untuk navigasi</p>
                         </div>
                     </div>
                 </div>
