@@ -33,7 +33,7 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start">
+            <div class="public-sidebar-grid public-sidebar-grid--360 mt-8 lg:items-start">
                 <div class="max-w-4xl" data-aos="fade-up">
 
 

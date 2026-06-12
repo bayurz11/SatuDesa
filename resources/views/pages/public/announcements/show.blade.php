@@ -154,7 +154,7 @@
 
         <div class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
 
-            <div class="grid -mt-72 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+            <div class="public-sidebar-grid public-sidebar-grid--320 -mt-72">
                 <main>
                     <article
                         class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-xl shadow-gray-200/60"

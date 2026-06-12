@@ -42,9 +42,11 @@
                 Beranda
             </a>
 
-            <div class="relative group">
-                <button
-                    class="{{ $isProfile ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition">
+            <div class="relative group" data-desktop-dropdown>
+                <button type="button"
+                    aria-expanded="false"
+                    class="{{ $isProfile ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
+                    data-desktop-dropdown-btn>
                     Profil Desa
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -52,7 +54,8 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-10">
+                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 z-10"
+                    data-desktop-dropdown-panel>
                     <a href="{{ route('public.history') }}"
                         class="{{ $isHistory ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
                         Sejarah
@@ -72,9 +75,11 @@
                 </div>
             </div>
 
-            <div class="relative group">
-                <button
-                    class="{{ $isInformation ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition">
+            <div class="relative group" data-desktop-dropdown>
+                <button type="button"
+                    aria-expanded="false"
+                    class="{{ $isInformation ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
+                    data-desktop-dropdown-btn>
                     Informasi
                     <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
@@ -82,7 +87,8 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-200 z-10">
+                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 z-10"
+                    data-desktop-dropdown-panel>
                     <a href="{{ route('public.population.index') }}"
                         class="{{ $isPopulation ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
                         Data Penduduk

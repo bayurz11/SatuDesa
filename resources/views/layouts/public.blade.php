@@ -298,6 +298,57 @@
             |--------------------------------------------------------------------------
             */
             (() => {
+                const desktopDropdowns = document.querySelectorAll('[data-desktop-dropdown]');
+
+                if (desktopDropdowns.length) {
+                    const closeDesktopDropdowns = (exceptBtn = null) => {
+                        desktopDropdowns.forEach((dropdown) => {
+                            const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
+
+                            if (!btn || btn === exceptBtn) return;
+
+                            btn.setAttribute('aria-expanded', 'false');
+                        });
+                    };
+
+                    desktopDropdowns.forEach((dropdown) => {
+                        const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
+                        const panel = dropdown.querySelector('[data-desktop-dropdown-panel]');
+
+                        if (!btn || !panel) return;
+
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+
+                            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                            closeDesktopDropdowns(btn);
+                            btn.setAttribute('aria-expanded', String(!isExpanded));
+
+                            if (!isExpanded) {
+                                btn.focus();
+                            }
+                        });
+
+                        dropdown.addEventListener('mouseleave', () => {
+                            btn.setAttribute('aria-expanded', 'false');
+                        });
+                    });
+
+                    document.addEventListener('click', (e) => {
+                        const insideDropdown = e.target.closest('[data-desktop-dropdown]');
+
+                        if (!insideDropdown) {
+                            closeDesktopDropdowns();
+                        }
+                    });
+
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') {
+                            closeDesktopDropdowns();
+                        }
+                    });
+                }
+
                 const menuBtn = document.getElementById('menu-btn');
                 const menuClose = document.getElementById('menu-close');
                 const overlay = document.getElementById('overlay');

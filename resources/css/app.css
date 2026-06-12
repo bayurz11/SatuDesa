@@ -82,6 +82,33 @@
     backdrop-filter: blur(8px);
   }
 
+  .public-sidebar-grid {
+    display: grid;
+    gap: calc(var(--spacing) * 8);
+  }
+
+  @media (min-width: 64rem) {
+    .public-sidebar-grid--220 {
+      grid-template-columns: minmax(0, 1fr) 220px;
+    }
+
+    .public-sidebar-grid--320 {
+      grid-template-columns: minmax(0, 1fr) 320px;
+    }
+
+    .public-sidebar-grid--330 {
+      grid-template-columns: minmax(0, 1fr) 330px;
+    }
+
+    .public-sidebar-grid--340 {
+      grid-template-columns: minmax(0, 1fr) 340px;
+    }
+
+    .public-sidebar-grid--360 {
+      grid-template-columns: minmax(0, 1fr) 360px;
+    }
+  }
+
   .btn {
     @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200;
   }

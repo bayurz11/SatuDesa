@@ -193,179 +193,180 @@
         <!-- Population Administration Section -->
         @if ($hasPopulationData)
             <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
-            <!-- Header -->
-            <header class="mx-auto mb-12 max-w-3xl text-center">
-
-                <span
-                    class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
-
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
-                        stroke="currentColor" class="w-4 h-4 transition-transform duration-300 group-hover:rotate-12">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-                    </svg>
-
-                    Data Kependudukan Desa
-
-                </span>
-
-                <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
-                    Administrasi
-                    <span class="text-green-700">Penduduk</span>
-                </h2>
-
-                <p class="mt-5 text-sm leading-relaxed text-gray-600 md:text-base">
-                    Menyajikan ringkasan administrasi dan statistik kependudukan desa berdasarkan data
-                    penduduk yang dikelola dari panel admin, sehingga informasi publik tetap relevan,
-                    ringkas, dan mudah dipantau warga.
-                </p>
-
-            </header>
-
-            <!-- Statistik -->
-            <div class="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5 mt-10" data-aos="fade-up"
-                data-aos-delay="300">
-
-                <!-- Total Penduduk -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+                <!-- Header -->
+                <header class="mx-auto mb-12 max-w-3xl text-center">
 
                     <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+                        class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
 
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
-                    </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8"
+                            stroke="currentColor"
+                            class="w-4 h-4 transition-transform duration-300 group-hover:rotate-12">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                        </svg>
 
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $totalCitizens }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Total Penduduk
+                        Data Kependudukan Desa
+
                     </span>
+
+                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+                        Administrasi
+                        <span class="text-green-700">Penduduk</span>
+                    </h2>
+
+                    <p class="mt-5 text-sm leading-relaxed text-gray-600 md:text-base">
+                        Menyajikan ringkasan administrasi dan statistik kependudukan desa berdasarkan data
+                        penduduk yang dikelola dari panel admin, sehingga informasi publik tetap relevan,
+                        ringkas, dan mudah dipantau warga.
+                    </p>
+
+                </header>
+
+                <!-- Statistik -->
+                <div class="grid grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 lg:gap-5 mt-10" data-aos="fade-up"
+                    data-aos-delay="300">
+
+                    <!-- Total Penduduk -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 0 0 2.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 0 0-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75 2.25 2.25 0 0 0-.1-.664m-5.8 0A2.251 2.251 0 0 1 13.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25ZM6.75 12h.008v.008H6.75V12Zm0 3h.008v.008H6.75V15Zm0 3h.008v.008H6.75V18Z" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $totalCitizens }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Total Penduduk
+                        </span>
+                    </div>
+
+                    <!-- Kartu Keluarga -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:-rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $totalHouseholds }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Kartu Keluarga
+                        </span>
+                    </div>
+
+                    <!-- Laki-Laki -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $maleCitizens }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Laki-Laki
+                        </span>
+                    </div>
+
+                    <!-- Perempuan -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:-rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $femaleCitizens }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Perempuan
+                        </span>
+                    </div>
+
+                    <!-- Dusun -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $totalHamlets }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Dusun Terdata
+                        </span>
+                    </div>
+
+                    <!-- Penduduk Aktif -->
+                    <div
+                        class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
+
+                        <span
+                            class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
+                            fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
+                        </svg>
+
+                        <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
+                            data-target="{{ $activeCitizens }}">0</p>
+                        <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
+                            Penduduk Aktif
+                        </span>
+                    </div>
+
                 </div>
 
-                <!-- Kartu Keluarga -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
-
-                    <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:-rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
-                    </svg>
-
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $totalHouseholds }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Kartu Keluarga
-                    </span>
+                <div class="mt-8 flex justify-center" data-aos="fade-up" data-aos-delay="350">
+                    <a href="{{ route('public.population.index') }}"
+                        class="group inline-flex items-center gap-2 rounded-full border border-green-200 bg-white px-5 py-3 text-sm font-semibold text-green-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-700 hover:bg-green-700 hover:text-white hover:shadow-lg">
+                        <span>Lihat Statistik Penduduk Lengkap</span>
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                            class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </a>
                 </div>
-
-                <!-- Laki-Laki -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
-
-                    <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                    </svg>
-
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $maleCitizens }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Laki-Laki
-                    </span>
-                </div>
-
-                <!-- Perempuan -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
-
-                    <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:-rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M18 18.72a9.094 9.094 0 0 0 3.741-.479 3 3 0 0 0-4.682-2.72m.94 3.198.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0 1 12 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 0 1 6 18.719m12 0a5.971 5.971 0 0 0-.941-3.197m0 0A5.995 5.995 0 0 0 12 12.75a5.995 5.995 0 0 0-5.058 2.772m0 0a3 3 0 0 0-4.681 2.72 8.986 8.986 0 0 0 3.74.477m.94-3.197a5.971 5.971 0 0 0-.94 3.197M15 6.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm6 3a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Zm-13.5 0a2.25 2.25 0 1 1-4.5 0 2.25 2.25 0 0 1 4.5 0Z" />
-                    </svg>
-
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $femaleCitizens }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Perempuan
-                    </span>
-                </div>
-
-                <!-- Dusun -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
-
-                    <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
-
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $totalHamlets }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Dusun Terdata
-                    </span>
-                </div>
-
-                <!-- Penduduk Aktif -->
-                <div
-                    class="group relative overflow-hidden bg-green-700 rounded-2xl shadow-md p-3 sm:p-4 min-h-[105px] flex flex-col items-center justify-center text-center hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95 transition-all duration-300">
-
-                    <span
-                        class="absolute -left-10 top-0 h-full w-8 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]"></span>
-
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="relative z-10 w-7 h-7 sm:w-8 sm:h-8 text-white mb-2 transition-all duration-300 group-hover:scale-125 group-hover:-translate-y-1 group-hover:rotate-6"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M22 10.5h-6m-2.25-4.125a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0ZM4 19.235v-.11a6.375 6.375 0 0 1 12.75 0v.109A12.318 12.318 0 0 1 10.374 21c-2.331 0-4.512-.645-6.374-1.766Z" />
-                    </svg>
-
-                    <p class="relative z-10 counter text-lg sm:text-xl md:text-2xl font-bold text-white"
-                        data-target="{{ $activeCitizens }}">0</p>
-                    <span class="relative z-10 mt-1 text-[10px] sm:text-xs text-white/80 leading-tight">
-                        Penduduk Aktif
-                    </span>
-                </div>
-
-            </div>
-
-            <div class="mt-8 flex justify-center" data-aos="fade-up" data-aos-delay="350">
-                <a href="{{ route('public.population.index') }}"
-                    class="group inline-flex items-center gap-2 rounded-full border border-green-200 bg-white px-5 py-3 text-sm font-semibold text-green-700 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-green-700 hover:bg-green-700 hover:text-white hover:shadow-lg">
-                    <span>Lihat Statistik Penduduk Lengkap</span>
-                    <svg xmlns="http://www.w3.org/2000/svg"
-                        class="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                    </svg>
-                </a>
-            </div>
             </section>
         @endif
 
@@ -374,167 +375,180 @@
             <section class="relative overflow-hidden bg-gradient-to-b from-gray-50 via-white to-green-50 px-4 py-15"
                 data-aos="fade-up" data-aos-delay="300">
 
-            <div class="relative mx-auto max-w-7xl">
+                <div class="relative mx-auto max-w-7xl">
 
-                <!-- Header -->
-                <header class="mx-auto mb-12 max-w-3xl text-center">
-                    <span
-                        class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
-                        <span>✨</span>
-                        Potensi Unggulan Desa
-                    </span>
-
-                    <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
-                        Jelajahi Potensi
-                        <span class="text-green-700">Desa Mentuda</span>
-                    </h2>
-
-                    <p class="mt-5 text-sm leading-relaxed text-gray-600 md:text-base">
-                        Temukan potensi alam, budaya, UMKM, pertanian, perikanan, dan lingkungan yang menjadi kekuatan
-                        Desa
-                        Mentuda untuk mendukung kesejahteraan masyarakat.
-                    </p>
-                </header>
-
-                <!-- Featured Card -->
-                <article
-                    class="group relative mb-8 overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:grid lg:grid-cols-12">
-
-                    <span
-                        class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
-                    </span>
-
-                    <a href="{{ route('public.potentials.index') }}"
-                        class="relative min-h-[320px] overflow-hidden lg:col-span-7 lg:min-h-[460px] block">
-                        <img src="{{ $homeFeaturedPotential?->cover_image_url ?: asset('public/img/bg.jpg') }}"
-                            alt="{{ $homeFeaturedPotential?->cover_image_alt ?: ($homeFeaturedPotential?->title ?: 'Potensi Desa Mentuda') }}"
-                            class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
-
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 transition-all duration-500 group-hover:from-black/95 group-hover:via-black/50">
-                        </div>
-
-                        <div class="absolute left-6 right-6 bottom-6 text-white md:left-8 md:right-8 md:bottom-8">
-                            <span
-                                class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur ring-1 ring-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-green-600 group-hover:shadow-lg">
-
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                    stroke-width="1.8" stroke="currentColor"
-                                    class="w-4 h-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
-                                </svg>
-
-                                <span>{{ $homeFeaturedPotential?->location_name ?: ($homeFeaturedPotential?->village?->name ?: 'Desa Mentuda') }}</span>
-
-                            </span>
-
-                            <h3
-                                class="mt-4 text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
-                                {{ $homeFeaturedPotential?->title ?: 'Potensi Lokal yang Siap Dikembangkan' }}
-                            </h3>
-
-                            <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->excerpt ?: 'Desa Mentuda memiliki kekayaan alam, budaya, ekonomi, dan lingkungan yang dapat menjadi daya tarik serta peluang pengembangan desa.'), 180) }}
-                            </p>
-                        </div>
-                    </a>
-
-                    <div class="relative flex flex-col justify-center p-6 md:p-8 lg:col-span-5 lg:p-10">
+                    <!-- Header -->
+                    <header class="mx-auto mb-12 max-w-3xl text-center">
                         <span
-                            class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white">
-                            Sorotan Desa
+                            class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
+                            <span>✨</span>
+                            Potensi Unggulan Desa
                         </span>
 
-                        <h3 class="text-2xl font-bold leading-tight text-gray-900 md:text-3xl">
-                            {{ $homeFeaturedPotential?->potential_type ?: ($homeFeaturedPotential?->category?->name ?: 'Alam, UMKM, Budaya, Pertanian, dan Perikanan') }}
-                        </h3>
+                        <h2 class="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl">
+                            Jelajahi Potensi
+                            <span class="text-green-700">Desa Mentuda</span>
+                        </h2>
 
-                        <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->opportunities ?: 'Section ini membantu pengunjung melihat potensi Desa Mentuda dengan lebih mudah melalui kategori, pencarian, dan kartu informasi yang menarik.'), 230) }}
+                        <p class="mt-5 text-sm leading-relaxed text-gray-600 md:text-base">
+                            Temukan potensi alam, budaya, UMKM, pertanian, perikanan, dan lingkungan yang menjadi
+                            kekuatan
+                            Desa
+                            Mentuda untuk mendukung kesejahteraan masyarakat.
                         </p>
+                    </header>
 
-                        <div class="mt-7 grid grid-cols-2 gap-3">
-                            <div
-                                class="group/item rounded-2xl bg-green-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:shadow-lg">
-                                <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🌿</p>
-                                <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">Wisata Alam
-                                </p>
-                                <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Potensi destinasi
-                                    lokal</p>
-                            </div>
+                    <!-- Featured Card -->
+                    <article
+                        class="group relative mb-8 overflow-hidden rounded-[2rem] bg-white shadow-xl ring-1 ring-gray-100 transition-all duration-500 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200 lg:grid lg:grid-cols-12">
 
-                            <div
-                                class="group/item rounded-2xl bg-yellow-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-yellow-500 hover:shadow-lg">
-                                <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🛍️</p>
-                                <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">UMKM Desa
-                                </p>
-                                <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Produk masyarakat
-                                </p>
-                            </div>
+                        <span
+                            class="pointer-events-none absolute -left-24 top-0 z-20 h-full w-16 rotate-12 bg-white/30 blur-xl transition-all duration-1000 group-hover:left-[120%]">
+                        </span>
+
+                        <a href="{{ route('public.potentials.index') }}"
+                            class="relative min-h-[320px] overflow-hidden lg:col-span-7 lg:min-h-[460px] block">
+                            <img src="{{ $homeFeaturedPotential?->cover_image_url ?: asset('public/img/bg.jpg') }}"
+                                alt="{{ $homeFeaturedPotential?->cover_image_alt ?: ($homeFeaturedPotential?->title ?: 'Potensi Desa Mentuda') }}"
+                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110">
 
                             <div
-                                class="group/item rounded-2xl bg-blue-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-600 hover:shadow-lg">
-                                <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🐟</p>
-                                <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">Perikanan
-                                </p>
-                                <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Hasil laut desa
-                                </p>
+                                class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-black/10 transition-all duration-500 group-hover:from-black/95 group-hover:via-black/50">
                             </div>
 
-                            <div
-                                class="group/item rounded-2xl bg-emerald-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-600 hover:shadow-lg">
-                                <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🎭</p>
-                                <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">Budaya</p>
-                                <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Kearifan lokal</p>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-
-                            <!-- Button Primary -->
-                            <a href="{{ route('public.potentials.index') }}"
-                                class="group/btn relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-700/20 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl active:scale-95">
-
-                                <!-- Shine Effect -->
+                            <div class="absolute left-6 right-6 bottom-6 text-white md:left-8 md:right-8 md:bottom-8">
                                 <span
-                                    class="absolute -left-16 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
+                                    class="inline-flex items-center gap-2 rounded-full bg-white/20 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur ring-1 ring-white/30 transition-all duration-300 group-hover:-translate-y-1 group-hover:bg-green-600 group-hover:shadow-lg">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                        stroke-width="1.8" stroke="currentColor"
+                                        class="w-4 h-4 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                    </svg>
+
+                                    <span>{{ $homeFeaturedPotential?->location_name ?: ($homeFeaturedPotential?->village?->name ?: 'Desa Mentuda') }}</span>
+
                                 </span>
 
-                                <span class="relative z-10">
-                                    Jelajahi Potensi
-                                </span>
+                                <h3
+                                    class="mt-4 text-2xl font-bold leading-tight md:text-4xl transition-all duration-300 group-hover:translate-x-1">
+                                    {{ $homeFeaturedPotential?->title ?: 'Potensi Lokal yang Siap Dikembangkan' }}
+                                </h3>
 
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"
-                                    fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                                </svg>
+                                <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
+                                    {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->excerpt ?: 'Desa Mentuda memiliki kekayaan alam, budaya, ekonomi, dan lingkungan yang dapat menjadi daya tarik serta peluang pengembangan desa.'), 180) }}
+                                </p>
+                            </div>
+                        </a>
 
-                            </a>
+                        <div class="relative flex flex-col justify-center p-6 md:p-8 lg:col-span-5 lg:p-10">
+                            <span
+                                class="mb-4 inline-flex w-fit items-center gap-2 rounded-full bg-green-50 px-3 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white">
+                                Sorotan Desa
+                            </span>
 
-                            <!-- Button Secondary -->
-                            <a href="{{ route('public.potentials.index') }}"
-                                class="group/map inline-flex items-center justify-center gap-2 rounded-xl border border-green-700 bg-white px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-xl active:scale-95">
+                            <h3 class="text-2xl font-bold leading-tight text-gray-900 md:text-3xl">
+                                {{ $homeFeaturedPotential?->potential_type ?: ($homeFeaturedPotential?->category?->name ?: 'Alam, UMKM, Budaya, Pertanian, dan Perikanan') }}
+                            </h3>
 
-                                <svg xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5 transition-all duration-300 group-hover/map:scale-110 group-hover/map:-rotate-12"
-                                    fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M9 20.25 3.75 18V5.25L9 7.5m0 12.75 6-2.25m-6 2.25V7.5m6 10.5 5.25 2.25V7.5L15 5.25m0 12.75V5.25m-6 2.25L15 5.25" />
-                                </svg>
+                            <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
+                                {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->opportunities ?: 'Section ini membantu pengunjung melihat potensi Desa Mentuda dengan lebih mudah melalui kategori, pencarian, dan kartu informasi yang menarik.'), 230) }}
+                            </p>
 
-                                <span>Lihat Detail</span>
+                            <div class="mt-7 grid grid-cols-2 gap-3">
+                                <div
+                                    class="group/item rounded-2xl bg-green-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:shadow-lg">
+                                    <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🌿
+                                    </p>
+                                    <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">Wisata
+                                        Alam
+                                    </p>
+                                    <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Potensi
+                                        destinasi
+                                        lokal</p>
+                                </div>
 
-                            </a>
+                                <div
+                                    class="group/item rounded-2xl bg-yellow-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-yellow-500 hover:shadow-lg">
+                                    <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🛍️
+                                    </p>
+                                    <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">UMKM
+                                        Desa
+                                    </p>
+                                    <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Produk
+                                        masyarakat
+                                    </p>
+                                </div>
 
+                                <div
+                                    class="group/item rounded-2xl bg-blue-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-blue-600 hover:shadow-lg">
+                                    <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🐟
+                                    </p>
+                                    <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">
+                                        Perikanan
+                                    </p>
+                                    <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Hasil laut
+                                        desa
+                                    </p>
+                                </div>
+
+                                <div
+                                    class="group/item rounded-2xl bg-emerald-50 p-4 transition-all duration-300 hover:-translate-y-1 hover:bg-emerald-600 hover:shadow-lg">
+                                    <p class="text-xl transition-transform duration-300 group-hover/item:scale-125">🎭
+                                    </p>
+                                    <p class="mt-2 text-sm font-bold text-gray-900 group-hover/item:text-white">Budaya
+                                    </p>
+                                    <p class="mt-1 text-xs text-gray-500 group-hover/item:text-white/80">Kearifan lokal
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+
+                                <!-- Button Primary -->
+                                <a href="{{ route('public.potentials.index') }}"
+                                    class="group/btn relative overflow-hidden inline-flex items-center justify-center gap-2 rounded-xl bg-green-700 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-green-700/20 transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-2xl active:scale-95">
+
+                                    <!-- Shine Effect -->
+                                    <span
+                                        class="absolute -left-16 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
+                                    </span>
+
+                                    <span class="relative z-10">
+                                        Jelajahi Potensi
+                                    </span>
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                                    </svg>
+
+                                </a>
+
+                                <!-- Button Secondary -->
+                                <a href="{{ route('public.potentials.index') }}"
+                                    class="group/map inline-flex items-center justify-center gap-2 rounded-xl border border-green-700 bg-white px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-xl active:scale-95">
+
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-5 h-5 transition-all duration-300 group-hover/map:scale-110 group-hover/map:-rotate-12"
+                                        fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                            d="M9 20.25 3.75 18V5.25L9 7.5m0 12.75 6-2.25m-6 2.25V7.5m6 10.5 5.25 2.25V7.5L15 5.25m0 12.75V5.25m-6 2.25L15 5.25" />
+                                    </svg>
+
+                                    <span>Lihat Detail</span>
+
+                                </a>
+
+                            </div>
                         </div>
-                    </div>
-                </article>
-            </div>
+                    </article>
+                </div>
             </section>
         @endif
 
@@ -720,227 +734,228 @@
             <section class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-20"
                 data-aos="fade-up">
 
-            <div class="max-w-6xl mx-auto px-4">
+                <div class="max-w-6xl mx-auto px-4">
 
-                <!-- Header -->
-                <header class="mx-auto mb-10 max-w-3xl text-center">
-                    <span
-                        class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
-                        </svg>
-                        Informasi Resmi Desa
-                    </span>
+                    <!-- Header -->
+                    <header class="mx-auto mb-10 max-w-3xl text-center">
+                        <span
+                            class="mb-4 inline-flex items-center gap-2 rounded-full bg-green-100 px-4 py-1.5 text-xs font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 hover:bg-green-700 hover:text-white hover:shadow-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
+                            </svg>
+                            Informasi Resmi Desa
+                        </span>
 
-                    <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
-                        Pengumuman
-                        <span class="text-green-700">Desa Mentuda</span>
-                    </h2>
+                        <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-gray-900">
+                            Pengumuman
+                            <span class="text-green-700">Desa Mentuda</span>
+                        </h2>
 
-                    <p class="mt-4 text-sm md:text-base leading-relaxed text-gray-600">
-                        Menyajikan informasi, agenda kegiatan, pelayanan publik, serta
-                        pengumuman resmi Pemerintah Desa Mentuda yang diperbarui secara berkala.
-                    </p>
-                </header>
+                        <p class="mt-4 text-sm md:text-base leading-relaxed text-gray-600">
+                            Menyajikan informasi, agenda kegiatan, pelayanan publik, serta
+                            pengumuman resmi Pemerintah Desa Mentuda yang diperbarui secara berkala.
+                        </p>
+                    </header>
 
-                <!-- List Pengumuman -->
-                <div class="mx-auto max-w-5xl space-y-4">
+                    <!-- List Pengumuman -->
+                    <div class="mx-auto max-w-5xl space-y-4">
 
-                    @forelse ($homeAnnouncements as $homeAnnouncement)
-                        <article
-                            class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200"
-                            data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
+                        @forelse ($homeAnnouncements as $homeAnnouncement)
+                            <article
+                                class="group relative overflow-hidden rounded-2xl bg-white p-4 md:p-5 shadow-sm ring-1 ring-gray-200 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:ring-green-200"
+                                data-aos="fade-up" data-aos-delay="{{ 60 + $loop->index * 70 }}">
 
-                            <!-- Shine effect card -->
-                            <span
-                                class="pointer-events-none absolute -left-20 top-0 h-full w-14 rotate-12 bg-green-100/80 blur-xl transition-all duration-700 group-hover:left-[120%]">
-                            </span>
+                                <!-- Shine effect card -->
+                                <span
+                                    class="pointer-events-none absolute -left-20 top-0 h-full w-14 rotate-12 bg-green-100/80 blur-xl transition-all duration-700 group-hover:left-[120%]">
+                                </span>
 
-                            <div
-                                class="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                <div
+                                    class="relative z-10 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
 
-                                <!-- Left -->
-                                <div class="flex gap-4">
+                                    <!-- Left -->
+                                    <div class="flex gap-4">
 
-                                    <!-- Date -->
-                                    <div
-                                        class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
-                                        <span
-                                            class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->announcement_date)->translatedFormat('M') }}</span>
-                                        <strong
-                                            class="text-xl leading-none">{{ optional($homeAnnouncement->announcement_date)->format('d') }}</strong>
-                                        <span
-                                            class="text-[10px] font-semibold">{{ optional($homeAnnouncement->announcement_date)->format('Y') }}</span>
-                                    </div>
-
-                                    <!-- Content -->
-                                    <div class="min-w-0">
-
-                                        <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
-
+                                        <!-- Date -->
+                                        <div
+                                            class="shrink-0 w-16 h-16 rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-200 flex flex-col items-center justify-center transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700 group-hover:scale-105 group-hover:shadow-lg">
                                             <span
-                                                class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
-                                                </svg>
-                                                {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
-                                            </span>
+                                                class="text-[10px] font-semibold uppercase">{{ optional($homeAnnouncement->announcement_date)->translatedFormat('M') }}</span>
+                                            <strong
+                                                class="text-xl leading-none">{{ optional($homeAnnouncement->announcement_date)->format('d') }}</strong>
+                                            <span
+                                                class="text-[10px] font-semibold">{{ optional($homeAnnouncement->announcement_date)->format('Y') }}</span>
+                                        </div>
 
-                                            @if ($homeAnnouncement->is_featured)
+                                        <!-- Content -->
+                                        <div class="min-w-0">
+
+                                            <div class="flex flex-wrap items-center gap-2 text-xs text-gray-500">
+
                                                 <span
-                                                    class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200 transition-all duration-300 group-hover:bg-amber-700 group-hover:text-black group-hover:ring-amber-700">
+                                                    class="inline-flex items-center gap-1 rounded-full bg-green-50 px-3 py-1 font-semibold text-green-700 ring-1 ring-green-200 transition-all duration-300 group-hover:bg-green-700 group-hover:text-white group-hover:ring-green-700">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="1.8">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                                                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9a6 6 0 0 0-12 0v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a3 3 0 1 1-5.714 0" />
                                                     </svg>
-
-                                                    Prioritas
+                                                    {{ $homeAnnouncement->category?->name ?? 'Pengumuman' }}
                                                 </span>
-                                            @endif
 
-                                            <span
-                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                                </svg>
-                                                {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
-                                            </span>
+                                                @if ($homeAnnouncement->is_featured)
+                                                    <span
+                                                        class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-3 py-1 font-semibold text-amber-700 ring-1 ring-amber-200 transition-all duration-300 group-hover:bg-amber-700 group-hover:text-black group-hover:ring-amber-700">
+                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                            class="w-3.5 h-3.5 transition-transform duration-300 group-hover:rotate-12"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                            stroke-width="1.8">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456ZM16.894 20.567 16.5 21.75l-.394-1.183a2.25 2.25 0 0 0-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 0 0 1.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 0 0 1.423 1.423l1.183.394-1.183.394a2.25 2.25 0 0 0-1.423 1.423Z" />
+                                                        </svg>
 
-                                            <span class="hidden">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
-                                                </svg>
-                                                20 November 2025 • 00:17
-                                            </span>
+                                                        Prioritas
+                                                    </span>
+                                                @endif
 
-                                        </div>
-
-                                        <h3
-                                            class="mt-2 text-lg font-bold text-gray-900 transition-all duration-300 group-hover:text-green-700 group-hover:translate-x-1">
-                                            {{ $homeAnnouncement->title }}
-                                        </h3>
-
-                                        <p
-                                            class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
-                                            {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
-                                        </p>
-
-                                        <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">
-
-                                            <span
-                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                                                </svg>
-
-                                                {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
-                                            </span>
-
-                                            @if ($homeAnnouncement->event_location)
                                                 <span
                                                     class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
                                                         fill="none" viewBox="0 0 24 24" stroke="currentColor"
                                                         stroke-width="1.8">
                                                         <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
-                                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                            d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
                                                     </svg>
-                                                    {{ $homeAnnouncement->event_location }}
+                                                    {{ optional($homeAnnouncement->announcement_date)->translatedFormat('d F Y') }}
                                                 </span>
-                                            @endif
 
-                                            <span
-                                                class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
-                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                    class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
-                                                    fill="none" viewBox="0 0 24 24" stroke="currentColor"
-                                                    stroke-width="1.8">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
-                                                </svg>
-                                                {{ $homeAnnouncement->author?->name ?? 'Pemerintah Desa Mentuda' }}
-                                            </span>
+                                                <span class="hidden">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+                                                    </svg>
+                                                    20 November 2025 • 00:17
+                                                </span>
+
+                                            </div>
+
+                                            <h3
+                                                class="mt-2 text-lg font-bold text-gray-900 transition-all duration-300 group-hover:text-green-700 group-hover:translate-x-1">
+                                                {{ $homeAnnouncement->title }}
+                                            </h3>
+
+                                            <p
+                                                class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
+                                                {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
+                                            </p>
+
+                                            <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">
+
+                                                <span
+                                                    class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-3.5 h-3.5 transition-transform duration-300 group-hover:-translate-y-0.5"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                                                    </svg>
+
+                                                    {{ optional($homeAnnouncement->event_at)->format('H:i') ?: 'Publikasi aktif' }}
+                                                </span>
+
+                                                @if ($homeAnnouncement->event_location)
+                                                    <span
+                                                        class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-gray-700">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4"
+                                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                            stroke-width="1.8">
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                                                        </svg>
+                                                        {{ $homeAnnouncement->event_location }}
+                                                    </span>
+                                                @endif
+
+                                                <span
+                                                    class="inline-flex items-center gap-1 transition-colors duration-300 group-hover:text-green-700">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-3.5 h-3.5 transition-transform duration-300 group-hover:scale-110"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                                        stroke-width="1.8">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.5 20.25a8.25 8.25 0 0 1 15 0" />
+                                                    </svg>
+                                                    {{ $homeAnnouncement->author?->name ?? 'Pemerintah Desa Mentuda' }}
+                                                </span>
+
+                                            </div>
 
                                         </div>
-
                                     </div>
+
+                                    <!-- Button -->
+                                    <a href="{{ route('public.announcements.show', $homeAnnouncement->slug) }}"
+                                        class="group/btn relative overflow-hidden inline-flex shrink-0 items-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95">
+
+                                        <span
+                                            class="absolute -left-12 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
+                                        </span>
+
+                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                            class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-12"
+                                            fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                                            stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                                        </svg>
+
+                                        <span class="relative z-10">Baca Selengkapnya</span>
+                                    </a>
+
                                 </div>
-
-                                <!-- Button -->
-                                <a href="{{ route('public.announcements.show', $homeAnnouncement->slug) }}"
-                                    class="group/btn relative overflow-hidden inline-flex shrink-0 items-center gap-2 rounded-xl bg-green-700 px-5 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-green-800 hover:shadow-xl active:scale-95">
-
-                                    <span
-                                        class="absolute -left-12 top-0 h-full w-10 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover/btn:left-[120%]">
-                                    </span>
-
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 group-hover/btn:rotate-12"
-                                        fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M2.25 12s3.75-6.75 9.75-6.75S21.75 12 21.75 12 18 18.75 12 18.75 2.25 12 2.25 12Z" />
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                                    </svg>
-
-                                    <span class="relative z-10">Baca Selengkapnya</span>
-                                </a>
-
+                            </article>
+                        @empty
+                            <div
+                                class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
+                                Pengumuman resmi akan tampil di sini setelah admin mempublikasikannya.
                             </div>
-                        </article>
-                    @empty
-                        <div
-                            class="rounded-2xl border border-dashed border-gray-300 bg-white px-6 py-10 text-center text-sm text-gray-500">
-                            Pengumuman resmi akan tampil di sini setelah admin mempublikasikannya.
-                        </div>
-                    @endforelse
+                        @endforelse
+
+                    </div>
+
+                    <!-- Button Bottom -->
+                    <div class="mt-10 text-center">
+                        <a href="{{ route('public.announcements.index') }}"
+                            class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
+
+                            <span
+                                class="absolute -left-16 top-0 h-full w-12 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
+                            </span>
+
+                            <span class="relative z-10">Lihat Semua Pengumuman</span>
+
+                            <svg xmlns="http://www.w3.org/2000/svg"
+                                class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                            </svg>
+                        </a>
+                    </div>
 
                 </div>
-
-                <!-- Button Bottom -->
-                <div class="mt-10 text-center">
-                    <a href="{{ route('public.announcements.index') }}"
-                        class="group relative overflow-hidden inline-flex items-center gap-2 rounded-full border border-green-700 px-6 py-3 text-sm font-semibold text-green-700 transition-all duration-300 hover:-translate-y-1 hover:bg-green-700 hover:text-white hover:shadow-lg active:scale-95">
-
-                        <span
-                            class="absolute -left-16 top-0 h-full w-12 rotate-12 bg-white/20 blur-md transition-all duration-700 group-hover:left-[120%]">
-                        </span>
-
-                        <span class="relative z-10">Lihat Semua Pengumuman</span>
-
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                            class="relative z-10 w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
-                            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
-                        </svg>
-                    </a>
-                </div>
-
-            </div>
             </section>
         @endif
 
@@ -1065,6 +1080,57 @@
             |--------------------------------------------------------------------------
             */
             (() => {
+                const desktopDropdowns = document.querySelectorAll('[data-desktop-dropdown]');
+
+                if (desktopDropdowns.length) {
+                    const closeDesktopDropdowns = (exceptBtn = null) => {
+                        desktopDropdowns.forEach((dropdown) => {
+                            const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
+
+                            if (!btn || btn === exceptBtn) return;
+
+                            btn.setAttribute('aria-expanded', 'false');
+                        });
+                    };
+
+                    desktopDropdowns.forEach((dropdown) => {
+                        const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
+                        const panel = dropdown.querySelector('[data-desktop-dropdown-panel]');
+
+                        if (!btn || !panel) return;
+
+                        btn.addEventListener('click', (e) => {
+                            e.preventDefault();
+
+                            const isExpanded = btn.getAttribute('aria-expanded') === 'true';
+                            closeDesktopDropdowns(btn);
+                            btn.setAttribute('aria-expanded', String(!isExpanded));
+
+                            if (!isExpanded) {
+                                btn.focus();
+                            }
+                        });
+
+                        dropdown.addEventListener('mouseleave', () => {
+                            btn.setAttribute('aria-expanded', 'false');
+                        });
+                    });
+
+                    document.addEventListener('click', (e) => {
+                        const insideDropdown = e.target.closest('[data-desktop-dropdown]');
+
+                        if (!insideDropdown) {
+                            closeDesktopDropdowns();
+                        }
+                    });
+
+                    document.addEventListener('keydown', (e) => {
+                        if (e.key === 'Escape') {
+                            closeDesktopDropdowns();
+                        }
+                    });
+                }
+
                 const menuBtn = document.getElementById('menu-btn');
                 const menuClose = document.getElementById('menu-close');
                 const overlay = document.getElementById('overlay');

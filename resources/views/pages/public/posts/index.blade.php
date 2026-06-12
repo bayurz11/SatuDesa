@@ -128,7 +128,7 @@
     </section>
 
     <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div class="public-sidebar-grid public-sidebar-grid--340">
             <main>
                 @if ($featuredPost)
                     <article data-aos="fade-up" data-aos-delay="80"

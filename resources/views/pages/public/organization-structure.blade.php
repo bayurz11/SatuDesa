@@ -86,7 +86,7 @@
     </section>
 
     <section class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="public-sidebar-grid public-sidebar-grid--320">
             <main class="space-y-8">
                 <section data-aos="fade-up" data-aos-delay="100"
                     class="overflow-hidden rounded-[32px] border border-gray-200 bg-white p-5 shadow-lg shadow-gray-200/70 sm:p-7">

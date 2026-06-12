@@ -50,7 +50,7 @@
                 </ol>
             </nav>
 
-            <div class="mt-6 grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
+            <div class="public-sidebar-grid public-sidebar-grid--340 mt-6 lg:items-start">
                 <div data-aos="fade-up">
                     <div class="flex flex-wrap items-center gap-3">
                         <span
@@ -186,7 +186,7 @@
 
     {{-- CONTENT --}}
     <section class="mx-auto max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="public-sidebar-grid public-sidebar-grid--320">
 
             {{-- MAIN --}}
             <main class="space-y-6">

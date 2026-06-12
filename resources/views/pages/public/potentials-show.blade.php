@@ -29,7 +29,7 @@
                 </ol>
             </nav>
 
-            <div class="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_330px] lg:items-end">
+            <div class="public-sidebar-grid public-sidebar-grid--330 mt-8 lg:items-end">
                 <div class="max-w-4xl" data-aos="fade-up" data-aos-duration="700">
                     <div class="flex flex-wrap items-center gap-3">
                         @if ($potential->category)
@@ -195,7 +195,7 @@
     </section>
 
     <section class="relative z-10 mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div class="public-sidebar-grid public-sidebar-grid--340">
             <main class="space-y-8">
                 <article class="overflow-hidden rounded-[32px] border border-gray-200 bg-white shadow-xl shadow-gray-200/70"
                     data-aos="fade-up" data-aos-duration="750">

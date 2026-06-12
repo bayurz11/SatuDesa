@@ -76,7 +76,7 @@
             </div>
         </div>
 
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <div class="public-sidebar-grid public-sidebar-grid--320">
             <main class="space-y-8">
                 <section data-aos="fade-up" data-aos-delay="100"
                     class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-4 shadow-lg shadow-gray-200/70 sm:rounded-[32px] sm:p-7">

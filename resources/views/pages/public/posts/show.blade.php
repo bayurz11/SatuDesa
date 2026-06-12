@@ -132,7 +132,7 @@
     </section>
 
     <section class="mx-auto -mt-10 max-w-7xl px-4 pb-20 sm:px-6 lg:px-8 z-10 relative">
-        <div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_340px]">
+        <div class="public-sidebar-grid public-sidebar-grid--340">
             <main>
                 <article
                     data-aos="fade-up" data-aos-delay="140"
