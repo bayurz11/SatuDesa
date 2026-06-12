@@ -160,6 +160,17 @@
             transform: rotate(180deg);
         }
 
+        [data-desktop-dropdown-btn][aria-expanded="true"] [data-chev] {
+            transform: rotate(180deg);
+        }
+
+        [data-desktop-dropdown-btn][aria-expanded="true"] + [data-desktop-dropdown-panel] {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+            transform: translateY(0);
+        }
+
         /* (Opsional) kurangi animasi untuk pengguna reduce motion */
         @media (prefers-reduced-motion: reduce) {
             [data-chev] {
@@ -1096,6 +1107,7 @@
                     desktopDropdowns.forEach((dropdown) => {
                         const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
                         const panel = dropdown.querySelector('[data-desktop-dropdown-panel]');
+                        const links = panel?.querySelectorAll('a');
 
                         if (!btn || !panel) return;
 
@@ -1110,9 +1122,10 @@
                                 btn.focus();
                             }
                         });
-
-                        dropdown.addEventListener('mouseleave', () => {
-                            btn.setAttribute('aria-expanded', 'false');
+                        links?.forEach((link) => {
+                            link.addEventListener('click', () => {
+                                closeDesktopDropdowns();
+                            });
                         });
                     });
 

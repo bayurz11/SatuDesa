@@ -42,7 +42,7 @@
                 Beranda
             </a>
 
-            <div class="relative group" data-desktop-dropdown>
+            <div class="group relative" data-desktop-dropdown>
                 <button type="button"
                     aria-expanded="false"
                     class="{{ $isProfile ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
@@ -54,7 +54,7 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 z-10"
+                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10 group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0"
                     data-desktop-dropdown-panel>
                     <a href="{{ route('public.history') }}"
                         class="{{ $isHistory ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
@@ -75,7 +75,7 @@
                 </div>
             </div>
 
-            <div class="relative group" data-desktop-dropdown>
+            <div class="group relative" data-desktop-dropdown>
                 <button type="button"
                     aria-expanded="false"
                     class="{{ $isInformation ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
@@ -87,7 +87,7 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 bg-white shadow-md rounded-md py-2 opacity-0 invisible group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 transition-all duration-200 z-10"
+                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10 group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0"
                     data-desktop-dropdown-panel>
                     <a href="{{ route('public.population.index') }}"
                         class="{{ $isPopulation ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
