@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Support\UploadStorage;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\Response;
 
 class StorageFileController extends Controller
 {
