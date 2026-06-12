@@ -39,31 +39,29 @@
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
-        <div class="profile-module-hero">
-            <div class="p-8">
-                <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
-                    <div class="flex max-w-3xl gap-5">
-                        <div class="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-600 text-white shadow-lg shadow-blue-500/25">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+                <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
                             </svg>
                         </div>
                         <div>
-                            <p class="profile-module-kicker">Profil Desa</p>
-                            <h1 class="profile-module-heading">Manajemen Sejarah Desa</h1>
-                            <p class="profile-module-copy">
-                                Kelola judul, narasi utama, kartu sejarah, dan linimasa publik dari satu halaman yang lebih ringkas dan mudah dipahami.
-                            </p>
+                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
+                            <h1 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Sejarah Desa</h1>
+                            <p class="text-sm text-gray-600 mt-1">Kelola judul, narasi utama, kartu sejarah, dan linimasa publik dari satu halaman yang lebih ringkas dan mudah dipahami.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
-                        <div class="profile-module-stat">
-                            <p class="profile-module-stat-label">Desa Aktif</p>
-                            <p class="text-lg font-semibold text-slate-900 mt-2">{{ $village->name }}</p>
+                    <div class="flex flex-col gap-3 sm:flex-row">
+                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                            <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
+                            <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
                         <a href="{{ $publicHistoryUrl }}" target="_blank" rel="noopener noreferrer"
-                            class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
+                            class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300">
                             Buka Halaman Publik
                         </a>
                     </div>
@@ -76,12 +74,12 @@
             @method('PUT')
 
             <main class="space-y-8">
-                <section class="module-panel">
-                    <div class="module-panel-header px-6 py-6">
+                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="profile-module-section-title">Identitas Halaman Publik</h2>
-                                <p class="profile-module-section-copy">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
+                                <h2 class="text-lg font-bold text-gray-900">Identitas Halaman Publik</h2>
+                                <p class="text-sm text-gray-600 mt-1">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
                             </div>
                             @permission('village_histories.edit')
                                 <button type="submit" class="module-primary-btn px-6 py-3 text-sm">Simpan Perubahan</button>
@@ -159,12 +157,12 @@
                     </div>
                 </section>
 
-                <section class="module-panel">
-                    <div class="module-panel-header px-6 py-5">
+                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="profile-module-section-title">Kartu Sejarah</h2>
-                                <p class="profile-module-section-copy">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
+                                <h2 class="text-lg font-bold text-gray-900">Kartu Sejarah</h2>
+                                <p class="text-sm text-gray-600 mt-1">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-history-card-modal data-history-card-mode="create">
                                 Tambah Kartu
@@ -189,12 +187,12 @@
                     </div>
                 </section>
 
-                <section class="module-panel">
-                    <div class="module-panel-header px-6 py-5">
+                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="profile-module-section-title">Linimasa Sejarah</h2>
-                                <p class="profile-module-section-copy">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
+                                <h2 class="text-lg font-bold text-gray-900">Linimasa Sejarah</h2>
+                                <p class="text-sm text-gray-600 mt-1">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-timeline-modal data-timeline-mode="create">
                                 Tambah Linimasa
@@ -225,9 +223,9 @@
                     </div>
                 </section>
 
-                <section class="module-panel">
-                    <div class="module-panel-header px-6 py-5">
-                        <h2 class="profile-module-section-title">Catatan Samping</h2>
+                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                        <h2 class="text-lg font-bold text-gray-900">Catatan Samping</h2>
                     </div>
 
                     <div class="p-6 sm:p-8 grid gap-6">
@@ -563,12 +561,12 @@
                             ? 'Foto kartu aktif'
                             : `Menggunakan ikon ${escapeHtml(iconOptions[item.icon || 'home'] || 'Home')}`;
                         const card = document.createElement('div');
-                        card.className = 'rounded-2xl border border-gray-200 bg-gray-50 p-5';
+                        card.className = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm';
                         card.innerHTML = `
                             <div class="flex h-full flex-col gap-4">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="min-w-0">
-                                        <span class="inline-flex rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700">${escapeHtml(item.badge || 'Tanpa Badge')}</span>
+                                        <span class="inline-flex items-center rounded-xl bg-gradient-to-r from-blue-100 to-indigo-100 px-3 py-1.5 text-xs font-semibold text-blue-800 shadow-sm">${escapeHtml(item.badge || 'Tanpa Badge')}</span>
                                         <h3 class="mt-3 text-lg font-semibold text-gray-900">${escapeHtml(item.title || '-')}</h3>
                                     </div>
                                     <div class="shrink-0">
@@ -576,7 +574,7 @@
                                     </div>
                                 </div>
                                 <p class="line-clamp-3 text-sm leading-6 text-gray-600">${escapeHtml(item.description || 'Tanpa deskripsi.')}</p>
-                                <div class="rounded-xl bg-white px-4 py-3 ring-1 ring-gray-100">
+                                <div class="rounded-xl bg-gradient-to-r from-gray-50 to-blue-50 px-4 py-3 ring-1 ring-gray-100">
                                     <label class="block text-sm font-semibold text-gray-700">Upload Foto / Ikon Kartu</label>
                                     <div class="mt-2 flex flex-wrap items-center gap-3">
                                         <input type="file" name="history_card_images[${index}]" accept="image/*" class="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-50 file:px-3 file:py-2 file:font-semibold file:text-blue-700 hover:file:bg-blue-100">
@@ -626,7 +624,7 @@
 
                 timelineItems.forEach((item, index) => {
                     const card = document.createElement('div');
-                    card.className = 'rounded-2xl border border-gray-200 bg-gray-50 p-5';
+                        card.className = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm';
                     card.innerHTML = `
                         <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                             <div class="flex min-w-0 gap-4">
@@ -635,12 +633,12 @@
                                 </div>
                                 <div class="min-w-0">
                                     <div class="flex flex-wrap items-center gap-2">
-                                        <span class="inline-flex rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">${escapeHtml(item.label || 'Tanpa Label')}</span>
+                                        <span class="inline-flex items-center rounded-xl bg-gradient-to-r from-emerald-100 to-green-100 px-3 py-1.5 text-xs font-semibold text-emerald-800 shadow-sm">${escapeHtml(item.label || 'Tanpa Label')}</span>
                                         <span class="text-xs text-gray-500">${item.icon_image_path ? 'Ikon gambar aktif' : 'Ikon standar aktif'}</span>
                                     </div>
                                     <h3 class="mt-3 text-lg font-semibold text-gray-900">${escapeHtml(item.title || '-')}</h3>
                                     <p class="mt-2 line-clamp-2 text-sm leading-6 text-gray-600">${escapeHtml(item.desc || 'Tanpa deskripsi.')}</p>
-                                    <div class="mt-4 rounded-xl bg-white px-4 py-3 ring-1 ring-gray-100">
+                                    <div class="mt-4 rounded-xl bg-gradient-to-r from-gray-50 to-emerald-50 px-4 py-3 ring-1 ring-gray-100">
                                         <label class="block text-sm font-semibold text-gray-700">Upload Ikon Item</label>
                                         <div class="mt-2 flex flex-wrap items-center gap-3">
                                             <input type="file" name="history_timeline_icons[${index}]" accept="image/*" class="block w-full text-sm text-gray-600 file:mr-3 file:rounded-lg file:border-0 file:bg-emerald-50 file:px-3 file:py-2 file:font-semibold file:text-emerald-700 hover:file:bg-emerald-100">
