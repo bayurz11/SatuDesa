@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
+    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <title>{{ config('app.name', 'SatuDesa') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -450,9 +450,17 @@
             $canViewVillageHistory = $currentUser->hasPermission('village_histories.view');
             $canViewVillageVisionMission = $currentUser->hasPermission('village_vision_missions.view');
             $canViewVillageOrganization = $currentUser->hasPermission('village_organizations.view');
-            $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory || $canViewVillageVisionMission || $canViewVillageOrganization;
+            $canViewVillageProfile =
+                $canViewVillageMap ||
+                $canViewVillageHistory ||
+                $canViewVillageVisionMission ||
+                $canViewVillageOrganization;
             $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs || $canViewVillageOrganization;
-            $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-vision-missions.*') || request()->routeIs('village-organizations.*');
+            $profileMenuOpen =
+                request()->routeIs('village-maps.*') ||
+                request()->routeIs('village-histories.*') ||
+                request()->routeIs('village-vision-missions.*') ||
+                request()->routeIs('village-organizations.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
             $galleryMenuOpen = request()->routeIs('galleries.*');
@@ -467,7 +475,10 @@
                 request()->routeIs('rws.*') ||
                 request()->routeIs('rts.*');
             $settingsMenuOpen =
-                request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('audit-logs.*') || request()->routeIs('settings.organization-positions.*');
+                request()->routeIs('users.*') ||
+                request()->routeIs('roles.*') ||
+                request()->routeIs('audit-logs.*') ||
+                request()->routeIs('settings.organization-positions.*');
         @endphp
         <div class="min-h-screen">
             <!-- Sidebar -->
@@ -653,7 +664,8 @@
                             <div class="rounded-2xl {{ $budgetMenuOpen ? 'bg-white/10' : '' }}" data-sidebar-dropdown>
                                 <button type="button"
                                     class="flex w-full items-center rounded-xl px-4 py-3 text-left text-sm font-medium transition-all duration-200 {{ $budgetMenuOpen ? 'text-white shadow-lg shadow-black/10' : 'text-blue-100 hover:bg-white/10 hover:text-white hover:shadow-lg hover:shadow-black/10' }}"
-                                    data-sidebar-dropdown-trigger aria-expanded="{{ $budgetMenuOpen ? 'true' : 'false' }}">
+                                    data-sidebar-dropdown-trigger
+                                    aria-expanded="{{ $budgetMenuOpen ? 'true' : 'false' }}">
                                     <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -871,7 +883,8 @@
                                     data-user-initials>{{ $userInitials }}</span>
                             </div>
                             <div class="ml-3 flex-1">
-                                <p class="text-sm font-medium text-white truncate" data-user-name>{{ $currentUser->name }}
+                                <p class="text-sm font-medium text-white truncate" data-user-name>
+                                    {{ $currentUser->name }}
                                 </p>
                                 <p class="text-xs text-blue-200 truncate" data-user-email>{{ $currentUser->email }}</p>
                             </div>
@@ -1034,7 +1047,8 @@
                                                 </svg>
                                                 Profile Settings
                                             </a>
-                                            <form method="POST" action="{{ route('logout') }}" id="topbar-logout-form">
+                                            <form method="POST" action="{{ route('logout') }}"
+                                                id="topbar-logout-form">
                                                 @csrf
                                                 <button type="button" onclick="confirmTopbarLogout()"
                                                     class="flex w-full items-center rounded-2xl px-4 py-3 text-sm font-medium text-red-600 transition hover:bg-red-50">
