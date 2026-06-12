@@ -19,7 +19,7 @@
         data-popup-title="@js(old('map_popup_title', $profile->map_popup_title))"
         data-popup-description="@js(old('map_popup_description', $profile->map_popup_description))">
 
-        <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-blue-50 shadow-lg shadow-slate-200/60">
+        <div class="profile-module-hero">
             <div class="p-8">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                     <div class="flex max-w-3xl gap-5">
@@ -29,19 +29,19 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="mt-2 text-4xl font-bold text-slate-900">Manajemen Peta Desa</h1>
-                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                            <p class="profile-module-kicker">Profil Desa</p>
+                            <h1 class="profile-module-heading">Manajemen Peta Desa</h1>
+                            <p class="profile-module-copy">
                                 Kelola editor peta, konten publik utama, panel informasi, dan marker fasilitas umum dengan pola ringkas seperti halaman berita.
                             </p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
-                        <div class="rounded-2xl border border-white/80 bg-white/80 px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Desa Aktif</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">{{ $village->name }}</p>
-                            <p class="mt-3 text-sm font-semibold text-blue-600">{{ count($markerRows) }} marker aktif</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Desa Aktif</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-2">{{ $village->name }}</p>
+                            <p class="profile-module-stat-note text-blue-600">{{ count($markerRows) }} marker aktif</p>
                         </div>
                         <a href="{{ $publicMapUrl }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
@@ -62,33 +62,33 @@
                             </svg>
                         </div>
                         <div>
-                            <h2 class="text-4xl font-bold text-slate-900">Peta Desa</h2>
-                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                            <h2 class="profile-module-heading">Peta Desa</h2>
+                            <p class="profile-module-copy">
                                 Halaman ini hanya menampilkan hasil konfigurasi setiap kategori. Semua perubahan dilakukan melalui modal agar tampilan lebih bersih dan mudah dipakai.
                             </p>
                         </div>
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-4">
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Editor Peta</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">{{ old('map_zoom', $profile->map_zoom) }}</p>
-                            <p class="mt-3 text-sm font-semibold text-blue-600">Zoom aktif</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Editor Peta</p>
+                            <p class="profile-module-stat-value">{{ old('map_zoom', $profile->map_zoom) }}</p>
+                            <p class="profile-module-stat-note text-blue-600">Zoom aktif</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Konten Utama</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">1</p>
-                            <p class="mt-3 text-sm font-semibold text-emerald-600">Set aktif</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Konten Utama</p>
+                            <p class="profile-module-stat-value">1</p>
+                            <p class="profile-module-stat-note text-emerald-600">Set aktif</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Panel Publik</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">3</p>
-                            <p class="mt-3 text-sm font-semibold text-amber-600">Blok informasi</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Panel Publik</p>
+                            <p class="profile-module-stat-value">3</p>
+                            <p class="profile-module-stat-note text-amber-600">Blok informasi</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Marker</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900" data-preview-marker-count>{{ count($markerRows) }}</p>
-                            <p class="mt-3 text-sm font-semibold text-fuchsia-600">Titik penting</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Marker</p>
+                            <p class="profile-module-stat-value" data-preview-marker-count>{{ count($markerRows) }}</p>
+                            <p class="profile-module-stat-note text-fuchsia-600">Titik penting</p>
                         </div>
                     </div>
                 </div>
@@ -99,8 +99,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Editor Peta Admin</h3>
-                                <p class="mt-1 text-sm text-slate-600">Ringkasan koordinat, zoom, dan preview peta utama. Klik tombol untuk membuka editor interaktif.</p>
+                                <h3 class="profile-module-section-title">Editor Peta Admin</h3>
+                                <p class="profile-module-section-copy">Ringkasan koordinat, zoom, dan preview peta utama. Klik tombol untuk membuka editor interaktif.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-editor-modal">Editor Peta Admin</button>
@@ -136,17 +136,17 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Konten Publik Utama</h3>
-                                <p class="mt-1 text-sm text-slate-600">Judul, deskripsi halaman, dan isi popup marker utama yang tampil di publik.</p>
+                                <h3 class="profile-module-section-title">Konten Publik Utama</h3>
+                                <p class="profile-module-section-copy">Judul, deskripsi halaman, dan isi popup marker utama yang tampil di publik.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-content-modal">Konten Publik Utama</button>
                             @endpermission
                         </div>
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-slate-200">
+                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
                                 <thead class="bg-slate-50">
-                                    <tr class="text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                                    <tr class="text-left">
                                         <th class="px-6 py-4">Judul</th>
                                         <th class="px-6 py-4">Deskripsi</th>
                                         <th class="px-6 py-4">Popup Utama</th>
@@ -175,8 +175,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Panel Informasi Publik</h3>
-                                <p class="mt-1 text-sm text-slate-600">Ringkasan panel informasi, fasilitas umum, potensi desa, dan catatan tambahan publik.</p>
+                                <h3 class="profile-module-section-title">Panel Informasi Publik</h3>
+                                <p class="profile-module-section-copy">Ringkasan panel informasi, fasilitas umum, potensi desa, dan catatan tambahan publik.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-panels-modal">Panel Informasi Publik</button>
@@ -204,8 +204,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Marker Fasilitas dan Titik Penting</h3>
-                                <p class="mt-1 text-sm text-slate-600">Daftar marker tampil sebagai hasil. Tambah dan edit dilakukan lewat modal.</p>
+                                <h3 class="profile-module-section-title">Marker Fasilitas dan Titik Penting</h3>
+                                <p class="profile-module-section-copy">Daftar marker tampil sebagai hasil. Tambah dan edit dilakukan lewat modal.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-marker-modal data-marker-mode="create">Tambah Marker</button>

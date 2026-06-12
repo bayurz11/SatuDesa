@@ -217,6 +217,87 @@
             box-shadow: 0 14px 30px -18px rgba(37, 99, 235, 0.35);
         }
 
+        .profile-module-hero {
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            border-radius: 1.75rem;
+            background: linear-gradient(90deg, #ffffff 0%, #f8fbff 45%, #eef2ff 100%);
+            box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.18);
+        }
+
+        .profile-module-kicker {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: #1d4ed8;
+        }
+
+        .profile-module-heading {
+            margin-top: 0.5rem;
+            font-size: 2.35rem;
+            line-height: 1.05;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .profile-module-copy {
+            margin-top: 0.9rem;
+            max-width: 42rem;
+            font-size: 0.95rem;
+            line-height: 1.9;
+            color: #475569;
+        }
+
+        .profile-module-stat {
+            border: 1px solid #e2e8f0;
+            border-radius: 1.1rem;
+            background: #fff;
+            padding: 1rem 1.15rem;
+            box-shadow: 0 10px 24px -18px rgba(15, 23, 42, 0.2);
+        }
+
+        .profile-module-stat-label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .profile-module-stat-value {
+            margin-top: 0.45rem;
+            font-size: 1.95rem;
+            line-height: 1;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .profile-module-stat-note {
+            margin-top: 0.65rem;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .profile-module-section-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .profile-module-section-copy {
+            margin-top: 0.3rem;
+            font-size: 0.9rem;
+            line-height: 1.75;
+            color: #64748b;
+        }
+
+        .profile-module-table thead th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #64748b;
+        }
+
         .module-primary-btn {
             border-radius: 0.9rem;
             background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);

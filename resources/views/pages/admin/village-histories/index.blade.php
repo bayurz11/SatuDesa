@@ -39,7 +39,7 @@
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
-        <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-blue-50 shadow-lg shadow-slate-200/60">
+        <div class="profile-module-hero">
             <div class="p-8">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                     <div class="flex max-w-3xl gap-5">
@@ -49,18 +49,18 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="mt-2 text-4xl font-bold text-slate-900">Manajemen Sejarah Desa</h1>
-                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                            <p class="profile-module-kicker">Profil Desa</p>
+                            <h1 class="profile-module-heading">Manajemen Sejarah Desa</h1>
+                            <p class="profile-module-copy">
                                 Kelola judul, narasi utama, kartu sejarah, dan linimasa publik dari satu halaman yang lebih ringkas dan mudah dipahami.
                             </p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
-                        <div class="rounded-2xl border border-white/80 bg-white/80 px-5 py-4 shadow-sm">
-                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Desa Aktif</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $village->name }}</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Desa Aktif</p>
+                            <p class="text-lg font-semibold text-slate-900 mt-2">{{ $village->name }}</p>
                         </div>
                         <a href="{{ $publicHistoryUrl }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
@@ -80,8 +80,8 @@
                     <div class="module-panel-header px-6 py-6">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900">Identitas Halaman Publik</h2>
-                                <p class="mt-1 text-sm text-gray-600">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
+                                <h2 class="profile-module-section-title">Identitas Halaman Publik</h2>
+                                <p class="profile-module-section-copy">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
                             </div>
                             @permission('village_histories.edit')
                                 <button type="submit" class="module-primary-btn px-6 py-3 text-sm">Simpan Perubahan</button>
@@ -163,8 +163,8 @@
                     <div class="module-panel-header px-6 py-5">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-xl font-semibold text-gray-900">Kartu Sejarah</h2>
-                                <p class="mt-1 text-sm text-gray-600">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
+                                <h2 class="profile-module-section-title">Kartu Sejarah</h2>
+                                <p class="profile-module-section-copy">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-history-card-modal data-history-card-mode="create">
                                 Tambah Kartu
@@ -193,8 +193,8 @@
                     <div class="module-panel-header px-6 py-5">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-xl font-semibold text-gray-900">Linimasa Sejarah</h2>
-                                <p class="mt-1 text-sm text-gray-600">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
+                                <h2 class="profile-module-section-title">Linimasa Sejarah</h2>
+                                <p class="profile-module-section-copy">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-timeline-modal data-timeline-mode="create">
                                 Tambah Linimasa
@@ -227,7 +227,7 @@
 
                 <section class="module-panel">
                     <div class="module-panel-header px-6 py-5">
-                        <h2 class="text-xl font-semibold text-gray-900">Catatan Samping</h2>
+                        <h2 class="profile-module-section-title">Catatan Samping</h2>
                     </div>
 
                     <div class="p-6 sm:p-8 grid gap-6">

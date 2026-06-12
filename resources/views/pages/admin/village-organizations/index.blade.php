@@ -25,7 +25,7 @@
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
-        <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-blue-50 shadow-lg shadow-slate-200/60">
+        <div class="profile-module-hero">
             <div class="p-8">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
                     <div class="flex max-w-3xl gap-5">
@@ -35,18 +35,18 @@
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="mt-2 text-4xl font-bold text-slate-900">Manajemen Struktur Organisasi</h1>
-                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                            <p class="profile-module-kicker">Profil Desa</p>
+                            <h1 class="profile-module-heading">Manajemen Struktur Organisasi</h1>
+                            <p class="profile-module-copy">
                                 Kelola identitas halaman, master jabatan, dan data struktur organisasi publik lewat tabel ringkas dan modal input.
                             </p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row xl:flex-col">
-                        <div class="rounded-2xl border border-white/80 bg-white/80 px-5 py-4 shadow-sm">
-                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Desa Aktif</p>
-                            <p class="mt-2 text-lg font-semibold text-slate-900">{{ $village->name }}</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Desa Aktif</p>
+                            <p class="text-lg font-semibold text-slate-900 mt-2">{{ $village->name }}</p>
                         </div>
                         <a href="{{ $publicOrganizationUrl }}" target="_blank" rel="noopener noreferrer"
                             class="inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-5 py-4 text-sm font-semibold text-white shadow-lg shadow-blue-500/25 transition hover:brightness-95">
@@ -67,28 +67,28 @@
                             </svg>
                         </div>
                         <div>
-                            <h2 class="text-4xl font-bold text-slate-900">Struktur Organisasi Desa</h2>
-                            <p class="mt-3 max-w-2xl text-sm leading-7 text-slate-600">
+                            <h2 class="profile-module-heading">Struktur Organisasi Desa</h2>
+                            <p class="profile-module-copy">
                                 Semua data di bawah ini langsung membentuk tampilan halaman publik. Gunakan master jabatan untuk isi dropdown, lalu tambahkan anggota struktur sesuai kebutuhan.
                             </p>
                         </div>
                     </div>
 
                     <div class="grid gap-4 sm:grid-cols-3">
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Identitas Publik</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">1</p>
-                            <p class="mt-3 text-sm font-semibold text-blue-600">Satu set aktif</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Identitas Publik</p>
+                            <p class="profile-module-stat-value">1</p>
+                            <p class="profile-module-stat-note text-blue-600">Satu set aktif</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Master Jabatan</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">{{ $positionOptions->count() }}</p>
-                            <p class="mt-3 text-sm font-semibold text-emerald-600">Dropdown siap pakai</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Master Jabatan</p>
+                            <p class="profile-module-stat-value">{{ $positionOptions->count() }}</p>
+                            <p class="profile-module-stat-note text-emerald-600">Dropdown siap pakai</p>
                         </div>
-                        <div class="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm">
-                            <p class="text-sm text-slate-500">Data Struktur</p>
-                            <p class="mt-2 text-3xl font-bold text-slate-900">{{ $members->count() }}</p>
-                            <p class="mt-3 text-sm font-semibold text-amber-600">Tampil ke publik</p>
+                        <div class="profile-module-stat">
+                            <p class="profile-module-stat-label">Data Struktur</p>
+                            <p class="profile-module-stat-value">{{ $members->count() }}</p>
+                            <p class="profile-module-stat-note text-amber-600">Tampil ke publik</p>
                         </div>
                     </div>
                 </div>
@@ -99,8 +99,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Identitas Halaman Publik</h3>
-                                <p class="mt-1 text-sm text-slate-600">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
+                                <h3 class="profile-module-section-title">Identitas Halaman Publik</h3>
+                                <p class="profile-module-section-copy">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
                             </div>
                             @permission('village_organizations.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="identity-modal">
@@ -110,9 +110,9 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-slate-200">
+                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
                                 <thead class="bg-slate-50">
-                                    <tr class="text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                                    <tr class="text-left">
                                         <th class="px-6 py-4">Judul Halaman</th>
                                         <th class="px-6 py-4">Badge</th>
                                         <th class="px-6 py-4">Judul Bagan</th>
@@ -156,8 +156,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Master Jabatan</h3>
-                                <p class="mt-1 text-sm text-slate-600">Data di sini menjadi sumber dropdown untuk input struktur organisasi.</p>
+                                <h3 class="profile-module-section-title">Master Jabatan</h3>
+                                <p class="profile-module-section-copy">Data di sini menjadi sumber dropdown untuk input struktur organisasi.</p>
                             </div>
                             @permission('village_organizations.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="position-modal" data-position-action="create">
@@ -167,9 +167,9 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-slate-200">
+                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
                                 <thead class="bg-slate-50">
-                                    <tr class="text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                                    <tr class="text-left">
                                         <th class="px-6 py-4">Label</th>
                                         <th class="px-6 py-4">Judul Jabatan</th>
                                         <th class="px-6 py-4">Kelompok</th>
@@ -213,8 +213,8 @@
                     <section class="rounded-[28px] border border-slate-200 bg-white shadow-sm">
                         <div class="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-xl font-semibold text-slate-900">Data Struktur Organisasi</h3>
-                                <p class="mt-1 text-sm text-slate-600">Data ini yang langsung ditampilkan pada halaman publik sesuai jabatan yang dipilih dari dropdown.</p>
+                                <h3 class="profile-module-section-title">Data Struktur Organisasi</h3>
+                                <p class="profile-module-section-copy">Data ini yang langsung ditampilkan pada halaman publik sesuai jabatan yang dipilih dari dropdown.</p>
                             </div>
                             @permission('village_organizations.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="member-modal" data-member-action="create">
@@ -224,9 +224,9 @@
                         </div>
 
                         <div class="overflow-x-auto">
-                            <table class="min-w-full divide-y divide-slate-200">
+                            <table class="profile-module-table min-w-full divide-y divide-slate-200">
                                 <thead class="bg-slate-50">
-                                    <tr class="text-left text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">
+                                    <tr class="text-left">
                                         <th class="px-6 py-4">Foto</th>
                                         <th class="px-6 py-4">Jabatan</th>
                                         <th class="px-6 py-4">Kelompok</th>
