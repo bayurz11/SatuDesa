@@ -7,6 +7,7 @@ use App\Support\UploadStorage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
@@ -48,17 +49,58 @@ class Gallery extends Model
         return $this->belongsTo(Village::class);
     }
 
+    public function photos(): HasMany
+    {
+        return $this->hasMany(GalleryPhoto::class)->orderBy('is_cover', 'desc')->orderBy('sort_order')->orderBy('id');
+    }
+
+    public function getResolvedPhotoCountAttribute(): int
+    {
+        $photoCount = $this->relationLoaded('photos')
+            ? $this->photos->count()
+            : $this->photos()->count();
+
+        return $photoCount > 0 ? $photoCount : (int) $this->photo_count;
+    }
+
     public function getCoverImageUrlAttribute(): ?string
     {
-        if (! $this->cover_image_path) {
-            return null;
+        if ($this->cover_image_path) {
+            if (Str::startsWith($this->cover_image_path, 'img/')) {
+                return asset($this->cover_image_path);
+            }
+
+            return UploadStorage::url($this->cover_image_path);
         }
 
-        if (Str::startsWith($this->cover_image_path, 'img/')) {
-            return asset($this->cover_image_path);
+        $coverPhoto = $this->relationLoaded('photos')
+            ? $this->photos->firstWhere('is_cover', true) ?? $this->photos->first()
+            : $this->photos()->first();
+
+        return $coverPhoto?->image_url;
+    }
+
+    public function syncPhotoCount(): void
+    {
+        $count = $this->photos()->count();
+
+        $this->forceFill([
+            'photo_count' => $count > 0 ? $count : $this->photo_count,
+        ])->saveQuietly();
+    }
+
+    public function syncCoverFromPhotos(): void
+    {
+        if ($this->cover_image_path && ! Str::startsWith($this->cover_image_path, 'galleries/photos/')) {
+            return;
         }
 
-        return UploadStorage::url($this->cover_image_path);
+        $coverPhoto = $this->photos()->where('is_cover', true)->first()
+            ?? $this->photos()->orderBy('sort_order')->orderBy('id')->first();
+
+        $this->forceFill([
+            'cover_image_path' => $coverPhoto?->image_path,
+        ])->saveQuietly();
     }
 
     public static function defaultEntriesForVillage(Village $village): array

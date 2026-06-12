@@ -346,16 +346,16 @@
 
         .admin-module-title {
             margin-top: 0.25rem;
-            font-size: 2rem;
-            line-height: 1.15;
+            font-size: 1.75rem;
+            line-height: 1.12;
             font-weight: 800;
             color: #111827;
         }
 
         .admin-module-description {
             margin-top: 0.35rem;
-            font-size: 0.95rem;
-            line-height: 1.75;
+            font-size: 0.875rem;
+            line-height: 1.65;
             color: #4b5563;
         }
 
@@ -381,15 +381,15 @@
         }
 
         .admin-module-section-title {
-            font-size: 1.125rem;
+            font-size: 1rem;
             font-weight: 800;
             color: #111827;
         }
 
         .admin-module-section-description {
             margin-top: 0.25rem;
-            font-size: 0.875rem;
-            line-height: 1.7;
+            font-size: 0.8125rem;
+            line-height: 1.6;
             color: #6b7280;
         }
 
@@ -402,14 +402,14 @@
         }
 
         .admin-module-summary-label {
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 500;
             color: #6b7280;
         }
 
         .admin-module-summary-value {
             margin-top: 0.55rem;
-            font-size: 1.875rem;
+            font-size: 1.6rem;
             line-height: 1;
             font-weight: 800;
             color: #111827;
@@ -417,7 +417,7 @@
 
         .admin-module-summary-note {
             margin-top: 0.75rem;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             font-weight: 700;
         }
 
@@ -433,7 +433,7 @@
             border-radius: 1rem;
             background: #f9fafb;
             padding: 1.5rem;
-            font-size: 0.875rem;
+            font-size: 0.8125rem;
             color: #6b7280;
         }
 

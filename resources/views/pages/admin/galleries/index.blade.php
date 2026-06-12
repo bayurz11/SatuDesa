@@ -14,12 +14,19 @@
         'excerpt' => $gallery->excerpt,
         'description' => $gallery->description,
         'location_name' => $gallery->location_name,
-        'photo_count' => $gallery->photo_count,
+        'photo_count' => $gallery->resolved_photo_count,
         'sort_order' => $gallery->sort_order,
         'status' => $gallery->status,
         'is_featured' => $gallery->is_featured,
         'gallery_date' => optional($gallery->gallery_date)->format('Y-m-d'),
         'cover_image_url' => $gallery->cover_image_url,
+        'photos' => $gallery->photos->map(fn ($photo) => [
+            'id' => $photo->id,
+            'image_url' => $photo->image_url,
+            'alt_text' => $photo->alt_text,
+            'caption' => $photo->caption,
+            'is_cover' => $photo->is_cover,
+        ])->values(),
     ])->values();
 @endphp
 
@@ -142,7 +149,7 @@
                                                 <p class="mt-2 text-sm text-gray-500">{{ $gallery->location_name }}</p>
                                             @endif
                                         </td>
-                                        <td class="px-6 py-5 font-semibold text-gray-900">{{ $gallery->photo_count }}</td>
+                                        <td class="px-6 py-5 font-semibold text-gray-900">{{ $gallery->resolved_photo_count }}</td>
                                         <td class="px-6 py-5">
                                             <span class="inline-flex rounded-full px-3 py-1 text-xs font-semibold {{ $gallery->status === 'published' ? 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-100' : 'bg-amber-50 text-amber-700 ring-1 ring-amber-100' }}">
                                                 {{ $gallery->status === 'published' ? 'Published' : 'Draft' }}
@@ -206,7 +213,7 @@
                                     </span>
                                 </div>
                                 <div class="p-5">
-                                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">{{ $gallery->photo_count }} Foto</p>
+                                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">{{ $gallery->resolved_photo_count }} Foto</p>
                                     <h3 class="mt-3 line-clamp-2 text-lg font-bold text-gray-900">{{ $gallery->title }}</h3>
                                     <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">{{ $gallery->excerpt ?: 'Belum ada ringkasan album.' }}</p>
                                 </div>
@@ -232,7 +239,7 @@
                                 <div>
                                     <p class="text-xs font-semibold uppercase tracking-[0.22em] text-blue-700">Galeri Desa</p>
                                     <h2 class="mt-1 text-xl font-bold text-gray-900" data-gallery-modal-title>{{ old('gallery_id') ? 'Edit Album Galeri' : 'Tambah Album Galeri' }}</h2>
-                                    <p class="mt-2 text-sm text-gray-600">Isi data album, unggah foto sampul, lalu atur status publikasinya.</p>
+                                    <p class="mt-2 text-sm text-gray-600">Isi data album, unggah foto sampul, lalu kelola kumpulan foto album seperti panel CMS.</p>
                                 </div>
                                 <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-close-gallery-modal>Tutup</button>
                             </div>
@@ -281,11 +288,6 @@
                                     @error('gallery_date')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
                                 </div>
                                 <div>
-                                    <label class="block text-sm font-semibold text-gray-700">Jumlah Foto</label>
-                                    <input type="number" name="photo_count" value="{{ old('photo_count', 1) }}" min="1" max="500" class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
-                                    @error('photo_count')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
-                                </div>
-                                <div>
                                     <label class="block text-sm font-semibold text-gray-700">Urutan Tampil</label>
                                     <input type="number" name="sort_order" value="{{ old('sort_order', 0) }}" min="0" class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
                                     @error('sort_order')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
@@ -306,7 +308,36 @@
                                     <label class="block text-sm font-semibold text-gray-700">Foto Sampul</label>
                                     <input type="file" name="cover_image" accept="image/*" class="module-field mt-2 w-full px-4 py-3 text-sm text-gray-700">
                                     @error('cover_image')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
-                                    <p class="mt-2 text-xs text-gray-500">Format gambar umum, maksimal 4MB. Jika tidak diisi, foto lama dipertahankan saat edit.</p>
+                                    <p class="mt-2 text-xs text-gray-500">Format gambar umum, maksimal 4MB. Jika tidak diisi, cover bisa mengikuti foto album yang dipilih.</p>
+                                </div>
+                                <div class="md:col-span-2">
+                                    <div class="rounded-2xl border border-gray-200 bg-gradient-to-br from-slate-50 to-blue-50 p-5">
+                                        <div class="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                                            <div>
+                                                <h3 class="text-sm font-semibold text-gray-900">Foto Album</h3>
+                                                <p class="mt-1 text-xs leading-6 text-gray-500">Upload banyak foto sekaligus seperti pengelolaan galeri CMS. Foto baru akan masuk ke album dan bisa dijadikan cover.</p>
+                                            </div>
+                                            <div class="rounded-xl bg-white px-4 py-3 text-xs font-semibold text-blue-700 ring-1 ring-blue-100">
+                                                <span data-gallery-photo-count>0</span> foto tersimpan
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-4">
+                                            <input type="file" name="photos[]" accept="image/*" multiple class="module-field w-full px-4 py-3 text-sm text-gray-700" data-gallery-photos-input>
+                                            @error('photos')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                                            @error('photos.*')<p class="mt-2 text-sm text-red-600">{{ $message }}</p>@enderror
+                                        </div>
+
+                                        <div class="mt-4 hidden rounded-2xl border border-dashed border-blue-200 bg-white/80 p-4" data-gallery-upload-preview-wrap>
+                                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-blue-700">Preview Upload Baru</p>
+                                            <div class="mt-3 grid gap-3 sm:grid-cols-2 xl:grid-cols-3" data-gallery-upload-preview></div>
+                                        </div>
+
+                                        <div class="mt-4 hidden" data-gallery-existing-photos-wrap>
+                                            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Foto Tersimpan</p>
+                                            <div class="mt-3 grid gap-4 sm:grid-cols-2 xl:grid-cols-3" data-gallery-existing-photos></div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -338,6 +369,12 @@
             const titleLabel = modalOverlay.querySelector('[data-gallery-modal-title]');
             const titleInput = modalOverlay.querySelector('[data-gallery-title-input]');
             const slugInput = modalOverlay.querySelector('[data-gallery-slug-input]');
+            const photoInput = modalOverlay.querySelector('[data-gallery-photos-input]');
+            const existingPhotosWrap = modalOverlay.querySelector('[data-gallery-existing-photos-wrap]');
+            const existingPhotosList = modalOverlay.querySelector('[data-gallery-existing-photos]');
+            const uploadPreviewWrap = modalOverlay.querySelector('[data-gallery-upload-preview-wrap]');
+            const uploadPreviewList = modalOverlay.querySelector('[data-gallery-upload-preview]');
+            const photoCountLabel = modalOverlay.querySelector('[data-gallery-photo-count]');
             const galleries = JSON.parse(page.dataset.galleries || '[]');
             const fields = {
                 title: form.querySelector('[name="title"]'),
@@ -346,17 +383,139 @@
                 excerpt: form.querySelector('[name="excerpt"]'),
                 description: form.querySelector('[name="description"]'),
                 location_name: form.querySelector('[name="location_name"]'),
-                photo_count: form.querySelector('[name="photo_count"]'),
                 sort_order: form.querySelector('[name="sort_order"]'),
                 status: form.querySelector('[name="status"]'),
                 gallery_date: form.querySelector('[name="gallery_date"]'),
                 is_featured: form.querySelector('[name="is_featured"]'),
+                cover_photo_id: form.querySelector('[name="cover_photo_id"]'),
             };
             const baseStoreAction = @json(route('galleries.store'));
             const updateActionPattern = @json(url('admin/galeri-desa/__ID__'));
 
             const openModal = () => modalOverlay.classList.remove('hidden');
             const closeModal = () => modalOverlay.classList.add('hidden');
+
+            const ensureHiddenInput = (name) => {
+                let input = form.querySelector(`[name="${name}"]`);
+
+                if (!input) {
+                    input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = name;
+                    form.appendChild(input);
+                }
+
+                return input;
+            };
+
+            const clearDynamicHiddenInputs = () => {
+                form.querySelectorAll('[data-gallery-dynamic-hidden]').forEach((input) => input.remove());
+            };
+
+            const updatePhotoCount = (count) => {
+                if (photoCountLabel) {
+                    photoCountLabel.textContent = String(count);
+                }
+            };
+
+            const renderUploadPreview = () => {
+                if (!photoInput || !uploadPreviewWrap || !uploadPreviewList) {
+                    return;
+                }
+
+                uploadPreviewList.innerHTML = '';
+                const files = Array.from(photoInput.files || []);
+
+                if (files.length === 0) {
+                    uploadPreviewWrap.classList.add('hidden');
+                    return;
+                }
+
+                uploadPreviewWrap.classList.remove('hidden');
+
+                files.forEach((file) => {
+                    const article = document.createElement('article');
+                    article.className = 'module-soft-card overflow-hidden rounded-2xl bg-white';
+                    const url = URL.createObjectURL(file);
+                    article.innerHTML = `
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="${url}" alt="${file.name}" class="h-full w-full object-cover">
+                        </div>
+                        <div class="p-3">
+                            <p class="truncate text-sm font-semibold text-gray-900">${file.name}</p>
+                            <p class="mt-1 text-xs text-gray-500">Foto baru akan ditambahkan saat album disimpan.</p>
+                        </div>
+                    `;
+                    uploadPreviewList.appendChild(article);
+                });
+            };
+
+            const renderExistingPhotos = (gallery = null) => {
+                if (!existingPhotosWrap || !existingPhotosList) {
+                    return;
+                }
+
+                existingPhotosList.innerHTML = '';
+                clearDynamicHiddenInputs();
+
+                const photos = Array.isArray(gallery?.photos) ? gallery.photos : [];
+                const coverInput = ensureHiddenInput('cover_photo_id');
+                coverInput.value = photos.find((photo) => photo.is_cover)?.id ?? '';
+
+                updatePhotoCount(photos.length || gallery?.photo_count || 0);
+
+                if (photos.length === 0) {
+                    existingPhotosWrap.classList.add('hidden');
+                    return;
+                }
+
+                existingPhotosWrap.classList.remove('hidden');
+
+                photos.forEach((photo) => {
+                    const article = document.createElement('article');
+                    article.className = 'module-soft-card overflow-hidden rounded-2xl bg-white';
+                    article.innerHTML = `
+                        <div class="aspect-[4/3] overflow-hidden bg-gray-100">
+                            <img src="${photo.image_url}" alt="${photo.alt_text ?? 'Foto album'}" class="h-full w-full object-cover">
+                        </div>
+                        <div class="space-y-3 p-3">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-900">${photo.caption || 'Foto Album'}</p>
+                                <p class="mt-1 text-xs text-gray-500">${photo.alt_text || 'Tanpa deskripsi alternatif.'}</p>
+                            </div>
+                            <label class="flex items-center justify-between gap-3 rounded-xl border border-gray-200 px-3 py-2 text-xs text-gray-600">
+                                <span>Jadikan cover album</span>
+                                <input type="radio" name="gallery_cover_choice" value="${photo.id}" ${photo.is_cover ? 'checked' : ''}>
+                            </label>
+                            <label class="flex items-center justify-between gap-3 rounded-xl border border-rose-100 bg-rose-50 px-3 py-2 text-xs text-rose-700">
+                                <span>Hapus foto ini saat simpan</span>
+                                <input type="checkbox" value="${photo.id}" data-remove-photo-id>
+                            </label>
+                        </div>
+                    `;
+                    existingPhotosList.appendChild(article);
+                });
+
+                existingPhotosList.querySelectorAll('input[name="gallery_cover_choice"]').forEach((radio) => {
+                    radio.addEventListener('change', () => {
+                        coverInput.value = radio.value;
+                    });
+                });
+
+                existingPhotosList.querySelectorAll('[data-remove-photo-id]').forEach((checkbox) => {
+                    checkbox.addEventListener('change', () => {
+                        form.querySelectorAll('input[name="remove_photo_ids[]"]').forEach((input) => input.remove());
+                        existingPhotosList.querySelectorAll('[data-remove-photo-id]:checked').forEach((selected) => {
+                            const hidden = document.createElement('input');
+                            hidden.type = 'hidden';
+                            hidden.name = 'remove_photo_ids[]';
+                            hidden.value = selected.value;
+                            hidden.dataset.galleryDynamicHidden = '1';
+                            form.appendChild(hidden);
+                        });
+                    });
+                });
+            };
 
             const fillForm = (gallery = null) => {
                 if (!gallery) {
@@ -370,11 +529,15 @@
                     fields.excerpt.value = '';
                     fields.description.value = '';
                     fields.location_name.value = '';
-                    fields.photo_count.value = 1;
                     fields.sort_order.value = 0;
                     fields.status.value = 'draft';
                     fields.gallery_date.value = '';
                     fields.is_featured.checked = false;
+                    if (photoInput) {
+                        photoInput.value = '';
+                    }
+                    renderUploadPreview();
+                    renderExistingPhotos(null);
                     return;
                 }
 
@@ -388,11 +551,15 @@
                 fields.excerpt.value = gallery.excerpt ?? '';
                 fields.description.value = gallery.description ?? '';
                 fields.location_name.value = gallery.location_name ?? '';
-                fields.photo_count.value = gallery.photo_count ?? 1;
                 fields.sort_order.value = gallery.sort_order ?? 0;
                 fields.status.value = gallery.status ?? 'draft';
                 fields.gallery_date.value = gallery.gallery_date ?? '';
                 fields.is_featured.checked = Boolean(gallery.is_featured);
+                if (photoInput) {
+                    photoInput.value = '';
+                }
+                renderUploadPreview();
+                renderExistingPhotos(gallery);
             };
 
             document.querySelectorAll('[data-open-gallery-modal]').forEach((button) => {
@@ -437,6 +604,8 @@
             slugInput?.addEventListener('input', () => {
                 slugInput.dataset.manuallyEdited = '1';
             });
+
+            photoInput?.addEventListener('change', renderUploadPreview);
 
             if (page.dataset.openModalOnLoad === '1') {
                 openModal();

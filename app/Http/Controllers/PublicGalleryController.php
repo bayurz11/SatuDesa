@@ -16,6 +16,7 @@ class PublicGalleryController extends Controller
         $publishedQuery = Gallery::query()
             ->where('village_id', $village->id)
             ->where('status', 'published')
+            ->with('photos')
             ->orderByDesc('is_featured')
             ->orderBy('sort_order')
             ->orderByDesc('gallery_date');
@@ -32,7 +33,7 @@ class PublicGalleryController extends Controller
             ->values();
 
         $galleryHighlights = [
-            ['label' => 'Foto Pilihan', 'value' => $publishedGalleries->sum('photo_count')],
+            ['label' => 'Foto Pilihan', 'value' => $publishedGalleries->sum(fn (Gallery $gallery) => $gallery->resolved_photo_count)],
             ['label' => 'Album Aktif', 'value' => $publishedGalleries->count()],
             ['label' => 'Lokasi Dokumentasi', 'value' => $publishedGalleries->pluck('location_name')->filter()->unique()->count()],
         ];

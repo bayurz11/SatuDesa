@@ -86,6 +86,7 @@
                                         </span>
 
                                         <span class="text-sm text-white/90">{{ $featuredGallery->category ?: 'Galeri Desa' }}</span>
+                                        <span class="text-sm text-white/90">{{ $featuredGallery->resolved_photo_count }} foto</span>
                                         <span class="text-sm text-white/90">{{ optional($featuredGallery->gallery_date)->translatedFormat('d M Y') ?: '-' }}</span>
                                     </div>
 
@@ -119,7 +120,7 @@
 
                                 <div class="p-5">
                                     <p class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700">
-                                        {{ $album->photo_count }} Foto
+                                        {{ $album->resolved_photo_count }} Foto
                                     </p>
 
                                     <h3
@@ -130,6 +131,17 @@
                                     <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
                                         {{ $album->excerpt ?: $album->description }}
                                     </p>
+
+                                    @if ($album->photos->isNotEmpty())
+                                        <div class="mt-4 grid grid-cols-3 gap-2">
+                                            @foreach ($album->photos->take(3) as $photo)
+                                                <div class="aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">
+                                                    <img src="{{ $photo->image_url }}" alt="{{ $photo->alt_text ?: $album->title }}"
+                                                        class="h-full w-full object-cover">
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
                                 </div>
                             </article>
                         @endforeach

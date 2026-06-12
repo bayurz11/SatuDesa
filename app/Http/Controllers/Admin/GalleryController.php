@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Domains\Gallery\Models\Gallery;
+use App\Domains\Gallery\Models\GalleryPhoto;
 use App\Domains\Village\Models\Village;
 use App\Http\Controllers\Controller;
 use App\Services\LoggerService;
@@ -22,6 +23,7 @@ class GalleryController extends Controller
 
         $galleries = Gallery::query()
             ->where('village_id', $village->id)
+            ->with('photos')
             ->orderByDesc('is_featured')
             ->orderBy('sort_order')
             ->orderByDesc('gallery_date')
@@ -49,6 +51,12 @@ class GalleryController extends Controller
 
     public function destroy(Gallery $gallery): RedirectResponse
     {
+        $gallery->load('photos');
+
+        foreach ($gallery->photos as $photo) {
+            $this->deleteStoredImage($photo->image_path);
+        }
+
         $this->deleteCoverImage($gallery->cover_image_path);
         $galleryTitle = $gallery->title;
         $galleryId = $gallery->id;
@@ -102,8 +110,12 @@ class GalleryController extends Controller
             'excerpt' => ['nullable', 'string', 'max:500'],
             'description' => ['nullable', 'string'],
             'cover_image' => ['nullable', 'image', 'max:4096'],
+            'photos' => ['nullable', 'array'],
+            'photos.*' => ['image', 'max:4096'],
+            'remove_photo_ids' => ['nullable', 'array'],
+            'remove_photo_ids.*' => ['integer'],
+            'cover_photo_id' => ['nullable', 'integer'],
             'location_name' => ['nullable', 'string', 'max:255'],
-            'photo_count' => ['required', 'integer', 'min:1', 'max:500'],
             'sort_order' => ['nullable', 'integer', 'min:0', 'max:9999'],
             'is_featured' => ['nullable', 'boolean'],
             'status' => ['required', 'in:draft,published'],
@@ -131,13 +143,71 @@ class GalleryController extends Controller
             'description' => $validated['description'] ?? null,
             'cover_image_path' => $coverImagePath,
             'location_name' => $validated['location_name'] ?? null,
-            'photo_count' => (int) $validated['photo_count'],
             'sort_order' => (int) ($validated['sort_order'] ?? 0),
             'is_featured' => (bool) ($validated['is_featured'] ?? false),
             'status' => $status,
             'gallery_date' => $validated['gallery_date'] ?? null,
             'published_at' => $publishedAt,
         ])->save();
+
+        $existingPhotos = $gallery->photos()->get()->keyBy('id');
+        $removedPhotoIds = collect($validated['remove_photo_ids'] ?? [])
+            ->map(fn ($id) => (int) $id)
+            ->filter()
+            ->values();
+
+        foreach ($removedPhotoIds as $photoId) {
+            $photo = $existingPhotos->get($photoId);
+
+            if (! $photo) {
+                continue;
+            }
+
+            $this->deleteStoredImage($photo->image_path);
+            $photo->delete();
+        }
+
+        $newPhotoModels = collect();
+
+        foreach ($request->file('photos', []) as $index => $uploadedPhoto) {
+            $path = $uploadedPhoto->store('galleries/photos', UploadStorage::disk());
+
+            $newPhotoModels->push(
+                $gallery->photos()->create([
+                    'image_path' => $path,
+                    'alt_text' => $gallery->title . ' foto ' . ($index + 1),
+                    'caption' => null,
+                    'sort_order' => $gallery->photos()->count() + $index,
+                    'is_cover' => false,
+                ])
+            );
+        }
+
+        $gallery->photos()->update(['is_cover' => false]);
+
+        $selectedCoverId = filled($validated['cover_photo_id'] ?? null)
+            ? (int) $validated['cover_photo_id']
+            : null;
+
+        if ($selectedCoverId) {
+            $gallery->photos()->whereKey($selectedCoverId)->update(['is_cover' => true]);
+        } elseif ($request->hasFile('cover_image')) {
+            // Manual cover upload tetap dipakai sebagai sampul utama album.
+        } elseif ($newPhotoModels->isNotEmpty()) {
+            $gallery->photos()->whereKey($newPhotoModels->first()->id)->update(['is_cover' => true]);
+            $gallery->cover_image_path = $newPhotoModels->first()->image_path;
+            $gallery->saveQuietly();
+        } else {
+            $gallery->photos()->orderBy('sort_order')->orderBy('id')->limit(1)->update(['is_cover' => true]);
+        }
+
+        if (! $request->hasFile('cover_image')) {
+            $gallery->syncCoverFromPhotos();
+        }
+
+        $gallery->forceFill([
+            'photo_count' => $gallery->photos()->count(),
+        ])->saveQuietly();
 
         LoggerService::logUserAction($gallery->wasRecentlyCreated ? 'create' : 'update', 'Gallery', $gallery->id, [
             'gallery_title' => $gallery->title,
@@ -149,6 +219,11 @@ class GalleryController extends Controller
     }
 
     protected function deleteCoverImage(?string $path): void
+    {
+        $this->deleteStoredImage($path);
+    }
+
+    protected function deleteStoredImage(?string $path): void
     {
         if (blank($path) || Str::startsWith($path, 'img/')) {
             return;
