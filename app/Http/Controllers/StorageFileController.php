@@ -3,12 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Support\UploadStorage;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 
 class StorageFileController extends Controller
 {
-    public function show(string $path): Response
+    public function show(Request $request, string $path): Response
     {
         $normalizedPath = ltrim($path, '/');
 
@@ -22,16 +23,33 @@ class StorageFileController extends Controller
 
         $disk = Storage::disk(UploadStorage::disk());
 
-        if (! $disk->exists($normalizedPath)) {
-            abort(404);
+        if ($disk->exists($normalizedPath)) {
+            return $disk->response($normalizedPath, null, [
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
         }
 
-        return $disk->response($normalizedPath);
+        $legacyPath = storage_path($normalizedPath);
+
+        if (is_file($legacyPath)) {
+            return response()->file($legacyPath, [
+                'Cache-Control' => 'public, max-age=86400',
+            ]);
+        }
+
+        abort(404);
     }
 
     protected function isAllowedUploadPath(string $path): bool
     {
-        foreach (['avatars/', 'posts/', 'potentials/'] as $prefix) {
+        foreach ([
+            'avatars/',
+            'posts/',
+            'potentials/',
+            'galleries/',
+            'village-histories/',
+            'village-organizations/',
+        ] as $prefix) {
             if (str_starts_with($path, $prefix)) {
                 return true;
             }

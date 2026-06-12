@@ -2,7 +2,7 @@
 
 namespace App\Support;
 
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Route;
 
 class UploadStorage
 {
@@ -23,6 +23,10 @@ class UploadStorage
             return $normalizedPath;
         }
 
-        return Storage::disk(static::disk())->url($normalizedPath);
+        if (Route::has('storage.uploads.show')) {
+            return route('storage.uploads.show', ['path' => $normalizedPath]);
+        }
+
+        return url('/storage/' . $normalizedPath);
     }
 }
