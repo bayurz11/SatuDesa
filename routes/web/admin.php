@@ -47,6 +47,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::get('profil-desa/struktur-organisasi', [VillageOrganizationController::class, 'index'])
                 ->middleware('permission:village_organizations.view')
                 ->name('village-organizations.index');
+            Route::get('settings/master-jabatan-struktur-organisasi', [VillageOrganizationController::class, 'positionSettings'])
+                ->middleware('permission:village_organizations.view')
+                ->name('settings.organization-positions.index');
             Route::put('profil-desa/struktur-organisasi/identitas', [VillageOrganizationController::class, 'updateIdentity'])
                 ->middleware('permission:village_organizations.edit')
                 ->name('village-organizations.identity.update');

@@ -173,10 +173,21 @@
             box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.28);
         }
 
+        .app-modal-panel>form {
+            display: flex;
+            min-height: 0;
+            max-height: inherit;
+            width: 100%;
+            flex: 1 1 auto;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
         .app-modal-body {
             min-height: 0;
             flex: 1 1 auto;
             overflow-y: auto;
+            overscroll-behavior: contain;
         }
 
         .app-modal-footer {
@@ -438,7 +449,7 @@
             $canViewVillageHistory = $currentUser->hasPermission('village_histories.view');
             $canViewVillageOrganization = $currentUser->hasPermission('village_organizations.view');
             $canViewVillageProfile = $canViewVillageMap || $canViewVillageHistory || $canViewVillageOrganization;
-            $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs;
+            $hasSettingsAccess = $canViewUsers || $canViewRoles || $canViewAuditLogs || $canViewVillageOrganization;
             $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-organizations.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
@@ -453,7 +464,7 @@
                 request()->routeIs('rws.*') ||
                 request()->routeIs('rts.*');
             $settingsMenuOpen =
-                request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('audit-logs.*');
+                request()->routeIs('users.*') || request()->routeIs('roles.*') || request()->routeIs('audit-logs.*') || request()->routeIs('settings.organization-positions.*');
         @endphp
         <div class="min-h-screen">
             <!-- Sidebar -->
@@ -804,6 +815,14 @@
                                                 <span
                                                     class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('audit-logs.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
                                                 Notifikasi Audit
+                                            </a>
+                                        @endif
+                                        @if ($canViewVillageOrganization)
+                                            <a href="{{ route('settings.organization-positions.index') }}"
+                                                class="group flex items-center rounded-xl px-4 py-2.5 text-sm font-normal text-white transition-all duration-200 {{ request()->routeIs('settings.organization-positions.*') ? 'bg-white/24 shadow-sm shadow-black/10' : 'hover:bg-white/12 hover:translate-x-1 hover:shadow-sm hover:shadow-black/10' }}">
+                                                <span
+                                                    class="mr-3 h-2.5 w-2.5 flex-shrink-0 rounded-full transition-all duration-200 {{ request()->routeIs('settings.organization-positions.*') ? 'bg-white ring-4 ring-white/10' : 'bg-white/80 group-hover:bg-white group-hover:ring-4 group-hover:ring-white/10' }}"></span>
+                                                Master Jabatan
                                             </a>
                                         @endif
                                     </div>

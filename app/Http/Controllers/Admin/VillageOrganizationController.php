@@ -43,6 +43,26 @@ class VillageOrganizationController extends Controller
         ]);
     }
 
+    public function positionSettings(): View
+    {
+        [$village, $profile] = $this->resolveVillageProfile();
+
+        $positionOptions = collect($this->organizationPositionOptions($profile))
+            ->sortBy(['sort_order', 'title'])
+            ->values()
+            ->all();
+
+        return view('pages.admin.settings.organization-positions', [
+            'title' => 'Master Jabatan Struktur Organisasi',
+            'description' => 'Kelola daftar jabatan untuk dropdown struktur organisasi publik.',
+            'routeName' => 'settings.organization-positions.index',
+            'village' => $village,
+            'profile' => $profile,
+            'organizationPositionOptions' => $positionOptions,
+            'organizationGroups' => $this->groupOptions(),
+        ]);
+    }
+
     public function updateIdentity(Request $request): RedirectResponse
     {
         [$village, $profile] = $this->resolveVillageProfile();
@@ -103,7 +123,7 @@ class VillageOrganizationController extends Controller
         $option = $options->firstWhere('id', $optionId);
 
         if (! $option) {
-            return redirect()->route('village-organizations.index')->with('error', 'Data jabatan tidak ditemukan.');
+            return redirect()->route('settings.organization-positions.index')->with('error', 'Data jabatan tidak ditemukan.');
         }
 
         $profile->forceFill([
@@ -122,7 +142,7 @@ class VillageOrganizationController extends Controller
             'position_option_id' => $optionId,
         ]);
 
-        return redirect()->route('village-organizations.index')->with('message', 'Data jabatan dihapus.');
+        return redirect()->route('settings.organization-positions.index')->with('message', 'Data jabatan dihapus.');
     }
 
     public function storeMember(Request $request): RedirectResponse
@@ -204,7 +224,7 @@ class VillageOrganizationController extends Controller
             'position_option_id' => $optionId,
         ]);
 
-        return redirect()->route('village-organizations.index')->with('message', 'Data jabatan berhasil disimpan.');
+        return redirect()->route('settings.organization-positions.index')->with('message', 'Data jabatan berhasil disimpan.');
     }
 
     protected function persistMember(Request $request, ?string $memberId = null): RedirectResponse
