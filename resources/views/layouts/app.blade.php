@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" type="image/x-icon" href="{{ asset('public/favicon.ico') }}">
+    <link rel="icon" href="{{ asset('public/favicon-16x16.png') }}" sizes="any">
+    <link rel="apple-touch-icon" href="{{ asset('public/logo.png') }}">
     <title>{{ config('app.name', 'SatuDesa') }}</title>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -518,7 +520,8 @@
                             <div class="rounded-2xl {{ $profileMenuOpen ? 'bg-white/10' : '' }}" data-sidebar-dropdown>
                                 <button type="button"
                                     class="flex w-full items-center rounded-xl px-4 py-3 text-left text-sm font-medium transition-all duration-200 {{ $profileMenuOpen ? 'text-white shadow-lg shadow-black/10' : 'text-blue-100 hover:bg-white/10 hover:text-white hover:shadow-lg hover:shadow-black/10' }}"
-                                    data-sidebar-dropdown-trigger aria-expanded="{{ $profileMenuOpen ? 'true' : 'false' }}">
+                                    data-sidebar-dropdown-trigger
+                                    aria-expanded="{{ $profileMenuOpen ? 'true' : 'false' }}">
                                     <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                                         <path stroke-linecap="round" stroke-linejoin="round"
