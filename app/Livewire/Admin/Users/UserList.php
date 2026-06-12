@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Users;
 
 use App\Domains\User\Models\User;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\CacheService;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
@@ -11,7 +12,7 @@ use Livewire\WithPagination;
 
 class UserList extends Component
 {
-    use WithPagination, WithAlerts;
+    use WithPagination, WithAlerts, AuthorizesPermissions;
 
     public $search = '';
     public $showInactive = false;
@@ -42,6 +43,7 @@ class UserList extends Component
 
     public function toggleUserStatus($userId)
     {
+        $this->authorizePermission('users.edit');
         $user = User::findOrFail($userId);
 
         if ($user->roles()->where('name', 'super-admin')->exists()) {
@@ -79,6 +81,7 @@ class UserList extends Component
 
     public function confirmDeleteUser($userId)
     {
+        $this->authorizePermission('users.delete');
         $user = User::findOrFail($userId);
 
         if ($user->roles()->where('name', 'super-admin')->exists()) {
@@ -98,6 +101,7 @@ class UserList extends Component
 
     public function deleteUser($params)
     {
+        $this->authorizePermission('users.delete');
         $userId = $params['userId'];
         $user = User::findOrFail($userId);
 
@@ -133,6 +137,7 @@ class UserList extends Component
 
     public function render()
     {
+        $this->authorizePermission('users.view');
         // Optimize query with proper select and joins
         $users = User::query()
             ->select(['id', 'name', 'email', 'is_active', 'created_at', 'updated_at'])

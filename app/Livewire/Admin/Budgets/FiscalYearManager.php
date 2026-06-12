@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Budgets;
 
 use App\Domains\Budget\Models\ApbdesFiscalYear;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Validation\Rule;
@@ -12,7 +13,7 @@ use Livewire\WithPagination;
 
 class FiscalYearManager extends Component
 {
-    use WithAlerts;
+    use WithAlerts, AuthorizesPermissions;
     use WithPagination;
 
     public ?int $recordId = null;
@@ -52,6 +53,7 @@ class FiscalYearManager extends Component
 
     public function openModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         $this->resetForm();
 
         if ($id) {
@@ -63,6 +65,7 @@ class FiscalYearManager extends Component
 
     public function loadRecord(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesFiscalYear::findOrFail($id);
 
         $this->recordId = $record->id;
@@ -97,6 +100,7 @@ class FiscalYearManager extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'budgets.create', 'budgets.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -133,6 +137,7 @@ class FiscalYearManager extends Component
 
     public function confirmDelete(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesFiscalYear::findOrFail($id);
 
         $this->showConfirm(
@@ -147,6 +152,7 @@ class FiscalYearManager extends Component
 
     public function delete(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesFiscalYear::findOrFail($params['id']);
         $record->delete();
         $this->showSuccessToast('Tahun anggaran berhasil dihapus.');
@@ -155,6 +161,7 @@ class FiscalYearManager extends Component
 
     public function render()
     {
+        $this->authorizePermission('budgets.view');
         $records = ApbdesFiscalYear::query()
             ->when($this->search, fn ($query) => $query->where('title', 'like', '%' . $this->search . '%')->orWhere('year', 'like', '%' . $this->search . '%'))
             ->latest('year')

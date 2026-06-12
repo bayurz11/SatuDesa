@@ -6,6 +6,7 @@ use App\Domains\Budget\Models\ApbdesAccount;
 use App\Domains\Budget\Models\ApbdesBudgetLine;
 use App\Domains\Budget\Models\ApbdesFiscalYear;
 use App\Domains\Budget\Models\ApbdesFundingSource;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Component;
@@ -13,7 +14,7 @@ use Livewire\WithPagination;
 
 class BudgetLineManager extends Component
 {
-    use WithAlerts;
+    use WithAlerts, AuthorizesPermissions;
     use WithPagination;
 
     public ?int $recordId = null;
@@ -51,6 +52,7 @@ class BudgetLineManager extends Component
 
     public function openModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         $this->resetForm();
         if ($id) {
             $this->loadRecord($id);
@@ -60,6 +62,7 @@ class BudgetLineManager extends Component
 
     public function loadRecord(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesBudgetLine::findOrFail($id);
         $this->recordId = $record->id;
         $this->fiscal_year_id = (string) $record->fiscal_year_id;
@@ -92,6 +95,7 @@ class BudgetLineManager extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'budgets.create', 'budgets.edit');
         $validated = $this->validate();
 
         $record = ApbdesBudgetLine::updateOrCreate(
@@ -115,12 +119,14 @@ class BudgetLineManager extends Component
 
     public function confirmDelete(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesBudgetLine::findOrFail($id);
         $this->showConfirm('Hapus Baris Anggaran', "Hapus baris anggaran {$record->description}?", 'delete', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function delete(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesBudgetLine::findOrFail($params['id'])->delete();
         $this->showSuccessToast('Baris anggaran berhasil dihapus.');
         $this->resetPage();
@@ -128,6 +134,7 @@ class BudgetLineManager extends Component
 
     public function render()
     {
+        $this->authorizePermission('budgets.view');
         $records = ApbdesBudgetLine::query()
             ->with(['fiscalYear:id,year,title', 'account:id,code,name,type', 'fundingSource:id,code,name'])
             ->when($this->search, function ($query) {

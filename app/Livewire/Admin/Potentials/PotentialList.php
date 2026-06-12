@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Potentials;
 
 use App\Domains\Potential\Models\Potential;
 use App\Domains\Potential\Models\PotentialCategory;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,7 +13,7 @@ use Livewire\WithPagination;
 
 class PotentialList extends Component
 {
-    use WithPagination, WithAlerts;
+    use WithPagination, WithAlerts, AuthorizesPermissions;
 
     public $search = '';
     public $status = '';
@@ -74,6 +75,7 @@ class PotentialList extends Component
 
     public function publishPotential(int $potentialId): void
     {
+        $this->authorizePermission('system.settings');
         $potential = Potential::findOrFail($potentialId);
         $potential->update([
             'status' => 'published',
@@ -90,6 +92,7 @@ class PotentialList extends Component
 
     public function moveToDraft(int $potentialId): void
     {
+        $this->authorizePermission('system.settings');
         $potential = Potential::findOrFail($potentialId);
         $potential->update([
             'status' => 'draft',
@@ -106,6 +109,7 @@ class PotentialList extends Component
 
     public function confirmDeletePotential(int $potentialId): void
     {
+        $this->authorizePermission('system.settings');
         $potential = Potential::findOrFail($potentialId);
 
         $this->showConfirm(
@@ -120,6 +124,7 @@ class PotentialList extends Component
 
     public function deletePotential(array $params): void
     {
+        $this->authorizePermission('system.settings');
         $potentialId = $params['potentialId'];
         $potential = Potential::findOrFail($potentialId);
 
@@ -136,6 +141,7 @@ class PotentialList extends Component
 
     public function render()
     {
+        $this->authorizePermission('system.settings');
         $baseQuery = Potential::query()
             ->with([
                 'category:id,name',

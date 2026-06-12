@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Households;
 
 use App\Domains\Household\Models\Household;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class HouseholdList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class HouseholdList extends Component
 
     public function confirmDeleteHousehold(int $householdId): void
     {
+        $this->authorizePermission('households.delete');
         $household = Household::findOrFail($householdId);
 
         $this->showConfirm(
@@ -44,6 +47,7 @@ class HouseholdList extends Component
 
     public function deleteHousehold(array $params): void
     {
+        $this->authorizePermission('households.delete');
         $household = Household::findOrFail($params['householdId']);
 
         LoggerService::logUserAction('delete', 'Household', $household->id, [
@@ -59,6 +63,7 @@ class HouseholdList extends Component
 
     public function render()
     {
+        $this->authorizePermission('households.view');
         $households = Household::query()
             ->with([
                 'headCitizen:id,full_name,nik',

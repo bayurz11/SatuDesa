@@ -40,7 +40,7 @@ class VillageVisionMissionController extends Controller
             'vision_mission_vision_description' => ['required', 'string'],
             'vision_mission_mission_badge' => ['required', 'string', 'max:255'],
             'vision_mission_mission_title' => ['required', 'string', 'max:255'],
-            'vision_mission_mission_items' => ['required', 'array', 'min:1'],
+            'vision_mission_mission_items' => ['required', 'array', 'min:1', 'max:12'],
             'vision_mission_mission_items.*.title' => ['required', 'string', 'max:255'],
             'vision_mission_mission_items.*.desc' => ['required', 'string'],
             'vision_mission_mission_items.*.icon' => ['required', 'string', 'in:service,chart,users,document'],

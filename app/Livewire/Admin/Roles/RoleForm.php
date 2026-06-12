@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Roles;
 
 use App\Domains\Role\Models\Role;
 use App\Domains\Permission\Models\Permission;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\Locked;
@@ -12,6 +13,8 @@ use Livewire\Component;
 
 class RoleForm extends Component
 {
+    use AuthorizesPermissions;
+
     public $roleId;
     #[Locked]
     public string $originalName = '';
@@ -48,6 +51,8 @@ class RoleForm extends Component
 
     public function mount($roleId = null)
     {
+        $this->authorizePermission('roles.view');
+
         if ($roleId) {
             $this->loadRole($roleId);
         }
@@ -55,6 +60,7 @@ class RoleForm extends Component
 
     public function loadRole($roleId)
     {
+        $this->authorizeAllPermissions(['roles.edit', 'permissions.manage']);
         $role = Role::findOrFail($roleId);
         
         $this->roleId = $role->id;
@@ -70,6 +76,7 @@ class RoleForm extends Component
     #[On('openRoleForm')]
     public function openModal($roleId = null)
     {
+        $this->authorizeAllPermissions(['roles.create', 'permissions.manage']);
         $this->resetForm();
         $this->showModal = true;
     }
@@ -77,6 +84,7 @@ class RoleForm extends Component
     #[On('editRole')]
     public function editRole(int $roleId): void
     {
+        $this->authorizeAllPermissions(['roles.edit', 'permissions.manage']);
         $this->resetForm();
         $this->loadRole($roleId);
         $this->showModal = true;
@@ -103,6 +111,7 @@ class RoleForm extends Component
 
     public function selectAllInGroup($group)
     {
+        $this->authorizeAllPermissions(['roles.edit', 'permissions.manage']);
         // Get permissions for this group from database
         $groupPermissions = Permission::where('is_active', true)
             ->where('group', $group)
@@ -123,6 +132,10 @@ class RoleForm extends Component
 
     public function save()
     {
+        $this->authorizeAllPermissions([
+            $this->isEditing ? 'roles.edit' : 'roles.create',
+            'permissions.manage',
+        ]);
         $this->validate();
 
         if ($this->isEditing) {
@@ -172,6 +185,7 @@ class RoleForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('roles.view');
         // Get permissions grouped by group for the view
         $permissions = Permission::where('is_active', true)
             ->orderBy('group')

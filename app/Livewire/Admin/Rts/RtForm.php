@@ -6,6 +6,7 @@ use App\Domains\Hamlet\Models\Hamlet;
 use App\Domains\Rt\Models\Rt;
 use App\Domains\Rw\Models\Rw;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -13,6 +14,8 @@ use Livewire\Component;
 
 class RtForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $rtId = null;
     public string $hamlet_id = '';
     public string $rw_id = '';
@@ -37,6 +40,7 @@ class RtForm extends Component
     #[On('openRtForm')]
     public function openModal(?int $rtId = null): void
     {
+        $this->authorizePermission($rtId ? 'rts.edit' : 'rts.create');
         $this->resetForm();
 
         if ($rtId) {
@@ -48,6 +52,7 @@ class RtForm extends Component
 
     public function loadRt(int $rtId): void
     {
+        $this->authorizePermission('rts.edit');
         $rt = Rt::with('rw')->findOrFail($rtId);
 
         $this->rtId = $rt->id;
@@ -79,6 +84,7 @@ class RtForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'rts.create', 'rts.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -104,6 +110,7 @@ class RtForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('rts.view');
         $hamlets = Hamlet::query()->orderBy('name')->get(['id', 'name']);
         $rws = Rw::query()
             ->when($this->hamlet_id !== '', fn ($query) => $query->where('hamlet_id', $this->hamlet_id))

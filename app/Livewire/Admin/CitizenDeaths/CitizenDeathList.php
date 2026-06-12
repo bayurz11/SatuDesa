@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\CitizenDeaths;
 
 use App\Domains\Citizen\Models\CitizenDeath;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class CitizenDeathList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class CitizenDeathList extends Component
 
     public function confirmDeleteDeath(int $deathId): void
     {
+        $this->authorizePermission('citizen_deaths.delete');
         $death = CitizenDeath::with('citizen')->findOrFail($deathId);
         $citizenName = $death->citizen?->full_name ?? 'data ini';
 
@@ -45,6 +48,7 @@ class CitizenDeathList extends Component
 
     public function deleteDeath(array $params): void
     {
+        $this->authorizePermission('citizen_deaths.delete');
         $deathId = $params['deathId'];
         $death = CitizenDeath::with('citizen')->findOrFail($deathId);
         $citizen = $death->citizen;
@@ -66,6 +70,7 @@ class CitizenDeathList extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_deaths.view');
         $deaths = CitizenDeath::query()
             ->with('citizen:id,nik,full_name')
             ->when($this->search, function ($query) {

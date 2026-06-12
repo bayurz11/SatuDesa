@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\PostCategories;
 
 use App\Domains\Post\Models\PostCategory;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -11,6 +12,8 @@ use Livewire\Component;
 
 class PostCategoryForm extends Component
 {
+    use AuthorizesPermissions;
+
     public $categoryId;
     public $village_id = '';
     public $name = '';
@@ -41,6 +44,7 @@ class PostCategoryForm extends Component
 
     public function loadCategory($categoryId)
     {
+        $this->authorizePermission('post_categories.edit');
         $category = PostCategory::findOrFail($categoryId);
 
         $this->categoryId = $category->id;
@@ -54,6 +58,7 @@ class PostCategoryForm extends Component
     #[On('openPostCategoryForm')]
     public function openModal($categoryId = null)
     {
+        $this->authorizePermission($categoryId ? 'post_categories.edit' : 'post_categories.create');
         $this->resetForm();
 
         if ($categoryId) {
@@ -82,6 +87,7 @@ class PostCategoryForm extends Component
 
     public function save()
     {
+        $this->authorizeCrudAction($this->isEditing, 'post_categories.create', 'post_categories.edit');
         $this->slug = Str::slug($this->slug ?: $this->name);
         $this->validate();
 
@@ -106,6 +112,7 @@ class PostCategoryForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('post_categories.view');
         $villages = Village::orderBy('name')->get(['id', 'name']);
 
         return view('livewire.admin.post-categories.post-category-form', compact('villages'));

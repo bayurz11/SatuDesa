@@ -6,6 +6,7 @@ use App\Domains\Citizen\Models\Citizen;
 use App\Domains\Citizen\Models\CitizenBirth;
 use App\Domains\Household\Models\Household;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Support\CitizenReferenceData;
 use Illuminate\Validation\Rule;
@@ -14,6 +15,8 @@ use Livewire\Component;
 
 class CitizenBirthForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $birthId = null;
     public ?int $citizenId = null;
     public ?int $household_id = null;
@@ -72,6 +75,7 @@ class CitizenBirthForm extends Component
     #[On('openCitizenBirthForm')]
     public function openModal(?int $birthId = null): void
     {
+        $this->authorizePermission($birthId ? 'citizen_births.edit' : 'citizen_births.create');
         $this->resetForm();
 
         if ($birthId) {
@@ -83,6 +87,7 @@ class CitizenBirthForm extends Component
 
     public function loadBirth(int $birthId): void
     {
+        $this->authorizePermission('citizen_births.edit');
         $birth = CitizenBirth::with('citizen')->findOrFail($birthId);
 
         $this->birthId = $birth->id;
@@ -154,6 +159,7 @@ class CitizenBirthForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'citizen_births.create', 'citizen_births.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -208,6 +214,7 @@ class CitizenBirthForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_births.view');
         $households = Household::query()->orderBy('no_kk')->get(['id', 'no_kk', 'address']);
         $genderOptions = CitizenReferenceData::genderOptions();
         $birthTypeOptions = CitizenReferenceData::birthTypeOptions();

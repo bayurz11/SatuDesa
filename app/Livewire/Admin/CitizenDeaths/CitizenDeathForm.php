@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\CitizenDeaths;
 use App\Domains\Citizen\Models\Citizen;
 use App\Domains\Citizen\Models\CitizenDeath;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Support\CitizenReferenceData;
 use Illuminate\Validation\Rule;
@@ -13,6 +14,8 @@ use Livewire\Component;
 
 class CitizenDeathForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $deathId = null;
     public ?int $citizen_id = null;
     public string $death_date = '';
@@ -52,6 +55,7 @@ class CitizenDeathForm extends Component
     #[On('openCitizenDeathForm')]
     public function openModal(?int $deathId = null): void
     {
+        $this->authorizePermission($deathId ? 'citizen_deaths.edit' : 'citizen_deaths.create');
         $this->resetForm();
 
         if ($deathId) {
@@ -63,6 +67,7 @@ class CitizenDeathForm extends Component
 
     public function loadDeath(int $deathId): void
     {
+        $this->authorizePermission('citizen_deaths.edit');
         $death = CitizenDeath::findOrFail($deathId);
 
         $this->deathId = $death->id;
@@ -114,6 +119,7 @@ class CitizenDeathForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'citizen_deaths.create', 'citizen_deaths.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -136,6 +142,7 @@ class CitizenDeathForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_deaths.view');
         $citizens = Citizen::query()->orderBy('full_name')->get(['id', 'nik', 'full_name', 'status']);
         $deathCauseOptions = CitizenReferenceData::deathCauseOptions();
         $reporterRelationOptions = CitizenReferenceData::reporterRelationOptions();

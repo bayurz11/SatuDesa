@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Hamlets;
 
 use App\Domains\Hamlet\Models\Hamlet;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class HamletList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class HamletList extends Component
 
     public function confirmDeleteHamlet(int $hamletId): void
     {
+        $this->authorizePermission('hamlets.delete');
         $hamlet = Hamlet::findOrFail($hamletId);
 
         $this->showConfirm(
@@ -44,6 +47,7 @@ class HamletList extends Component
 
     public function deleteHamlet(array $params): void
     {
+        $this->authorizePermission('hamlets.delete');
         $hamlet = Hamlet::findOrFail($params['hamletId']);
 
         LoggerService::logUserAction('delete', 'Hamlet', $hamlet->id, [
@@ -59,6 +63,7 @@ class HamletList extends Component
 
     public function render()
     {
+        $this->authorizePermission('hamlets.view');
         $hamlets = Hamlet::query()
             ->withCount('rws')
             ->when($this->search, function ($query) {

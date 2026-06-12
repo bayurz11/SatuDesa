@@ -8,6 +8,7 @@ use App\Domains\Household\Models\Household;
 use App\Domains\Rt\Models\Rt;
 use App\Domains\Rw\Models\Rw;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -15,6 +16,8 @@ use Livewire\Component;
 
 class HouseholdForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $householdId = null;
     public string $no_kk = '';
     public string $hamlet_id = '';
@@ -40,6 +43,7 @@ class HouseholdForm extends Component
     #[On('openHouseholdForm')]
     public function openModal(?int $householdId = null): void
     {
+        $this->authorizePermission($householdId ? 'households.edit' : 'households.create');
         $this->resetForm();
 
         if ($householdId) {
@@ -59,6 +63,7 @@ class HouseholdForm extends Component
 
     public function loadHousehold(int $householdId): void
     {
+        $this->authorizePermission('households.edit');
         $household = Household::findOrFail($householdId);
 
         $this->householdId = $household->id;
@@ -109,6 +114,7 @@ class HouseholdForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'households.create', 'households.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -145,6 +151,7 @@ class HouseholdForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('households.view');
         $hamlets = Hamlet::query()->orderBy('name')->get(['id', 'name']);
         $rws = Rw::query()
             ->when($this->hamlet_id !== '', fn ($query) => $query->where('hamlet_id', $this->hamlet_id))

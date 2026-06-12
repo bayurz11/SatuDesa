@@ -235,7 +235,6 @@ class VillageOrganizationController extends Controller
             'position_option_id' => ['required', 'string'],
             'name' => ['required', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
-            'photo_path' => ['nullable', 'string', 'max:255'],
             'photo' => ['nullable', 'image', 'max:4096'],
         ]);
 
@@ -246,7 +245,7 @@ class VillageOrganizationController extends Controller
 
         $members = collect($this->organizationMembers($profile));
         $existing = $memberId ? $members->firstWhere('id', $memberId) : null;
-        $photoPath = $validated['photo_path'] ?: ($existing['photo_path'] ?? 'img/avatar-placeholder.png');
+        $photoPath = $existing['photo_path'] ?? 'img/avatar-placeholder.png';
 
         if ($request->hasFile('photo')) {
             if ($photoPath && ! str_starts_with($photoPath, 'img/')) {

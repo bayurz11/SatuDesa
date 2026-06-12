@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Rts;
 
 use App\Domains\Rt\Models\Rt;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class RtList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class RtList extends Component
 
     public function confirmDeleteRt(int $rtId): void
     {
+        $this->authorizePermission('rts.delete');
         $rt = Rt::with('rw.hamlet')->findOrFail($rtId);
 
         $this->showConfirm(
@@ -44,6 +47,7 @@ class RtList extends Component
 
     public function deleteRt(array $params): void
     {
+        $this->authorizePermission('rts.delete');
         $rt = Rt::findOrFail($params['rtId']);
 
         LoggerService::logUserAction('delete', 'Rt', $rt->id, [
@@ -59,6 +63,7 @@ class RtList extends Component
 
     public function render()
     {
+        $this->authorizePermission('rts.view');
         $rts = Rt::query()
             ->with(['rw:id,hamlet_id,number', 'rw.hamlet:id,name'])
             ->when($this->search, function ($query) {

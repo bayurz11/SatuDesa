@@ -6,6 +6,7 @@ use App\Domains\Citizen\Models\Citizen;
 use App\Domains\Citizen\Models\CitizenArrival;
 use App\Domains\Household\Models\Household;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Support\CitizenReferenceData;
 use Illuminate\Validation\Rule;
@@ -14,6 +15,8 @@ use Livewire\Component;
 
 class CitizenArrivalForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $arrivalId = null;
     public ?int $citizenId = null;
     public ?int $household_id = null;
@@ -74,6 +77,7 @@ class CitizenArrivalForm extends Component
     #[On('openCitizenArrivalForm')]
     public function openModal(?int $arrivalId = null): void
     {
+        $this->authorizePermission($arrivalId ? 'citizen_arrivals.edit' : 'citizen_arrivals.create');
         $this->resetForm();
 
         if ($arrivalId) {
@@ -85,6 +89,7 @@ class CitizenArrivalForm extends Component
 
     public function loadArrival(int $arrivalId): void
     {
+        $this->authorizePermission('citizen_arrivals.edit');
         $arrival = CitizenArrival::with('citizen')->findOrFail($arrivalId);
 
         $this->arrivalId = $arrival->id;
@@ -158,6 +163,7 @@ class CitizenArrivalForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'citizen_arrivals.create', 'citizen_arrivals.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -213,6 +219,7 @@ class CitizenArrivalForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_arrivals.view');
         $households = Household::query()->orderBy('no_kk')->get(['id', 'no_kk', 'address']);
 
         return view('livewire.admin.citizen-arrivals.citizen-arrival-form', [

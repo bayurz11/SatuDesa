@@ -44,7 +44,7 @@ class VillageMapController extends Controller
             'map_potential_title' => ['required', 'string', 'max:255'],
             'map_potential_description' => ['required', 'string'],
             'map_note' => ['nullable', 'string'],
-            'markers' => ['nullable', 'array'],
+            'markers' => ['nullable', 'array', 'max:25'],
             'markers.*.name' => ['nullable', 'string', 'max:255'],
             'markers.*.category' => ['nullable', 'string', 'max:255'],
             'markers.*.latitude' => ['nullable', 'numeric', 'between:-90,90'],
@@ -171,7 +171,7 @@ class VillageMapController extends Controller
         [$village, $profile] = $this->resolveVillageProfile();
 
         $validated = $request->validate([
-            'markers' => ['nullable', 'array'],
+            'markers' => ['nullable', 'array', 'max:25'],
             'markers.*.name' => ['nullable', 'string', 'max:255'],
             'markers.*.category' => ['nullable', 'string', 'max:255'],
             'markers.*.latitude' => ['nullable', 'numeric', 'between:-90,90'],

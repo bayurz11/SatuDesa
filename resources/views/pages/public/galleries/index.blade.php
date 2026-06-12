@@ -1,76 +1,7 @@
 @php
-    $metaTitle = 'Galeri Desa Mentuda';
+    $metaTitle = 'Galeri Desa ' . $village->name;
     $metaDescription =
-        'Galeri publik Desa Mentuda yang menampilkan kegiatan warga, pembangunan desa, dan suasana kawasan.';
-
-    $photoPlaceholder = asset('img/bg.jpg');
-
-    $galleryHighlights = [
-        ['label' => 'Foto Pilihan', 'value' => '48'],
-        ['label' => 'Album Aktif', 'value' => '6'],
-        ['label' => 'Lokasi Dokumentasi', 'value' => '9'],
-    ];
-
-    $albumCategories = [
-        ['label' => 'Semua Album', 'count' => 31],
-        ['label' => 'Kegiatan Desa', 'count' => 12],
-        ['label' => 'Pembangunan', 'count' => 8],
-        ['label' => 'Wisata & Kawasan', 'count' => 6],
-        ['label' => 'Pelayanan Publik', 'count' => 5],
-    ];
-
-    $galleryAlbums = [
-        [
-            'title' => 'Gotong Royong Lingkungan',
-            'category' => 'Kegiatan Desa',
-            'meta' => '18 Foto',
-            'description' =>
-                'Dokumentasi pembersihan jalan lingkungan, saluran air, dan area fasilitas umum oleh warga.',
-            'image' => $photoPlaceholder,
-        ],
-        [
-            'title' => 'Peningkatan Jalan Desa',
-            'category' => 'Pembangunan',
-            'meta' => '12 Foto',
-            'description' => 'Potret progres pembangunan jalan desa dari tahap awal hingga penyelesaian lapangan.',
-            'image' => $photoPlaceholder,
-        ],
-        [
-            'title' => 'Suasana Pesisir Mentuda',
-            'category' => 'Wisata & Kawasan',
-            'meta' => '15 Foto',
-            'description' => 'Album visual yang menampilkan garis pantai, aktivitas nelayan, dan panorama sore hari.',
-            'image' => $photoPlaceholder,
-        ],
-        [
-            'title' => 'Posyandu dan Layanan Warga',
-            'category' => 'Pelayanan Publik',
-            'meta' => '10 Foto',
-            'description' => 'Dokumentasi pelayanan kesehatan dasar, antrean warga, dan pendampingan kader desa.',
-            'image' => $photoPlaceholder,
-        ],
-    ];
-
-    $recentAlbums = [
-        [
-            'title' => 'Pelatihan UMKM Rumah Tangga',
-            'category' => 'Kegiatan Desa',
-            'date' => '08 Juni 2026',
-            'image' => $photoPlaceholder,
-        ],
-        [
-            'title' => 'Monitoring Drainase Lingkungan',
-            'category' => 'Pembangunan',
-            'date' => '02 Juni 2026',
-            'image' => $photoPlaceholder,
-        ],
-        [
-            'title' => 'Pasar Pagi Warga',
-            'category' => 'Wisata & Kawasan',
-            'date' => '28 Mei 2026',
-            'image' => $photoPlaceholder,
-        ],
-    ];
+        'Galeri publik ' . $village->name . ' yang menampilkan kegiatan warga, pembangunan desa, dan suasana kawasan.';
 @endphp
 
 @extends('layouts.public')
@@ -94,7 +25,7 @@
             <div class="max-w-4xl" data-aos="fade-up">
                 <h1
                     class="mt-5 max-w-2xl text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-[2rem] lg:leading-tight">
-                    Galeri Desa Mentuda
+                    Galeri Desa {{ $village->name }}
                 </h1>
 
                 <p class="mt-3 max-w-2xl text-sm leading-7 text-emerald-50/90">
@@ -122,7 +53,7 @@
                         </h2>
 
                         <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
-                            Dokumentasi kegiatan warga, pembangunan, pelayanan publik, dan potensi wilayah Desa Mentuda.
+                            Dokumentasi kegiatan warga, pembangunan, pelayanan publik, dan potensi wilayah {{ $village->name }}.
                         </p>
                     </div>
 
@@ -138,37 +69,38 @@
                         @endforeach
                     </div>
 
-                    <article
-                        class="group relative mt-10 overflow-hidden rounded-[28px] bg-white shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200">
-                        <div class="relative h-[340px] overflow-hidden sm:h-[420px] lg:h-[500px]">
-                            <img src="{{ asset('img/bg.jpg') }}" alt="Festival Pesisir Desa Mentuda"
-                                class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
+                    @if ($featuredGallery)
+                        <article
+                            class="group relative mt-10 overflow-hidden rounded-[28px] bg-white shadow-lg ring-1 ring-gray-100 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:ring-green-200">
+                            <div class="relative h-[340px] overflow-hidden sm:h-[420px] lg:h-[500px]">
+                                <img src="{{ $featuredGallery->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $featuredGallery->title }}"
+                                    class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105">
 
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10"></div>
+                                <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/10"></div>
 
-                            <div class="absolute left-5 right-5 bottom-5 text-white md:left-8 md:right-8 md:bottom-8">
-                                <div class="mb-4 flex flex-wrap items-center gap-3">
-                                    <span
-                                        class="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
-                                        Album Unggulan
-                                    </span>
+                                <div class="absolute left-5 right-5 bottom-5 text-white md:left-8 md:right-8 md:bottom-8">
+                                    <div class="mb-4 flex flex-wrap items-center gap-3">
+                                        <span
+                                            class="inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
+                                            Album Unggulan
+                                        </span>
 
-                                    <span class="text-sm text-white/90">Kegiatan Desa</span>
-                                    <span class="text-sm text-white/90">24 Mei 2026</span>
+                                        <span class="text-sm text-white/90">{{ $featuredGallery->category ?: 'Galeri Desa' }}</span>
+                                        <span class="text-sm text-white/90">{{ optional($featuredGallery->gallery_date)->translatedFormat('d M Y') ?: '-' }}</span>
+                                    </div>
+
+                                    <h3
+                                        class="max-w-3xl text-2xl font-bold leading-tight text-white transition duration-300 group-hover:text-green-300 md:text-4xl">
+                                        {{ $featuredGallery->title }}
+                                    </h3>
+
+                                    <p class="mt-3 max-w-2xl text-sm leading-7 text-white/85">
+                                        {{ $featuredGallery->description ?: $featuredGallery->excerpt }}
+                                    </p>
                                 </div>
-
-                                <h3
-                                    class="max-w-3xl text-2xl font-bold leading-tight text-white transition duration-300 group-hover:text-green-300 md:text-4xl">
-                                    Festival Pesisir dan Kebersamaan Warga
-                                </h3>
-
-                                <p class="mt-3 max-w-2xl text-sm leading-7 text-white/85">
-                                    Album utama ini menampilkan rangkaian kegiatan festival, persiapan warga,
-                                    panggung seni, dan suasana kebersamaan di ruang publik desa.
-                                </p>
                             </div>
-                        </div>
-                    </article>
+                        </article>
+                    @endif
 
                     <div class="mt-8 grid gap-5 md:grid-cols-2">
                         @foreach ($galleryAlbums as $album)
@@ -176,27 +108,27 @@
                                 class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/60">
 
                                 <div class="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                                    <img src="{{ $album['image'] }}" alt="{{ $album['title'] }}"
+                                    <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
                                         class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
 
                                     <span
                                         class="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
-                                        {{ $album['category'] }}
+                                        {{ $album->category ?: 'Galeri Desa' }}
                                     </span>
                                 </div>
 
                                 <div class="p-5">
                                     <p class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700">
-                                        {{ $album['meta'] }}
+                                        {{ $album->photo_count }} Foto
                                     </p>
 
                                     <h3
                                         class="mt-3 line-clamp-2 text-lg font-bold text-gray-900 transition group-hover:text-green-700">
-                                        {{ $album['title'] }}
+                                        {{ $album->title }}
                                     </h3>
 
                                     <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
-                                        {{ $album['description'] }}
+                                        {{ $album->excerpt ?: $album->description }}
                                     </p>
                                 </div>
                             </article>
@@ -205,8 +137,7 @@
 
                     <div
                         class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                        Galeri ini dapat dikembangkan menjadi album dinamis, lightbox foto, dan filter kategori melalui
-                        dashboard admin.
+                        Galeri ini kini tersambung langsung dengan dashboard admin sehingga album yang dipublikasikan akan tampil otomatis di halaman publik.
                     </div>
                 </section>
             </main>
@@ -271,18 +202,18 @@
                         @foreach ($recentAlbums as $album)
                             <div
                                 class="group flex gap-4 rounded-2xl bg-white p-3 ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100/60 hover:ring-green-200">
-                                <img src="{{ $album['image'] }}" alt="{{ $album['title'] }}"
+                                <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
                                     class="h-20 w-24 shrink-0 rounded-xl object-cover transition duration-300 group-hover:scale-105">
 
                                 <div class="min-w-0">
                                     <h3
                                         class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition group-hover:text-green-700">
-                                        {{ $album['title'] }}
+                                        {{ $album->title }}
                                     </h3>
 
                                     <div class="mt-2 space-y-1 text-xs text-gray-500">
-                                        <p>{{ $album['category'] }}</p>
-                                        <p>{{ $album['date'] }}</p>
+                                        <p>{{ $album->category ?: 'Galeri Desa' }}</p>
+                                        <p>{{ optional($album->gallery_date)->translatedFormat('d M Y') ?: '-' }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -308,8 +239,7 @@
                         <h2 class="text-lg font-bold">Dokumentasi Desa</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            Galeri membantu masyarakat melihat perkembangan, aktivitas, dan potensi Desa Mentuda secara
-                            visual.
+                            Galeri membantu masyarakat melihat perkembangan, aktivitas, dan potensi {{ $village->name }} secara visual.
                         </p>
                     </div>
                 </div>

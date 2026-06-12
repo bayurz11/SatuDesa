@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Roles;
 
 use App\Domains\Role\Models\Role;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\CacheService;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
@@ -11,7 +12,7 @@ use Livewire\WithPagination;
 
 class RoleList extends Component
 {
-    use WithPagination, WithAlerts;
+    use WithPagination, WithAlerts, AuthorizesPermissions;
 
     public $search = '';
     public $showInactive = false;
@@ -49,6 +50,7 @@ class RoleList extends Component
 
     public function toggleRoleStatus($roleId)
     {
+        $this->authorizePermission('roles.edit');
         $role = Role::findOrFail($roleId);
         $oldStatus = $role->is_active;
         $newStatus = !$role->is_active;
@@ -81,6 +83,7 @@ class RoleList extends Component
 
     public function confirmDeleteRole($roleId)
     {
+        $this->authorizePermission('roles.delete');
         $role = Role::findOrFail($roleId);
         
         // Prevent deletion of super-admin role
@@ -101,6 +104,7 @@ class RoleList extends Component
 
     public function deleteRole($params)
     {
+        $this->authorizePermission('roles.delete');
         $roleId = $params['roleId'];
         $role = Role::findOrFail($roleId);
         
@@ -132,6 +136,7 @@ class RoleList extends Component
 
     public function render()
     {
+        $this->authorizePermission('roles.view');
         // Optimize query with proper select and subqueries for counts
         $roles = Role::query()
             ->select([

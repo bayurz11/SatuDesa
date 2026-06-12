@@ -9,13 +9,14 @@ use App\Domains\Budget\Models\ApbdesFiscalYear;
 use App\Domains\Budget\Models\ApbdesPaymentRequest;
 use App\Domains\Budget\Models\ApbdesRealization;
 use App\Domains\Budget\Models\ApbdesTaxBookEntry;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Component;
 
 class OperationsBoard extends Component
 {
-    use WithAlerts;
+    use WithAlerts, AuthorizesPermissions;
 
     public bool $showPaymentModal = false;
     public bool $showRealizationModal = false;
@@ -153,6 +154,7 @@ class OperationsBoard extends Component
 
     public function savePaymentRequest(): void
     {
+        $this->authorizeCrudAction($this->paymentRequestId !== null, 'budgets.create', 'budgets.edit');
         $validated = $this->validate($this->paymentRules());
 
         $record = ApbdesPaymentRequest::updateOrCreate(
@@ -177,6 +179,7 @@ class OperationsBoard extends Component
 
     public function openPaymentModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         if ($id) {
             $this->editPaymentRequest($id);
         } else {
@@ -193,6 +196,7 @@ class OperationsBoard extends Component
 
     public function editPaymentRequest(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesPaymentRequest::findOrFail($id);
         $this->paymentRequestId = $record->id;
         $this->payment_fiscal_year_id = (string) $record->fiscal_year_id;
@@ -207,12 +211,14 @@ class OperationsBoard extends Component
 
     public function confirmDeletePaymentRequest(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesPaymentRequest::findOrFail($id);
         $this->showConfirm('Hapus SPP', "Hapus SPP {$record->request_number}?", 'deletePaymentRequest', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function deletePaymentRequest(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesPaymentRequest::findOrFail($params['id'])->delete();
         $this->showSuccessToast('SPP berhasil dihapus.');
     }
@@ -227,6 +233,7 @@ class OperationsBoard extends Component
 
     public function saveRealization(): void
     {
+        $this->authorizeCrudAction($this->realizationId !== null, 'budgets.create', 'budgets.edit');
         $validated = $this->validate($this->realizationRules());
 
         $record = ApbdesRealization::updateOrCreate(
@@ -253,6 +260,7 @@ class OperationsBoard extends Component
 
     public function openRealizationModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         if ($id) {
             $this->editRealization($id);
         } else {
@@ -269,6 +277,7 @@ class OperationsBoard extends Component
 
     public function editRealization(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesRealization::findOrFail($id);
         $this->realizationId = $record->id;
         $this->realization_fiscal_year_id = (string) $record->fiscal_year_id;
@@ -284,12 +293,14 @@ class OperationsBoard extends Component
 
     public function confirmDeleteRealization(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesRealization::findOrFail($id);
         $this->showConfirm('Hapus Realisasi', "Hapus realisasi {$record->reference_number}?", 'deleteRealization', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function deleteRealization(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesRealization::findOrFail($params['id']);
         $budgetLineId = $record->budget_line_id;
         $record->delete();
@@ -308,6 +319,7 @@ class OperationsBoard extends Component
 
     public function saveCashBook(): void
     {
+        $this->authorizeCrudAction($this->cashBookId !== null, 'budgets.create', 'budgets.edit');
         $validated = $this->validate($this->cashBookRules());
 
         ApbdesCashBookEntry::updateOrCreate(
@@ -331,6 +343,7 @@ class OperationsBoard extends Component
 
     public function openCashBookModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         if ($id) {
             $this->editCashBook($id);
         } else {
@@ -347,6 +360,7 @@ class OperationsBoard extends Component
 
     public function editCashBook(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesCashBookEntry::findOrFail($id);
         $this->cashBookId = $record->id;
         $this->cash_fiscal_year_id = (string) $record->fiscal_year_id;
@@ -361,11 +375,13 @@ class OperationsBoard extends Component
 
     public function confirmDeleteCashBook(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $this->showConfirm('Hapus Buku Kas', 'Hapus entri buku kas ini?', 'deleteCashBook', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function deleteCashBook(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesCashBookEntry::findOrFail($params['id'])->delete();
         $this->showSuccessToast('Entri buku kas berhasil dihapus.');
     }
@@ -381,6 +397,7 @@ class OperationsBoard extends Component
 
     public function saveBankBook(): void
     {
+        $this->authorizeCrudAction($this->bankBookId !== null, 'budgets.create', 'budgets.edit');
         $validated = $this->validate($this->bankBookRules());
 
         ApbdesBankBookEntry::updateOrCreate(
@@ -405,6 +422,7 @@ class OperationsBoard extends Component
 
     public function openBankBookModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         if ($id) {
             $this->editBankBook($id);
         } else {
@@ -421,6 +439,7 @@ class OperationsBoard extends Component
 
     public function editBankBook(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesBankBookEntry::findOrFail($id);
         $this->bankBookId = $record->id;
         $this->bank_fiscal_year_id = (string) $record->fiscal_year_id;
@@ -436,11 +455,13 @@ class OperationsBoard extends Component
 
     public function confirmDeleteBankBook(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $this->showConfirm('Hapus Buku Bank', 'Hapus entri buku bank ini?', 'deleteBankBook', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function deleteBankBook(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesBankBookEntry::findOrFail($params['id'])->delete();
         $this->showSuccessToast('Entri buku bank berhasil dihapus.');
     }
@@ -456,6 +477,7 @@ class OperationsBoard extends Component
 
     public function saveTaxBook(): void
     {
+        $this->authorizeCrudAction($this->taxBookId !== null, 'budgets.create', 'budgets.edit');
         $validated = $this->validate($this->taxBookRules());
 
         ApbdesTaxBookEntry::updateOrCreate(
@@ -481,6 +503,7 @@ class OperationsBoard extends Component
 
     public function openTaxBookModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         if ($id) {
             $this->editTaxBook($id);
         } else {
@@ -497,6 +520,7 @@ class OperationsBoard extends Component
 
     public function editTaxBook(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesTaxBookEntry::findOrFail($id);
         $this->taxBookId = $record->id;
         $this->tax_fiscal_year_id = (string) $record->fiscal_year_id;
@@ -513,11 +537,13 @@ class OperationsBoard extends Component
 
     public function confirmDeleteTaxBook(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $this->showConfirm('Hapus Buku Pajak', 'Hapus entri buku pajak ini?', 'deleteTaxBook', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function deleteTaxBook(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesTaxBookEntry::findOrFail($params['id'])->delete();
         $this->showSuccessToast('Entri buku pajak berhasil dihapus.');
     }
@@ -545,6 +571,7 @@ class OperationsBoard extends Component
 
     public function render()
     {
+        $this->authorizePermission('budgets.view');
         $fiscalYears = ApbdesFiscalYear::query()->orderByDesc('year')->get(['id', 'title']);
         $budgetLines = ApbdesBudgetLine::query()->with(['account:id,code,name', 'fiscalYear:id,title'])->orderByDesc('updated_at')->get(['id', 'fiscal_year_id', 'account_id', 'description']);
         $paymentRequests = ApbdesPaymentRequest::query()->with(['fiscalYear:id,title', 'budgetLine:id,description'])->latest('request_date')->limit(10)->get();

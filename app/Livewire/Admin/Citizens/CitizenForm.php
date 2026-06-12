@@ -7,6 +7,7 @@ use App\Domains\Hamlet\Models\Hamlet;
 use App\Domains\Household\Models\Household;
 use App\Domains\Rt\Models\Rt;
 use App\Domains\Rw\Models\Rw;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Support\CitizenReferenceData;
 use Illuminate\Validation\Rule;
@@ -15,6 +16,8 @@ use Livewire\Component;
 
 class CitizenForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $citizenId = null;
     public ?int $household_id = null;
     public string $nik = '';
@@ -63,6 +66,7 @@ class CitizenForm extends Component
     #[On('openCitizenForm')]
     public function openModal(?int $citizenId = null): void
     {
+        $this->authorizePermission($citizenId ? 'citizens.edit' : 'citizens.create');
         $this->resetForm();
 
         if ($citizenId) {
@@ -82,6 +86,7 @@ class CitizenForm extends Component
 
     public function loadCitizen(int $citizenId): void
     {
+        $this->authorizePermission('citizens.edit');
         $citizen = Citizen::findOrFail($citizenId);
 
         $this->citizenId = $citizen->id;
@@ -157,6 +162,7 @@ class CitizenForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'citizens.create', 'citizens.edit');
         $validated = $this->validate();
 
         $citizen = Citizen::updateOrCreate(
@@ -206,6 +212,7 @@ class CitizenForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizens.view');
         $households = Household::query()
             ->orderBy('no_kk')
             ->get(['id', 'no_kk', 'address']);

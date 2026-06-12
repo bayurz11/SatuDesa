@@ -51,17 +51,15 @@ class VillageHistoryController extends Controller
             'history_cards.*.title' => ['required', 'string', 'max:255'],
             'history_cards.*.description' => ['required', 'string'],
             'history_cards.*.icon' => ['required', 'string', 'in:home,building,spark'],
-            'history_cards.*.image_path' => ['nullable', 'string', 'max:255'],
             'history_card_images' => ['nullable', 'array'],
             'history_card_images.*' => ['nullable', 'image', 'max:4096'],
             'history_timeline_badge' => ['required', 'string', 'max:255'],
             'history_timeline_title' => ['required', 'string', 'max:255'],
-            'history_timeline_items' => ['required', 'array', 'min:1'],
+            'history_timeline_items' => ['required', 'array', 'min:1', 'max:20'],
             'history_timeline_items.*.label' => ['required', 'string', 'max:255'],
             'history_timeline_items.*.title' => ['required', 'string', 'max:255'],
             'history_timeline_items.*.desc' => ['required', 'string'],
             'history_timeline_items.*.icon' => ['required', 'string', 'in:home,building,spark'],
-            'history_timeline_items.*.icon_image_path' => ['nullable', 'string', 'max:255'],
             'history_timeline_icons' => ['nullable', 'array'],
             'history_timeline_icons.*' => ['nullable', 'image', 'max:4096'],
             'history_sidebar_title' => ['required', 'string', 'max:255'],
@@ -83,10 +81,12 @@ class VillageHistoryController extends Controller
             ->filter(fn ($path) => filled($path) && ! str_starts_with($path, 'img/'))
             ->values();
 
+        $persistedCards = collect($profile->history_cards ?? [])->values();
+
         $historyCards = collect($validated['history_cards'])
             ->values()
-            ->map(function (array $item, int $index) use ($request) {
-                $imagePath = $item['image_path'] ?? null;
+            ->map(function (array $item, int $index) use ($request, $persistedCards) {
+                $imagePath = $persistedCards->get($index)['image_path'] ?? null;
 
                 if ($request->hasFile("history_card_images.$index")) {
                     if ($imagePath && ! str_starts_with($imagePath, 'img/')) {
@@ -112,10 +112,12 @@ class VillageHistoryController extends Controller
             ->filter(fn ($path) => filled($path) && ! str_starts_with($path, 'img/'))
             ->values();
 
+        $persistedTimelineItems = collect($profile->history_timeline_items ?? [])->values();
+
         $timelineItems = collect($validated['history_timeline_items'])
             ->values()
-            ->map(function (array $item, int $index) use ($request) {
-                $iconImagePath = $item['icon_image_path'] ?? null;
+            ->map(function (array $item, int $index) use ($request, $persistedTimelineItems) {
+                $iconImagePath = $persistedTimelineItems->get($index)['icon_image_path'] ?? null;
 
                 if ($request->hasFile("history_timeline_icons.$index")) {
                     if ($iconImagePath && ! str_starts_with($iconImagePath, 'img/')) {

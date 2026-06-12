@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Potentials;
 
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Domains\Potential\Models\Potential;
 use App\Domains\Potential\Models\PotentialCategory;
 use App\Domains\Village\Models\Village;
@@ -17,7 +18,7 @@ use Livewire\WithFileUploads;
 
 class PotentialForm extends Component
 {
-    use WithAlerts, WithFileUploads;
+    use WithAlerts, WithFileUploads, AuthorizesPermissions;
 
     public $potentialId;
     public $village_id = '';
@@ -83,6 +84,7 @@ class PotentialForm extends Component
 
     public function mount($potentialId = null): void
     {
+        $this->authorizePermission('system.settings');
         $this->village_id = (string) Village::query()->orderBy('name')->value('id');
 
         if (filled($potentialId)) {
@@ -98,6 +100,7 @@ class PotentialForm extends Component
 
     public function loadPotential(int $potentialId): void
     {
+        $this->authorizePermission('system.settings');
         $potential = Potential::findOrFail($potentialId);
 
         $this->potentialId = $potential->id;
@@ -131,6 +134,7 @@ class PotentialForm extends Component
     #[On('openPotentialForm')]
     public function openModal($potentialId = null): void
     {
+        $this->authorizePermission('system.settings');
         $this->resetForm();
 
         if (filled($potentialId)) {
@@ -186,6 +190,7 @@ class PotentialForm extends Component
 
     public function save(): void
     {
+        $this->authorizePermission('system.settings');
         $this->slug = Str::slug($this->slug ?: $this->title);
         $this->validate();
 
@@ -250,6 +255,7 @@ class PotentialForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('system.settings');
         $villages = Village::query()->orderBy('name')->get(['id', 'name']);
         $categories = PotentialCategory::query()
             ->where('is_active', true)

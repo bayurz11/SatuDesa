@@ -10,6 +10,7 @@ use App\Http\Controllers\PublicAnnouncementController;
 use App\Http\Controllers\PublicPopulationController;
 use App\Http\Controllers\PublicPotentialController;
 use App\Http\Controllers\PublicPostController;
+use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicVillageHistoryController;
 use App\Http\Controllers\PublicVillageMapController;
 use App\Http\Controllers\PublicVillageOrganizationController;
@@ -88,7 +89,7 @@ Route::get('/pengumuman/{slug}', [PublicAnnouncementController::class, 'show'])-
 Route::get('/apbdesa', [PublicBudgetController::class, 'index'])->name('public.budgets.index');
 
 Route::get('/data-penduduk', [PublicPopulationController::class, 'index'])->name('public.population.index');
-Route::view('/galeri-desa', 'pages.public.galleries.index')->name('public.galleries.index');
+Route::get('/galeri-desa', [PublicGalleryController::class, 'index'])->name('public.galleries.index');
 Route::view('/umkm', 'pages.public.businesses.index')->name('public.businesses.index');
 Route::view('/layanan', 'pages.public.services.index')->name('public.services.index');
 });

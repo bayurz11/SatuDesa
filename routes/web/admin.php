@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\CitizenExcelController;
+use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\VillageHistoryController;
 use App\Http\Controllers\Admin\VillageMapController;
 use App\Http\Controllers\Admin\VillageOrganizationController;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/dashboard', 'pages.admin.dashboard')->name('dashboard');
@@ -19,8 +20,30 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::prefix('admin')
         ->group(function () {
-            Route::get('penduduk/export', [CitizenExcelController::class, 'export'])->name('citizens.export');
-            Route::get('penduduk/template', [CitizenExcelController::class, 'template'])->name('citizens.template');
+            Route::get('penduduk/export', [CitizenExcelController::class, 'export'])
+                ->middleware('permission:citizens.view')
+                ->name('citizens.export');
+            Route::get('penduduk/template', [CitizenExcelController::class, 'template'])
+                ->middleware('permission:citizens.view')
+                ->name('citizens.template');
+            Route::get('galeri-desa', [GalleryController::class, 'index'])
+                ->middleware('permission:galleries.view')
+                ->name('galleries.index');
+            Route::post('galeri-desa', [GalleryController::class, 'store'])
+                ->middleware('permission:galleries.create')
+                ->name('galleries.store');
+            Route::post('galeri-desa/{gallery}', [GalleryController::class, 'update'])
+                ->middleware('permission:galleries.edit')
+                ->name('galleries.update');
+            Route::delete('galeri-desa/{gallery}', [GalleryController::class, 'destroy'])
+                ->middleware('permission:galleries.delete')
+                ->name('galleries.destroy');
+            Route::put('galeri-desa/{gallery}/publish', [GalleryController::class, 'publish'])
+                ->middleware('permission:galleries.publish')
+                ->name('galleries.publish');
+            Route::put('galeri-desa/{gallery}/draft', [GalleryController::class, 'draft'])
+                ->middleware('permission:galleries.publish')
+                ->name('galleries.draft');
             Route::get('profil-desa/peta-desa', [VillageMapController::class, 'index'])
                 ->middleware('permission:village_maps.view')
                 ->name('village-maps.index');
@@ -81,7 +104,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             Route::delete('profil-desa/struktur-organisasi/anggota/{memberId}', [VillageOrganizationController::class, 'destroyMember'])
                 ->middleware('permission:village_organizations.edit')
                 ->name('village-organizations.members.destroy');
-            Route::prefix('apbdes')->name('budgets.')->group(function () {
+            Route::prefix('apbdes')->name('budgets.')->middleware('permission:budgets.view')->group(function () {
                 $budgetPages = [
                     'overview' => [
                         'uri' => '',
@@ -155,126 +178,147 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ],
                 'master-desa' => [
                     'name' => 'villages.edit',
+                    'permission' => 'system.settings',
                     'title' => 'Master Desa',
                     'description' => 'Pengelolaan profil desa, pejabat, dan identitas wilayah.',
                     'view' => 'pages.admin.section',
                 ],
                 'berita' => [
                     'name' => 'posts.index',
+                    'permission' => 'posts.view',
                     'title' => 'Berita',
                     'description' => 'Manajemen berita dari draft, review, hingga publish.',
                     'view' => 'pages.admin.posts.index',
                 ],
                 'kategori-berita' => [
                     'name' => 'post-categories.index',
+                    'permission' => 'post_categories.view',
                     'title' => 'Kategori Berita',
                     'description' => 'Manajemen kategori untuk artikel berita publik.',
                     'view' => 'pages.admin.post-categories.index',
                 ],
                 'pengumuman' => [
                     'name' => 'announcements.index',
+                    'permission' => 'announcements.view',
                     'title' => 'Pengumuman',
                     'description' => 'Manajemen pengumuman resmi desa.',
                     'view' => 'pages.admin.announcements.index',
                 ],
                 'agenda' => [
                     'name' => 'agendas.index',
+                    'permission' => 'agendas.view',
                     'title' => 'Agenda',
                     'description' => 'Manajemen agenda kegiatan desa.',
                     'view' => 'pages.admin.section',
                 ],
                 'potensi-desa' => [
                     'name' => 'potentials.index',
+                    'permission' => 'system.settings',
                     'title' => 'Potensi Desa',
                     'description' => 'Manajemen potensi desa untuk website publik.',
                     'view' => 'pages.admin.potentials.index',
                 ],
                 'penduduk' => [
                     'name' => 'citizens.index',
+                    'permission' => 'citizens.view',
                     'title' => 'Data Penduduk',
                     'description' => 'Audit dan pengelolaan data administrasi penduduk desa.',
                     'view' => 'pages.admin.citizens.index',
                 ],
                 'kelahiran' => [
                     'name' => 'citizen-births.index',
+                    'permission' => 'citizen_births.view',
                     'title' => 'Kelahiran Penduduk',
                     'description' => 'Pencatatan kelahiran penduduk sesuai peristiwa adminduk.',
                     'view' => 'pages.admin.citizen-births.index',
                 ],
                 'pindah-datang' => [
                     'name' => 'citizen-arrivals.index',
+                    'permission' => 'citizen_arrivals.view',
                     'title' => 'Pindah Datang Penduduk',
                     'description' => 'Pencatatan penduduk masuk atau pindah datang ke desa.',
                     'view' => 'pages.admin.citizen-arrivals.index',
                 ],
                 'kematian' => [
                     'name' => 'citizen-deaths.index',
+                    'permission' => 'citizen_deaths.view',
                     'title' => 'Kematian Penduduk',
                     'description' => 'Pencatatan kematian penduduk dan sinkron status adminduk.',
                     'view' => 'pages.admin.citizen-deaths.index',
                 ],
                 'kk' => [
                     'name' => 'households.index',
+                    'permission' => 'households.view',
                     'title' => 'KK',
                     'description' => 'Pengelolaan data kartu keluarga dan relasinya.',
                     'view' => 'pages.admin.households.index',
                 ],
                 'dusun' => [
                     'name' => 'hamlets.index',
+                    'permission' => 'hamlets.view',
                     'title' => 'Dusun',
                     'description' => 'Pengelolaan data dusun sebagai wilayah administratif desa.',
                     'view' => 'pages.admin.hamlets.index',
                 ],
                 'rw' => [
                     'name' => 'rws.index',
+                    'permission' => 'rws.view',
                     'title' => 'RW',
                     'description' => 'Pengelolaan data RW per dusun.',
                     'view' => 'pages.admin.rws.index',
                 ],
                 'rt' => [
                     'name' => 'rts.index',
+                    'permission' => 'rts.view',
                     'title' => 'RT',
                     'description' => 'Pengelolaan data RT per RW.',
                     'view' => 'pages.admin.rts.index',
                 ],
                 'surat' => [
                     'name' => 'letters.index',
+                    'permission' => 'letters.view',
                     'title' => 'Surat',
                     'description' => 'Verifikasi, review, approval, dan arsip surat.',
                     'view' => 'pages.admin.section',
                 ],
                 'pengaduan' => [
                     'name' => 'complaints.index',
+                    'permission' => 'complaints.view',
                     'title' => 'Pengaduan',
                     'description' => 'Verifikasi, assign, dan penyelesaian pengaduan.',
                     'view' => 'pages.admin.section',
                 ],
                 'umkm' => [
                     'name' => 'businesses.index',
+                    'permission' => 'businesses.view',
                     'title' => 'UMKM',
                     'description' => 'Pengelolaan UMKM dan produk usaha desa.',
                     'view' => 'pages.admin.section',
                 ],
                 'bumdes' => [
                     'name' => 'bumdes.index',
+                    'permission' => 'bumdes.view',
                     'title' => 'BUMDes',
                     'description' => 'Pengelolaan unit usaha dan transaksi BUMDes.',
                     'view' => 'pages.admin.section',
                 ],
                 'users' => [
                     'name' => 'users.index',
+                    'permission' => 'users.view',
                     'title' => 'Users',
                     'description' => 'Manajemen akun, role, dan permission pengguna.',
                     'view' => 'pages.admin.users.index',
                 ],
                 'roles' => [
                     'name' => 'roles.index',
+                    'permission' => 'roles.view',
                     'title' => 'Roles',
                     'description' => 'Manajemen role pengguna.',
                     'view' => 'pages.admin.roles.index',
                 ],
                 'notifikasi' => [
                     'name' => 'audit-logs.index',
+                    'permission' => 'system.logs',
                     'title' => 'Notifikasi Audit',
                     'description' => 'Riwayat perubahan aplikasi berdasarkan role dan permission.',
                     'view' => 'pages.admin.audit-logs.index',
@@ -287,6 +331,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
                 ],
                 'settings' => [
                     'name' => 'settings.index',
+                    'permission' => 'system.settings',
                     'title' => 'Settings',
                     'description' => 'Pengaturan sistem dan konfigurasi dashboard.',
                     'view' => 'pages.admin.section',
@@ -294,11 +339,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ];
 
             foreach ($adminPages as $uri => $page) {
-                Route::get($uri, fn() => view($page['view'], [
+                $route = Route::get($uri, fn() => view($page['view'], [
                     'title' => $page['title'],
                     'description' => $page['description'],
                     'routeName' => $page['name'],
                 ]))->name($page['name']);
+
+                if (! empty($page['permission'])) {
+                    $route->middleware('permission:' . $page['permission']);
+                }
             }
         });
 });

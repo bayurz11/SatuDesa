@@ -5,6 +5,7 @@ namespace App\Livewire\Admin\Citizens;
 use App\Domains\Citizen\Models\Citizen;
 use App\Domains\Household\Models\Household;
 use App\Imports\CitizensImport;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -16,6 +17,7 @@ use Maatwebsite\Excel\Facades\Excel;
 class CitizenList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithFileUploads;
     use WithPagination;
 
@@ -72,6 +74,7 @@ class CitizenList extends Component
 
     public function importCitizens(): void
     {
+        $this->authorizeAllPermissions(['citizens.create', 'citizens.edit']);
         $this->validate([
             'importFile' => ['required', 'file', 'mimes:xlsx,xls,csv', 'max:5120'],
         ]);
@@ -99,6 +102,7 @@ class CitizenList extends Component
 
     public function confirmDeleteCitizen(int $citizenId): void
     {
+        $this->authorizePermission('citizens.delete');
         $citizen = Citizen::findOrFail($citizenId);
 
         $this->showConfirm(
@@ -113,6 +117,7 @@ class CitizenList extends Component
 
     public function deleteCitizen(array $params): void
     {
+        $this->authorizePermission('citizens.delete');
         $citizenId = $params['citizenId'];
         $citizen = Citizen::findOrFail($citizenId);
 
@@ -129,6 +134,7 @@ class CitizenList extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizens.view');
         $baseQuery = Citizen::query()
             ->select([
                 'id',

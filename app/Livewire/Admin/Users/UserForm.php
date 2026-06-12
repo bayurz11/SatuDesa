@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Users;
 
 use App\Domains\User\Models\User;
 use App\Domains\Role\Models\Role;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -12,6 +13,8 @@ use Livewire\Component;
 
 class UserForm extends Component
 {
+    use AuthorizesPermissions;
+
     public $userId;
     public $name = '';
     public $email = '';
@@ -39,6 +42,8 @@ class UserForm extends Component
 
     public function mount($userId = null)
     {
+        $this->authorizePermission('users.view');
+
         if ($userId) {
             $this->loadUser($userId);
         }
@@ -46,6 +51,8 @@ class UserForm extends Component
 
     public function loadUser($userId)
     {
+        $this->authorizePermission('users.edit');
+
         $user = User::with('roles')->findOrFail($userId);
         
         $this->userId = $user->id;
@@ -59,6 +66,7 @@ class UserForm extends Component
     #[On('openUserForm')]
     public function openModal($userId = null)
     {
+        $this->authorizePermission($userId ? 'users.edit' : 'users.create');
         $this->resetForm();
         
         if ($userId) {
@@ -89,6 +97,7 @@ class UserForm extends Component
 
     public function save()
     {
+        $this->authorizeCrudAction($this->isEditing, 'users.create', 'users.edit');
         $this->validate();
 
         if ($this->isEditing) {
@@ -128,6 +137,7 @@ class UserForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('users.view');
         $roles = Role::where('is_active', true)->orderBy('name')->get();
         
         return view('livewire.admin.users.user-form', compact('roles'));

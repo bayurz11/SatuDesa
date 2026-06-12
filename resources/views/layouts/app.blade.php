@@ -425,6 +425,7 @@
             $userInitials = strtoupper(substr($currentUser->name, 0, 2));
             $canViewPosts = $currentUser->hasPermission('posts.view');
             $canViewAnnouncements = $currentUser->hasPermission('announcements.view');
+            $canViewGalleries = $currentUser->hasPermission('galleries.view');
             $canViewPostCategories = $currentUser->hasPermission('post_categories.view');
             $hasNewsAccess = $canViewPosts || $canViewPostCategories;
             $hasAnnouncementAccess = $canViewAnnouncements;
@@ -454,6 +455,7 @@
             $profileMenuOpen = request()->routeIs('village-maps.*') || request()->routeIs('village-histories.*') || request()->routeIs('village-vision-missions.*') || request()->routeIs('village-organizations.*');
             $newsMenuOpen = request()->routeIs('posts.*') || request()->routeIs('post-categories.*');
             $announcementMenuOpen = request()->routeIs('announcements.*');
+            $galleryMenuOpen = request()->routeIs('galleries.*');
             $budgetMenuOpen = request()->routeIs('budgets.*');
             $populationMenuOpen =
                 request()->routeIs('citizens.*') ||
@@ -614,6 +616,22 @@
                                         d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
                                 </svg>
                                 Pengumuman
+                            </a>
+                        @endif
+
+                        @if ($canViewGalleries)
+                            <a href="{{ route('galleries.index') }}"
+                                class="group flex items-center rounded-xl px-4 py-3 text-sm font-medium {{ $galleryMenuOpen ? 'bg-white/20 text-white shadow-lg shadow-black/10' : 'text-blue-100 hover:bg-white/10 hover:text-white hover:translate-x-1 hover:shadow-lg hover:shadow-black/10' }} transition-all duration-200">
+                                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none"
+                                    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M2.25 15.75V6A2.25 2.25 0 0 1 4.5 3.75h15A2.25 2.25 0 0 1 21.75 6v9.75A2.25 2.25 0 0 1 19.5 18H4.5a2.25 2.25 0 0 1-2.25-2.25Z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l2.409 2.409a2.25 2.25 0 0 0 3.182 0l3.409-3.409a2.25 2.25 0 0 1 2.159-.591" />
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M10.5 8.25h.008v.008H10.5V8.25Z" />
+                                </svg>
+                                Galeri Desa
                             </a>
                         @endif
 

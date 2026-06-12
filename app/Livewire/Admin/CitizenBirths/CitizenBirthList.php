@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\CitizenBirths;
 
 use App\Domains\Citizen\Models\CitizenBirth;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class CitizenBirthList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class CitizenBirthList extends Component
 
     public function confirmDeleteBirth(int $birthId): void
     {
+        $this->authorizePermission('citizen_births.delete');
         $birth = CitizenBirth::with('citizen')->findOrFail($birthId);
         $childName = $birth->citizen?->full_name ?? 'data ini';
 
@@ -45,6 +48,7 @@ class CitizenBirthList extends Component
 
     public function deleteBirth(array $params): void
     {
+        $this->authorizePermission('citizen_births.delete');
         $birthId = $params['birthId'];
         $birth = CitizenBirth::with('citizen')->findOrFail($birthId);
 
@@ -61,6 +65,7 @@ class CitizenBirthList extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_births.view');
         $births = CitizenBirth::query()
             ->with(['citizen:id,nik,full_name,gender,birth_place,birth_date', 'household:id,no_kk'])
             ->when($this->search, function ($query) {

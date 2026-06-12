@@ -6,16 +6,24 @@ trait HasPermissions
 {
     public function hasPermission(string $permission): bool
     {
+        if (! $this->is_active) {
+            return false;
+        }
+
         return $this->roles()->whereHas('permissions', function ($query) use ($permission) {
             $query->where('permissions.name', $permission)->where('permissions.is_active', true);
-        })->exists();
+        })->where('roles.is_active', true)->exists();
     }
 
     public function hasAnyPermission(array $permissions): bool
     {
+        if (! $this->is_active) {
+            return false;
+        }
+
         return $this->roles()->whereHas('permissions', function ($query) use ($permissions) {
             $query->whereIn('permissions.name', $permissions)->where('permissions.is_active', true);
-        })->exists();
+        })->where('roles.is_active', true)->exists();
     }
 
     public function hasAllPermissions(array $permissions): bool

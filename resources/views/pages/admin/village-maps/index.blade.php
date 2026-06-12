@@ -52,35 +52,31 @@
 
         <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
             <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
-                <div class="flex flex-col gap-6">
-                    <div class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
-                        <div>
-                            <h2 class="text-2xl font-bold text-gray-900">Peta Desa</h2>
-                            <p class="text-sm text-gray-600 mt-1">Halaman ini hanya menampilkan hasil konfigurasi setiap kategori. Semua perubahan dilakukan melalui modal agar tampilan lebih bersih dan mudah dipakai.</p>
-                        </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">Peta Desa</h2>
+                    <p class="text-sm text-gray-600 mt-1">Halaman ini hanya menampilkan hasil konfigurasi setiap kategori. Semua perubahan dilakukan melalui modal agar tampilan lebih bersih dan mudah dipakai.</p>
+                </div>
 
-                        <div class="grid gap-4 sm:grid-cols-4">
-                            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                <p class="text-sm text-gray-500">Editor Peta</p>
-                                <p class="text-2xl font-bold text-gray-900 mt-2">{{ old('map_zoom', $profile->map_zoom) }}</p>
-                                <p class="text-sm font-semibold text-blue-600 mt-3">Zoom aktif</p>
-                            </div>
-                            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                <p class="text-sm text-gray-500">Konten Utama</p>
-                                <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
-                                <p class="text-sm font-semibold text-emerald-600 mt-3">Set aktif</p>
-                            </div>
-                            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                <p class="text-sm text-gray-500">Panel Publik</p>
-                                <p class="text-2xl font-bold text-gray-900 mt-2">3</p>
-                                <p class="text-sm font-semibold text-amber-600 mt-3">Blok informasi</p>
-                            </div>
-                            <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                <p class="text-sm text-gray-500">Marker</p>
-                                <p class="text-2xl font-bold text-gray-900 mt-2" data-preview-marker-count>{{ count($markerRows) }}</p>
-                                <p class="text-sm font-semibold text-fuchsia-600 mt-3">Titik penting</p>
-                            </div>
-                        </div>
+                <div class="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
+                        <p class="text-sm text-gray-500">Editor Peta</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ old('map_zoom', $profile->map_zoom) }}</p>
+                        <p class="text-sm font-semibold text-blue-600 mt-3">Zoom aktif</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
+                        <p class="text-sm text-gray-500">Konten Utama</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
+                        <p class="text-sm font-semibold text-emerald-600 mt-3">Set aktif</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
+                        <p class="text-sm text-gray-500">Panel Publik</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2">3</p>
+                        <p class="text-sm font-semibold text-amber-600 mt-3">Blok informasi</p>
+                    </div>
+                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
+                        <p class="text-sm text-gray-500">Marker</p>
+                        <p class="text-2xl font-bold text-gray-900 mt-2" data-preview-marker-count>{{ count($markerRows) }}</p>
+                        <p class="text-sm font-semibold text-fuchsia-600 mt-3">Titik penting</p>
                     </div>
                 </div>
             </div>

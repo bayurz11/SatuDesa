@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Hamlets;
 
 use App\Domains\Hamlet\Models\Hamlet;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -11,6 +12,8 @@ use Livewire\Component;
 
 class HamletForm extends Component
 {
+    use AuthorizesPermissions;
+
     public ?int $hamletId = null;
     public string $name = '';
     public string $code = '';
@@ -28,6 +31,7 @@ class HamletForm extends Component
     #[On('openHamletForm')]
     public function openModal(?int $hamletId = null): void
     {
+        $this->authorizePermission($hamletId ? 'hamlets.edit' : 'hamlets.create');
         $this->resetForm();
 
         if ($hamletId) {
@@ -39,6 +43,7 @@ class HamletForm extends Component
 
     public function loadHamlet(int $hamletId): void
     {
+        $this->authorizePermission('hamlets.edit');
         $hamlet = Hamlet::findOrFail($hamletId);
 
         $this->hamletId = $hamlet->id;
@@ -63,6 +68,7 @@ class HamletForm extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'hamlets.create', 'hamlets.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -88,6 +94,7 @@ class HamletForm extends Component
 
     public function render()
     {
+        $this->authorizePermission('hamlets.view');
         return view('livewire.admin.hamlets.hamlet-form');
     }
 }

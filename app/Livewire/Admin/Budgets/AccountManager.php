@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Budgets;
 
 use App\Domains\Budget\Models\ApbdesAccount;
 use App\Domains\Village\Models\Village;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Illuminate\Validation\Rule;
@@ -12,7 +13,7 @@ use Livewire\WithPagination;
 
 class AccountManager extends Component
 {
-    use WithAlerts;
+    use WithAlerts, AuthorizesPermissions;
     use WithPagination;
 
     public ?int $recordId = null;
@@ -50,6 +51,7 @@ class AccountManager extends Component
 
     public function openModal(?int $id = null): void
     {
+        $this->authorizePermission($id ? 'budgets.edit' : 'budgets.create');
         $this->resetForm();
         if ($id) {
             $this->loadRecord($id);
@@ -59,6 +61,7 @@ class AccountManager extends Component
 
     public function loadRecord(int $id): void
     {
+        $this->authorizePermission('budgets.edit');
         $record = ApbdesAccount::findOrFail($id);
         $this->recordId = $record->id;
         $this->parent_id = (string) ($record->parent_id ?? '');
@@ -90,6 +93,7 @@ class AccountManager extends Component
 
     public function save(): void
     {
+        $this->authorizeCrudAction($this->isEditing, 'budgets.create', 'budgets.edit');
         $validated = $this->validate();
         $villageId = Village::query()->value('id');
 
@@ -114,12 +118,14 @@ class AccountManager extends Component
 
     public function confirmDelete(int $id): void
     {
+        $this->authorizePermission('budgets.delete');
         $record = ApbdesAccount::findOrFail($id);
         $this->showConfirm('Hapus Akun APBDes', "Hapus akun {$record->code} - {$record->name}?", 'delete', ['id' => $id], 'Ya, hapus', 'Batal');
     }
 
     public function delete(array $params): void
     {
+        $this->authorizePermission('budgets.delete');
         ApbdesAccount::findOrFail($params['id'])->delete();
         $this->showSuccessToast('Akun APBDes berhasil dihapus.');
         $this->resetPage();
@@ -127,6 +133,7 @@ class AccountManager extends Component
 
     public function render()
     {
+        $this->authorizePermission('budgets.view');
         $records = ApbdesAccount::query()
             ->with('parent:id,code,name')
             ->when($this->search, fn ($query) => $query->where('code', 'like', '%' . $this->search . '%')->orWhere('name', 'like', '%' . $this->search . '%'))

@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Rws;
 
 use App\Domains\Rw\Models\Rw;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class RwList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class RwList extends Component
 
     public function confirmDeleteRw(int $rwId): void
     {
+        $this->authorizePermission('rws.delete');
         $rw = Rw::with('hamlet')->findOrFail($rwId);
 
         $this->showConfirm(
@@ -44,6 +47,7 @@ class RwList extends Component
 
     public function deleteRw(array $params): void
     {
+        $this->authorizePermission('rws.delete');
         $rw = Rw::findOrFail($params['rwId']);
 
         LoggerService::logUserAction('delete', 'Rw', $rw->id, [
@@ -59,6 +63,7 @@ class RwList extends Component
 
     public function render()
     {
+        $this->authorizePermission('rws.view');
         $rws = Rw::query()
             ->with(['hamlet:id,name'])
             ->withCount('rts')

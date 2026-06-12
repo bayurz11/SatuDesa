@@ -29,6 +29,16 @@ class PermissionSeeder extends Seeder
             ['name' => 'announcements.edit', 'display_name' => 'Edit Announcements', 'description' => 'Can edit existing announcements', 'group' => 'announcements'],
             ['name' => 'announcements.delete', 'display_name' => 'Delete Announcements', 'description' => 'Can delete announcements', 'group' => 'announcements'],
             ['name' => 'announcements.publish', 'display_name' => 'Publish Announcements', 'description' => 'Can publish and unpublish announcements', 'group' => 'announcements'],
+            ['name' => 'galleries.view', 'display_name' => 'View Galleries', 'description' => 'Can view village gallery albums', 'group' => 'galleries'],
+            ['name' => 'galleries.create', 'display_name' => 'Create Galleries', 'description' => 'Can create village gallery albums', 'group' => 'galleries'],
+            ['name' => 'galleries.edit', 'display_name' => 'Edit Galleries', 'description' => 'Can edit village gallery albums', 'group' => 'galleries'],
+            ['name' => 'galleries.delete', 'display_name' => 'Delete Galleries', 'description' => 'Can delete village gallery albums', 'group' => 'galleries'],
+            ['name' => 'galleries.publish', 'display_name' => 'Publish Galleries', 'description' => 'Can publish and unpublish village gallery albums', 'group' => 'galleries'],
+            ['name' => 'agendas.view', 'display_name' => 'View Agendas', 'description' => 'Can view agenda list and details', 'group' => 'agendas'],
+            ['name' => 'letters.view', 'display_name' => 'View Letters', 'description' => 'Can view incoming letter requests and archives', 'group' => 'letters'],
+            ['name' => 'complaints.view', 'display_name' => 'View Complaints', 'description' => 'Can view citizen complaints and follow up queue', 'group' => 'complaints'],
+            ['name' => 'businesses.view', 'display_name' => 'View Businesses', 'description' => 'Can view village business and UMKM management page', 'group' => 'businesses'],
+            ['name' => 'bumdes.view', 'display_name' => 'View BUMDes', 'description' => 'Can view BUMDes management page', 'group' => 'bumdes'],
 
             // Village profile permissions
             ['name' => 'village_maps.view', 'display_name' => 'View Village Map', 'description' => 'Can view village map management page', 'group' => 'village_maps'],

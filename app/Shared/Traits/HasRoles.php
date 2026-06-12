@@ -15,24 +15,24 @@ trait HasRoles
     public function hasRole($role): bool
     {
         if (is_string($role)) {
-            return $this->roles()->where('roles.name', $role)->exists();
+            return $this->roles()->where('roles.name', $role)->where('roles.is_active', true)->exists();
         }
 
         if (is_array($role)) {
-            return $this->roles()->whereIn('roles.name', $role)->exists();
+            return $this->roles()->whereIn('roles.name', $role)->where('roles.is_active', true)->exists();
         }
 
-        return $this->roles()->where('roles.id', $role->id)->exists();
+        return $this->roles()->where('roles.id', $role->id)->where('roles.is_active', true)->exists();
     }
 
     public function hasAnyRole(array $roles): bool
     {
-        return $this->roles()->whereIn('roles.name', $roles)->exists();
+        return $this->roles()->whereIn('roles.name', $roles)->where('roles.is_active', true)->exists();
     }
 
     public function hasAllRoles(array $roles): bool
     {
-        return $this->roles()->whereIn('roles.name', $roles)->count() === count($roles);
+        return $this->roles()->whereIn('roles.name', $roles)->where('roles.is_active', true)->count() === count($roles);
     }
 
     public function assignRole($role): self

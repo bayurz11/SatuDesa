@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\CitizenArrivals;
 
 use App\Domains\Citizen\Models\CitizenArrival;
+use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
 use Livewire\Attributes\On;
@@ -12,6 +13,7 @@ use Livewire\WithPagination;
 class CitizenArrivalList extends Component
 {
     use WithAlerts;
+    use AuthorizesPermissions;
     use WithPagination;
 
     public string $search = '';
@@ -30,6 +32,7 @@ class CitizenArrivalList extends Component
 
     public function confirmDeleteArrival(int $arrivalId): void
     {
+        $this->authorizePermission('citizen_arrivals.delete');
         $arrival = CitizenArrival::with('citizen')->findOrFail($arrivalId);
         $citizenName = $arrival->citizen?->full_name ?? 'data ini';
 
@@ -45,6 +48,7 @@ class CitizenArrivalList extends Component
 
     public function deleteArrival(array $params): void
     {
+        $this->authorizePermission('citizen_arrivals.delete');
         $arrivalId = $params['arrivalId'];
         $arrival = CitizenArrival::with('citizen')->findOrFail($arrivalId);
 
@@ -61,6 +65,7 @@ class CitizenArrivalList extends Component
 
     public function render()
     {
+        $this->authorizePermission('citizen_arrivals.view');
         $arrivals = CitizenArrival::query()
             ->with(['citizen:id,nik,full_name,status,address', 'household:id,no_kk'])
             ->when($this->search, function ($query) {

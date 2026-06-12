@@ -19,10 +19,10 @@ class UploadStorage
 
         $normalizedPath = ltrim($path, '/');
 
-        if (Storage::disk(static::disk())->exists($normalizedPath)) {
-            return url('/storage/' . $normalizedPath);
+        if (str_starts_with($normalizedPath, 'http://') || str_starts_with($normalizedPath, 'https://')) {
+            return $normalizedPath;
         }
 
-        return url('/storage/' . $normalizedPath);
+        return Storage::disk(static::disk())->url($normalizedPath);
     }
 }
