@@ -192,8 +192,8 @@
         </div>
     </section>
 
-    <div id="galleryLightbox" class="fixed inset-0 z-[9999] hidden bg-black/90 px-4 py-6 isolate sm:px-6" aria-hidden="true">
-        <div class="mx-auto flex h-full max-w-6xl flex-col justify-center">
+    <dialog id="galleryLightbox" class="m-0 h-screen w-screen max-h-none max-w-none border-0 bg-black/90 p-0 text-left backdrop:bg-black/90">
+        <div class="mx-auto flex h-full max-w-6xl flex-col justify-center px-4 py-6 sm:px-6">
             <div class="mb-4 flex items-center justify-between gap-4 text-white">
                 <div>
                     <p class="text-xs font-semibold uppercase tracking-[0.24em] text-white/70">Preview Foto</p>
@@ -226,7 +226,7 @@
                 </button>
             </div>
         </div>
-    </div>
+    </dialog>
 @endsection
 
 @push('scripts')
@@ -242,10 +242,6 @@
 
             if (!lightbox || !image || triggers.length === 0) {
                 return;
-            }
-
-            if (lightbox.parentElement !== document.body) {
-                document.body.appendChild(lightbox);
             }
 
             const items = triggers.map((trigger) => ({
@@ -267,15 +263,21 @@
             const open = (index) => {
                 activeIndex = index;
                 render();
-                lightbox.classList.remove('hidden');
                 document.body.classList.add('overflow-hidden');
-                lightbox.setAttribute('aria-hidden', 'false');
+                if (typeof lightbox.showModal === 'function') {
+                    lightbox.showModal();
+                } else {
+                    lightbox.setAttribute('open', 'open');
+                }
             };
 
             const close = () => {
-                lightbox.classList.add('hidden');
                 document.body.classList.remove('overflow-hidden');
-                lightbox.setAttribute('aria-hidden', 'true');
+                if (typeof lightbox.close === 'function') {
+                    lightbox.close();
+                } else {
+                    lightbox.removeAttribute('open');
+                }
             };
 
             const showPrev = () => {
@@ -297,13 +299,20 @@
             nextButton?.addEventListener('click', showNext);
 
             lightbox.addEventListener('click', (event) => {
-                if (event.target === lightbox) {
+                const bounds = lightbox.getBoundingClientRect();
+                const clickedOutside =
+                    event.clientX < bounds.left ||
+                    event.clientX > bounds.right ||
+                    event.clientY < bounds.top ||
+                    event.clientY > bounds.bottom;
+
+                if (event.target === lightbox || clickedOutside) {
                     close();
                 }
             });
 
             document.addEventListener('keydown', (event) => {
-                if (lightbox.classList.contains('hidden')) {
+                if (!lightbox.hasAttribute('open')) {
                     return;
                 }
 
@@ -318,6 +327,10 @@
                 if (event.key === 'ArrowRight') {
                     showNext();
                 }
+            });
+
+            lightbox.addEventListener('close', () => {
+                document.body.classList.remove('overflow-hidden');
             });
         });
     </script>
