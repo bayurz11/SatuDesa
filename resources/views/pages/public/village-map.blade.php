@@ -2,6 +2,7 @@
     $metaTitle = 'Peta Desa';
     $metaDescription = 'Informasi koordinat lokasi desa, fasilitas umum, dan titik penting Desa Mentuda.';
     $mapMarkers = collect($profile->map_markers ?? [])->values()->all();
+    $hasMapPoint = filled($profile->map_latitude) && filled($profile->map_longitude);
 @endphp
 
 @extends('layouts.public')
@@ -93,25 +94,41 @@
                     </div>
 
                     <div class="mt-8 overflow-hidden rounded-[24px] border border-gray-200 bg-gray-50 shadow-sm sm:mt-10 sm:rounded-[28px]">
-                        <div class="relative min-h-[360px] overflow-hidden bg-green-50 sm:min-h-[460px] lg:min-h-[640px]">
-                            <div id="villageMap" class="h-[360px] w-full sm:h-[460px] lg:h-[640px]"></div>
+                        @if ($hasMapPoint)
+                            <div class="relative min-h-[360px] overflow-hidden bg-green-50 sm:min-h-[460px] lg:min-h-[640px]">
+                                <div id="villageMap" class="h-[360px] w-full sm:h-[460px] lg:h-[640px]"></div>
 
-                            <div
-                                class="pointer-events-none absolute left-3 top-3 z-[400] max-w-[calc(100%-1.5rem)] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur sm:left-4 sm:top-4">
-                                <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
-                                    {{ $village->name }}
-                                </p>
-                                <p class="mt-1 text-sm font-semibold text-gray-900 sm:text-base">
-                                    Kec. {{ $village->district }}, Kab. {{ $village->regency }}
-                                </p>
+                                <div
+                                    class="pointer-events-none absolute left-3 top-3 z-[400] max-w-[calc(100%-1.5rem)] rounded-2xl bg-white/90 px-4 py-3 shadow-lg shadow-gray-900/10 backdrop-blur sm:left-4 sm:top-4">
+                                    <p class="text-[11px] font-bold uppercase tracking-[0.2em] text-green-700">
+                                        {{ $village->name }}
+                                    </p>
+                                    <p class="mt-1 text-sm font-semibold text-gray-900 sm:text-base">
+                                        Kec. {{ $village->district }}, Kab. {{ $village->regency }}
+                                    </p>
+                                </div>
                             </div>
-                        </div>
+                        @else
+                            <div class="flex min-h-[360px] items-center justify-center bg-gradient-to-br from-green-50 to-white p-8 text-center sm:min-h-[460px]">
+                                <div class="max-w-xl">
+                                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-green-700 ring-1 ring-green-100 shadow-sm">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3zM9 3v15M15 6v15" />
+                                        </svg>
+                                    </div>
+                                    <h3 class="mt-5 text-xl font-bold text-gray-900">Peta Belum Dikonfigurasi</h3>
+                                    <p class="mt-3 text-sm leading-7 text-gray-600">
+                                        Koordinat utama desa belum diatur dari panel admin. Setelah lokasi utama ditentukan, peta interaktif dan marker fasilitas umum akan langsung tampil di halaman ini.
+                                    </p>
+                                </div>
+                            </div>
+                        @endif
 
                         <div class="border-t border-gray-200 bg-white p-4 sm:p-5 lg:p-6">
                             <div class="rounded-2xl bg-green-50 px-4 py-4 text-sm leading-6 text-green-800 ring-1 ring-green-100 sm:px-5">
-                                Peta desa menampilkan titik koordinat utama {{ $village->name }}, marker fasilitas
-                                umum, serta dukungan layer peta biasa dan satelit agar lokasi desa lebih mudah
-                                dikenali.
+                                {{ $hasMapPoint
+                                    ? 'Peta desa menampilkan titik koordinat utama ' . $village->name . ', marker fasilitas umum, serta dukungan layer peta biasa dan satelit agar lokasi desa lebih mudah dikenali.'
+                                    : 'Koordinat utama desa, marker fasilitas umum, dan layer peta akan tersedia setelah konfigurasi peta dilengkapi dari admin.' }}
                             </div>
                         </div>
                     </div>
@@ -232,8 +249,9 @@
                         <h2 class="text-lg font-bold">Lokasi Desa</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            Peta desa membantu masyarakat dan pengunjung mengenal koordinat lokasi,
-                            fasilitas umum, serta titik penting yang ada di {{ $village->name }}.
+                            {{ $hasMapPoint
+                                ? 'Peta desa membantu masyarakat dan pengunjung mengenal koordinat lokasi, fasilitas umum, serta titik penting yang ada di ' . $village->name . '.'
+                                : 'Panel ini akan menampilkan gambaran lokasi desa setelah titik koordinat utama dan marker publik dilengkapi dari admin.' }}
                         </p>
                     </div>
                 </div>
@@ -241,19 +259,20 @@
         </div>
     </section>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    @if ($hasMapPoint)
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const villageLat = {{ (float) $profile->map_latitude }};
-            const villageLng = {{ (float) $profile->map_longitude }};
-            const villageZoom = {{ (int) $profile->map_zoom }};
-            const markers = @json($mapMarkers);
-            const mapNode = document.getElementById('villageMap');
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const villageLat = {{ (float) $profile->map_latitude }};
+                const villageLng = {{ (float) $profile->map_longitude }};
+                const villageZoom = {{ (int) $profile->map_zoom }};
+                const markers = @json($mapMarkers);
+                const mapNode = document.getElementById('villageMap');
 
-            if (!mapNode || typeof L === 'undefined') {
-                return;
-            }
+                if (!mapNode || typeof L === 'undefined') {
+                    return;
+                }
 
             const streetLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
@@ -321,6 +340,7 @@
                     map.setView([villageLat, villageLng], map.getZoom());
                 }, 150);
             });
-        });
-    </script>
+            });
+        </script>
+    @endif
 @endsection

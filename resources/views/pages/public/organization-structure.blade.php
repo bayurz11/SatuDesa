@@ -30,7 +30,7 @@
     ];
     $positionOptions = collect($profile->organization_position_options ?? \App\Domains\Village\Models\VillageProfile::defaultOrganizationPositionOptions())
         ->keyBy('id');
-    $members = collect($profile->organization_members ?? \App\Domains\Village\Models\VillageProfile::defaultOrganizationMembers())
+    $members = collect($profile->organization_members ?? [])
         ->map(function ($member) use ($positionOptions, $groupLabels) {
             $option = $positionOptions->get($member['position_option_id'] ?? null, []);
             $member['position_label'] = $option['label'] ?? '-';
@@ -53,6 +53,7 @@
     $kaurItems = $members->where('group', 'kaur')->values();
     $kasiItems = $members->where('group', 'kasi')->values();
     $dusunItems = $members->where('group', 'kadus')->values();
+    $hasOrganizationMembers = $members->isNotEmpty();
 @endphp
 
 @extends('layouts.public')
@@ -104,6 +105,19 @@
                     </div>
 
                     <div class="mt-10">
+                        @if (! $hasOrganizationMembers)
+                            <div class="rounded-[28px] border border-dashed border-green-200 bg-gradient-to-br from-green-50 to-white p-8 text-center">
+                                <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-green-700 ring-1 ring-green-100 shadow-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6a3 3 0 110 6 3 3 0 010-6zM5 21a7 7 0 0114 0" />
+                                    </svg>
+                                </div>
+                                <h3 class="mt-5 text-xl font-bold text-gray-900">Struktur Organisasi Belum Lengkap</h3>
+                                <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+                                    Data perangkat dan susunan organisasi desa belum diisi seluruhnya. Halaman ini akan menampilkan bagan organisasi publik setelah admin melengkapi datanya.
+                                </p>
+                            </div>
+                        @else
                         <div class="grid items-center gap-6 lg:grid-cols-[1fr_auto_1fr]">
                             <div></div>
 
@@ -215,8 +229,9 @@
                         </div>
 
                         <div class="mt-10 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                            {{ $identity['note'] }}
+                            {{ $identity['note'] ?: 'Bagan ini akan terus diperbarui mengikuti penugasan dan susunan organisasi desa yang aktif.' }}
                         </div>
+                        @endif
                     </div>
                 </section>
             </main>
@@ -274,10 +289,10 @@
                             </svg>
                         </div>
 
-                        <h2 class="text-lg font-bold">{{ $identity['sidebar_title'] }}</h2>
+                        <h2 class="text-lg font-bold">{{ $identity['sidebar_title'] ?: 'Informasi Struktur Desa' }}</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            {{ $identity['sidebar_description'] }}
+                            {{ $identity['sidebar_description'] ?: 'Panel ini akan menampilkan catatan singkat mengenai susunan organisasi, fungsi, dan pembagian peran perangkat desa.' }}
                         </p>
                     </div>
                 </div>

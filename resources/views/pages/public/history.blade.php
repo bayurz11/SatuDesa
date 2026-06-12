@@ -3,6 +3,8 @@
     $metaDescription = $profile->history_description ?: 'Menyusuri jejak perjalanan desa dari masa lampau hingga kini.';
     $historyCards = collect($profile->history_cards ?? [])->values();
     $timelineItems = collect($profile->history_timeline_items ?? [])->values();
+    $hasHistoryCards = $historyCards->isNotEmpty();
+    $hasTimelineItems = $timelineItems->isNotEmpty();
     $resolveTimelineIconUrl = function ($item) {
         $path = $item['icon_image_path'] ?? null;
 
@@ -118,7 +120,7 @@
                 </article>
 
                 <section class="grid gap-6 md:grid-cols-2">
-                    @foreach ($historyCards as $index => $card)
+                    @forelse ($historyCards as $index => $card)
                         @php
                             $historyCardImageUrl = $resolveHistoryCardImageUrl($card);
                         @endphp
@@ -168,7 +170,19 @@
                                 {{ $card['description'] ?? '-' }}
                             </p>
                         </article>
-                    @endforeach
+                    @empty
+                        <div class="md:col-span-2 rounded-[28px] border border-dashed border-green-200 bg-gradient-to-br from-green-50 to-white p-8 text-center">
+                            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-green-700 ring-1 ring-green-100 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
+                                </svg>
+                            </div>
+                            <h3 class="mt-5 text-xl font-bold text-gray-900">Ringkasan Sejarah Belum Ditambahkan</h3>
+                            <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+                                Admin belum menambahkan kartu sejarah desa. Narasi utama di atas tetap bisa dibaca, dan bagian ringkasan ini akan muncul otomatis setelah data diisi.
+                            </p>
+                        </div>
+                    @endforelse
                 </section>
 
                 <section data-aos="fade-up" data-aos-delay="150"
@@ -184,7 +198,7 @@
                     </div>
 
                     <div class="mt-6 grid gap-5">
-                        @foreach ($timelineItems as $index => $item)
+                        @forelse ($timelineItems as $index => $item)
                             @php
                                 $timelineIconUrl = $resolveTimelineIconUrl($item);
                             @endphp
@@ -233,7 +247,14 @@
                                     </p>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="rounded-2xl border border-dashed border-green-200 bg-gradient-to-br from-green-50 to-white p-6 text-center">
+                                <p class="text-sm font-semibold text-gray-900">Linimasa Belum Tersedia</p>
+                                <p class="mt-2 text-sm leading-7 text-gray-600">
+                                    Urutan peristiwa sejarah desa masih dalam proses penyusunan. Bagian ini akan menampilkan tahapan perjalanan desa setelah datanya ditambahkan.
+                                </p>
+                            </div>
+                        @endforelse
                     </div>
                 </section>
             </main>
@@ -311,10 +332,10 @@
                             </svg>
                         </div>
 
-                        <h2 class="text-lg font-bold">{{ $profile->history_sidebar_title }}</h2>
+                        <h2 class="text-lg font-bold">{{ $profile->history_sidebar_title ?: 'Catatan Sejarah Desa' }}</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            {{ $profile->history_sidebar_description }}
+                            {{ $profile->history_sidebar_description ?: 'Halaman ini akan terus diperbarui seiring penambahan narasi sejarah, dokumentasi, dan linimasa perjalanan desa.' }}
                         </p>
                     </div>
                 </div>

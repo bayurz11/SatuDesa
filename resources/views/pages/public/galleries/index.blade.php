@@ -2,6 +2,7 @@
     $metaTitle = 'Galeri Desa ' . $village->name;
     $metaDescription =
         'Galeri publik ' . $village->name . ' yang menampilkan kegiatan warga, pembangunan desa, dan suasana kawasan.';
+    $hasGalleryContent = filled($featuredGallery) || $galleryAlbums->isNotEmpty();
 @endphp
 
 @extends('layouts.public')
@@ -103,53 +104,69 @@
                         </article>
                     @endif
 
-                    <div class="mt-8 grid gap-5 md:grid-cols-2">
-                        @foreach ($galleryAlbums as $album)
-                            <article data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
-                                class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/60">
+                    @if ($galleryAlbums->isNotEmpty())
+                        <div class="mt-8 grid gap-5 md:grid-cols-2">
+                            @foreach ($galleryAlbums as $album)
+                                <article data-aos="fade-up" data-aos-delay="{{ min(($loop->index % 2) * 80, 160) }}"
+                                    class="group overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-green-100/60">
 
-                                <div class="relative aspect-[16/10] overflow-hidden bg-gray-100">
-                                    <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
-                                        class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
+                                    <div class="relative aspect-[16/10] overflow-hidden bg-gray-100">
+                                        <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
+                                            class="h-full w-full object-cover transition duration-700 group-hover:scale-105">
 
-                                    <span
-                                        class="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
-                                        {{ $album->category ?: 'Galeri Desa' }}
-                                    </span>
-                                </div>
+                                        <span
+                                            class="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-green-700 backdrop-blur ring-1 ring-white/40">
+                                            {{ $album->category ?: 'Galeri Desa' }}
+                                        </span>
+                                    </div>
 
-                                <div class="p-5">
-                                    <p class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700">
-                                        {{ $album->resolved_photo_count }} Foto
-                                    </p>
+                                    <div class="p-5">
+                                        <p class="text-xs font-semibold uppercase tracking-[0.18em] text-green-700">
+                                            {{ $album->resolved_photo_count }} Foto
+                                        </p>
 
-                                    <h3
-                                        class="mt-3 line-clamp-2 text-lg font-bold text-gray-900 transition group-hover:text-green-700">
-                                        {{ $album->title }}
-                                    </h3>
+                                        <h3
+                                            class="mt-3 line-clamp-2 text-lg font-bold text-gray-900 transition group-hover:text-green-700">
+                                            {{ $album->title }}
+                                        </h3>
 
-                                    <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
-                                        {{ $album->excerpt ?: $album->description }}
-                                    </p>
+                                        <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
+                                            {{ $album->excerpt ?: $album->description }}
+                                        </p>
 
-                                    @if ($album->photos->isNotEmpty())
-                                        <div class="mt-4 grid grid-cols-3 gap-2">
-                                            @foreach ($album->photos->take(3) as $photo)
-                                                <div class="aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">
-                                                    <img src="{{ $photo->image_url }}" alt="{{ $photo->alt_text ?: $album->title }}"
-                                                        class="h-full w-full object-cover">
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    @endif
-                                </div>
-                            </article>
-                        @endforeach
-                    </div>
+                                        @if ($album->photos->isNotEmpty())
+                                            <div class="mt-4 grid grid-cols-3 gap-2">
+                                                @foreach ($album->photos->take(3) as $photo)
+                                                    <div class="aspect-[4/3] overflow-hidden rounded-xl bg-gray-100">
+                                                        <img src="{{ $photo->image_url }}" alt="{{ $photo->alt_text ?: $album->title }}"
+                                                            class="h-full w-full object-cover">
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @endif
+                                    </div>
+                                </article>
+                            @endforeach
+                        </div>
+                    @elseif (! $featuredGallery)
+                        <div class="mt-8 rounded-[28px] border border-dashed border-green-200 bg-gradient-to-br from-green-50 to-white p-8 text-center">
+                            <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-green-700 ring-1 ring-green-100 shadow-sm">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 16l4-4a2 2 0 012.828 0L13 15.172l2-2A2 2 0 0117.828 13L21 16M4 5h16a1 1 0 011 1v12a1 1 0 01-1 1H4a1 1 0 01-1-1V6a1 1 0 011-1z" />
+                                </svg>
+                            </div>
+                            <h3 class="mt-5 text-xl font-bold text-gray-900">Galeri Belum Tersedia</h3>
+                            <p class="mx-auto mt-3 max-w-2xl text-sm leading-7 text-gray-600">
+                                Album dokumentasi untuk {{ $village->name }} masih dalam proses penyiapan. Setelah admin menambahkan foto kegiatan, halaman ini akan otomatis menampilkan album publik.
+                            </p>
+                        </div>
+                    @endif
 
                     <div
                         class="mt-8 rounded-2xl bg-green-50 px-4 py-3 text-sm leading-6 text-green-800 ring-1 ring-green-100">
-                        Galeri ini kini tersambung langsung dengan dashboard admin sehingga album yang dipublikasikan akan tampil otomatis di halaman publik.
+                        {{ $hasGalleryContent
+                            ? 'Galeri ini kini tersambung langsung dengan dashboard admin sehingga album yang dipublikasikan akan tampil otomatis di halaman publik.'
+                            : 'Saat ini belum ada album publik yang ditampilkan. Begitu data galeri diisi dari admin, kontennya akan langsung muncul di halaman ini.' }}
                     </div>
                 </section>
             </main>
@@ -210,27 +227,33 @@
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        @foreach ($recentAlbums as $album)
-                            <div
-                                class="group flex gap-4 rounded-2xl bg-white p-3 ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100/60 hover:ring-green-200">
-                                <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
-                                    class="h-20 w-24 shrink-0 rounded-xl object-cover transition duration-300 group-hover:scale-105">
+                    @if ($recentAlbums->isNotEmpty())
+                        <div class="space-y-4">
+                            @foreach ($recentAlbums as $album)
+                                <div
+                                    class="group flex gap-4 rounded-2xl bg-white p-3 ring-1 ring-gray-100 transition duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-green-100/60 hover:ring-green-200">
+                                    <img src="{{ $album->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $album->title }}"
+                                        class="h-20 w-24 shrink-0 rounded-xl object-cover transition duration-300 group-hover:scale-105">
 
-                                <div class="min-w-0">
-                                    <h3
-                                        class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition group-hover:text-green-700">
-                                        {{ $album->title }}
-                                    </h3>
+                                    <div class="min-w-0">
+                                        <h3
+                                            class="line-clamp-2 text-sm font-bold leading-snug text-gray-900 transition group-hover:text-green-700">
+                                            {{ $album->title }}
+                                        </h3>
 
-                                    <div class="mt-2 space-y-1 text-xs text-gray-500">
-                                        <p>{{ $album->category ?: 'Galeri Desa' }}</p>
-                                        <p>{{ optional($album->gallery_date)->translatedFormat('d M Y') ?: '-' }}</p>
+                                        <div class="mt-2 space-y-1 text-xs text-gray-500">
+                                            <p>{{ $album->category ?: 'Galeri Desa' }}</p>
+                                            <p>{{ optional($album->gallery_date)->translatedFormat('d M Y') ?: '-' }}</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        @endforeach
-                    </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-4 py-5 text-sm leading-6 text-gray-500">
+                            Belum ada album terbaru yang bisa ditampilkan.
+                        </div>
+                    @endif
                 </div>
 
                 <div data-aos="fade-left" data-aos-delay="400"

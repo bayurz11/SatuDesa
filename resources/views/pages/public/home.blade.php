@@ -172,6 +172,18 @@
 <body class="bg-gray-50 flex flex-col min-h-screen antialiased overflow-x-hidden" id="top">
     @include('pages.public.partials.main-nav')
 
+    @php
+        $hasPopulationData =
+            $totalCitizens > 0 ||
+            $totalHouseholds > 0 ||
+            $maleCitizens > 0 ||
+            $femaleCitizens > 0 ||
+            $totalHamlets > 0 ||
+            $activeCitizens > 0;
+        $hasPotentialData = filled($homeFeaturedPotential);
+        $hasAnnouncementData = $homeAnnouncements->isNotEmpty();
+    @endphp
+
     <main class="flex-grow">
         <div class="absolute top-0 left-0 w-32 h-32 bg-green-100 rounded-full blur-3xl opacity-40"></div>
         <div class="absolute bottom-0 right-0 w-40 h-40 bg-yellow-100 rounded-full blur-2xl opacity-40"></div>
@@ -179,7 +191,8 @@
         @include('pages.public.partials.header')
 
         <!-- Population Administration Section -->
-        <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
+        @if ($hasPopulationData)
+            <section class="max-w-6xl mx-auto px-4 py-12" data-aos="fade-up">
             <!-- Header -->
             <header class="mx-auto mb-12 max-w-3xl text-center">
 
@@ -353,11 +366,13 @@
                     </svg>
                 </a>
             </div>
-        </section>
+            </section>
+        @endif
 
         <!-- Potensi Desa Section -->
-        <section class="relative overflow-hidden bg-gradient-to-b from-gray-50 via-white to-green-50 px-4 py-15"
-            data-aos="fade-up" data-aos-delay="300">
+        @if ($hasPotentialData)
+            <section class="relative overflow-hidden bg-gradient-to-b from-gray-50 via-white to-green-50 px-4 py-15"
+                data-aos="fade-up" data-aos-delay="300">
 
             <div class="relative mx-auto max-w-7xl">
 
@@ -520,7 +535,8 @@
                     </div>
                 </article>
             </div>
-        </section>
+            </section>
+        @endif
 
         <!-- Berita Desa Section -->
         @if ($homeFeaturedPost || $homeNewsPosts->isNotEmpty())
@@ -700,8 +716,9 @@
         @endif
 
         <!-- Pengumuman Desa -->
-        <section class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-20"
-            data-aos="fade-up">
+        @if ($hasAnnouncementData)
+            <section class="relative overflow-hidden bg-gradient-to-b from-white via-gray-50 to-white py-20"
+                data-aos="fade-up">
 
             <div class="max-w-6xl mx-auto px-4">
 
@@ -924,7 +941,8 @@
                 </div>
 
             </div>
-        </section>
+            </section>
+        @endif
 
     </main>
 

@@ -56,11 +56,11 @@
                         </span>
 
                         <h2 class="mt-3 text-2xl font-bold tracking-tight text-gray-900">
-                            {{ $profile->vision }}
+                            {{ $profile->vision ?: 'Visi Desa Sedang Disiapkan' }}
                         </h2>
 
                         <p class="mt-5 text-sm leading-8 text-gray-600 sm:text-base">
-                            {{ $profile->vision_mission_vision_description }}
+                            {{ $profile->vision_mission_vision_description ?: 'Pernyataan visi desa belum ditambahkan. Halaman ini akan diperbarui setelah konten visi resmi tersedia.' }}
                         </p>
                     </div>
                 </article>
@@ -78,7 +78,7 @@
                     </div>
 
                     <div class="mt-6 grid gap-5">
-                        @foreach ($missionItems as $index => $mission)
+                        @forelse ($missionItems as $index => $mission)
                             <div data-aos="fade-up" data-aos-delay="{{ 200 + $index * 100 }}"
                                 class="group flex gap-4 rounded-2xl border border-gray-100 bg-white p-5 shadow-sm shadow-gray-200/50 transition duration-300 hover:-translate-y-1 hover:border-green-200 hover:bg-green-50/50 hover:shadow-lg hover:shadow-green-100/60">
 
@@ -116,7 +116,14 @@
                                     </p>
                                 </div>
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="rounded-2xl border border-dashed border-green-200 bg-gradient-to-br from-green-50 to-white p-6 text-center">
+                                <p class="text-sm font-semibold text-gray-900">Daftar Misi Belum Ditambahkan</p>
+                                <p class="mt-2 text-sm leading-7 text-gray-600">
+                                    Misi strategis desa masih dalam tahap penyusunan. Setelah admin menambahkan daftar misi, bagian ini akan tampil otomatis.
+                                </p>
+                            </div>
+                        @endforelse
                     </div>
                 </section>
             </main>
@@ -206,10 +213,10 @@
                             </svg>
                         </div>
 
-                        <h2 class="text-lg font-bold">{{ $profile->vision_mission_sidebar_title }}</h2>
+                        <h2 class="text-lg font-bold">{{ $profile->vision_mission_sidebar_title ?: 'Arah Pembangunan Desa' }}</h2>
 
                         <p class="mt-3 text-sm leading-6 text-white/85">
-                            {{ $profile->vision_mission_sidebar_description }}
+                            {{ $profile->vision_mission_sidebar_description ?: 'Catatan pendukung mengenai visi, misi, dan arah pembangunan desa akan ditampilkan di panel ini setelah kontennya dilengkapi.' }}
                         </p>
                     </div>
                 </div>
