@@ -192,7 +192,7 @@
         </div>
     </section>
 
-    <div id="galleryLightbox" class="fixed inset-0 z-[999] hidden bg-black/90 px-4 py-6 sm:px-6" aria-hidden="true">
+    <div id="galleryLightbox" class="fixed inset-0 z-[9999] hidden bg-black/90 px-4 py-6 isolate sm:px-6" aria-hidden="true">
         <div class="mx-auto flex h-full max-w-6xl flex-col justify-center">
             <div class="mb-4 flex items-center justify-between gap-4 text-white">
                 <div>
@@ -242,6 +242,10 @@
 
             if (!lightbox || !image || triggers.length === 0) {
                 return;
+            }
+
+            if (lightbox.parentElement !== document.body) {
+                document.body.appendChild(lightbox);
             }
 
             const items = triggers.map((trigger) => ({
