@@ -1,4 +1,5 @@
 @php
+    $search = trim((string) request('q', ''));
     $metaTitle = 'Layanan Kantor Desa Mentuda';
     $metaDescription =
         'Informasi layanan yang tersedia di Kantor Desa Mentuda, meliputi administrasi kependudukan, surat keterangan, sosial, dan layanan umum warga.';
@@ -85,6 +86,20 @@
             'icon' => 'check',
         ],
     ];
+
+    if ($search !== '') {
+        $services = collect($services)
+            ->filter(function (array $service) use ($search) {
+                return collect([
+                    $service['title'],
+                    $service['category'],
+                    $service['requirements'],
+                    $service['description'],
+                ])->contains(fn ($value) => stripos((string) $value, $search) !== false);
+            })
+            ->values()
+            ->all();
+    }
 @endphp
 
 @extends('layouts.public')

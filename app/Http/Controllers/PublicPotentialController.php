@@ -15,12 +15,23 @@ class PublicPotentialController extends Controller
 {
     public function index(Request $request): View
     {
+        $search = trim((string) $request->string('q'));
         $selectedCategory = trim((string) $request->string('category'));
 
         $baseQuery = Potential::query()
             ->with(['category:id,name,slug,icon', 'village:id,name'])
             ->where('status', 'published')
             ->whereNotNull('published_at')
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($subQuery) use ($search) {
+                    $subQuery
+                        ->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('excerpt', 'like', '%' . $search . '%')
+                        ->orWhere('content', 'like', '%' . $search . '%')
+                        ->orWhere('potential_type', 'like', '%' . $search . '%')
+                        ->orWhere('location_name', 'like', '%' . $search . '%');
+                });
+            })
             ->when($selectedCategory !== '', function ($query) use ($selectedCategory) {
                 $query->whereHas('category', function ($categoryQuery) use ($selectedCategory) {
                     $categoryQuery->where('slug', $selectedCategory);
@@ -60,7 +71,8 @@ class PublicPotentialController extends Controller
             'featuredPotential',
             'potentials',
             'categories',
-            'selectedCategory'
+            'selectedCategory',
+            'search'
         ));
     }
 

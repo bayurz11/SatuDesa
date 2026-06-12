@@ -8,14 +8,38 @@ use App\Domains\Household\Models\Household;
 use App\Domains\Rt\Models\Rt;
 use App\Domains\Rw\Models\Rw;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class PublicPopulationController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
-        $citizensQuery = Citizen::query()->with(['household.hamlet:id,name']);
-        $householdsQuery = Household::query()->with(['hamlet:id,name']);
+        $search = trim((string) $request->string('q'));
+
+        $citizensQuery = Citizen::query()
+            ->with(['household.hamlet:id,name'])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($citizenQuery) use ($search) {
+                    $citizenQuery
+                        ->where('gender', 'like', '%' . $search . '%')
+                        ->orWhere('religion', 'like', '%' . $search . '%')
+                        ->orWhere('education', 'like', '%' . $search . '%')
+                        ->orWhere('occupation', 'like', '%' . $search . '%')
+                        ->orWhere('status', 'like', '%' . $search . '%')
+                        ->orWhereHas('household.hamlet', function ($hamletQuery) use ($search) {
+                            $hamletQuery->where('name', 'like', '%' . $search . '%');
+                        });
+                });
+            });
+
+        $householdsQuery = Household::query()
+            ->with(['hamlet:id,name'])
+            ->when($search !== '', function ($query) use ($search) {
+                $query->whereHas('hamlet', function ($hamletQuery) use ($search) {
+                    $hamletQuery->where('name', 'like', '%' . $search . '%');
+                });
+            });
 
         $citizens = $citizensQuery->get([
             'id',
@@ -144,7 +168,8 @@ class PublicPopulationController extends Controller
             'educationStats',
             'occupationStats',
             'areaStats',
-            'lastUpdated'
+            'lastUpdated',
+            'search'
         ));
     }
 

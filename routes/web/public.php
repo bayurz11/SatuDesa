@@ -14,6 +14,7 @@ use App\Http\Controllers\PublicGalleryController;
 use App\Http\Controllers\PublicVillageHistoryController;
 use App\Http\Controllers\PublicVillageMapController;
 use App\Http\Controllers\PublicVillageOrganizationController;
+use App\Http\Controllers\PublicSearchController;
 use App\Http\Controllers\PublicVillageVisionMissionController;
 use Illuminate\Support\Facades\Route;
 
@@ -75,6 +76,7 @@ Route::get('/', function () {
         'activeCitizens',
     ));
 })->name('home');
+Route::get('/cari', PublicSearchController::class)->name('public.search');
 Route::get('/sejarah-desa', [PublicVillageHistoryController::class, 'index'])->name('public.history');
 Route::get('/visi-misi', [PublicVillageVisionMissionController::class, 'index'])->name('public.vision-mission');
 Route::get('/struktur-organisasi', [PublicVillageOrganizationController::class, 'index'])->name('public.organization-structure');

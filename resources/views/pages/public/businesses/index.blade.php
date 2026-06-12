@@ -1,4 +1,5 @@
 @php
+    $search = trim((string) request('q', ''));
     $metaTitle = 'Toko UMKM Desa Mentuda';
     $metaDescription =
         'Etalase produk UMKM Desa Mentuda berisi produk lokal, oleh-oleh, hasil laut, kerajinan, dan kontak pemesanan.';
@@ -93,6 +94,32 @@
         ['name' => 'Sambal Ikan Bilis', 'category' => 'Kuliner', 'price' => 'Rp30.000', 'image' => $productImage],
         ['name' => 'Anyaman Mini Bahari', 'category' => 'Kerajinan', 'price' => 'Rp35.000', 'image' => $productImage],
     ];
+
+    if ($search !== '') {
+        $products = collect($products)
+            ->filter(function (array $product) use ($search) {
+                return collect([
+                    $product['name'],
+                    $product['category'],
+                    $product['seller'],
+                    $product['description'],
+                    $product['badge'],
+                ])->contains(fn ($value) => stripos((string) $value, $search) !== false);
+            })
+            ->values()
+            ->all();
+
+        $featuredProducts = collect($featuredProducts)
+            ->filter(function (array $product) use ($search) {
+                return collect([
+                    $product['name'],
+                    $product['category'],
+                    $product['price'],
+                ])->contains(fn ($value) => stripos((string) $value, $search) !== false);
+            })
+            ->values()
+            ->all();
+    }
 @endphp
 
 @extends('layouts.public')

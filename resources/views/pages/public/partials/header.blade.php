@@ -27,14 +27,26 @@
             <div x-data="{
                 open: false,
                 selected: 'Semua Informasi',
-                value: ''
+                value: '',
+                placeholders: {
+                    all: 'Cari berita, pengumuman, layanan, UMKM...',
+                    berita: 'Cari judul atau isi berita desa...',
+                    pengumuman: 'Cari pengumuman desa...',
+                    potensi: 'Cari potensi desa...',
+                    umkm: 'Cari produk UMKM desa...',
+                    apbdesa: 'Cari informasi APBDesa...',
+                    layanan: 'Cari layanan desa...',
+                    penduduk: 'Cari informasi data penduduk...'
+                },
+                get currentPlaceholder() {
+                    return this.placeholders[this.value || 'all'];
+                }
             }" class="relative">
 
-                <form action="{{ route('public.posts.index') }}" method="GET"
+                <form action="{{ route('public.search') }}" method="GET"
                     class="bg-white/90 backdrop-blur-md rounded-2xl shadow-xl ring-1 ring-gray-100 p-2 flex flex-col sm:flex-row gap-2">
 
-                    <!-- Hidden Input -->
-                    <input type="hidden" name="kategori" :value="value">
+                    <input type="hidden" name="category" :value="value">
 
                     <!-- Custom Select -->
                     <div class="relative sm:w-56">
@@ -125,6 +137,7 @@
                     <div class="relative flex-1">
 
                         <input type="text" name="q" placeholder="Cari berita, pengumuman, layanan, UMKM..."
+                            :placeholder="currentPlaceholder"
                             class="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-11 text-sm text-gray-700 outline-none transition-all duration-300 focus:border-green-500 focus:ring-2 focus:ring-green-100">
 
                         <svg xmlns="http://www.w3.org/2000/svg"

@@ -6,12 +6,15 @@ use App\Domains\Budget\Models\ApbdesBudgetLine;
 use App\Domains\Budget\Models\ApbdesFiscalYear;
 use App\Domains\Budget\Models\ApbdesPaymentRequest;
 use App\Domains\Budget\Models\ApbdesRealization;
+use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 
 class PublicBudgetController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
+        $search = trim((string) $request->string('q'));
+
         $fiscalYear = ApbdesFiscalYear::query()
             ->with([
                 'budgetLines.account:id,code,name,type',
@@ -21,7 +24,25 @@ class PublicBudgetController extends Controller
             ->orderByDesc('year')
             ->first();
 
-        $budgetLines = $fiscalYear?->budgetLines ?? collect();
+        $budgetLines = ($fiscalYear?->budgetLines ?? collect())
+            ->when($search !== '', function ($collection) use ($search) {
+                return $collection->filter(function ($line) use ($search) {
+                    $haystacks = [
+                        $line->account?->code,
+                        $line->account?->name,
+                        $line->description,
+                        $line->fundingSource?->name,
+                    ];
+
+                    foreach ($haystacks as $haystack) {
+                        if ($haystack !== null && stripos((string) $haystack, $search) !== false) {
+                            return true;
+                        }
+                    }
+
+                    return false;
+                })->values();
+            });
 
         $summaryByType = collect([
             'pendapatan' => 'Pendapatan Desa',
@@ -56,12 +77,31 @@ class PublicBudgetController extends Controller
         $latestRealizations = ApbdesRealization::query()
             ->with(['budgetLine.account:id,code,name', 'budgetLine:id,account_id,description'])
             ->when($fiscalYear, fn ($query) => $query->where('fiscal_year_id', $fiscalYear->id))
+            ->when($search !== '', function ($query) use ($search) {
+                $query->whereHas('budgetLine', function ($budgetLineQuery) use ($search) {
+                    $budgetLineQuery
+                        ->where('description', 'like', '%' . $search . '%')
+                        ->orWhereHas('account', function ($accountQuery) use ($search) {
+                            $accountQuery
+                                ->where('code', 'like', '%' . $search . '%')
+                                ->orWhere('name', 'like', '%' . $search . '%');
+                        });
+                });
+            })
             ->latest('transaction_date')
             ->limit(6)
             ->get();
 
         $latestPaymentRequests = ApbdesPaymentRequest::query()
             ->when($fiscalYear, fn ($query) => $query->where('fiscal_year_id', $fiscalYear->id))
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($paymentQuery) use ($search) {
+                    $paymentQuery
+                        ->where('request_number', 'like', '%' . $search . '%')
+                        ->orWhere('description', 'like', '%' . $search . '%')
+                        ->orWhere('requested_by', 'like', '%' . $search . '%');
+                });
+            })
             ->latest('request_date')
             ->limit(6)
             ->get();
@@ -106,6 +146,7 @@ class PublicBudgetController extends Controller
             'realizationPercent',
             'headlineMetrics',
             'topBudgetLines',
+            'search',
         ));
     }
 }
