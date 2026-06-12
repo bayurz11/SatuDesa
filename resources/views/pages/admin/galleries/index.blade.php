@@ -29,24 +29,24 @@
     <div class="space-y-8 animate-fadeInUp" id="gallery-admin-page"
         data-galleries='@json($serializedGalleries)'
         data-open-modal-on-load="{{ $errors->any() ? '1' : '0' }}">
-        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <div class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="admin-module-icon">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2 1.586-1.586a2 2 0 012.828 0L20 14m-8-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Informasi Publik</p>
-                            <h1 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Galeri Desa</h1>
-                            <p class="text-sm text-gray-600 mt-1">Kelola album galeri desa, status publikasi, kategori, dan foto sampul dari satu halaman admin.</p>
+                            <p class="admin-module-kicker">Informasi Publik</p>
+                            <h1 class="admin-module-title">Manajemen Galeri Desa</h1>
+                            <p class="admin-module-description">Kelola album galeri desa, status publikasi, kategori, dan foto sampul dari satu halaman admin.</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row">
-                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                        <div class="admin-module-toolbar-card">
                             <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
                             <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
@@ -59,12 +59,12 @@
             </div>
         </div>
 
-        <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <section class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div>
-                        <h2 class="text-2xl font-bold text-gray-900">Galeri Desa</h2>
-                        <p class="text-sm text-gray-600 mt-1">Halaman ini menampilkan hasil album yang tersimpan. Tambah dan edit dilakukan lewat modal agar tetap ringkas seperti modul admin lainnya.</p>
+                        <h2 class="admin-module-title">Galeri Desa</h2>
+                        <p class="admin-module-description">Halaman ini menampilkan hasil album yang tersimpan. Tambah dan edit dilakukan lewat modal agar tetap ringkas seperti modul admin lainnya.</p>
                     </div>
                     @permission('galleries.create')
                         <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-gallery-modal data-mode="create">
@@ -74,35 +74,35 @@
                 </div>
 
                 <div class="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Total Album</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $galleryStats['total'] }}</p>
-                        <p class="text-sm font-semibold text-blue-600 mt-3">Data galeri tersimpan</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Total Album</p>
+                        <p class="admin-module-summary-value">{{ $galleryStats['total'] }}</p>
+                        <p class="admin-module-summary-note text-blue-600">Data galeri tersimpan</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Sudah Publish</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $galleryStats['published'] }}</p>
-                        <p class="text-sm font-semibold text-emerald-600 mt-3">Siap tampil di publik</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Sudah Publish</p>
+                        <p class="admin-module-summary-value">{{ $galleryStats['published'] }}</p>
+                        <p class="admin-module-summary-note text-emerald-600">Siap tampil di publik</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Draft</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $galleryStats['draft'] }}</p>
-                        <p class="text-sm font-semibold text-amber-600 mt-3">Belum dipublikasikan</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Draft</p>
+                        <p class="admin-module-summary-value">{{ $galleryStats['draft'] }}</p>
+                        <p class="admin-module-summary-note text-amber-600">Belum dipublikasikan</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Album Unggulan</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $galleryStats['featured'] }}</p>
-                        <p class="text-sm font-semibold text-fuchsia-600 mt-3">Ditandai featured</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Album Unggulan</p>
+                        <p class="admin-module-summary-value">{{ $galleryStats['featured'] }}</p>
+                        <p class="admin-module-summary-note text-fuchsia-600">Ditandai featured</p>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-gray-200 bg-white px-6 py-6 space-y-8">
-                <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900">Daftar Album Galeri</h3>
-                            <p class="text-sm text-gray-600 mt-1">Setiap baris menampilkan ringkasan album, kategori, status publikasi, dan tindakan cepat.</p>
+                            <h3 class="admin-module-section-title">Daftar Album Galeri</h3>
+                            <p class="admin-module-section-description">Setiap baris menampilkan ringkasan album, kategori, status publikasi, dan tindakan cepat.</p>
                         </div>
                     </div>
 
@@ -189,16 +189,16 @@
                     </div>
                 </section>
 
-                <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
                         <div>
-                            <h3 class="text-lg font-bold text-gray-900">Preview Ringkas</h3>
-                            <p class="text-sm text-gray-600 mt-1">Ringkasan visual album yang saat ini tersimpan di galeri desa.</p>
+                            <h3 class="admin-module-section-title">Preview Ringkas</h3>
+                            <p class="admin-module-section-description">Ringkasan visual album yang saat ini tersimpan di galeri desa.</p>
                         </div>
                     </div>
                     <div class="grid gap-5 p-6 md:grid-cols-2 xl:grid-cols-3">
                         @foreach ($galleries->take(6) as $gallery)
-                            <article class="overflow-hidden rounded-[28px] border border-gray-200 bg-white shadow-md shadow-gray-200/60 transition duration-300 hover:-translate-y-1 hover:border-blue-200 hover:shadow-xl hover:shadow-blue-100/60">
+                            <article class="module-soft-card overflow-hidden rounded-[24px] bg-white">
                                 <div class="relative aspect-[16/10] overflow-hidden bg-gray-100">
                                     <img src="{{ $gallery->cover_image_url ?: asset('img/bg.jpg') }}" alt="{{ $gallery->title }}" class="h-full w-full object-cover">
                                     <span class="absolute left-4 top-4 inline-flex items-center rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-blue-700 backdrop-blur ring-1 ring-white/40">

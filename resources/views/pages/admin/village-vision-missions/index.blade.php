@@ -6,24 +6,24 @@
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
-        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <div class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="admin-module-icon">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M12 3l7 4v5c0 5-3 8-7 9-4-1-7-4-7-9V7l7-4z" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Visi &amp; Misi Desa</h1>
-                            <p class="text-sm text-gray-600 mt-1">Kelola judul halaman, visi utama, daftar misi, dan panel samping untuk halaman publik.</p>
+                            <p class="admin-module-kicker">Profil Desa</p>
+                            <h1 class="admin-module-title">Manajemen Visi &amp; Misi Desa</h1>
+                            <p class="admin-module-description">Kelola judul halaman, visi utama, daftar misi, dan panel samping untuk halaman publik.</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row">
-                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                        <div class="admin-module-toolbar-card">
                             <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
                             <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
@@ -40,30 +40,30 @@
             @csrf
             @method('PUT')
 
-            <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+            <section class="admin-module-hero">
+                <div class="admin-module-hero-band px-6 py-6 border-b border-gray-200">
                     <div class="flex flex-col gap-6">
                         <div class="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
                             <div>
-                                <h2 class="text-2xl font-bold text-gray-900">Visi &amp; Misi</h2>
-                                <p class="text-sm text-gray-600 mt-1">Atur keseluruhan konten publik dari satu form. Item misi ditambah dan diedit lewat modal.</p>
+                                <h2 class="admin-module-title">Visi &amp; Misi</h2>
+                                <p class="admin-module-description">Atur keseluruhan konten publik dari satu form. Item misi ditambah dan diedit lewat modal.</p>
                             </div>
 
                             <div class="grid gap-4 sm:grid-cols-3">
-                                <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                    <p class="text-sm text-gray-500">Visi Aktif</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
-                                    <p class="text-sm font-semibold text-blue-600 mt-3">Pernyataan utama</p>
+                                <div class="admin-module-summary-card">
+                                    <p class="admin-module-summary-label">Visi Aktif</p>
+                                    <p class="admin-module-summary-value">1</p>
+                                    <p class="admin-module-summary-note text-blue-600">Pernyataan utama</p>
                                 </div>
-                                <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                    <p class="text-sm text-gray-500">Daftar Misi</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-2" data-mission-count>{{ count($missionItems) }}</p>
-                                    <p class="text-sm font-semibold text-emerald-600 mt-3">Item publik aktif</p>
+                                <div class="admin-module-summary-card">
+                                    <p class="admin-module-summary-label">Daftar Misi</p>
+                                    <p class="admin-module-summary-value" data-mission-count>{{ count($missionItems) }}</p>
+                                    <p class="admin-module-summary-note text-emerald-600">Item publik aktif</p>
                                 </div>
-                                <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                                    <p class="text-sm text-gray-500">Panel Samping</p>
-                                    <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
-                                    <p class="text-sm font-semibold text-amber-600 mt-3">Info arah pembangunan</p>
+                                <div class="admin-module-summary-card">
+                                    <p class="admin-module-summary-label">Panel Samping</p>
+                                    <p class="admin-module-summary-value">1</p>
+                                    <p class="admin-module-summary-note text-amber-600">Info arah pembangunan</p>
                                 </div>
                             </div>
                         </div>
@@ -71,12 +71,12 @@
                 </div>
 
                 <div class="border-t border-gray-200 bg-white px-6 py-6 space-y-8">
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-5">
                             <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-900">Identitas Halaman Publik</h3>
-                                    <p class="text-sm text-gray-600 mt-1">Bagian ini mengatur hero halaman, badge, dan deskripsi pembuka.</p>
+                                    <h3 class="admin-module-section-title">Identitas Halaman Publik</h3>
+                                    <p class="admin-module-section-description">Bagian ini mengatur hero halaman, badge, dan deskripsi pembuka.</p>
                                 </div>
                                 @permission('village_vision_missions.edit')
                                     <button type="submit" class="module-primary-btn px-6 py-3 text-sm">Simpan Perubahan</button>
@@ -100,11 +100,11 @@
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-5">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Visi Desa</h3>
-                                <p class="text-sm text-gray-600 mt-1">Isi pernyataan visi utama dan narasi pendukung yang tampil pada kartu hero publik.</p>
+                                <h3 class="admin-module-section-title">Visi Desa</h3>
+                                <p class="admin-module-section-description">Isi pernyataan visi utama dan narasi pendukung yang tampil pada kartu hero publik.</p>
                             </div>
                         </div>
 
@@ -128,12 +128,12 @@
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-5">
                             <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                                 <div>
-                                    <h3 class="text-lg font-bold text-gray-900">Daftar Misi Desa</h3>
-                                    <p class="text-sm text-gray-600 mt-1">Kelola daftar langkah strategis pembangunan desa. Tambah dan edit item dilakukan lewat modal.</p>
+                                    <h3 class="admin-module-section-title">Daftar Misi Desa</h3>
+                                    <p class="admin-module-section-description">Kelola daftar langkah strategis pembangunan desa. Tambah dan edit item dilakukan lewat modal.</p>
                                 </div>
                                 @permission('village_vision_missions.edit')
                                     <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-mission-modal data-mission-mode="create">
@@ -158,16 +158,16 @@
                             <div class="hidden" data-mission-hidden-inputs></div>
                             <div class="space-y-4" id="vision-mission-admin" data-initial-mission-items='@json($missionItems)'>
                                 <div class="grid gap-4 lg:grid-cols-2" data-mission-list-display></div>
-                                <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-sm text-gray-500 hidden" data-empty-mission-state>
+                                <div class="admin-module-empty hidden" data-empty-mission-state>
                                     Belum ada item misi. Gunakan tombol `Tambah Misi` untuk menambahkan langkah strategis desa.
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
-                            <h3 class="text-lg font-bold text-gray-900">Catatan Samping</h3>
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-5">
+                            <h3 class="admin-module-section-title">Catatan Samping</h3>
                         </div>
 
                         <div class="p-6 sm:p-8 grid gap-6">
@@ -359,7 +359,7 @@
 
                 missionItems.forEach((item, index) => {
                     const card = document.createElement('div');
-                    card.className = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm';
+                    card.className = 'module-soft-card rounded-2xl bg-white p-5';
                     const canEdit = Boolean(missionModalOverlay);
                     card.innerHTML = `
                         <div class="flex h-full flex-col gap-4">

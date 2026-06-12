@@ -39,24 +39,24 @@
     @endphp
 
     <div class="space-y-8 animate-fadeInUp">
-        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <div class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="admin-module-icon">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Sejarah Desa</h1>
-                            <p class="text-sm text-gray-600 mt-1">Kelola judul, narasi utama, kartu sejarah, dan linimasa publik dari satu halaman yang lebih ringkas dan mudah dipahami.</p>
+                            <p class="admin-module-kicker">Profil Desa</p>
+                            <h1 class="admin-module-title">Manajemen Sejarah Desa</h1>
+                            <p class="admin-module-description">Kelola judul, narasi utama, kartu sejarah, dan linimasa publik dari satu halaman yang lebih ringkas dan mudah dipahami.</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row">
-                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                        <div class="admin-module-toolbar-card">
                             <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
                             <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
@@ -74,12 +74,12 @@
             @method('PUT')
 
             <main class="space-y-8">
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Identitas Halaman Publik</h2>
-                                <p class="text-sm text-gray-600 mt-1">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
+                                <h2 class="admin-module-section-title">Identitas Halaman Publik</h2>
+                                <p class="admin-module-section-description">Bagian ini mengatur judul utama, deskripsi, badge hero, dan gambar sampul.</p>
                             </div>
                             @permission('village_histories.edit')
                                 <button type="submit" class="module-primary-btn px-6 py-3 text-sm">Simpan Perubahan</button>
@@ -157,12 +157,12 @@
                     </div>
                 </section>
 
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Kartu Sejarah</h2>
-                                <p class="text-sm text-gray-600 mt-1">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
+                                <h2 class="admin-module-section-title">Kartu Sejarah</h2>
+                                <p class="admin-module-section-description">Tampilkan dua kartu ringkas untuk bagian awal sejarah. Tambah dan edit dilakukan lewat modal agar lebih cepat dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-history-card-modal data-history-card-mode="create">
                                 Tambah Kartu
@@ -180,19 +180,19 @@
                         <div class="hidden" data-history-card-hidden-inputs></div>
                         <div class="space-y-4" id="history-cards-admin" data-max-history-cards="2" data-initial-history-cards='@json($historyCards)'>
                             <div class="grid gap-4 lg:grid-cols-2" data-history-card-list-display></div>
-                            <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-sm text-gray-500 hidden" data-empty-history-card-state>
+                            <div class="admin-module-empty hidden" data-empty-history-card-state>
                                 Belum ada kartu sejarah. Gunakan tombol `Tambah Kartu` untuk mulai mengisi ringkasan sejarah desa.
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
                         <div class="flex items-center justify-between gap-4 flex-col sm:flex-row">
                             <div>
-                                <h2 class="text-lg font-bold text-gray-900">Linimasa Sejarah</h2>
-                                <p class="text-sm text-gray-600 mt-1">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
+                                <h2 class="admin-module-section-title">Linimasa Sejarah</h2>
+                                <p class="admin-module-section-description">Item linimasa bisa ditambah sebanyak yang dibutuhkan. Tambah dan edit dilakukan lewat modal agar lebih mudah dipakai.</p>
                             </div>
                             <button type="button" class="module-neutral-btn px-4 py-2 text-sm" data-open-timeline-modal data-timeline-mode="create">
                                 Tambah Linimasa
@@ -216,16 +216,16 @@
                         <div class="hidden" data-timeline-hidden-inputs></div>
                         <div class="space-y-4" id="history-timeline-admin" data-initial-timeline-items='@json($timelineItems)'>
                             <div class="space-y-4" data-timeline-list-display></div>
-                            <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-sm text-gray-500 hidden" data-empty-timeline-state>
+                            <div class="admin-module-empty hidden" data-empty-timeline-state>
                                 Belum ada item linimasa. Gunakan tombol `Tambah Linimasa` untuk menambahkan riwayat baru.
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-                    <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-5 border-b border-gray-200">
-                        <h2 class="text-lg font-bold text-gray-900">Catatan Samping</h2>
+                <section class="admin-module-section">
+                    <div class="admin-module-section-header px-6 py-5">
+                        <h2 class="admin-module-section-title">Catatan Samping</h2>
                     </div>
 
                     <div class="p-6 sm:p-8 grid gap-6">
@@ -561,7 +561,7 @@
                             ? 'Foto kartu aktif'
                             : `Menggunakan ikon ${escapeHtml(iconOptions[item.icon || 'home'] || 'Home')}`;
                         const card = document.createElement('div');
-                        card.className = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm';
+                        card.className = 'module-soft-card rounded-2xl bg-white p-5';
                         card.innerHTML = `
                             <div class="flex h-full flex-col gap-4">
                                 <div class="flex items-start justify-between gap-3">
@@ -624,7 +624,7 @@
 
                 timelineItems.forEach((item, index) => {
                     const card = document.createElement('div');
-                        card.className = 'rounded-2xl border border-gray-200 bg-white p-5 shadow-sm';
+                        card.className = 'module-soft-card rounded-2xl bg-white p-5';
                     card.innerHTML = `
                         <div class="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
                             <div class="flex min-w-0 gap-4">

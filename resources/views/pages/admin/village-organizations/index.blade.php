@@ -25,24 +25,24 @@
     @endphp
 
     <div class="space-y-6 animate-fadeInUp">
-        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <div class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="admin-module-icon">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 6.75v10.5M12 9v8.25M6.75 11.25v6M4.5 19.5h15" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h2 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Struktur Organisasi</h2>
-                            <p class="text-sm text-gray-600 mt-1">Kelola identitas halaman dan data struktur organisasi publik.</p>
+                            <p class="admin-module-kicker">Profil Desa</p>
+                            <h2 class="admin-module-title">Manajemen Struktur Organisasi</h2>
+                            <p class="admin-module-description">Kelola identitas halaman dan data struktur organisasi publik.</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row">
-                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                        <div class="admin-module-toolbar-card">
                             <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
                             <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                         </div>
@@ -56,31 +56,31 @@
 
             <div class="px-6 py-6 bg-white">
                 <div class="grid gap-4 md:grid-cols-3">
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                        <p class="text-sm text-gray-500">Identitas Publik</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
-                        <p class="text-sm font-semibold text-blue-600 mt-3">Satu set aktif</p>
+                    <div class="admin-module-summary-card">
+                        <p class="admin-module-summary-label">Identitas Publik</p>
+                        <p class="admin-module-summary-value">1</p>
+                        <p class="admin-module-summary-note text-blue-600">Satu set aktif</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                        <p class="text-sm text-gray-500">Master Jabatan</p>
+                    <div class="admin-module-summary-card">
+                        <p class="admin-module-summary-label">Master Jabatan</p>
                         <p class="text-lg font-bold text-gray-900 mt-2">Dipindah ke Settings</p>
                         <a href="{{ route('settings.organization-positions.index') }}" class="inline-flex mt-3 text-sm font-semibold text-emerald-600 hover:text-emerald-700">Kelola master jabatan</a>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm">
-                        <p class="text-sm text-gray-500">Data Struktur</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ $members->count() }}</p>
-                        <p class="text-sm font-semibold text-amber-600 mt-3">Tampil ke publik</p>
+                    <div class="admin-module-summary-card">
+                        <p class="admin-module-summary-label">Data Struktur</p>
+                        <p class="admin-module-summary-value">{{ $members->count() }}</p>
+                        <p class="admin-module-summary-note text-amber-600">Tampil ke publik</p>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-gray-200 bg-white">
                 <div class="grid gap-6 p-6">
-                    <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-4 border-b border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Identitas Halaman Publik</h3>
-                                <p class="text-sm text-gray-600 mt-1">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
+                                <h3 class="admin-module-section-title">Identitas Halaman Publik</h3>
+                                <p class="admin-module-section-description">Kelola judul, deskripsi, catatan, dan panel samping publik lewat satu tombol khusus.</p>
                             </div>
                             @permission('village_organizations.edit')
                                 <button type="button" class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300" data-open-modal="identity-modal">
@@ -133,11 +133,11 @@
                         </div>
                     </section>
 
-                    <section class="bg-white border border-gray-200 rounded-2xl overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 px-6 py-4 border-b border-gray-200 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header px-6 py-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Data Struktur Organisasi</h3>
-                                <p class="text-sm text-gray-600 mt-1">Data ini langsung tampil di halaman publik. Master jabatan dikelola dari modul Settings.</p>
+                                <h3 class="admin-module-section-title">Data Struktur Organisasi</h3>
+                                <p class="admin-module-section-description">Data ini langsung tampil di halaman publik. Master jabatan dikelola dari modul Settings.</p>
                             </div>
                             @permission('village_organizations.edit')
                                 <button type="button" class="group bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-5 py-3 rounded-xl text-sm font-semibold flex items-center shadow-lg hover:shadow-xl transition-all duration-300" data-open-modal="member-modal" data-member-action="create">
@@ -148,7 +148,7 @@
 
                         <div class="overflow-x-auto">
                             <table class="min-w-full">
-                                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                <thead class="module-table-head">
                                     <tr>
                                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Foto</th>
                                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Jabatan</th>
@@ -160,7 +160,7 @@
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-100">
                                     @forelse ($members as $member)
-                                        <tr class="text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300">
+                                        <tr class="module-table-row text-sm text-gray-700">
                                             <td class="px-6 py-5">
                                                 <img src="{{ $resolvePhotoUrl($member['photo_path'] ?? null) }}" alt="{{ $member['position_title'] }}" class="h-12 w-12 rounded-xl border border-gray-200 object-cover shadow-sm">
                                             </td>

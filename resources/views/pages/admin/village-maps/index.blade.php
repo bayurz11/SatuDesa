@@ -19,24 +19,24 @@
         data-popup-title="@js(old('map_popup_title', $profile->map_popup_title))"
         data-popup-description="@js(old('map_popup_description', $profile->map_popup_description))">
 
-        <div class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <div class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6">
                 <div class="flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between">
                     <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                        <div class="admin-module-icon">
                             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 18l-6 3V6l6-3 6 3 6-3v15l-6 3-6-3zM9 3v15M15 6v15" />
                             </svg>
                         </div>
                         <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.24em] text-blue-700">Profil Desa</p>
-                            <h1 class="text-2xl font-bold text-gray-900 mt-1">Manajemen Peta Desa</h1>
-                            <p class="text-sm text-gray-600 mt-1">Kelola editor peta, konten publik utama, panel informasi, dan marker fasilitas umum dengan pola ringkas seperti halaman berita.</p>
+                            <p class="admin-module-kicker">Profil Desa</p>
+                            <h1 class="admin-module-title">Manajemen Peta Desa</h1>
+                            <p class="admin-module-description">Kelola editor peta, konten publik utama, panel informasi, dan marker fasilitas umum dengan pola ringkas seperti halaman berita.</p>
                         </div>
                     </div>
 
                     <div class="flex flex-col gap-3 sm:flex-row">
-                        <div class="px-4 py-3 bg-white border border-gray-300 rounded-xl">
+                        <div class="admin-module-toolbar-card">
                             <div class="text-sm font-medium text-gray-500">Desa Aktif</div>
                             <div class="text-lg font-semibold text-gray-900 mt-1">{{ $village->name }}</div>
                             <div class="text-sm font-semibold text-blue-600 mt-2">{{ count($markerRows) }} marker aktif</div>
@@ -50,44 +50,44 @@
             </div>
         </div>
 
-        <section class="bg-white shadow-xl rounded-2xl border border-gray-200 overflow-hidden">
-            <div class="bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 px-6 py-6 border-b border-gray-200">
+        <section class="admin-module-hero">
+            <div class="admin-module-hero-band px-6 py-6 border-b border-gray-200">
                 <div>
-                    <h2 class="text-2xl font-bold text-gray-900">Peta Desa</h2>
-                    <p class="text-sm text-gray-600 mt-1">Halaman ini hanya menampilkan hasil konfigurasi setiap kategori. Semua perubahan dilakukan melalui modal agar tampilan lebih bersih dan mudah dipakai.</p>
+                    <h2 class="admin-module-title">Peta Desa</h2>
+                    <p class="admin-module-description">Halaman ini hanya menampilkan hasil konfigurasi setiap kategori. Semua perubahan dilakukan melalui modal agar tampilan lebih bersih dan mudah dipakai.</p>
                 </div>
 
                 <div class="mt-6 grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Editor Peta</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">{{ old('map_zoom', $profile->map_zoom) }}</p>
-                        <p class="text-sm font-semibold text-blue-600 mt-3">Zoom aktif</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Editor Peta</p>
+                        <p class="admin-module-summary-value">{{ old('map_zoom', $profile->map_zoom) }}</p>
+                        <p class="admin-module-summary-note text-blue-600">Zoom aktif</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Konten Utama</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">1</p>
-                        <p class="text-sm font-semibold text-emerald-600 mt-3">Set aktif</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Konten Utama</p>
+                        <p class="admin-module-summary-value">1</p>
+                        <p class="admin-module-summary-note text-emerald-600">Set aktif</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Panel Publik</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2">3</p>
-                        <p class="text-sm font-semibold text-amber-600 mt-3">Blok informasi</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Panel Publik</p>
+                        <p class="admin-module-summary-value">3</p>
+                        <p class="admin-module-summary-note text-amber-600">Blok informasi</p>
                     </div>
-                    <div class="bg-white border border-gray-200 rounded-2xl px-5 py-4 shadow-sm min-h-[132px]">
-                        <p class="text-sm text-gray-500">Marker</p>
-                        <p class="text-2xl font-bold text-gray-900 mt-2" data-preview-marker-count>{{ count($markerRows) }}</p>
-                        <p class="text-sm font-semibold text-fuchsia-600 mt-3">Titik penting</p>
+                    <div class="admin-module-summary-card min-h-[132px]">
+                        <p class="admin-module-summary-label">Marker</p>
+                        <p class="admin-module-summary-value" data-preview-marker-count>{{ count($markerRows) }}</p>
+                        <p class="admin-module-summary-note text-fuchsia-600">Titik penting</p>
                     </div>
                 </div>
             </div>
 
             <div class="border-t border-gray-200 bg-white px-6 py-6">
                 <div class="grid gap-8">
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 flex flex-col gap-4 border-b border-gray-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Editor Peta Admin</h3>
-                                <p class="text-sm text-gray-600 mt-1">Ringkasan koordinat, zoom, dan preview peta utama. Klik tombol untuk membuka editor interaktif.</p>
+                                <h3 class="admin-module-section-title">Editor Peta Admin</h3>
+                                <p class="admin-module-section-description">Ringkasan koordinat, zoom, dan preview peta utama. Klik tombol untuk membuka editor interaktif.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-editor-modal">Editor Peta Admin</button>
@@ -99,7 +99,7 @@
                                 <div id="adminVillageMapPreview" class="h-[320px] w-full md:h-[420px]"></div>
                             </div>
                             <div class="space-y-4">
-                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                                <div class="admin-module-info-card">
                                     <p class="text-sm font-semibold text-gray-900">Koordinat Utama</p>
                                     <div class="mt-4 space-y-2 text-sm text-gray-600">
                                         <div><span class="font-semibold text-gray-900">Latitude:</span> <span data-current-latitude>{{ old('map_latitude', $profile->map_latitude) }}</span></div>
@@ -107,12 +107,12 @@
                                         <div><span class="font-semibold text-gray-900">Zoom:</span> <span data-current-zoom>{{ old('map_zoom', $profile->map_zoom) }}</span></div>
                                     </div>
                                 </div>
-                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                                <div class="admin-module-info-card">
                                     <p class="text-sm font-semibold text-gray-900">Popup Utama</p>
                                     <p class="mt-2 font-semibold text-gray-900" data-popup-title-preview>{{ old('map_popup_title', $profile->map_popup_title) }}</p>
                                     <p class="mt-2 text-sm leading-6 text-gray-600" data-popup-description-preview>{{ old('map_popup_description', $profile->map_popup_description) }}</p>
                                 </div>
-                                <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                                <div class="admin-module-info-card">
                                     <p class="text-sm font-semibold text-gray-900">Mode Peta</p>
                                     <p class="mt-2 text-sm leading-6 text-gray-600">Layer biasa dan satelit tersedia di editor. Pencarian lokasi dan klik peta akan membantu memilih titik dengan cepat.</p>
                                 </div>
@@ -120,11 +120,11 @@
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 flex flex-col gap-4 border-b border-gray-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Konten Publik Utama</h3>
-                                <p class="text-sm text-gray-600 mt-1">Judul, deskripsi halaman, dan isi popup marker utama yang tampil di publik.</p>
+                                <h3 class="admin-module-section-title">Konten Publik Utama</h3>
+                                <p class="admin-module-section-description">Judul, deskripsi halaman, dan isi popup marker utama yang tampil di publik.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-content-modal">Konten Publik Utama</button>
@@ -132,7 +132,7 @@
                         </div>
                         <div class="overflow-x-auto">
                             <table class="min-w-full">
-                                <thead class="bg-gradient-to-r from-gray-50 to-gray-100">
+                                <thead class="module-table-head">
                                     <tr class="text-left">
                                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Judul</th>
                                         <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-600">Deskripsi</th>
@@ -141,7 +141,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white divide-y divide-gray-100">
-                                    <tr class="align-top text-sm text-gray-700 hover:bg-gradient-to-r hover:from-blue-50 hover:to-purple-50 transition-all duration-300">
+                                    <tr class="module-table-row align-top text-sm text-gray-700">
                                         <td class="px-6 py-5 font-semibold text-gray-900" data-map-title-preview>{{ old('map_title', $profile->map_title) }}</td>
                                         <td class="px-6 py-5 max-w-lg" data-map-description-preview>{{ old('map_description', $profile->map_description) }}</td>
                                         <td class="px-6 py-5">
@@ -159,28 +159,28 @@
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 flex flex-col gap-4 border-b border-gray-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Panel Informasi Publik</h3>
-                                <p class="text-sm text-gray-600 mt-1">Ringkasan panel informasi, fasilitas umum, potensi desa, dan catatan tambahan publik.</p>
+                                <h3 class="admin-module-section-title">Panel Informasi Publik</h3>
+                                <p class="admin-module-section-description">Ringkasan panel informasi, fasilitas umum, potensi desa, dan catatan tambahan publik.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-modal="map-panels-modal">Panel Informasi Publik</button>
                             @endpermission
                         </div>
                         <div class="grid gap-4 p-6 md:grid-cols-3">
-                            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                            <div class="admin-module-info-card">
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Panel Utama</p>
                                 <h4 class="mt-3 text-lg font-semibold text-gray-900">{{ old('map_info_title', $profile->map_info_title) }}</h4>
                                 <p class="mt-2 text-sm leading-6 text-gray-600">{{ old('map_note', $profile->map_note) ?: 'Tidak ada catatan tambahan.' }}</p>
                             </div>
-                            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                            <div class="admin-module-info-card">
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Fasilitas Umum</p>
                                 <h4 class="mt-3 text-lg font-semibold text-gray-900">{{ old('map_facility_title', $profile->map_facility_title) }}</h4>
                                 <p class="mt-2 text-sm leading-6 text-gray-600">{{ old('map_facility_description', $profile->map_facility_description) }}</p>
                             </div>
-                            <div class="rounded-2xl border border-gray-200 bg-gray-50 p-5">
+                            <div class="admin-module-info-card">
                                 <p class="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500">Potensi Desa</p>
                                 <h4 class="mt-3 text-lg font-semibold text-gray-900">{{ old('map_potential_title', $profile->map_potential_title) }}</h4>
                                 <p class="mt-2 text-sm leading-6 text-gray-600">{{ old('map_potential_description', $profile->map_potential_description) }}</p>
@@ -188,11 +188,11 @@
                         </div>
                     </section>
 
-                    <section class="rounded-2xl border border-gray-200 bg-white overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 flex flex-col gap-4 border-b border-gray-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
+                    <section class="admin-module-section">
+                        <div class="admin-module-section-header flex flex-col gap-4 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
                             <div>
-                                <h3 class="text-lg font-bold text-gray-900">Marker Fasilitas dan Titik Penting</h3>
-                                <p class="text-sm text-gray-600 mt-1">Daftar marker tampil sebagai hasil. Tambah dan edit dilakukan lewat modal.</p>
+                                <h3 class="admin-module-section-title">Marker Fasilitas dan Titik Penting</h3>
+                                <p class="admin-module-section-description">Daftar marker tampil sebagai hasil. Tambah dan edit dilakukan lewat modal.</p>
                             </div>
                             @permission('village_maps.edit')
                                 <button type="button" class="module-primary-btn px-5 py-3 text-sm" data-open-marker-modal data-marker-mode="create">Tambah Marker</button>
@@ -203,7 +203,7 @@
                             @method('PUT')
                             <div class="hidden" data-marker-hidden-inputs></div>
                             <div class="space-y-4" data-marker-list-display></div>
-                            <div class="rounded-2xl border border-dashed border-gray-300 bg-gray-50 p-6 text-sm text-gray-500 hidden" data-empty-marker-state>
+                            <div class="admin-module-empty hidden" data-empty-marker-state>
                                 Belum ada marker tambahan. Gunakan tombol `Tambah Marker` untuk membuat titik baru.
                             </div>
                             @permission('village_maps.edit')
@@ -595,7 +595,7 @@
                 emptyMarkerState.classList.add('hidden');
                 markers.forEach((marker, index) => {
                     const card = document.createElement('div');
-                    card.className = 'rounded-2xl border border-slate-200 bg-slate-50 p-5';
+                    card.className = 'module-soft-card rounded-2xl bg-white p-5';
                     card.innerHTML = `
                         <div class="flex items-start justify-between gap-4">
                             <div class="min-w-0">

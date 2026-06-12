@@ -311,6 +311,132 @@
             color: #64748b;
         }
 
+        .admin-module-hero {
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            border-radius: 1.5rem;
+            background: #fff;
+            box-shadow: 0 18px 40px -18px rgba(15, 23, 42, 0.16);
+        }
+
+        .admin-module-hero-band {
+            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(90deg, #eff6ff 0%, #eef2ff 48%, #faf5ff 100%);
+        }
+
+        .admin-module-icon {
+            display: flex;
+            height: 3rem;
+            width: 3rem;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.95rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #7c3aed 100%);
+            color: #fff;
+            box-shadow: 0 16px 28px -18px rgba(59, 130, 246, 0.7);
+        }
+
+        .admin-module-kicker {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: #1d4ed8;
+        }
+
+        .admin-module-title {
+            margin-top: 0.25rem;
+            font-size: 2rem;
+            line-height: 1.15;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .admin-module-description {
+            margin-top: 0.35rem;
+            font-size: 0.95rem;
+            line-height: 1.75;
+            color: #4b5563;
+        }
+
+        .admin-module-toolbar-card {
+            border: 1px solid #d1d5db;
+            border-radius: 1rem;
+            background: #fff;
+            padding: 0.95rem 1rem;
+            box-shadow: 0 10px 22px -20px rgba(15, 23, 42, 0.2);
+        }
+
+        .admin-module-section {
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            border-radius: 1.25rem;
+            background: #fff;
+            box-shadow: 0 16px 34px -26px rgba(15, 23, 42, 0.16);
+        }
+
+        .admin-module-section-header {
+            border-bottom: 1px solid #e5e7eb;
+            background: linear-gradient(90deg, #f8fafc 0%, #eff6ff 100%);
+        }
+
+        .admin-module-section-title {
+            font-size: 1.125rem;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .admin-module-section-description {
+            margin-top: 0.25rem;
+            font-size: 0.875rem;
+            line-height: 1.7;
+            color: #6b7280;
+        }
+
+        .admin-module-summary-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
+            padding: 1rem 1.15rem;
+            box-shadow: 0 12px 24px -20px rgba(15, 23, 42, 0.18);
+        }
+
+        .admin-module-summary-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #6b7280;
+        }
+
+        .admin-module-summary-value {
+            margin-top: 0.55rem;
+            font-size: 1.875rem;
+            line-height: 1;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .admin-module-summary-note {
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .admin-module-info-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 1rem;
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            padding: 1.25rem;
+        }
+
+        .admin-module-empty {
+            border: 1px dashed #d1d5db;
+            border-radius: 1rem;
+            background: #f9fafb;
+            padding: 1.5rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
         .module-primary-btn {
             border-radius: 0.9rem;
             background: linear-gradient(135deg, #2563eb 0%, #4f46e5 100%);
