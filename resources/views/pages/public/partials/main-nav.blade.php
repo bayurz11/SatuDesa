@@ -48,7 +48,7 @@
                     class="{{ $isProfile ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
                     data-desktop-dropdown-btn>
                     Profil Desa
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="ml-1 h-4 w-4 transition-transform duration-200" data-chev fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>
@@ -81,7 +81,7 @@
                     class="{{ $isInformation ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
                     data-desktop-dropdown-btn>
                     Informasi
-                    <svg class="ml-1 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <svg class="ml-1 h-4 w-4 transition-transform duration-200" data-chev fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </button>

@@ -164,6 +164,13 @@
             transform: rotate(180deg);
         }
 
+        [data-desktop-dropdown].is-open [data-desktop-dropdown-btn] [data-chev] {
+            transform: rotate(180deg);
+        }
+
+        [data-desktop-dropdown]:hover [data-desktop-dropdown-panel],
+        [data-desktop-dropdown]:focus-within [data-desktop-dropdown-panel],
+        [data-desktop-dropdown].is-open [data-desktop-dropdown-panel],
         [data-desktop-dropdown-btn][aria-expanded="true"] + [data-desktop-dropdown-panel] {
             opacity: 1;
             visibility: visible;
@@ -1094,12 +1101,13 @@
                 const desktopDropdowns = document.querySelectorAll('[data-desktop-dropdown]');
 
                 if (desktopDropdowns.length) {
-                    const closeDesktopDropdowns = (exceptBtn = null) => {
+                    const closeDesktopDropdowns = (exceptDropdown = null) => {
                         desktopDropdowns.forEach((dropdown) => {
                             const btn = dropdown.querySelector('[data-desktop-dropdown-btn]');
 
-                            if (!btn || btn === exceptBtn) return;
+                            if (!btn || dropdown === exceptDropdown) return;
 
+                            dropdown.classList.remove('is-open');
                             btn.setAttribute('aria-expanded', 'false');
                         });
                     };
@@ -1113,9 +1121,12 @@
 
                         btn.addEventListener('click', (e) => {
                             e.preventDefault();
+                            e.stopPropagation();
 
                             const isExpanded = btn.getAttribute('aria-expanded') === 'true';
-                            closeDesktopDropdowns(btn);
+                            closeDesktopDropdowns(dropdown);
+
+                            dropdown.classList.toggle('is-open', !isExpanded);
                             btn.setAttribute('aria-expanded', String(!isExpanded));
 
                             if (!isExpanded) {
