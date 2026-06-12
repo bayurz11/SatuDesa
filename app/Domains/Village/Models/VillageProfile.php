@@ -114,7 +114,7 @@ class VillageProfile extends Model
             'map_zoom' => 18,
             'map_popup_title' => 'Kantor Desa',
             'map_popup_description' => $village->name . ' - Kec. ' . $village->district . ', Kab. ' . $village->regency,
-            'map_info_title' => 'Detail Peta',
+            'map_info_title' => 'Titik Penting',
             'map_boundary_title' => 'Koordinat Lokasi',
             'map_boundary_description' => 'Titik koordinat utama desa ditampilkan pada peta agar lokasi mudah dikenali.',
             'map_boundary_geojson' => null,

@@ -61,6 +61,37 @@ class PublicGalleryController extends Controller
         ));
     }
 
+    public function show(string $slug): View
+    {
+        $village = Village::query()->orderBy('id')->firstOrFail();
+        $this->syncDefaults($village);
+
+        $gallery = Gallery::query()
+            ->where('village_id', $village->id)
+            ->where('status', 'published')
+            ->where('slug', $slug)
+            ->with(['photos'])
+            ->firstOrFail();
+
+        $galleryPhotos = $gallery->photos->values();
+        $relatedAlbums = Gallery::query()
+            ->where('village_id', $village->id)
+            ->where('status', 'published')
+            ->where('id', '!=', $gallery->id)
+            ->with('photos')
+            ->orderByDesc('gallery_date')
+            ->orderBy('sort_order')
+            ->limit(4)
+            ->get();
+
+        return view('pages.public.galleries.show', compact(
+            'village',
+            'gallery',
+            'galleryPhotos',
+            'relatedAlbums',
+        ));
+    }
+
     protected function syncDefaults(Village $village): void
     {
         if (Gallery::query()->where('village_id', $village->id)->exists()) {

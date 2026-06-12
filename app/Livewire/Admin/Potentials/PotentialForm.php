@@ -6,9 +6,10 @@ use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Domains\Potential\Models\Potential;
 use App\Domains\Potential\Models\PotentialCategory;
 use App\Domains\Village\Models\Village;
-use App\Support\UploadStorage;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
+use App\Support\HtmlSanitizer;
+use App\Support\UploadStorage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -62,7 +63,7 @@ class PotentialForm extends Component
             ],
             'excerpt' => 'nullable|string|max:500',
             'content' => 'nullable|string',
-            'cover_image' => 'nullable|image|max:4096',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
             'cover_image_alt' => 'nullable|string|max:255',
             'cover_image_caption' => 'nullable|string|max:255',
             'is_featured' => 'boolean',
@@ -215,7 +216,7 @@ class PotentialForm extends Component
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'content' => $this->content,
+            'content' => HtmlSanitizer::clean($this->content),
             'cover_image_path' => $coverImagePath,
             'cover_image_alt' => $this->cover_image_alt ?: $this->title,
             'cover_image_caption' => $this->cover_image_caption,
@@ -227,8 +228,8 @@ class PotentialForm extends Component
             'longitude' => $this->longitude !== '' ? $this->longitude : null,
             'contact_person' => $this->contact_person,
             'contact_phone' => $this->contact_phone,
-            'facilities' => $this->facilities,
-            'opportunities' => $this->opportunities,
+            'facilities' => HtmlSanitizer::clean($this->facilities),
+            'opportunities' => HtmlSanitizer::clean($this->opportunities),
             'development_status' => $this->development_status,
             'sort_order' => (int) ($this->sort_order ?: 0),
             'status' => $this->status,

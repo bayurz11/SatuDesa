@@ -151,6 +151,14 @@ class RoleForm extends Component
                     $this->addError('is_active', 'Role super-admin tidak boleh dinonaktifkan.');
                     return;
                 }
+
+                $currentPermissionIds = $role->permissions()->pluck('permissions.id')->map(fn ($id) => (int) $id)->sort()->values()->all();
+                $selectedPermissionIds = collect($this->selectedPermissions)->map(fn ($id) => (int) $id)->sort()->values()->all();
+
+                if ($selectedPermissionIds !== $currentPermissionIds) {
+                    $this->addError('selectedPermissions', 'Permission role super-admin tidak boleh diubah.');
+                    return;
+                }
             }
 
             $role->update([
@@ -168,7 +176,9 @@ class RoleForm extends Component
             ]);
         }
 
-        $role->permissions()->sync($this->selectedPermissions);
+        if ($role->name !== 'super-admin') {
+            $role->permissions()->sync($this->selectedPermissions);
+        }
 
         LoggerService::logUserAction($this->isEditing ? 'update' : 'create', 'Role', $role->id, [
             'role_name' => $role->name,

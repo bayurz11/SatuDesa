@@ -40,7 +40,7 @@ class ProfileForm extends Component
         $this->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . Auth::id(),
-            'avatar' => 'nullable|image|max:2048',
+            'avatar' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
         ]);
 
         $user = Auth::user();

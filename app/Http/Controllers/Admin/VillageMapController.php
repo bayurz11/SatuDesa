@@ -63,11 +63,11 @@ class VillageMapController extends Controller
                 }
 
                 return [
-                    'name' => $name,
-                    'category' => trim((string) ($marker['category'] ?? 'Lokasi')),
+                    'name' => strip_tags($name),
+                    'category' => strip_tags(trim((string) ($marker['category'] ?? 'Lokasi'))),
                     'latitude' => (float) $latitude,
                     'longitude' => (float) $longitude,
-                    'description' => trim((string) ($marker['description'] ?? '')),
+                    'description' => strip_tags(trim((string) ($marker['description'] ?? ''))),
                 ];
             })
             ->filter()
@@ -75,19 +75,19 @@ class VillageMapController extends Controller
             ->all();
 
         $profile->fill([
-            'map_title' => $validated['map_title'],
-            'map_description' => $validated['map_description'],
+            'map_title' => strip_tags((string) $validated['map_title']),
+            'map_description' => strip_tags((string) $validated['map_description']),
             'map_latitude' => $validated['map_latitude'],
             'map_longitude' => $validated['map_longitude'],
             'map_zoom' => $validated['map_zoom'],
-            'map_popup_title' => $validated['map_popup_title'],
-            'map_popup_description' => $validated['map_popup_description'],
-            'map_info_title' => $validated['map_info_title'],
-            'map_facility_title' => $validated['map_facility_title'],
-            'map_facility_description' => $validated['map_facility_description'],
-            'map_potential_title' => $validated['map_potential_title'],
-            'map_potential_description' => $validated['map_potential_description'],
-            'map_note' => $validated['map_note'] ?? null,
+            'map_popup_title' => strip_tags((string) $validated['map_popup_title']),
+            'map_popup_description' => strip_tags((string) $validated['map_popup_description']),
+            'map_info_title' => strip_tags((string) $validated['map_info_title']),
+            'map_facility_title' => strip_tags((string) $validated['map_facility_title']),
+            'map_facility_description' => strip_tags((string) $validated['map_facility_description']),
+            'map_potential_title' => strip_tags((string) $validated['map_potential_title']),
+            'map_potential_description' => strip_tags((string) $validated['map_potential_description']),
+            'map_note' => filled($validated['map_note'] ?? null) ? strip_tags((string) $validated['map_note']) : null,
             'map_markers' => $markers,
         ])->save();
 
@@ -135,7 +135,12 @@ class VillageMapController extends Controller
             'map_popup_description' => ['required', 'string'],
         ]);
 
-        $profile->fill($validated)->save();
+        $profile->fill([
+            'map_title' => strip_tags((string) $validated['map_title']),
+            'map_description' => strip_tags((string) $validated['map_description']),
+            'map_popup_title' => strip_tags((string) $validated['map_popup_title']),
+            'map_popup_description' => strip_tags((string) $validated['map_popup_description']),
+        ])->save();
 
         LoggerService::logUserAction('update', 'VillageMapContent', $profile->id, [
             'village_id' => $village->id,
@@ -157,7 +162,14 @@ class VillageMapController extends Controller
             'map_note' => ['nullable', 'string'],
         ]);
 
-        $profile->fill($validated)->save();
+        $profile->fill([
+            'map_info_title' => strip_tags((string) $validated['map_info_title']),
+            'map_facility_title' => strip_tags((string) $validated['map_facility_title']),
+            'map_facility_description' => strip_tags((string) $validated['map_facility_description']),
+            'map_potential_title' => strip_tags((string) $validated['map_potential_title']),
+            'map_potential_description' => strip_tags((string) $validated['map_potential_description']),
+            'map_note' => filled($validated['map_note'] ?? null) ? strip_tags((string) $validated['map_note']) : null,
+        ])->save();
 
         LoggerService::logUserAction('update', 'VillageMapPanels', $profile->id, [
             'village_id' => $village->id,
@@ -190,11 +202,11 @@ class VillageMapController extends Controller
                 }
 
                 return [
-                    'name' => $name,
-                    'category' => trim((string) ($marker['category'] ?? 'Lokasi')),
+                    'name' => strip_tags($name),
+                    'category' => strip_tags(trim((string) ($marker['category'] ?? 'Lokasi'))),
                     'latitude' => (float) $latitude,
                     'longitude' => (float) $longitude,
-                    'description' => trim((string) ($marker['description'] ?? '')),
+                    'description' => strip_tags(trim((string) ($marker['description'] ?? ''))),
                 ];
             })
             ->filter()

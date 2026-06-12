@@ -6,6 +6,7 @@ use App\Domains\User\Models\User;
 use App\Domains\Role\Models\Role;
 use App\Livewire\Concerns\AuthorizesPermissions;
 use App\Services\LoggerService;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -54,6 +55,10 @@ class UserForm extends Component
         $this->authorizePermission('users.edit');
 
         $user = User::with('roles')->findOrFail($userId);
+
+        if ($user->hasRole('super-admin') && ! auth()->user()?->hasRole('super-admin')) {
+            abort(403, 'Anda tidak memiliki izin untuk mengubah akun super-admin.');
+        }
         
         $this->userId = $user->id;
         $this->name = $user->name;
@@ -102,6 +107,11 @@ class UserForm extends Component
 
         if ($this->isEditing) {
             $user = User::findOrFail($this->userId);
+
+            if ($user->hasRole('super-admin') && ! auth()->user()?->hasRole('super-admin')) {
+                abort(403, 'Anda tidak memiliki izin untuk mengubah akun super-admin.');
+            }
+
             $user->update([
                 'name' => $this->name,
                 'email' => $this->email,
@@ -120,7 +130,7 @@ class UserForm extends Component
             ]);
         }
 
-        $user->roles()->sync($this->selectedRoles);
+        $user->roles()->sync($this->validatedRoleIds($user));
 
         LoggerService::logUserAction($this->isEditing ? 'update' : 'create', 'User', $user->id, [
             'target_user_email' => $user->email,
@@ -138,8 +148,69 @@ class UserForm extends Component
     public function render()
     {
         $this->authorizePermission('users.view');
-        $roles = Role::where('is_active', true)->orderBy('name')->get();
+        $roles = $this->availableRoles();
         
         return view('livewire.admin.users.user-form', compact('roles'));
+    }
+
+    protected function availableRoles(): Collection
+    {
+        $user = auth()->user();
+
+        if (! $user || ! $user->hasPermission('roles.edit')) {
+            return collect();
+        }
+
+        return Role::query()
+            ->where('is_active', true)
+            ->when(! $user->hasRole('super-admin'), function ($query) {
+                $query->where('name', '!=', 'super-admin');
+            })
+            ->orderBy('name')
+            ->get();
+    }
+
+    protected function validatedRoleIds(User $targetUser): array
+    {
+        $actor = auth()->user();
+        $selectedRoleIds = collect($this->selectedRoles)
+            ->map(fn ($roleId) => (int) $roleId)
+            ->filter()
+            ->values();
+
+        if (! $actor || ! $actor->hasPermission('roles.edit')) {
+            if ($selectedRoleIds->isNotEmpty() && ! $this->isEditing) {
+                $this->addError('selectedRoles', 'Anda tidak memiliki izin untuk menetapkan role.');
+                throw \Illuminate\Validation\ValidationException::withMessages($this->getErrorBag()->toArray());
+            }
+
+            return $this->isEditing
+                ? $targetUser->roles()->pluck('roles.id')->map(fn ($id) => (int) $id)->all()
+                : [];
+        }
+
+        $allowedRoleIds = Role::query()
+            ->where('is_active', true)
+            ->when(! $actor->hasRole('super-admin'), function ($query) {
+                $query->where('name', '!=', 'super-admin');
+            })
+            ->pluck('id')
+            ->map(fn ($id) => (int) $id);
+
+        if ($selectedRoleIds->diff($allowedRoleIds)->isNotEmpty()) {
+            $this->addError('selectedRoles', 'Role yang dipilih tidak valid atau tidak boleh ditetapkan.');
+            throw \Illuminate\Validation\ValidationException::withMessages($this->getErrorBag()->toArray());
+        }
+
+        $currentSuperAdminRoleIds = $targetUser->roles()
+            ->where('name', 'super-admin')
+            ->pluck('roles.id')
+            ->map(fn ($id) => (int) $id);
+
+        if (! $actor->hasRole('super-admin') && $currentSuperAdminRoleIds->isNotEmpty()) {
+            return $targetUser->roles()->pluck('roles.id')->map(fn ($id) => (int) $id)->all();
+        }
+
+        return $selectedRoleIds->all();
     }
 }

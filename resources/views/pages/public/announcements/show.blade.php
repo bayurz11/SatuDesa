@@ -197,7 +197,7 @@
                                 prose-img:rounded-2xl prose-img:shadow-lg prose-blockquote:border-l-4
                                 prose-blockquote:border-green-700 prose-blockquote:bg-green-50 prose-blockquote:px-5
                                 prose-blockquote:py-3 prose-blockquote:text-gray-700">
-                                {!! $announcement->content !!}
+                                {!! \App\Support\HtmlSanitizer::clean($announcement->content) !!}
                             </div>
                         </div>
                     </article>

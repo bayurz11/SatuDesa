@@ -188,7 +188,7 @@
                             prose-blockquote:px-5
                             prose-blockquote:py-3
                             prose-blockquote:text-gray-700">
-                            {!! $post->content !!}
+                            {!! \App\Support\HtmlSanitizer::clean($post->content) !!}
                         </div>
                     </div>
 

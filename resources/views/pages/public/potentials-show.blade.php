@@ -233,7 +233,7 @@
                     <div class="p-6 sm:p-10">
                         <div
                             class="potential-content prose prose-lg max-w-none prose-headings:font-bold prose-headings:text-gray-900 prose-p:leading-8 prose-p:text-gray-700 prose-a:text-green-700 prose-strong:text-gray-900 prose-ul:list-disc prose-li:marker:text-green-600 prose-blockquote:border-l-4 prose-blockquote:border-green-700 prose-blockquote:bg-green-50 prose-blockquote:px-5 prose-blockquote:py-3">
-                            {!! $potential->content !!}
+                            {!! \App\Support\HtmlSanitizer::clean($potential->content) !!}
                         </div>
                     </div>
                 </article>
@@ -245,7 +245,7 @@
                     <h3 class="mt-3 text-2xl font-bold text-gray-900">Fasilitas dan dukungan yang tersedia</h3>
                     <div
                         class="potential-content mt-4 prose prose-sm max-w-none prose-p:text-gray-600 prose-li:text-gray-600 prose-ul:list-disc prose-li:marker:text-green-600">
-                        {!! $potential->facilities ?: '<p>Informasi fasilitas belum tersedia.</p>' !!}
+                        {!! \App\Support\HtmlSanitizer::clean($potential->facilities) ?: '<p>Informasi fasilitas belum tersedia.</p>' !!}
                     </div>
                 </section>
 
@@ -256,7 +256,7 @@
                     <h3 class="mt-3 text-2xl font-bold text-gray-900">Peluang pengembangan ke depan</h3>
                     <div
                         class="potential-content mt-4 prose prose-sm max-w-none prose-p:text-gray-600 prose-li:text-gray-600 prose-ul:list-disc prose-li:marker:text-green-600">
-                        {!! $potential->opportunities ?: '<p>Peluang pengembangan belum tersedia.</p>' !!}
+                        {!! \App\Support\HtmlSanitizer::clean($potential->opportunities) ?: '<p>Peluang pengembangan belum tersedia.</p>' !!}
                     </div>
                 </section>
 

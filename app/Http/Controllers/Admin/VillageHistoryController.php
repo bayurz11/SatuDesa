@@ -44,7 +44,7 @@ class VillageHistoryController extends Controller
             'history_description' => ['required', 'string'],
             'history_cover_badge' => ['required', 'string', 'max:255'],
             'history_cover_title' => ['required', 'string', 'max:255'],
-            'history_cover_image' => ['nullable', 'image', 'max:4096'],
+            'history_cover_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
             'history_intro_text' => ['required', 'string'],
             'history_cards' => ['required', 'array', 'size:2'],
             'history_cards.*.badge' => ['required', 'string', 'max:255'],
@@ -52,7 +52,7 @@ class VillageHistoryController extends Controller
             'history_cards.*.description' => ['required', 'string'],
             'history_cards.*.icon' => ['required', 'string', 'in:home,building,spark'],
             'history_card_images' => ['nullable', 'array'],
-            'history_card_images.*' => ['nullable', 'image', 'max:4096'],
+            'history_card_images.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
             'history_timeline_badge' => ['required', 'string', 'max:255'],
             'history_timeline_title' => ['required', 'string', 'max:255'],
             'history_timeline_items' => ['required', 'array', 'min:1', 'max:20'],
@@ -61,7 +61,7 @@ class VillageHistoryController extends Controller
             'history_timeline_items.*.desc' => ['required', 'string'],
             'history_timeline_items.*.icon' => ['required', 'string', 'in:home,building,spark'],
             'history_timeline_icons' => ['nullable', 'array'],
-            'history_timeline_icons.*' => ['nullable', 'image', 'max:4096'],
+            'history_timeline_icons.*' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
             'history_sidebar_title' => ['required', 'string', 'max:255'],
             'history_sidebar_description' => ['required', 'string'],
         ]);
@@ -100,7 +100,7 @@ class VillageHistoryController extends Controller
                 return [
                     'badge' => $item['badge'],
                     'title' => $item['title'],
-                    'description' => $item['description'],
+                    'description' => strip_tags((string) $item['description']),
                     'icon' => $item['icon'],
                     'image_path' => $imagePath,
                 ];
@@ -131,7 +131,7 @@ class VillageHistoryController extends Controller
                 return [
                     'label' => $item['label'],
                     'title' => $item['title'],
-                    'desc' => $item['desc'],
+                    'desc' => strip_tags((string) $item['desc']),
                     'icon' => $item['icon'],
                     'icon_image_path' => $iconImagePath,
                 ];
@@ -140,17 +140,17 @@ class VillageHistoryController extends Controller
 
         $profile->fill([
             'history_title' => $validated['history_title'],
-            'history_description' => $validated['history_description'],
+            'history_description' => strip_tags((string) $validated['history_description']),
             'history_cover_badge' => $validated['history_cover_badge'],
             'history_cover_title' => $validated['history_cover_title'],
             'history_cover_image_path' => $coverImagePath,
-            'history_intro_text' => $validated['history_intro_text'],
+            'history_intro_text' => strip_tags((string) $validated['history_intro_text']),
             'history_cards' => $historyCards,
             'history_timeline_badge' => $validated['history_timeline_badge'],
             'history_timeline_title' => $validated['history_timeline_title'],
             'history_timeline_items' => $timelineItems,
             'history_sidebar_title' => $validated['history_sidebar_title'],
-            'history_sidebar_description' => $validated['history_sidebar_description'],
+            'history_sidebar_description' => strip_tags((string) $validated['history_sidebar_description']),
         ])->save();
 
         $activeIconPaths = collect($timelineItems)

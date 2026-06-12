@@ -3,6 +3,9 @@
     $metaDescription = 'Informasi koordinat lokasi desa, fasilitas umum, dan titik penting Desa Mentuda.';
     $mapMarkers = collect($profile->map_markers ?? [])->values()->all();
     $hasMapPoint = filled($profile->map_latitude) && filled($profile->map_longitude);
+    $mapInfoTitle = in_array(trim((string) $profile->map_info_title), ['', 'Informasi', 'Detail Peta'], true)
+        ? 'Titik Penting'
+        : $profile->map_info_title;
 @endphp
 
 @extends('layouts.public')
@@ -49,10 +52,10 @@
             data-aos="fade-up" data-aos-delay="120">
             <div class="grid gap-4 lg:grid-cols-[1.5fr_1fr] lg:items-center">
                 <div>
-                    <h2 class="text-lg font-bold text-gray-900">Informasi</h2>
+                    <h2 class="text-lg font-bold text-gray-900">{{ $mapInfoTitle }}</h2>
                     <p class="mt-2 text-sm leading-6 text-gray-600">
-                        Halaman ini menampilkan ringkasan koordinat peta desa, titik fasilitas umum,
-                        dan lokasi penting dengan pola visual yang konsisten dengan halaman berita publik.
+                        Halaman ini menampilkan ringkasan titik penting desa, marker fasilitas umum,
+                        dan lokasi utama dengan pola visual yang konsisten dengan halaman berita publik.
                     </p>
                 </div>
 

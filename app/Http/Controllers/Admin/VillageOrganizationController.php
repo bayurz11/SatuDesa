@@ -79,7 +79,16 @@ class VillageOrganizationController extends Controller
         ]);
 
         $profile->forceFill([
-            'organization_identity' => $validated,
+            'organization_identity' => [
+                'page_title' => strip_tags((string) $validated['page_title']),
+                'page_description' => strip_tags((string) $validated['page_description']),
+                'section_badge' => strip_tags((string) $validated['section_badge']),
+                'section_title' => strip_tags((string) $validated['section_title']),
+                'section_description' => strip_tags((string) $validated['section_description']),
+                'note' => strip_tags((string) $validated['note']),
+                'sidebar_title' => strip_tags((string) $validated['sidebar_title']),
+                'sidebar_description' => strip_tags((string) $validated['sidebar_description']),
+            ],
         ])->save();
 
         LoggerService::logUserAction('update', 'VillageOrganizationIdentity', $profile->id, [
@@ -202,8 +211,8 @@ class VillageOrganizationController extends Controller
 
         $payload = [
             'id' => $optionId,
-            'label' => $validated['label'],
-            'title' => $validated['title'],
+            'label' => strip_tags((string) $validated['label']),
+            'title' => strip_tags((string) $validated['title']),
             'group' => $validated['group'],
             'sort_order' => $validated['sort_order'] ?? ($options->max('sort_order') + 10),
         ];
@@ -235,7 +244,7 @@ class VillageOrganizationController extends Controller
             'position_option_id' => ['required', 'string'],
             'name' => ['required', 'string', 'max:255'],
             'sort_order' => ['nullable', 'integer', 'min:0'],
-            'photo' => ['nullable', 'image', 'max:4096'],
+            'photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png,gif,webp', 'max:4096'],
         ]);
 
         $option = collect($this->organizationPositionOptions($profile))->firstWhere('id', $validated['position_option_id']);
@@ -259,7 +268,7 @@ class VillageOrganizationController extends Controller
         $payload = [
             'id' => $memberId,
             'position_option_id' => $validated['position_option_id'],
-            'name' => $validated['name'],
+            'name' => strip_tags((string) $validated['name']),
             'photo_path' => $photoPath,
             'sort_order' => $validated['sort_order'] ?? (($option['sort_order'] ?? 0) + 1),
         ];

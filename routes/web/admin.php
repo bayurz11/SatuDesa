@@ -171,7 +171,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
             $adminPages = [
                 'dashboard' => [
-                    'name' => 'dashboard',
+                    'name' => 'admin.dashboard',
                     'title' => 'Dashboard',
                     'description' => 'Ringkasan statistik dan akses cepat ke seluruh modul dashboard.',
                     'view' => 'pages.admin.dashboard',

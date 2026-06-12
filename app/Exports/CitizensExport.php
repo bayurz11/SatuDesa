@@ -3,6 +3,7 @@
 namespace App\Exports;
 
 use App\Domains\Citizen\Models\Citizen;
+use App\Support\SpreadsheetValueSanitizer;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithHeadings;
@@ -60,19 +61,19 @@ class CitizensExport implements FromCollection, ShouldAutoSize, WithHeadings, Wi
     public function map($citizen): array
     {
         return [
-            $citizen->nik,
-            $citizen->full_name,
-            $citizen->gender,
-            $citizen->birth_place,
-            $citizen->birth_date?->format('Y-m-d'),
-            $citizen->religion,
-            $citizen->marital_status,
-            $citizen->occupation,
-            $citizen->education,
-            $citizen->citizenship,
-            $citizen->address,
-            $citizen->status,
-            $citizen->household?->no_kk,
+            SpreadsheetValueSanitizer::escape($citizen->nik),
+            SpreadsheetValueSanitizer::escape($citizen->full_name),
+            SpreadsheetValueSanitizer::escape($citizen->gender),
+            SpreadsheetValueSanitizer::escape($citizen->birth_place),
+            SpreadsheetValueSanitizer::escape($citizen->birth_date?->format('Y-m-d')),
+            SpreadsheetValueSanitizer::escape($citizen->religion),
+            SpreadsheetValueSanitizer::escape($citizen->marital_status),
+            SpreadsheetValueSanitizer::escape($citizen->occupation),
+            SpreadsheetValueSanitizer::escape($citizen->education),
+            SpreadsheetValueSanitizer::escape($citizen->citizenship),
+            SpreadsheetValueSanitizer::escape($citizen->address),
+            SpreadsheetValueSanitizer::escape($citizen->status),
+            SpreadsheetValueSanitizer::escape($citizen->household?->no_kk),
         ];
     }
 }

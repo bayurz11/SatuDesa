@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Domains\User\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Seed only application core/reference data.
+     * Dummy/sample content must be seeded explicitly through dedicated seeders.
      */
     public function run(): void
     {
@@ -21,28 +20,6 @@ class DatabaseSeeder extends Seeder
             PermissionSeeder::class,
             RoleSeeder::class,
             SuperAdminAccessSeeder::class,
-        ]);
-
-        // Create a test user manually
-        $testUser = User::firstOrCreate(
-            ['email' => 'user@example.com'],
-            [
-                'name' => 'Test User',
-                'password' => bcrypt('password'),
-                'is_active' => true,
-                'email_verified_at' => now(),
-            ]
-        );
-
-        // Assign user role
-        $userRole = \App\Domains\Role\Models\Role::where('name', 'user')->first();
-        if ($userRole && !$testUser->roles()->where('roles.id', $userRole->id)->exists()) {
-            $testUser->roles()->attach($userRole->id);
-        }
-
-        $this->call([
-            PostSeeder::class,
-            CitizenSeeder::class,
         ]);
     }
 }

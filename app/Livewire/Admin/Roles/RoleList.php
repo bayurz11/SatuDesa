@@ -52,6 +52,12 @@ class RoleList extends Component
     {
         $this->authorizePermission('roles.edit');
         $role = Role::findOrFail($roleId);
+
+        if ($role->name === 'super-admin') {
+            $this->showErrorToast('Cannot deactivate the super-admin role.');
+            return;
+        }
+
         $oldStatus = $role->is_active;
         $newStatus = !$role->is_active;
         $status = $oldStatus ? 'deactivated' : 'activated';
@@ -107,6 +113,11 @@ class RoleList extends Component
         $this->authorizePermission('roles.delete');
         $roleId = $params['roleId'];
         $role = Role::findOrFail($roleId);
+
+        if ($role->name === 'super-admin') {
+            $this->showErrorToast('Cannot delete super-admin role.');
+            return;
+        }
         
         // Log the action before deletion
         LoggerService::logUserAction(

@@ -92,6 +92,7 @@ Route::get('/apbdesa', [PublicBudgetController::class, 'index'])->name('public.b
 
 Route::get('/data-penduduk', [PublicPopulationController::class, 'index'])->name('public.population.index');
 Route::get('/galeri-desa', [PublicGalleryController::class, 'index'])->name('public.galleries.index');
+Route::get('/galeri-desa/{slug}', [PublicGalleryController::class, 'show'])->name('public.galleries.show');
 Route::view('/umkm', 'pages.public.businesses.index')->name('public.businesses.index');
 Route::view('/layanan', 'pages.public.services.index')->name('public.services.index');
 });

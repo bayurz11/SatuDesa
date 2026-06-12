@@ -5,18 +5,21 @@ namespace App\Http\Controllers;
 use App\Support\UploadStorage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StorageFileController extends Controller
 {
-    public function show(Request $request, string $path): Response
+    public function show(Request $request, string $path): Response|StreamedResponse|BinaryFileResponse
     {
         $normalizedPath = ltrim($path, '/');
 
         if (
             $normalizedPath === '' ||
             str_contains($normalizedPath, '..') ||
-            ! $this->isAllowedUploadPath($normalizedPath)
+            ! $this->isAllowedUploadPath($normalizedPath) ||
+            ! $this->hasAllowedExtension($normalizedPath)
         ) {
             abort(404);
         }
@@ -56,5 +59,12 @@ class StorageFileController extends Controller
         }
 
         return false;
+    }
+
+    protected function hasAllowedExtension(string $path): bool
+    {
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+        return in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'webp'], true);
     }
 }

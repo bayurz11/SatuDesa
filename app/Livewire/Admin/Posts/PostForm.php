@@ -5,9 +5,10 @@ namespace App\Livewire\Admin\Posts;
 use App\Domains\Post\Models\Post;
 use App\Domains\Post\Models\PostCategory;
 use App\Domains\Village\Models\Village;
-use App\Support\UploadStorage;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
+use App\Support\HtmlSanitizer;
+use App\Support\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -63,7 +64,7 @@ class PostForm extends Component
             ],
             'excerpt' => 'nullable|string|max:500',
             'content' => 'required|string',
-            'cover_image' => 'nullable|image|max:4096',
+            'cover_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:4096',
             'cover_image_alt' => 'nullable|string|max:255',
             'cover_image_caption' => 'nullable|string|max:255',
             'is_featured' => 'boolean',
@@ -295,7 +296,7 @@ class PostForm extends Component
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'content' => $this->content,
+            'content' => HtmlSanitizer::clean($this->content),
             'cover_image_path' => $coverImagePath,
             'cover_image_alt' => $this->cover_image_alt ?: $this->title,
             'cover_image_caption' => $this->cover_image_caption,
