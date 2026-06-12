@@ -1271,18 +1271,23 @@
                     }
                 });
 
-                const modalObserver = new MutationObserver(() => {
-                    const hasModal = document.querySelector('[data-modal-overlay]') !== null;
-                    document.body.classList.toggle('modal-open', hasModal);
-                });
+                function syncModalState() {
+                    const hasVisibleModal = Array.from(document.querySelectorAll('[data-modal-overlay]'))
+                        .some((element) => !element.classList.contains('hidden'));
+
+                    document.body.classList.toggle('modal-open', hasVisibleModal);
+                }
+
+                const modalObserver = new MutationObserver(syncModalState);
 
                 modalObserver.observe(document.body, {
                     childList: true,
                     subtree: true,
+                    attributes: true,
+                    attributeFilter: ['class'],
                 });
 
-                const hasModalOnLoad = document.querySelector('[data-modal-overlay]') !== null;
-                document.body.classList.toggle('modal-open', hasModalOnLoad);
+                syncModalState();
 
                 function syncUserIdentity(data) {
                     if (!data) {
