@@ -58,8 +58,102 @@ class HtmlSanitizer
         'time[datetime]',
     ];
 
+    protected const DISALLOWED_PREPARE_TAGS = [
+        'script',
+        'style',
+        'iframe',
+        'object',
+        'embed',
+        'form',
+        'input',
+        'button',
+        'textarea',
+        'select',
+        'option',
+        'meta',
+        'link',
+        'base',
+    ];
+
+    public static function prepare(?string $html): ?string
+    {
+        if ($html === null) {
+            return null;
+        }
+
+        $prepared = trim(str_replace("\xc2\xa0", ' ', $html));
+
+        if ($prepared === '' || in_array($prepared, ['<p><br></p>', '<div><br></div>'], true)) {
+            return '';
+        }
+
+        if (! class_exists(\DOMDocument::class)) {
+            return $prepared;
+        }
+
+        $internalErrors = libxml_use_internal_errors(true);
+
+        try {
+            $document = new \DOMDocument('1.0', 'UTF-8');
+            $wrappedHtml = '<div>'.$prepared.'</div>';
+            $loaded = $document->loadHTML(
+                mb_convert_encoding($wrappedHtml, 'HTML-ENTITIES', 'UTF-8'),
+                LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD
+            );
+
+            if (! $loaded) {
+                return $prepared;
+            }
+
+            $xpath = new \DOMXPath($document);
+
+            foreach ($xpath->query('//comment()') ?: [] as $commentNode) {
+                $commentNode->parentNode?->removeChild($commentNode);
+            }
+
+            foreach (self::DISALLOWED_PREPARE_TAGS as $tagName) {
+                foreach ($document->getElementsByTagName($tagName) as $node) {
+                    $node->parentNode?->removeChild($node);
+                }
+            }
+
+            foreach ($document->getElementsByTagName('h1') as $heading) {
+                $replacement = $document->createElement('h2');
+
+                while ($heading->firstChild) {
+                    $replacement->appendChild($heading->firstChild);
+                }
+
+                $heading->parentNode?->replaceChild($replacement, $heading);
+            }
+
+            foreach ($xpath->query('//p[not(normalize-space()) and not(*)] | //div[not(normalize-space()) and not(*)]') ?: [] as $emptyNode) {
+                $emptyNode->parentNode?->removeChild($emptyNode);
+            }
+
+            $root = $document->documentElement;
+
+            if (! $root) {
+                return $prepared;
+            }
+
+            $normalized = '';
+
+            foreach ($root->childNodes as $childNode) {
+                $normalized .= $document->saveHTML($childNode);
+            }
+
+            return trim($normalized);
+        } finally {
+            libxml_clear_errors();
+            libxml_use_internal_errors($internalErrors);
+        }
+    }
+
     public static function clean(?string $html): ?string
     {
+        $html = self::prepare($html);
+
         if ($html === null) {
             return null;
         }

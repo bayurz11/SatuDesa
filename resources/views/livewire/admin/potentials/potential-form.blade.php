@@ -88,7 +88,33 @@
                     return '';
                 }
 
-                return content;
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(`<div>${content}</div>`, 'text/html');
+                const root = doc.body.firstElementChild;
+
+                if (!root) {
+                    return '';
+                }
+
+                root.querySelectorAll('script, style, iframe, object, embed, form, input, button, textarea, select, option').forEach((node) => {
+                    node.remove();
+                });
+
+                root.querySelectorAll('h1').forEach((node) => {
+                    const replacement = doc.createElement('h2');
+                    replacement.innerHTML = node.innerHTML;
+                    node.replaceWith(replacement);
+                });
+
+                root.querySelectorAll('p, div').forEach((node) => {
+                    if (node.innerHTML.trim() === '' || node.innerHTML.trim() === '<br>') {
+                        node.remove();
+                    }
+                });
+
+                const normalized = root.innerHTML.trim();
+
+                return normalized === '<p><br></p>' ? '' : normalized;
             }
 
             function syncToLivewire(sourceId, content, shouldDispatch = false) {
