@@ -160,18 +160,11 @@
             transform: rotate(180deg);
         }
 
-        [data-desktop-dropdown-btn][aria-expanded="true"] [data-chev] {
-            transform: rotate(180deg);
-        }
-
         [data-desktop-dropdown].is-open [data-desktop-dropdown-btn] [data-chev] {
             transform: rotate(180deg);
         }
 
-        [data-desktop-dropdown]:hover [data-desktop-dropdown-panel],
-        [data-desktop-dropdown]:focus-within [data-desktop-dropdown-panel],
-        [data-desktop-dropdown].is-open [data-desktop-dropdown-panel],
-        [data-desktop-dropdown-btn][aria-expanded="true"] + [data-desktop-dropdown-panel] {
+        [data-desktop-dropdown].is-open [data-desktop-dropdown-panel] {
             opacity: 1;
             visibility: visible;
             pointer-events: auto;
@@ -1133,6 +1126,7 @@
                                 btn.focus();
                             }
                         });
+
                         links?.forEach((link) => {
                             link.addEventListener('click', () => {
                                 closeDesktopDropdowns();

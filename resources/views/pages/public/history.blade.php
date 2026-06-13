@@ -260,62 +260,7 @@
             </main>
 
             <aside class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-                <div data-aos="fade-left" data-aos-delay="200"
-                    class="overflow-hidden rounded-[28px] border border-gray-200 bg-white p-5 shadow-md shadow-gray-200/60">
-                    <div class="mb-5 flex items-center gap-3">
-                        <div
-                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-50 text-green-700 ring-1 ring-green-100">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                                stroke="currentColor" stroke-width="1.8">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h10" />
-                            </svg>
-                        </div>
-
-                        <div>
-                            <p class="text-xs font-semibold uppercase tracking-[0.2em] text-green-700">Navigasi</p>
-                            <h2 class="text-lg font-bold text-gray-900">Bagian Profil</h2>
-                        </div>
-                    </div>
-
-                    <div class="space-y-3">
-                        <a href="{{ route('public.history') }}"
-                            class="group relative flex items-center justify-between overflow-hidden rounded-2xl bg-green-700 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-green-700/20 transition duration-300 hover:-translate-y-0.5 hover:bg-green-800 hover:shadow-xl hover:shadow-green-700/30">
-                            <span class="absolute inset-y-0 left-0 w-1 bg-white/70"></span>
-                            <span class="relative flex items-center gap-3">
-                                <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15 text-white">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4.5 w-4.5" fill="none"
-                                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
-                                        <path stroke-linecap="round" stroke-linejoin="round"
-                                            d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z" />
-                                    </svg>
-                                </span>
-                                Sejarah Desa
-                            </span>
-                            <span class="relative transition duration-300 group-hover:translate-x-1">&rarr;</span>
-                        </a>
-
-                        <a href="{{ route('public.vision-mission') }}"
-                            class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
-                            <span>Visi &amp; Misi</span>
-                            <span
-                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
-                        </a>
-
-                        <a href="{{ route('public.organization-structure') }}"
-                            class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
-                            <span>Struktur Organisasi</span>
-                            <span
-                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
-                        </a>
-
-                        <a href="{{ route('public.village-map') }}"
-                            class="group flex items-center justify-between rounded-2xl border border-gray-200 bg-white px-4 py-3 text-sm font-semibold text-gray-700 transition duration-300 hover:-translate-y-0.5 hover:border-green-200 hover:bg-green-50 hover:text-green-700 hover:shadow-md hover:shadow-green-100/60">
-                            <span>Peta Desa</span>
-                            <span
-                                class="text-gray-400 transition duration-300 group-hover:translate-x-1 group-hover:text-green-700">&rarr;</span>
-                        </a>
-                    </div>
-                </div>
+                @include('pages.public.partials.profile-sidebar-nav', ['active' => 'history', 'delay' => 200])
 
                 <div data-aos="fade-left" data-aos-delay="300"
                     class="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-green-700 via-green-800 to-emerald-900 p-6 text-white shadow-lg shadow-green-900/20">

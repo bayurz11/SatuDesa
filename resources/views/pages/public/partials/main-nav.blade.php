@@ -42,9 +42,10 @@
                 Beranda
             </a>
 
-            <div class="group relative" data-desktop-dropdown>
+            <div class="relative" data-desktop-dropdown>
                 <button type="button"
                     aria-expanded="false"
+                    aria-controls="desktop-profile-menu"
                     class="{{ $isProfile ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
                     data-desktop-dropdown-btn>
                     Profil Desa
@@ -54,7 +55,8 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10 group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0"
+                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10"
+                    id="desktop-profile-menu"
                     data-desktop-dropdown-panel>
                     <a href="{{ route('public.history') }}"
                         class="{{ $isHistory ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
@@ -75,9 +77,10 @@
                 </div>
             </div>
 
-            <div class="group relative" data-desktop-dropdown>
+            <div class="relative" data-desktop-dropdown>
                 <button type="button"
                     aria-expanded="false"
+                    aria-controls="desktop-information-menu"
                     class="{{ $isInformation ? 'text-green-700' : 'text-gray-700 hover:text-green-700' }} flex items-center font-medium transition cursor-pointer"
                     data-desktop-dropdown-btn>
                     Informasi
@@ -87,7 +90,8 @@
                 </button>
 
                 <div
-                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10 group-hover:visible group-hover:opacity-100 group-hover:pointer-events-auto group-hover:translate-y-0"
+                    class="absolute left-0 mt-2 w-48 rounded-md bg-white py-2 shadow-md opacity-0 invisible pointer-events-none translate-y-2 transition-all duration-200 z-10"
+                    id="desktop-information-menu"
                     data-desktop-dropdown-panel>
                     <a href="{{ route('public.population.index') }}"
                         class="{{ $isPopulation ? 'bg-green-50 text-green-700' : 'text-gray-700 hover:bg-gray-100' }} block px-4 py-2">
