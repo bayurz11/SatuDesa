@@ -344,6 +344,10 @@
                                     <strong class="mt-2 text-4xl font-black leading-none text-emerald-700">
                                         {{ optional($announcement->announcement_date)->format('d') }}
                                     </strong>
+                                    <span
+                                        class="text-lg font-black uppercase tracking-[0.2em] text-emerald-700 sm:text-xl">
+                                        {{ optional($announcement->announcement_date)->translatedFormat('Y') }}
+                                    </span>
                                 </div>
 
                                 <div class="mt-5">
