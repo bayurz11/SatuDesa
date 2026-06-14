@@ -8,7 +8,7 @@ use App\Domains\Potential\Models\PotentialCategory;
 use App\Domains\Village\Models\Village;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
-use App\Support\HtmlSanitizer;
+use App\Support\StoredContentSanitizer;
 use App\Support\UploadStorage;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -110,7 +110,7 @@ class PotentialForm extends Component
         $this->title = $potential->title;
         $this->slug = $potential->slug;
         $this->excerpt = $potential->excerpt ?? '';
-        $this->content = $potential->content ?? '';
+        $this->content = $potential->editor_content;
         $this->cover_image = null;
         $this->existing_cover_image_url = $potential->cover_image_url;
         $this->cover_image_alt = $potential->cover_image_alt ?? '';
@@ -123,8 +123,8 @@ class PotentialForm extends Component
         $this->longitude = $potential->longitude ? (string) $potential->longitude : '';
         $this->contact_person = $potential->contact_person ?? '';
         $this->contact_phone = $potential->contact_phone ?? '';
-        $this->facilities = $potential->facilities ?? '';
-        $this->opportunities = $potential->opportunities ?? '';
+        $this->facilities = $potential->editor_facilities;
+        $this->opportunities = $potential->editor_opportunities;
         $this->development_status = $potential->development_status ?? '';
         $this->sort_order = (int) $potential->sort_order;
         $this->status = $potential->status;
@@ -216,7 +216,9 @@ class PotentialForm extends Component
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'content' => HtmlSanitizer::clean($this->content),
+            'content' => $this->content,
+            'content_raw' => $this->content,
+            'content_safe' => StoredContentSanitizer::clean($this->content),
             'cover_image_path' => $coverImagePath,
             'cover_image_alt' => $this->cover_image_alt ?: $this->title,
             'cover_image_caption' => $this->cover_image_caption,
@@ -228,8 +230,12 @@ class PotentialForm extends Component
             'longitude' => $this->longitude !== '' ? $this->longitude : null,
             'contact_person' => $this->contact_person,
             'contact_phone' => $this->contact_phone,
-            'facilities' => HtmlSanitizer::clean($this->facilities),
-            'opportunities' => HtmlSanitizer::clean($this->opportunities),
+            'facilities' => $this->facilities,
+            'facilities_raw' => $this->facilities,
+            'facilities_safe' => StoredContentSanitizer::clean($this->facilities),
+            'opportunities' => $this->opportunities,
+            'opportunities_raw' => $this->opportunities,
+            'opportunities_safe' => StoredContentSanitizer::clean($this->opportunities),
             'development_status' => $this->development_status,
             'sort_order' => (int) ($this->sort_order ?: 0),
             'status' => $this->status,

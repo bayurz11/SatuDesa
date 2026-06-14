@@ -168,6 +168,8 @@ class HtmlSanitizer
 
         $config = HTMLPurifier_Config::createDefault();
         $config->set('Cache.SerializerPath', storage_path('app/purifier'));
+        $config->set('HTML.DefinitionID', 'satu-desa-html-sanitizer');
+        $config->set('HTML.DefinitionRev', 1);
         $config->set('HTML.Allowed', implode(',', self::ALLOWED_HTML));
         $config->set('Attr.AllowedFrameTargets', ['_blank']);
         $config->set('Attr.EnableID', false);

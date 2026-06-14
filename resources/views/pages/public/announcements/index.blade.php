@@ -252,7 +252,7 @@
                                 </h2>
 
                                 <p class="mt-4 text-sm leading-7 text-gray-600">
-                                    {{ $featuredAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($featuredAnnouncement->content), 190) }}
+                                    {{ $featuredAnnouncement->excerpt ?: \Illuminate\Support\Str::limit($featuredAnnouncement->preview_content_text, 190) }}
                                 </p>
 
                                 @if ($featuredAnnouncement->event_at)
@@ -353,7 +353,7 @@
                                     </h3>
 
                                     <p class="mt-4 line-clamp-3 text-sm leading-7 text-gray-600">
-                                        {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($announcement->content), 80) }}
+                                        {{ $announcement->excerpt ?: \Illuminate\Support\Str::limit($announcement->preview_content_text, 80) }}
                                     </p>
                                 </div>
                             </div>

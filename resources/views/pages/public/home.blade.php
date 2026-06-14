@@ -466,7 +466,7 @@
                             </h3>
 
                             <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
-                                {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->opportunities ?: 'Section ini membantu pengunjung melihat potensi Desa Mentuda dengan lebih mudah melalui kategori, pencarian, dan kartu informasi yang menarik.'), 230) }}
+                                {{ \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPotential?->display_opportunities ?: 'Section ini membantu pengunjung melihat potensi Desa Mentuda dengan lebih mudah melalui kategori, pencarian, dan kartu informasi yang menarik.'), 230) }}
                             </p>
 
                             <div class="mt-7 grid grid-cols-2 gap-3">
@@ -651,7 +651,7 @@
                                         </h3>
 
                                         <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
-                                            {{ $homeFeaturedPost->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeFeaturedPost->content), 180) }}
+                                            {{ $homeFeaturedPost->excerpt ?: \Illuminate\Support\Str::limit($homeFeaturedPost->preview_content_text, 180) }}
                                         </p>
                                     </div>
                                 </a>
@@ -864,7 +864,7 @@
 
                                             <p
                                                 class="mt-2 text-sm leading-relaxed text-gray-600 line-clamp-2 transition-colors duration-300 group-hover:text-gray-700">
-                                                {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($homeAnnouncement->content), 150) }}
+                                                {{ $homeAnnouncement->excerpt ?: \Illuminate\Support\Str::limit($homeAnnouncement->preview_content_text, 150) }}
                                             </p>
 
                                             <div class="mt-3 flex flex-wrap gap-4 text-xs text-gray-500">

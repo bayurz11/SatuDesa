@@ -325,7 +325,7 @@
 
                 <div class="flex flex-1 flex-col p-5">
                     <p class="min-h-[4.5rem] overflow-hidden text-sm leading-6 text-gray-500">
-                        {{ \Illuminate\Support\Str::limit($post->excerpt ?: strip_tags($post->content), 110) }}
+                        {{ \Illuminate\Support\Str::limit($post->excerpt ?: $post->preview_content_text, 110) }}
                     </p>
 
                     <div class="mt-4 min-h-[3.5rem]">

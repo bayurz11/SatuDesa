@@ -3,7 +3,7 @@
     $metaDescription =
         $announcement->meta_description ?:
         ($announcement->excerpt ?:
-        \Illuminate\Support\Str::limit(strip_tags($announcement->content), 160));
+        \Illuminate\Support\Str::limit($announcement->preview_content_text, 160));
 @endphp
 
 @extends('layouts.public')
@@ -197,7 +197,7 @@
                                 prose-img:rounded-2xl prose-img:shadow-lg prose-blockquote:border-l-4
                                 prose-blockquote:border-green-700 prose-blockquote:bg-green-50 prose-blockquote:px-5
                                 prose-blockquote:py-3 prose-blockquote:text-gray-700">
-                                {!! \App\Support\HtmlSanitizer::clean($announcement->content) !!}
+                                {!! $announcement->display_content !!}
                             </div>
                         </div>
                     </article>

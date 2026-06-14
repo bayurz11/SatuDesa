@@ -28,6 +28,8 @@ class Post extends Model
         'slug',
         'excerpt',
         'content',
+        'content_raw',
+        'content_safe',
         'cover_image_path',
         'cover_image_alt',
         'cover_image_caption',
@@ -83,6 +85,21 @@ class Post extends Model
     public function getAnnouncementDateAttribute()
     {
         return $this->event_at ?: $this->published_at;
+    }
+
+    public function getEditorContentAttribute(): string
+    {
+        return (string) ($this->content_raw ?? $this->content ?? '');
+    }
+
+    public function getDisplayContentAttribute(): string
+    {
+        return (string) ($this->content_safe ?? $this->content ?? '');
+    }
+
+    public function getPreviewContentTextAttribute(): string
+    {
+        return trim(strip_tags($this->display_content ?: $this->editor_content));
     }
 
     public function village(): BelongsTo

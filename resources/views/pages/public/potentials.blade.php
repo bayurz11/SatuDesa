@@ -79,7 +79,7 @@
                         </h3>
 
                         <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85">
-                            {{ \Illuminate\Support\Str::limit(strip_tags($featuredPotential->excerpt ?: $featuredPotential->content), 190) }}
+                            {{ \Illuminate\Support\Str::limit($featuredPotential->excerpt ?: $featuredPotential->preview_content_text, 190) }}
                         </p>
                     </div>
                 </a>
@@ -95,7 +95,7 @@
                     </h3>
 
                     <p class="mt-4 text-sm leading-relaxed text-gray-600 md:text-base">
-                        {{ \Illuminate\Support\Str::limit(strip_tags($featuredPotential->opportunities ?: $featuredPotential->excerpt ?: $featuredPotential->content), 240) }}
+                        {{ \Illuminate\Support\Str::limit(strip_tags($featuredPotential->display_opportunities ?: ($featuredPotential->excerpt ?: $featuredPotential->display_content)), 240) }}
                     </p>
 
                     <div class="mt-7 grid grid-cols-2 gap-3">
@@ -228,7 +228,7 @@
                                     {{ $potential->title }}</h3>
                                 <p
                                     class="mt-3 text-sm leading-6 text-gray-600 transition duration-300 group-hover:text-gray-700">
-                                    {{ \Illuminate\Support\Str::limit(strip_tags($potential->excerpt ?: $potential->content), 120) }}
+                                    {{ \Illuminate\Support\Str::limit($potential->excerpt ?: $potential->preview_content_text, 120) }}
                                 </p>
                                 <div
                                     class="mt-5 flex items-center gap-2 text-sm font-semibold text-green-700 transition duration-300 group-hover:translate-x-1">

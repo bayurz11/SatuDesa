@@ -7,7 +7,7 @@ use App\Domains\Post\Models\PostCategory;
 use App\Domains\Village\Models\Village;
 use App\Services\LoggerService;
 use App\Shared\Traits\WithAlerts;
-use App\Support\HtmlSanitizer;
+use App\Support\StoredContentSanitizer;
 use App\Support\UploadStorage;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -150,7 +150,7 @@ class PostForm extends Component
         $this->title = $post->title;
         $this->slug = $post->slug;
         $this->excerpt = $post->excerpt ?? '';
-        $this->content = $post->content;
+        $this->content = $post->editor_content;
         $this->cover_image = null;
         $this->existing_cover_image_url = $post->cover_image_url;
         $this->cover_image_alt = $post->cover_image_alt ?? '';
@@ -296,7 +296,9 @@ class PostForm extends Component
             'title' => $this->title,
             'slug' => $this->slug,
             'excerpt' => $this->excerpt,
-            'content' => HtmlSanitizer::clean($this->content),
+            'content' => $this->content,
+            'content_raw' => $this->content,
+            'content_safe' => StoredContentSanitizer::clean($this->content),
             'cover_image_path' => $coverImagePath,
             'cover_image_alt' => $this->cover_image_alt ?: $this->title,
             'cover_image_caption' => $this->cover_image_caption,

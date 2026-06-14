@@ -1,7 +1,7 @@
 @php
     $metaTitle = $post->meta_title ?: $post->title;
     $metaDescription =
-        $post->meta_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 160));
+        $post->meta_description ?: ($post->excerpt ?: \Illuminate\Support\Str::limit($post->preview_content_text, 160));
     $shareUrl = url()->current();
     $shareTitle = $post->title;
     $shareText = trim(($post->excerpt ?: $post->title) . ' - ' . $shareUrl);
@@ -188,7 +188,7 @@
                             prose-blockquote:px-5
                             prose-blockquote:py-3
                             prose-blockquote:text-gray-700">
-                            {!! \App\Support\HtmlSanitizer::clean($post->content) !!}
+                            {!! $post->display_content !!}
                         </div>
                     </div>
 

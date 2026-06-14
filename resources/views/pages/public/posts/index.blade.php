@@ -169,7 +169,7 @@
                                 </h3>
 
                                 <p class="mt-3 max-w-2xl text-sm leading-relaxed text-white/85 md:text-sm">
-                                    {{ $featuredPost->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($featuredPost->content), 180) }}
+                                    {{ $featuredPost->excerpt ?: \Illuminate\Support\Str::limit($featuredPost->preview_content_text, 180) }}
                                 </p>
                             </div>
                         </a>
@@ -214,7 +214,7 @@
                                     </h3>
 
                                     <p class="mt-3 line-clamp-3 text-sm leading-6 text-gray-600">
-                                        {{ $post->excerpt ?: \Illuminate\Support\Str::limit(strip_tags($post->content), 130) }}
+                                        {{ $post->excerpt ?: \Illuminate\Support\Str::limit($post->preview_content_text, 130) }}
                                     </p>
                                 </div>
                             </a>

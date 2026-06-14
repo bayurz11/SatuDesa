@@ -315,7 +315,7 @@
 
                 <div class="flex flex-1 flex-col p-5">
                     <p class="min-h-[4.5rem] overflow-hidden text-sm leading-6 text-gray-500">
-                        {{ \Illuminate\Support\Str::limit($potential->excerpt ?: strip_tags($potential->content), 110) }}
+                        {{ \Illuminate\Support\Str::limit($potential->excerpt ?: $potential->preview_content_text, 110) }}
                     </p>
 
                     <div class="mt-4 min-h-[3.5rem] space-y-1 text-sm text-gray-500">

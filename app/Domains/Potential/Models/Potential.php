@@ -20,6 +20,8 @@ class Potential extends Model
         'slug',
         'excerpt',
         'content',
+        'content_raw',
+        'content_safe',
         'cover_image_path',
         'cover_image_alt',
         'cover_image_caption',
@@ -32,7 +34,11 @@ class Potential extends Model
         'contact_person',
         'contact_phone',
         'facilities',
+        'facilities_raw',
+        'facilities_safe',
         'opportunities',
+        'opportunities_raw',
+        'opportunities_safe',
         'development_status',
         'sort_order',
         'status',
@@ -56,6 +62,41 @@ class Potential extends Model
         }
 
         return UploadStorage::url($this->cover_image_path);
+    }
+
+    public function getEditorContentAttribute(): string
+    {
+        return (string) ($this->content_raw ?? $this->content ?? '');
+    }
+
+    public function getDisplayContentAttribute(): string
+    {
+        return (string) ($this->content_safe ?? $this->content ?? '');
+    }
+
+    public function getEditorFacilitiesAttribute(): string
+    {
+        return (string) ($this->facilities_raw ?? $this->facilities ?? '');
+    }
+
+    public function getDisplayFacilitiesAttribute(): string
+    {
+        return (string) ($this->facilities_safe ?? $this->facilities ?? '');
+    }
+
+    public function getEditorOpportunitiesAttribute(): string
+    {
+        return (string) ($this->opportunities_raw ?? $this->opportunities ?? '');
+    }
+
+    public function getDisplayOpportunitiesAttribute(): string
+    {
+        return (string) ($this->opportunities_safe ?? $this->opportunities ?? '');
+    }
+
+    public function getPreviewContentTextAttribute(): string
+    {
+        return trim(strip_tags($this->display_content ?: $this->editor_content));
     }
 
     public function village(): BelongsTo
